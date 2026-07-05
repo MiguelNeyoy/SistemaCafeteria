@@ -1,4 +1,11 @@
-﻿<Window x:Class="Presentation.WPF.MainWindow"
+﻿<!--
+    Este es el punto de entrada de la app es decir esta es la ventana principal y lo que esta en la carpeta de /Views son 
+    componentes reutilizables que incrustran aqui en esta ventana principal. 
+    
+    En esta ventana principal se coloca lo que no cambia en ninguna otra vista como el menu, logos, Botones para minimizar,cerrar y maximizar la app
+    cosas que siempre vera el usuario.
+-->
+    <Window x:Class="Presentation.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,6 +14,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        
     </Grid>
 </Window>
