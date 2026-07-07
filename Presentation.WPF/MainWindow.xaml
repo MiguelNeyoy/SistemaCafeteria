@@ -39,6 +39,7 @@
                     <Setter Property="FontSize" Value="36" />
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="BorderThickness" Value="0"/>
                 </Style>
             </Grid.Resources>
             <!--#endregion-->
