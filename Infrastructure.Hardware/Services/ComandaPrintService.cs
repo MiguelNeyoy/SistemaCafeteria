@@ -1,4 +1,4 @@
-namespace Presentation.WPF.Services;
+namespace Infrastructure.Hardware.Services;
 
 public class ComandaPrintService : IComandaPrintService
 {
