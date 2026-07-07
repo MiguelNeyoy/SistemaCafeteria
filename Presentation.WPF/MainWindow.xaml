@@ -87,6 +87,13 @@
 
             <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,1" />
 
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="800"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+
         </Grid>
         <!--#endregion-->
 
