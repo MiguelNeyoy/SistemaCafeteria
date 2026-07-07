@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--#region Colores -->
+
+    <SolidColorBrush x:Key = "Fondo" Color = "#fbfbe2" />
+    <!-- Amarillo Claro -->
+
+    <SolidColorBrush x:Key = "Fondo-lateral-izq" Color = "#f5f5dc" />
+    <!-- Amarillo Claro-->
+
+    <SolidColorBrush x:Key = "Boton-interactivo" Color = "#ffbf00" />
+    <!-- Naranja -->
+
+    <SolidColorBrush x:Key = "Precio-productos" Color = "#d4c3be" />
+    <!-- Naranja pastel apagado -->
+
+    <!--#endregion-->
+
+</ResourceDictionary>
