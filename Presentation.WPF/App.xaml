@@ -10,7 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
 
                 <ResourceDictionary Source="/Assets/Colores.xaml" />
-                <ResourceDictionary Source="/Assets/Colores.xaml" />
+                <ResourceDictionary Source="Assets/Tipografia.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
             
