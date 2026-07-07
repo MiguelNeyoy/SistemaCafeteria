@@ -50,15 +50,17 @@
                 <RowDefinition Height = "181" />
                 <RowDefinition Height = "181" />
             </Grid.RowDefinitions>
-            
-            <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1"/>
+
+            <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1">
+                <Image Source="/Assets/Imagenes/Logo.png" />
+            </Border>
 
             <!--#region Botones(Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
             <Border Grid.Row="1">
                 <Button Content="MENÚ" />
             </Border>
 
-            <Border Grid.Row="2">
+            <Border Grid.Row="2" >
                 <Button Content="CONFIGURACION &#x0a; DE MENÚ" />
             </Border>
 
