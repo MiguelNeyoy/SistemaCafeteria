@@ -93,6 +93,12 @@
                     <ColumnDefinition Width="800"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1,0,0,0" >
+                    <TextBlock Text="Cargando fecha..."/>
+                </Border>
+
+
             </Grid>
             <!--#endregion-->
 
