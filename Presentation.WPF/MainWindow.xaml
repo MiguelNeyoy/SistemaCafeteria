@@ -29,19 +29,43 @@
         <!--#endregion-->
 
 
-        <!--#region Logotipo -->
+        <!--#region Columna Izquierda (Logotipo y Botones) -->
         <Grid Grid.Column="0" >
 
             <Grid.RowDefinitions>
                 <RowDefinition Height = "300" />
+                <RowDefinition Height = "181" />
+                <RowDefinition Height = "181" />
+                <RowDefinition Height = "181" />
+                <RowDefinition Height = "181" />
             </Grid.RowDefinitions>
+            
+            <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1"/>
 
-            <Border BorderBrush="Gray" BorderThickness="0,0,0,1"/>
+            <!--#region Botones(Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
+            <Border Grid.Row="1">
+                <TextBlock Text="MENU"/>
+            </Border>
+
+            <Border Grid.Row="2">
+                <TextBlock>
+                    CONFIGURACION<LineBreak/>DE MENU
+                </TextBlock>
+            </Border>
+
+            <Border Grid.Row="3">
+                <TextBlock Text="CIERRE DE CAJA"/>
+            </Border>
+
+            <Border Grid.Row="4">
+                <TextBlock Text="VENTAS"/>
+            </Border>
+            <!--#endregion-->
 
         </Grid>
         <!--#endregion-->
-
-
+        
+        
         <!--#region Caja Superior (Categorias, Fecha)-->
         <Grid Grid.Column="1">
 
