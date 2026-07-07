@@ -24,6 +24,28 @@
         </Grid.ColumnDefinitions>
         <!--#endregion-->
 
+        
+        <!--#region Logotipo -->
+        <Grid Grid.Column="0" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height = "300" />
+            </Grid.RowDefinitions>
+            
+        </Grid>
+        <!--#endregion-->
+
+        
+        <!--#region Caja Superior (Categorias, Fecha)-->
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height = "180" />
+            </Grid.RowDefinitions>
+            
+        </Grid>
+        <!--#endregion-->
+
     </Grid>
         
 </Window>
