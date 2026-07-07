@@ -11,6 +11,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation.WPF"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        
         mc:Ignorable="d"
         Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
 
@@ -95,7 +97,9 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1,0,0,0" >
-                    <TextBlock Text="Cargando fecha..."/>
+                    <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat='{}{0:dd/MM/yyyy}'}"
+                               TextAlignment="Right"
+                               FontSize="18"/>
                 </Border>
 
 
