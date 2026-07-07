@@ -53,21 +53,19 @@
 
             <!--#region Botones(Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
             <Border Grid.Row="1">
-                <TextBlock Text="MENU"/>
+                <Button Content="MENÚ" />
             </Border>
 
             <Border Grid.Row="2">
-                <TextBlock>
-                    CONFIGURACION<LineBreak/>DE MENU
-                </TextBlock>
+                <Button Content="CONFIGURACION DE MENÚ" />
             </Border>
 
             <Border Grid.Row="3">
-                <TextBlock Text="CIERRE DE CAJA"/>
+                <Button Content="CIERRE DE CAJA"/>
             </Border>
 
             <Border Grid.Row="4">
-                <TextBlock Text="VENTAS"/>
+                <Button Content="VENTAS" />
             </Border>
             <!--#endregion-->
 
