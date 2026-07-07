@@ -31,7 +31,16 @@
 
         <!--#region Columna Izquierda (Logotipo y Botones) -->
         <Grid Grid.Column="0" >
-
+            
+            <!--#region Tipografia y Tamaño para TextBlock-->
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontFamily" Value="Algerian"/>
+                    <Setter Property="FontSize" Value="40" />
+                </Style>
+            </Grid.Resources>
+            <!--#endregion-->
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height = "300" />
                 <RowDefinition Height = "181" />
