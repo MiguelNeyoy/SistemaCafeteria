@@ -5,7 +5,7 @@
  */
 namespace Core.Domain.Enums
 {
-    public enum EstadoCuentaEnums
+    public enum EstadoCuenta
     {
         Pendiente,
         Pagado,

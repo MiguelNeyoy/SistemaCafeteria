@@ -5,7 +5,7 @@
  */
 namespace Core.Domain.Enums
 {
-        public enum TipoDePagoEnum
+        public enum TipoDePago
         {
             Efectivo,
             Tarjeta,
