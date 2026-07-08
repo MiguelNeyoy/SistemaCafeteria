@@ -5,12 +5,10 @@
  */
 namespace Core.Domain.Enums
 {
-    public enum EstadoCuenta
+    public enum EstadoCuentaEnums
     {
         Pendiente,
         Pagado,
         Cancelado
     }
 }
-
-

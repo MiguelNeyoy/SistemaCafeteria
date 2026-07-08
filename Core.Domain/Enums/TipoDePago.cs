@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 
  *  Enum representa el tipo de pago que se puede realizar en el sistema
  * 
