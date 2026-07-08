@@ -1,11 +1,14 @@
-﻿namespace Core.Domain.Enums
+﻿/**
+ * 
+ *  Enum representa el estad de la cuenta de un cliente es decir si el cliente ya pago o no su cuenta
+ * 
+ */
+namespace Core.Domain.Enums
 {
-   
-        public enum EstadoPedidoEnum
-        {
-          Pendiente,
-          Pagado,
-          Cancelado     
-        }
+    public enum EstadoCuentaEnums
+    {
+        Pendiente,
+        Pagado,
+        Cancelado
+    }
 }
-
