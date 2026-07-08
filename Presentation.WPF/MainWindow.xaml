@@ -38,10 +38,12 @@
             <Grid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}"/>
-                    <Setter Property="FontSize" Value="36" />
+                    <Setter Property="FontSize" Value="30" />
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Cursor" Value="Hand"/>
                     <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Height" Value="160"/>
+                    <Setter Property="Width" Value="260" />
                 </Style>
             </Grid.Resources>
             <!--#endregion-->
