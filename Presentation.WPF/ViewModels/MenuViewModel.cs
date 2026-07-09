@@ -11,5 +11,9 @@ public partial class MenuViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _tieneCategorias;
-}
 
+    public MenuViewModel() {
+
+        Categorias = new ObservableCollection<CategoriaItem>();
+    }
+}
