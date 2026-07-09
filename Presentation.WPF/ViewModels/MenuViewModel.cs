@@ -15,5 +15,12 @@ public partial class MenuViewModel : ObservableObject
     public MenuViewModel() {
 
         Categorias = new ObservableCollection<CategoriaItem>();
+        TieneCategorias = Categorias.Count > 0;
     }
+}
+
+public class CategoriaItem
+{
+    public string Title { get; set; }
+    public string Imagen { get; set; }
 }
