@@ -75,7 +75,7 @@
             <!--#region Botones(Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
             
             <Border Grid.Row="1">
-                <Button Content="MENÚ"/>
+                <Button Content="MENÚ" Command="{Binding ShowMenuCommand}"/>
             </Border>
 
             <Border Grid.Row="2" >
@@ -120,6 +120,8 @@
 
             </Grid>
             <!--#endregion-->
+
+            <ContentControl Grid.Row="1" Content="{Binding VistaActual}"/>
 
         </Grid>
         <!--#endregion-->
