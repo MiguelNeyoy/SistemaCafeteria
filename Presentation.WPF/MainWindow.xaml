@@ -10,21 +10,30 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Presentation.WPF"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        
+        xmlns:local="clr-namespace:Presentation.WPF"
+        xmlns:views="clr-namespace:Presentation.WPF.Views"
+        xmlns:viewmodels="clr-namespace:Presentation.WPF.ViewModels"
         mc:Ignorable="d"
         Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
 
 
-
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
+            <views:MenuView />
+        </DataTemplate>    
+    </Window.Resources>
+    
+    
     <Grid>
+        
         <!--#region Estructura Inicial-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="318" />
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        
         <Border Grid.Column="0" Background="{StaticResource Fondo-lateral-izq}" BorderBrush="Gray" BorderThickness="0,0,1,0" />
         <Border Grid.Column="1" Background="{StaticResource Fondo}" BorderBrush="Gray" />
 
@@ -61,8 +70,9 @@
             </Border>
 
             <!--#region Botones(Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
+            
             <Border Grid.Row="1">
-                <Button Content="MENÚ" />
+                <Button Content="MENÚ"/>
             </Border>
 
             <Border Grid.Row="2" >
