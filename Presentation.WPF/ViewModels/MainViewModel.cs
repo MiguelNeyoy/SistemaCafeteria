@@ -6,6 +6,9 @@ namespace Presentation.WPF.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private object _vistaActual;
+
     [RelayCommand]
     private void ShowMenu()
     {
