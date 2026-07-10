@@ -100,6 +100,7 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height = "180" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,1" />
