@@ -18,6 +18,11 @@ public partial class MenuViewModel : ObservableObject
 
         CategoriaItem Categoria = new CategoriaItem();
 
+        Categoria.Nombre = string.Empty;
+        Categoria.Imagen = string.Empty;
+
+
+
         TieneCategorias = Categorias.Count > 0;
     }
 }
