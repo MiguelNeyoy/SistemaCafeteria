@@ -21,7 +21,7 @@ public partial class MenuViewModel : ObservableObject
         Categoria.Nombre = string.Empty;
         Categoria.Imagen = string.Empty;
 
-
+        Categorias.Add(Categoria);
 
         TieneCategorias = Categorias.Count > 0;
     }
