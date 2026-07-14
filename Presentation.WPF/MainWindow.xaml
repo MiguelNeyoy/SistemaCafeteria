@@ -79,7 +79,7 @@
             </Border>
 
             <Border Grid.Row="2" >
-                <Button Content="CONFIGURACION &#x0a; DE MENÚ" />
+                <Button Content="CONFIGURACION &#x0a; DE MENÚ"  Command="{Binding ShowConfigMenuCommand}"/>
             </Border>
 
             <Border Grid.Row="3">
