@@ -24,7 +24,12 @@
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
             <views:MenuView />
-        </DataTemplate>    
+            
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:ConfiguracionMenuViewModel}">
+            <views:ConfiguracionMenuViewModel/>
+        </DataTemplate>
     </Window.Resources>
     
     
