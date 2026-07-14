@@ -16,7 +16,7 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ShowConfiguracionmenu()
+    private void ShowConfigMenu()
     {
         VistaActual = new ConfiguracionMenuViewModel();
     }
