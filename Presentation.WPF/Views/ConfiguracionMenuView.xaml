@@ -85,6 +85,54 @@
             </Grid>
             <!--#endregion-->
             
+            <!--#region Tabla de Categorias y Productos-->
+            <Grid Grid.Row="1">
+
+                <Grid.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="Height" Value="500"/>
+                        <Setter Property="Width" Value="280"/>
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}" />
+                        <Setter Property="FontSize" Value="28" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                    </Style>
+                </Grid.Resources>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="300" />
+                </Grid.ColumnDefinitions>
+                
+                <!--#region Categorias-->
+                <Border Grid.Column="0">
+                    <Grid Height="50" VerticalAlignment="Top">
+                        <Border Height="auto" BorderThickness="0,0,0,1" BorderBrush="Black"  CornerRadius="0">
+                            <TextBlock Text="Categorias" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <!--#endregion-->
+
+                <!--#region Productos-->
+                <Border Grid.Column="1">
+                    <Grid Height="50" VerticalAlignment="Top">
+                        <Border Height="auto" BorderThickness="0,0,0,1" BorderBrush="Black" CornerRadius="0">
+                            <TextBlock Text="Productos" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <!--#endregion-->
+
+            </Grid>
+            <!--#endregion-->
+            
         </Grid>
         <!--#endregion-->
         
