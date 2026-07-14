@@ -30,7 +30,7 @@
             <!--#region Total Productos, Añadir Categorias y Añadir Productos-->
             <Grid Grid.Row="0">
 
-
+                <!--#region Estilos-->
                 <Grid.Resources>
                     <Style TargetType="Border">
                         <Setter Property="Background" Value="White"/>
@@ -38,7 +38,19 @@
                         <Setter Property="BorderThickness" Value="1"/>
                         <Setter Property="CornerRadius" Value="10" />
                     </Style>
+
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}" />
+                        <Setter Property="FontSize" Value="24" />
+
+                    </Style>
+
+                    <Style TargetType="Button">
+                        <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}" />
+                        <Setter Property="FontSize" Value="22" />
+                    </Style>
                 </Grid.Resources>
+                <!--#endregion-->
                 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="250"/>
@@ -49,7 +61,7 @@
                 <!--#region Total Productos-->
                 <Border Grid.Column="0" Height="170" Width="240">
 
-                    <TextBlock FontSize="24"> Total de Productos: </TextBlock>
+                    <TextBlock > Total de Productos: </TextBlock>
                     
                 </Border>
                 <!--#endregion-->
@@ -57,16 +69,16 @@
                 <!--#region Añadir Categoria-->
                 <Border Grid.Column="1" Height="170">
 
-                    <TextBlock FontSize="22"> Añadir Categoria</TextBlock>
-                    
+                    <Button Background="Transparent" Content="Añadir Categoria" />
+
                 </Border>
                 <!--#endregion-->
                 
                 <!--#region Añadir Producto-->
                 <Border Grid.Column="2" Height="170" Width="165">
 
-                    <TextBlock FontSize="22"> Añadir Producto</TextBlock>
-                    
+                    <Button Background="Transparent" Content="Añadir Producto" />
+
                 </Border>
                 <!--#endregion-->
 
