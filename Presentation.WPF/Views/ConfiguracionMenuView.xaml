@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="Presentation.WPF.Views.ConfiguracionMenuViewModel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="900">
+
+    <Grid>
+
+        <!--#region Estructura Inicial-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="600" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="Gray"/>
+        <Border Grid.Column="1" />
+        <!--#endregion-->
+        
+        <!--#region Columna Izquierda (Total de Productos, Añadir Categoria y Añadir Productos )-->
+        <Grid Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="250"/> 
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!--#region Total Productos, Añadir Categorias y Añadir Productos-->
+            <Grid Grid.Row="0">
+
+
+                <Grid.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="CornerRadius" Value="10" />
+                    </Style>
+                </Grid.Resources>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!--#region Total Productos-->
+                <Border Grid.Column="0" Height="170" Width="240">
+
+                    <TextBlock FontSize="24"> Total de Productos: </TextBlock>
+                    
+                </Border>
+                <!--#endregion-->
+                
+                <!--#region Añadir Categoria-->
+                <Border Grid.Column="1" Height="170">
+
+                    <TextBlock FontSize="22"> Añadir Categoria</TextBlock>
+                    
+                </Border>
+                <!--#endregion-->
+                
+                <!--#region Añadir Producto-->
+                <Border Grid.Column="2" Height="170" Width="165">
+
+                    <TextBlock FontSize="22"> Añadir Producto</TextBlock>
+                    
+                </Border>
+                <!--#endregion-->
+
+            </Grid>
+            <!--#endregion-->
+            
+        </Grid>
+        <!--#endregion-->
+        
+    </Grid>
+</UserControl>
