@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="900">
 
-    <Grid>
+    <Grid >
 
         <!--#region Estructura Inicial-->
         <Grid.ColumnDefinitions>
@@ -67,11 +67,7 @@
                 
                 <!--#region Añadir Categoria-->
                 <Border Grid.Column="1" Height="170">
-                    <Grid>
-                        <TextBlock Text="Añadir Categoria"/>
-                        <Image Source="/Assets/Imagenes/Icono de Adicion.png" Height="100" Width="100" VerticalAlignment="Stretch"/>
-                        <Button />
-                    </Grid>
+                    
                 </Border>
                 <!--#endregion-->
                 
