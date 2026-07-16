@@ -67,17 +67,23 @@
                 
                 <!--#region Añadir Categoria-->
                 <Border Grid.Column="1" Height="170">
-                    
+                    <Button>
+                        <StackPanel>
+                            <TextBlock Text="Añadir Categoria" />
+                            <Image Source="/Assets/Imagenes/Icono_de_Adicion.png"/>
+                        </StackPanel>
+                    </Button>
                 </Border>
                 <!--#endregion-->
                 
                 <!--#region Añadir Producto-->
                 <Border Grid.Column="2" Height="170" Width="165">
-                    <Grid>
-                        <TextBlock Text="Añadir Producto"/>
-                        <Image Source="/Assets/Imagenes/Icono de Adicion.png" Height="100" Width="100" VerticalAlignment="Stretch"/>
-                        <Button />
-                    </Grid>
+                    <Button>
+                        <StackPanel>
+                            <TextBlock Text="Añadir Producto" />
+                            <Image Source="/Assets/Imagenes/Icono_de_Adicion.png"/>
+                        </StackPanel>
+                    </Button>
                 </Border>
                 <!--#endregion-->
 
