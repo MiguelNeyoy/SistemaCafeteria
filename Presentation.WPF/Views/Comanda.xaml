@@ -12,7 +12,7 @@
         <!--#region Estructura Inicial-->
         <Grid.RowDefinitions>
             <RowDefinition Height="180"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--#endregion-->
         
@@ -34,6 +34,31 @@
                 <ColumnDefinition Width="400"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+
+            <!--#region Comanda-->
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="120"/>
+                </Grid.RowDefinitions>
+                
+                <!--#region Fila 0( Titulo, Numero de ticket y boton para eliminar comanda )-->
+                <Border Grid.Row="0" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1">
+
+                    <StackPanel>
+
+                        <TextBlock HorizontalAlignment="Center" FontSize="20"> Comanda </TextBlock>
+                        <TextBlock FontSize="16"> Numero de Ticket #</TextBlock>
+                        <Image></Image>
+
+                    </StackPanel>
+                </Border>
+                <!--#endregion-->
+                
+            </Grid>
+            <!--#endregion-->
+            
         </Grid>
         <!--#endregion-->
         
