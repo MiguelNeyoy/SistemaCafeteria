@@ -103,6 +103,13 @@
             <!--#endregion-->
             
             
+            <!--#region Productos -->
+            <Grid Grid.Column="1">
+                <Border BorderBrush="Gray" BorderThickness="1,0,0,0" Background="White">
+                    
+                </Border>
+            </Grid>
+            <!--#endregion-->
             
         </Grid>
         <!--#endregion-->
