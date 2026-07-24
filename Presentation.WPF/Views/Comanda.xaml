@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1024" d:DesignWidth="900">
 
-    <Grid Background="AliceBlue">
+    <Grid>
         
         <!--#region Estructura Inicial-->
         <Grid.RowDefinitions>
