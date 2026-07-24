@@ -24,6 +24,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
+            
+            <!--#region Boton de retroceso-->
+            <Button Grid.Column="0" BorderThickness="0" Background="{StaticResource Fondo}" Height="120" Width="120">
+                <Image Source="/Assets/Imagenes/Icono_retroceso.png"/>
+            </Button>
+            <!--#endregion-->
 
         </Grid>
         <!--#endregion-->
