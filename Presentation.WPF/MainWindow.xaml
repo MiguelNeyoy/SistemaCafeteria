@@ -63,10 +63,10 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height = "300" />
-                    <RowDefinition Height = "181" />
-                    <RowDefinition Height = "181" />
-                    <RowDefinition Height = "181" />
-                    <RowDefinition Height = "181" />
+                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "*" />
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1">
@@ -76,19 +76,19 @@
                 <!--#region Botones(Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
 
                 <Border Grid.Row="1">
-                    <Button Content="MENÚ" Command="{Binding ShowMenuCommand}"/>
+                    <Button Content="Menú" Command="{Binding ShowMenuCommand}"/>
                 </Border>
 
                 <Border Grid.Row="2" >
-                    <Button Content="CONFIGURACION &#x0a; DE MENÚ"  Command="{Binding ShowConfigMenuCommand}"/>
+                    <Button Content="Configuración &#x0a; de menú"  Command="{Binding ShowConfigMenuCommand}"/>
                 </Border>
 
                 <Border Grid.Row="3">
-                    <Button Content="CIERRE DE CAJA"/>
+                    <Button Content="Cierre de caja"/>
                 </Border>
 
                 <Border Grid.Row="4">
-                    <Button Content="VENTAS" />
+                    <Button Content="Ventas" />
                 </Border>
                 <!--#endregion-->
 
@@ -111,13 +111,12 @@
                 <!--#region Categorias y Fecha)-->
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="800"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
                     <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1,0,0,0" >
                         <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat='{}{0:dd/MM/yyyy}'}"
-                               TextAlignment="Right"
                                FontSize="18"/>
                     </Border>
 
