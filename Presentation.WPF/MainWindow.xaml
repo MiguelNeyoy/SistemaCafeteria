@@ -75,21 +75,13 @@
 
                 <!--#region Botones(Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
 
-                <Border Grid.Row="1">
-                    <Button Content="Menú" Command="{Binding ShowMenuCommand}"/>
-                </Border>
+                <Button Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}" />
 
-                <Border Grid.Row="2" >
-                    <Button Content="Configuración &#x0a; de menú"  Command="{Binding ShowConfigMenuCommand}"/>
-                </Border>
+                <Button Grid.Row="2" Content="Configuración &#x0a; de menú" Command="{Binding ShowConfigMenuCommand}" />
 
-                <Border Grid.Row="3">
-                    <Button Content="Cierre de caja"/>
-                </Border>
+                <Button Grid.Row="3" Content="Cierre de caja"/>
 
-                <Border Grid.Row="4">
-                    <Button Content="Ventas" />
-                </Border>
+                <Button Grid.Row="4" Content="Ventas" />
                 <!--#endregion-->
 
             </Grid>
