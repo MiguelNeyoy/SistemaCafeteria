@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--#region Boton para vista Menu-->
+    <Style x:Key="BotonCategorias" TargetType="Button">
+
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="2"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                        Background ="{TemplateBinding Background}"
+                        BorderBrush ="{TemplateBinding BorderBrush}"
+                        BorderThickness ="{TemplateBinding BorderThickness}"
+                        CornerRadius="10" >
+
+                        <ContentPresenter 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                    </Border>
+                    
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="Gray"/>
+
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+                    
+                </ControlTemplate>
+                
+            </Setter.Value>
+            
+        </Setter>
+        
+    </Style>
+    <!--#endregion-->
+    
+</ResourceDictionary>
