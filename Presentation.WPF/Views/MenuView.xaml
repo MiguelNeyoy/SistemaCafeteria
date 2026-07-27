@@ -77,17 +77,27 @@
             <!--#region Fila 1( Categorias )-->
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 
-                <ItemsControl ItemsSource="{Binding CategoriaItem}">
+                <ItemsControl ItemsSource="{Binding Categorias}">
 
-                    <ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
 
-                        <ItemsPanelTemplate>
+                        <DataTemplate>
 
-                            <WrapPanel />
+                            <Button Style="{StaticResource BotonCategorias}">
+
+                                <StackPanel>
+
+                                    <Image Source="{Binding Imagen}"/>
+
+                                    <TextBlock Text="{Binding Nombre}"/>
+
+                                </StackPanel>
+                                
+                            </Button>
                             
-                        </ItemsPanelTemplate>
-                        
-                    </ItemsControl.ItemsPanel>
+                        </DataTemplate>
+
+                    </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 
             </ScrollViewer>
