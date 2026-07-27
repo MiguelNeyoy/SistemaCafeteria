@@ -13,7 +13,7 @@
 
     <Grid>
         
-        <!--#region Vista default (Cuando no hay categorias -->
+        <!--#region Estado: Sin Categorias -->
         <Grid>
             
             <!--#region Comportamiento del Grid-->
@@ -44,38 +44,57 @@
         <!--#endregion-->
         
 
-        <Grid Visibility="{Binding TieneCategorias, Converter={StaticResource BoolToVis}}">
+        <!--#region Estado: Con Categorias-->
+        <Grid>
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="180"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            
+            <!--#region Fila 0( Texto:Categorias )-->
+            <Border Grid.Row="0"
+                    Width="170"
+                    Height="55"
+                    Background="{StaticResource Boton-interactivo}"
+                    CornerRadius="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="15">
 
-            <Border Grid.Row="0" Background="#FFC107" HorizontalAlignment="Left" CornerRadius="8" Padding="15,5" Height="120" Width="120">
-                <TextBlock Text="CATEGORIAS" FontSize="24" FontWeight="Bold" Foreground="Black"/>
+
+
+                <TextBlock Text="Categorias"
+                           FontFamily="{StaticResource Fuente-principal}"
+                           FontSize="30"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           FontWeight="SemiBold" />
+
             </Border>
+            <!--#endregion-->
+            
+            <!--#region Fila 1( Categorias )-->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 
-            <ListBox Grid.Row="1" ItemsSource="{Binding Categorias}" Background="Transparent" BorderThickness="0" Margin="0,20,0,0">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="4" VerticalAlignment="Top"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Background="White" BorderBrush="#D3D3D3" BorderThickness="1.5" CornerRadius="15" Width="180" Height="200" Margin="10" Padding="10">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <Image Grid.Row="0" Source="{Binding ImagenUrl}" Stretch="Uniform" MaxHeight="120" Margin="5"/>
-                                <TextBlock Grid.Row="1" Text="{Binding Nombre}" FontSize="18" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap" Foreground="Black"/>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                <ItemsControl ItemsSource="{Binding CategoriaItem}">
+
+                    <ItemsControl.ItemsPanel>
+
+                        <ItemsPanelTemplate>
+
+                            <WrapPanel />
+                            
+                        </ItemsPanelTemplate>
+                        
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                
+            </ScrollViewer>
+            <!--#endregion-->
+            
         </Grid>
+        <!--#endregion-->
 
     </Grid>
 </UserControl>
