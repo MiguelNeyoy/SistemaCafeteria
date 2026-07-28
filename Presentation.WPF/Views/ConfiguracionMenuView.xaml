@@ -8,140 +8,115 @@
              d:DesignHeight="800" d:DesignWidth="900">
 
     <Grid >
+        
 
         <!--#region Estructura Inicial-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
         <!--#endregion-->
         
+        
         <!--#region Columna Izquierda (Total de Productos, Añadir Categoria y Añadir Productos )-->
-        <Border Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="Gray">
-            <Grid>
+        <Grid>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="250"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="250"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-                <!--#region Panel Superior -->
-                <Grid Grid.Row="0">
 
-                    <!--#region Estilos-->
-                    <Grid.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="Background" Value="White"/>
-                            <Setter Property="BorderBrush" Value="Black"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                            <Setter Property="CornerRadius" Value="10" />
-                        </Style>
+            <!--#region Panel Superior -->
+            <Grid Grid.Row="0">
 
-                        <Style TargetType="TextBlock">
-                            <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}" />
-                            <Setter Property="FontSize" Value="20" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                        </Style>
 
-                    </Grid.Resources>
-                    <!--#endregion-->
+                <!--#region Total Productos-->
+                <Border Grid.Column="0" 
+                        Height="170" Width="240"
+                        Background="White"
+                        BorderBrush="Black" BorderThickness="2"
+                        CornerRadius="10">
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                    <!--#region Total Productos-->
-                    <Border Grid.Column="0" Height="170" Width="240">
+                        <TextBlock Margin="5,0,0,0" 
+                                   FontFamily="{StaticResource Fuente-principal}" FontSize="24"
+                                   HorizontalAlignment="Center"> 
+                                   Total de productos: 
+                        </TextBlock>
 
-                        <TextBlock > Total de Productos:</TextBlock>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                    </Border>
-                    <!--#endregion-->
+                            <Image Source="/Assets/Imagenes/Icono_de_alimento.png" Stretch="Uniform" />
 
-                    <!--#region Boton añadir categoria-->
-                    <Button Grid.Column="1" Style="{StaticResource Boton añadir producto/categoria}" Height="170" Width="180">
-                        
-                        <StackPanel>
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="28"> 0 </TextBlock>
                             
-                            <TextBlock Text="Añadir Categoria" Margin="0,0,0,10" TextWrapping="Wrap"/>
-
-                            <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="100" Width="100" Stretch="Uniform" />
-
-                        </StackPanel>
+                        </Grid>
                         
-                    </Button>
-                    <!--#endregion-->
+                    </Grid>
 
-                    <!--#region Añadir Producto-->
-                    <Button Grid.Column="2" Style="{StaticResource Boton añadir producto/categoria}" Height="170" Width="180">
-
-                        <StackPanel>
-
-                            <TextBlock Text="Añadir Categoria" Margin="0,0,0,10" TextWrapping="Wrap"/>
-
-                            <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="100" Width="100" Stretch="Uniform" />
-
-                        </StackPanel>
-
-                    </Button>
-                    <!--#endregion-->
-
-                </Grid>
+                </Border>
                 <!--#endregion-->
 
-                <!--#region Panel Inferior-->
-                <Grid Grid.Row="1">
 
-                    <Grid.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="Height" Value="500"/>
-                            <Setter Property="Width" Value="280"/>
-                            <Setter Property="Background" Value="White"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                            <Setter Property="BorderBrush" Value="Black"/>
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
+                <!--#region Boton añadir categoria-->
+                <Button Grid.Column="1" Style="{StaticResource Boton añadir producto/categoria}" Height="170" Width="180" Margin="10">
 
-                        <Style TargetType="TextBlock">
-                            <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}" />
-                            <Setter Property="FontSize" Value="28" />
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                        </Style>
-                    </Grid.Resources>
+                    <StackPanel>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="300"/>
-                        <ColumnDefinition Width="300" />
-                    </Grid.ColumnDefinitions>
+                        <TextBlock Text="Añadir Categoria" Margin="0,0,0,10" TextWrapping="Wrap"/>
 
-                    <!--#region Categorias-->
-                    <Border Grid.Column="0">
-                        <Grid Height="50" VerticalAlignment="Top">
-                            <Border Height="auto" BorderThickness="0,0,0,1" BorderBrush="Black"  CornerRadius="0">
-                                <TextBlock Text="Categorias" />
-                            </Border>
-                        </Grid>
-                    </Border>
-                    <!--#endregion-->
+                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="100" Width="100" Stretch="Uniform" />
 
-                    <!--#region Productos-->
-                    <Border Grid.Column="1">
-                        <Grid Height="50" VerticalAlignment="Top">
-                            <Border Height="auto" BorderThickness="0,0,0,1" BorderBrush="Black" CornerRadius="0">
-                                <TextBlock Text="Productos" />
-                            </Border>
-                        </Grid>
-                    </Border>
-                    <!--#endregion-->
+                    </StackPanel>
 
-                </Grid>
+                </Button>
                 <!--#endregion-->
+
+
+                <!--#region Añadir Producto-->
+                <Button Grid.Column="2" Style="{StaticResource Boton añadir producto/categoria}" Height="170" Width="180" Margin="10">
+
+                    <StackPanel>
+
+                        <TextBlock Text="Añadir Producto" Margin="0,0,0,10" TextWrapping="Wrap"/>
+
+                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="100" Width="100" Stretch="Uniform" />
+
+                    </StackPanel>
+
+                </Button>
+                <!--#endregion-->
+
 
             </Grid>
             <!--#endregion-->
-        </Border>
+
+
+            <!--#region Panel Inferior-->
+
+            <!--#endregion-->
+
+
+        </Grid>
+        <!--#endregion-->
+        
+        
     </Grid>
+    
 </UserControl>
