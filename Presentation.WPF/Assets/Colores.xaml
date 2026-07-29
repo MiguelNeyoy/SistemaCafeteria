@@ -4,16 +4,22 @@
     <!--#region Colores -->
 
     <SolidColorBrush x:Key = "Fondo" Color = "#fbfbe2" />
-    <!-- Amarillo Claro -->
+    <!-- Amarillo claro -->
 
     <SolidColorBrush x:Key = "Fondo-lateral-izq" Color = "#f5f5dc" />
-    <!-- Amarillo Claro-->
+    <!-- Amarillo claro-->
 
     <SolidColorBrush x:Key = "Boton-interactivo" Color = "#ffbf00" />
     <!-- Naranja -->
 
     <SolidColorBrush x:Key = "Precio-productos" Color = "#d4c3be" />
     <!-- Naranja pastel apagado -->
+
+    <SolidColorBrush x:Key = "Fondo-btn-edicion" Color="#ffedba" />
+    <!-- Naranja claro -->
+
+    <SolidColorBrush x:Key = "Fondo-btn-finalizar" Color="#b88b5c" />
+    <!-- Naranja apagado -->
 
     <!--#endregion-->
 
