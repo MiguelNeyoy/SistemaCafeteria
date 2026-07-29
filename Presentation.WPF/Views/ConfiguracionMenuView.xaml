@@ -114,7 +114,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
+                
+                
+                <!--#region Lista categorias-->
                 <Border Grid.Column="0" Height="400" Width="300">
 
                     <Grid>
@@ -162,7 +164,60 @@
                     </Grid>
                     
                 </Border>
-                
+                <!--#endregion-->
+
+
+
+                <!--#region Lista productos -->
+                <Border Grid.Column="1" Height="400" Width="300">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock> Producto </TextBlock>
+
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
+
+                            <ListBox.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <Border Margin="5"
+                            Background="#fffaf4"
+                            BorderBrush="Gray"
+                            BorderThickness="0,0,0,1"
+                            Padding="10">
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Nombre}"/>
+
+                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}">
+                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png"/>
+                                            </Button>
+
+                                        </Grid>
+
+                                    </Border>
+
+                                </DataTemplate>
+
+                            </ListBox.ItemTemplate>
+
+                        </ListBox>
+
+                    </Grid>
+
+                </Border>
+                <!--#endregion-->
+
             </Grid>
             <!--#endregion-->
 
