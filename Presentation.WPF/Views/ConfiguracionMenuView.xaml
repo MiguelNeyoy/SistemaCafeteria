@@ -79,9 +79,9 @@
 
                     <StackPanel>
 
-                        <TextBlock Text="Añadir Categoria" Margin="0,0,0,10" TextWrapping="Wrap"/>
+                        <TextBlock Text="Añadir &#x0a;Categoria" Margin="0,0,0,5" FontFamily="{StaticResource Fuente-principal}" FontSize="24" />
 
-                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="100" Width="100" Stretch="Uniform" />
+                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="85" Width="85" Stretch="Uniform" />
 
                     </StackPanel>
 
@@ -94,9 +94,9 @@
 
                     <StackPanel>
 
-                        <TextBlock Text="Añadir Producto" Margin="0,0,0,10" TextWrapping="Wrap"/>
+                        <TextBlock Text="Añadir &#x0a;Producto" Margin="0,0,0,5" FontFamily="{StaticResource Fuente-principal}" FontSize="24"/>
 
-                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="100" Width="100" Stretch="Uniform" />
+                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="85" Width="85" Stretch="Uniform" />
 
                     </StackPanel>
 
@@ -109,7 +109,61 @@
 
 
             <!--#region Panel Inferior-->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
+                <Border Grid.Column="0" Height="400" Width="300">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock> Categoria </TextBlock>
+
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
+
+                            <ListBox.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <Border Margin="5"
+                                            Background="#fffaf4"
+                                            BorderBrush="Gray"
+                                            BorderThickness="0,0,0,1"
+                                            Padding="10">
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Nombre}"/>
+
+                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}">
+                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png"/>
+                                            </Button>
+
+                                        </Grid>
+                                        
+                                    </Border>
+                                    
+                                </DataTemplate>
+                                    
+                            </ListBox.ItemTemplate>
+
+                        </ListBox>
+
+                    </Grid>
+                    
+                </Border>
+                
+            </Grid>
             <!--#endregion-->
 
 
