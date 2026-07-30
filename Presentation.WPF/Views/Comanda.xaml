@@ -64,7 +64,7 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock HorizontalAlignment="Center" FontSize="26" FontFamily="{StaticResource Fuente-principal}"> Comanda</TextBlock>
+                            <TextBlock HorizontalAlignment="Center" FontSize="26" FontFamily="{StaticResource Fuente-principal}"> Comanda </TextBlock>
 
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
@@ -80,7 +80,7 @@
                         </Grid>
 
                         <Grid Grid.Column="1">
-                            <Button>
+                            <Button Style="{StaticResource BtnBasura}">
                                 <Image Source="/Assets/Imagenes/Icono_basura.png" Height="50" Width="50"/>
                             </Button>
                         </Grid>
