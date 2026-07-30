@@ -16,13 +16,10 @@ public partial class MenuViewModel : ObservableObject
 
         Categorias = new ObservableCollection<CategoriaItem>();
 
-        CategoriaItem Categoria = new CategoriaItem();
+        CategoriaItem Categoria = new();
 
-        Categoria.Nombre = string.Empty;
-        Categoria.Imagen = string.Empty;
 
-        Categorias.Add(Categoria);
-
+       
         TieneCategorias = Categorias.Count > 0;
     }
 }

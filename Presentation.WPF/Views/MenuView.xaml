@@ -85,7 +85,7 @@
 
                             <Button Style="{StaticResource BotonCategorias}">
 
-                                <StackPanel>
+                                <StackPanel Margin="15">
 
                                     <Image Source="{Binding Imagen}"/>
 

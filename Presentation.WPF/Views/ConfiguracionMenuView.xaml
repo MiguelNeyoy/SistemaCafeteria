@@ -75,7 +75,7 @@
 
 
                 <!--#region Boton añadir categoria-->
-                <Button Grid.Column="1" Style="{StaticResource Boton añadir producto/categoria}" Height="170" Width="180" Margin="10">
+                <Button Grid.Column="1" Style="{StaticResource BtnCatyPro}" Height="170" Width="180" Margin="10">
 
                     <StackPanel>
 
@@ -90,7 +90,7 @@
 
 
                 <!--#region Añadir Producto-->
-                <Button Grid.Column="2" Style="{StaticResource Boton añadir producto/categoria}" Height="170" Width="180" Margin="10">
+                <Button Grid.Column="2" Style="{StaticResource BtnCatyPro}" Height="170" Width="180" Margin="10">
 
                     <StackPanel>
 
@@ -117,7 +117,7 @@
                 
                 
                 <!--#region Lista categorias-->
-                <Border Grid.Column="0" Height="400" Width="300">
+                <Border Grid.Column="0" Height="500" Width="320" Background="White" CornerRadius="5" BorderBrush="Gray" BorderThickness="1">
 
                     <Grid>
                         <Grid.RowDefinitions>
@@ -125,7 +125,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock> Categoria </TextBlock>
+                        <TextBlock HorizontalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="24"> Categoria </TextBlock>
 
                         <ListBox Grid.Row="1" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
 
@@ -169,7 +169,7 @@
 
 
                 <!--#region Lista productos -->
-                <Border Grid.Column="1" Height="400" Width="300">
+                <Border Grid.Column="1" Height="500" Width="320" Background="White" CornerRadius="5" BorderBrush="Gray" BorderThickness="1">
 
                     <Grid>
                         <Grid.RowDefinitions>
@@ -177,7 +177,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock> Producto </TextBlock>
+                        <TextBlock HorizontalAlignment = "Center" FontFamily="{StaticResource Fuente-principal}" FontSize="24" > Producto </TextBlock>
 
                         <ListBox Grid.Row="1" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
 
