@@ -49,7 +49,7 @@
     <!--#endregion-->
     
     <!--#region Boton para Configuracion de Menu-->
-    <Style x:Key="Boton añadir producto/categoria" TargetType="Button">
+    <Style x:Key="BtnCatyPro" TargetType="Button">
 
         <Setter Property="Background" Value="White"/>
         <Setter Property="BorderBrush" Value="Black"/>
@@ -80,8 +80,21 @@
                             <Setter TargetName="Border"
                                 Property="Background"
                                 Value="Gray"/>
+                            
+                            <Setter TargetName="Border"
+                                Property="Opacity"
+                                Value="0.8"/>
 
                         </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{StaticResource Boton-interactivo}"/>
+
+                        </Trigger>
+                        
 
                     </ControlTemplate.Triggers>
                     <!--#endregion-->
