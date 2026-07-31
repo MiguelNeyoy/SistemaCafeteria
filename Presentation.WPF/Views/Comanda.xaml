@@ -74,7 +74,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock HorizontalAlignment="Left" FontSize="20" FontFamily="{StaticResource Fuente-principal}"> Numero de Ticket #</TextBlock>
+                                <TextBlock HorizontalAlignment="Left" FontSize="20" FontFamily="{StaticResource Fuente-principal}"> Numero Ticket #</TextBlock>
                                 <TextBlock Grid.Column="1" Text="{Binding numeroTicket}" HorizontalAlignment="Left" FontSize="18" FontFamily="{StaticResource Fuente-principal}" />
 
                             </Grid>
@@ -101,7 +101,7 @@
                 
 
                 <!--#region Fila 2( Total,Comentario, Precio y Finalizar )-->
-                <Border Grid.Row="2" Background="{StaticResource Fondo}" >
+                <Border Grid.Row="2" Background="#fbfbe2" >
 
                     <Grid>
                         <Grid.ColumnDefinitions>
