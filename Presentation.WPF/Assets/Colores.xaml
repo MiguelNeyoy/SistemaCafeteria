@@ -15,7 +15,7 @@
     <!-- Naranja -->
     
 
-    <SolidColorBrush x:Key = "Precio-productos" Color = "#d4c3be" />
+    <SolidColorBrush x:Key = "Precio-productos" Color = "#d4c3be" Opacity="0.7" />
     <!-- Naranja pastel apagado -->
     
 
