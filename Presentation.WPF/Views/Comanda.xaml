@@ -95,6 +95,57 @@
 
                 <!--#region Fila 1( Productos que se añaden a la comanda )-->
                 <ListBox Grid.Row="1">
+
+                    <ItemsControl.ItemTemplate>
+
+                        <DataTemplate>
+
+                            <Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="{Binding Nombre}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Precio}" />
+
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Grid.Column="0">
+                                            <TextBlock Text="{Binding NombreExtra}" />
+                                        </Border>
+                                        
+                                        <TextBlock Grid.Column="1" Text="{Binding Precio}" />
+                                        
+                                    </Grid>
+
+                                    <Grid Grid.Row="2">
+
+                                        <TextBlock Text="{Binding Cantidad}"/>
+
+                                    </Grid>
+                                    
+                                </Grid>
+
+                            </Border>
+                            
+                        </DataTemplate>
+                        
+                    </ItemsControl.ItemTemplate>
                     
                 </ListBox>
                 <!--#endregion-->
