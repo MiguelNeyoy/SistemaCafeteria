@@ -149,6 +149,16 @@
 
                         <ItemsControl ItemsSource="{Binding ProductoCategoriaSeleccionada}">
 
+                            <ItemsControl.ItemsPanel>
+
+                                <ItemsPanelTemplate>
+
+                                    <WrapPanel Orientation="Horizontal" ItemHeight="170" ItemWidth="170"/>
+
+                                </ItemsPanelTemplate>
+                                
+                            </ItemsControl.ItemsPanel>
+
                             <ItemsControl.ItemTemplate>
 
                                 <DataTemplate>
