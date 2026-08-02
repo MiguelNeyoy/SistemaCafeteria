@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="Presentation.WPF.Views.FinalizarCompra"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1000">
+    <Grid>
+
+
+        <!--#region Estructura inicial-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="180"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--#endregion-->
+
+
+        <!--#region Fila Superior( Boton de retroceso ) -->
+        <!--#endregion-->
+        
+        
+        <!--#region Fila Inferior ( Resumen de Comanda, Metodos de pago y Teclado )-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="380"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            
+            <!--#region Columna Izquierda ( Resumen de Comanda ) -->
+            <!--#endregion-->
+
+
+            <!--#region Columna Derecha ( Metodos de Pago, Teclado y Boton de "Confirmar Compra" ) -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="180"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+            </Grid>
+            <!--#endregion-->
+
+            
+        </Grid>
+        <!--#endregion-->
+
+
+    </Grid>
+</UserControl>
