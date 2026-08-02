@@ -38,8 +38,33 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="180"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                
+                
+                <!--#region Metodos de Pago-->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                </Grid>
+                <!--#endregion-->
+
+                
+                <!--#region Panel de cobro-->
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="100"/>
+                    </Grid.RowDefinitions>
+                    
+                </Grid>
+                <!--#endregion-->
+                
 
             </Grid>
             <!--#endregion-->
