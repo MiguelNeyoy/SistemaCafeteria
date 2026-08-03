@@ -130,18 +130,18 @@
                         <!--#region Modulo 2. Teclado numerico -->
                         <UniformGrid Grid.Row="1" Rows="4" Columns="3" >
 
-                            <Button Content="7"/>
-                            <Button Content="8"/>
-                            <Button Content="9"/>
-                            <Button Content="4"/>
-                            <Button Content="5"/>
-                            <Button Content="6"/>
-                            <Button Content="1"/>
-                            <Button Content="2"/>
-                            <Button Content="3"/>
-                            <Button Content="0"/>
-                            <Button Content="00"/>
-                            <Button Content="&lt;--"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="7"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="8"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="9"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="4"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="5"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="6"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="1"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="2"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="3"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="0"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="00"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="&lt;--"/>
 
                         </UniformGrid>
                         <!--#endregion-->
