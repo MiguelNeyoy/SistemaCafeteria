@@ -30,6 +30,52 @@
             
             
             <!--#region Columna Izquierda ( Resumen de Comanda ) -->
+            <Border Grid.Column="0" Background="{StaticResource Amarillo-claro70%}">
+
+                <Border Background="{StaticResource Naranjan-claro}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Height="700" Width="360">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition  Height="50"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="80"/>
+                        </Grid.RowDefinitions>
+                        
+                        
+                        <!--#region Encabezado o Titulo-->
+                        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1">
+                            <TextBlock FontFamily="{StaticResource Fuente-principal}" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Resumen de compra"/>
+                        </Border>
+                        <!--#endregion-->
+                        
+                        
+                        <!--#region Resumen de productos-->
+                        <ListBox Grid.Row="1">
+
+                        </ListBox>
+                        <!--#endregion-->
+                        
+                        
+                        <!--#region Total-->
+                        <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="0,1,0,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock FontFamily="{StaticResource Fuente-principal}" FontSize="24" HorizontalAlignment="Center" Margin="0,10,0,0" Text="Total $"/>
+                                <TextBlock FontFamily="{StaticResource Fuente-principal}" FontSize="24" HorizontalAlignment="Center" Margin="0,10,0,0" Text="{Binding MontoTotal}"/>
+
+                            </Grid>
+                        <!--#endregion-->
+                            
+
+                        </Border>
+
+                    </Grid>
+                </Border>
+
+            </Border>
             <!--#endregion-->
 
 
