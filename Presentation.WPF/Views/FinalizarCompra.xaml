@@ -18,6 +18,9 @@
 
 
         <!--#region Fila Superior( Boton de retroceso ) -->
+        <Border Grid.Row="0" Background="{StaticResource Fondo70%}" BorderBrush="Gray" BorderThickness="0,0,0,2">
+            
+        </Border>
         <!--#endregion-->
         
         
@@ -30,7 +33,7 @@
             
             
             <!--#region Columna Izquierda ( Resumen de Comanda ) -->
-            <Border Grid.Column="0" Background="{StaticResource Amarillo-claro70%}">
+            <Border Grid.Column="0" Background="{StaticResource Amarillo-claro70%}" BorderBrush="Gray" BorderThickness="0,0,2,0">
 
                 <Border Background="{StaticResource Naranjan-claro}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Height="700" Width="360">
                     <Grid>
@@ -80,7 +83,7 @@
 
 
             <!--#region Columna Derecha ( Metodos de Pago, Teclado y Boton de "Confirmar Compra" ) -->
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" Background="{StaticResource Amarillo-claro70%}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="180"/>
                     <RowDefinition Height="*"/>
