@@ -59,7 +59,7 @@
                         
                         
                         <!--#region Total-->
-                        <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="0,1,0,0">
+                        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,1,0,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -85,8 +85,9 @@
             <!--#region Columna Derecha ( Metodos de Pago, Teclado y Boton de "Confirmar Compra" ) -->
             <Grid Grid.Column="1" Background="{StaticResource Amarillo-claro70%}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="180"/>
+                    <RowDefinition Height="80"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 
                 
@@ -108,14 +109,31 @@
 
                 
                 <!--#region Panel de cobro-->
-                <Grid Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="100"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="100"/>
-                    </Grid.RowDefinitions>
+                <Border Grid.Row="1" Background="{StaticResource Naranja-claro90%}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Width="600">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+
+                        <!--#region Modulo 1. Visor de importe -->
+                        <!--#endregion-->
+
+
+                        <!--#region Modulo 2. Teclado numerico -->
+                        <!--#endregion-->
+
+
+                    </Grid>
+                </Border>
+                <!--#endregion-->
+                
+                
+                <!--#region Boton "Confirmar Compra"-->
+                <Border Grid.Row="2" Background="{StaticResource Boton-interactivo}" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Height="90" Width="600">
                     
-                </Grid>
+                </Border>
                 <!--#endregion-->
                 
 
