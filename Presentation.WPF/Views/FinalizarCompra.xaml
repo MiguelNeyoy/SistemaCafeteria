@@ -48,7 +48,12 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
+
+                    <Button Grid.Column="0" Style="{StaticResource BtnMetodosdePago}" Height="60" Width="170"  FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="Efectivo"/>
+                    <Button Grid.Column="1" Style="{StaticResource BtnMetodosdePago}" Height="60" Width="170"  FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="Tarjeta"/>
+                    <Button Grid.Column="2" Style="{StaticResource BtnMetodosdePago}" Height="60" Width="170"  FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="Transferencia"/>
+
+
                 </Grid>
                 <!--#endregion-->
 
