@@ -141,7 +141,9 @@
                             <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="3"/>
                             <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="0"/>
                             <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="00"/>
-                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85" Content="&lt;--"/>
+                            <Button Style="{StaticResource BtnTecladoNumerico}" Height="95" Width="180" FontFamily="{StaticResource Fuente-principal}" FontSize="85">
+                                <Image Source="/Assets/Imagenes/Icono_eliminacion_teclado.png" Stretch="Uniform"/>
+                            </Button>
 
                         </UniformGrid>
                         <!--#endregion-->
