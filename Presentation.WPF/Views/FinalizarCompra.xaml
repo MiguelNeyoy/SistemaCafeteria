@@ -128,6 +128,22 @@
 
 
                         <!--#region Modulo 2. Teclado numerico -->
+                        <UniformGrid Grid.Row="1" Rows="4" Columns="3" >
+
+                            <Button Content="7"/>
+                            <Button Content="8"/>
+                            <Button Content="9"/>
+                            <Button Content="4"/>
+                            <Button Content="5"/>
+                            <Button Content="6"/>
+                            <Button Content="1"/>
+                            <Button Content="2"/>
+                            <Button Content="3"/>
+                            <Button Content="0"/>
+                            <Button Content="00"/>
+                            <Button Content="&lt;--"/>
+
+                        </UniformGrid>
                         <!--#endregion-->
 
 
