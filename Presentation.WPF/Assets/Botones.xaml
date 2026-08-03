@@ -586,5 +586,74 @@
     <!--#endregion-->
 
 
+    <!--#region Boton Metodos de Pago -->
+    <Style x:Key="BtnTecladoNumerico" TargetType="Button">
+
+        <Setter Property="Background" Value= "{StaticResource blanco70%}"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Cursor" Value="Hand" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                    
+                    Background ="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="10">
+
+                        <ContentPresenter 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+
+                    </Border>
+
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                        Property="Opacity"
+                        Value="0.9"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+             
+                        Property="Background"
+                        Value="{StaticResource blanco70%}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsFocused" Value="True">
+
+                            <Setter TargetName="Border"
+                                
+                                Property="Background"
+                                Value="{StaticResource Boton-interactivo}"
+                                />
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
 
 </ResourceDictionary>
