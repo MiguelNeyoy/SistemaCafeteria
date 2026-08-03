@@ -18,7 +18,9 @@
 
     <SolidColorBrush x:Key = "Naranjan-claro" Color = "#fffaf4" />
 
-    
+    <SolidColorBrush x:Key = "Naranja-claro90%" Color="#ffedba" />
+
+
     <SolidColorBrush x:Key = "Boton-interactivo" Color = "#ffbf00" />
     <!-- Naranja -->
     
