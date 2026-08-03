@@ -3,14 +3,22 @@
 
     <!--#region Colores -->
 
+    
     <SolidColorBrush x:Key = "Fondo" Color = "#fbfbe2" Opacity="0.7"/>
     <!-- Amarillo claro -->
-    
+
+    <SolidColorBrush x:Key = "Fondo70%" Color = "#fbfbe2"/>
+
 
     <SolidColorBrush x:Key = "Fondo-lateral-izq" Color = "#f5f5dc" />
     <!-- Amarillo claro-->
-    
 
+    
+    <SolidColorBrush x:Key = "Amarillo-claro70%" Color = "#f5f5dc" Opacity="1.0" />
+
+    <SolidColorBrush x:Key = "Naranjan-claro" Color = "#fffaf4" />
+
+    
     <SolidColorBrush x:Key = "Boton-interactivo" Color = "#ffbf00" />
     <!-- Naranja -->
     
@@ -25,8 +33,11 @@
 
     <SolidColorBrush x:Key = "Fondo-btn-finalizar" Color="#b88b5c" Opacity="0.9"/>
     <!-- Naranja apagado -->
-    
 
+    
+    <SolidColorBrush x:Key="blanco70%" Color="White" Opacity="0.7" />
+
+    
     <!--#endregion-->
     
 
