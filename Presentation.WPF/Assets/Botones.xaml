@@ -655,5 +655,62 @@
     <!--#endregion-->
 
 
+    <!--#region Boton de confirmar compra -->
+    <Style x:Key="BtnDePago" TargetType="Button">
+
+        <Setter Property="Background" Value= "Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                
+                Background ="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <ContentPresenter 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
+
+                    </Border>
+
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                    Property="Opacity"
+                    Value="0.9"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+         
+                    Property="Background"
+                    Value="{StaticResource blanco70%}"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
 
 </ResourceDictionary>
