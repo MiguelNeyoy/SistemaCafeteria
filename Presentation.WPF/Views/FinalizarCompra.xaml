@@ -156,6 +156,19 @@
                 
                 <!--#region Boton "Confirmar Compra"-->
                 <Border Grid.Row="2" Background="{StaticResource Boton-interactivo}" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Height="90" Width="600">
+
+                    <Button Style="{StaticResource BtnDePago}" Height="85" Width="280">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" Text="Confirmar Pago" FontFamily="{StaticResource Fuente-principal}" FontSize="26"/>
+                            <Image Grid.Column="1" Source="/Assets/Imagenes/Icono_confirmacion.png" Height="45" Width="auto" Stretch="Uniform"/>
+
+                        </Grid>
+                    </Button>
                     
                 </Border>
                 <!--#endregion-->
