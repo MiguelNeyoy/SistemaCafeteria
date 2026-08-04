@@ -54,6 +54,27 @@
                         <!--#region Resumen de productos-->
                         <ListBox Grid.Row="1">
 
+                            <ItemsControl.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <Grid Margin="0,0,0,6">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="{Binding CantidadTotal}" />
+                                        <TextBlock Grid.Column="1" Text="{Binding NombrePrdocuto}" />
+                                        <TextBlock Grid.Column="2" Text="{Binding PrecioTotal}" />
+
+                                    </Grid>
+                                    
+                                </DataTemplate>
+                                
+                            </ItemsControl.ItemTemplate>
+
                         </ListBox>
                         <!--#endregion-->
                         
