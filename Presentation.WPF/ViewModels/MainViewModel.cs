@@ -9,15 +9,23 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private object _vistaActual;
 
+    [ObservableProperty]
+    private string _botonSeleccionado;
+
+
     [RelayCommand]
     private void ShowMenu()
     {
         VistaActual = new MenuViewModel();
+
+        _botonSeleccionado = "Menu";
     }
 
     [RelayCommand]
     private void ShowConfigMenu()
     {
         VistaActual = new ConfiguracionMenuViewModel();
+
+        _botonSeleccionado = "Configuracion";
     }
 }
