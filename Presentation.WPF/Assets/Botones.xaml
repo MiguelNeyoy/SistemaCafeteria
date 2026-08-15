@@ -730,7 +730,8 @@
 
                     <Border x:Name="Border"
                             Background="{TemplateBinding Background}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
 
                         <ContentPresenter 
                             HorizontalAlignment="Center"
@@ -742,8 +743,21 @@
                     
                     <!--#region Comportamiento del boton-->
                     <ControlTemplate.Triggers>
-                        
-                        
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter Property="Background" Value="{StaticResource blanco70%}"/>
+                            
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+
+                            <Setter TargetName="Border"
+                                    Property="Background" 
+                                    Value="{StaticResource Boton-interactivo}"/>
+
+                        </Trigger>
+
                     </ControlTemplate.Triggers>
                     <!--#endregion-->
 
