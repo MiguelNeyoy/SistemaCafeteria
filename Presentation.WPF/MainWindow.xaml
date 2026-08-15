@@ -61,9 +61,9 @@
                 
 
                 <!--#region ToggleButton (Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
-                <ToggleButton Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}" />
+                <ToggleButton Tag="Menu" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}" />
 
-                <ToggleButton Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a; de menú" Command="{Binding ShowConfigMenuCommand}" />
+                <ToggleButton Tag="Configuracion" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" />
 
                 <ToggleButton Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja"/>
 
