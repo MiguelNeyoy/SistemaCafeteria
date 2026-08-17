@@ -14,6 +14,7 @@
         xmlns:local="clr-namespace:Presentation.WPF"
         xmlns:views="clr-namespace:Presentation.WPF.Views"
         xmlns:viewmodels="clr-namespace:Presentation.WPF.ViewModels"
+        xmlns:converters ="clr-namespace:Presentation.WPF.Converters"
         mc:Ignorable="d"
         Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
 
