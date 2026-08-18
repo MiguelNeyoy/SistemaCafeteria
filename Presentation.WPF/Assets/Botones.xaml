@@ -713,7 +713,7 @@
     
     
     <!--#region Boton de barra lateral izquierda en MainWindow -->
-    <Style x:Key = "BtnBarraLateral" TargetType="ToggleButton">
+    <Style x:Key = "BtnBarraLateral" TargetType="RadioButton">
         
         <Setter Property="Height" Value="100"/>
         <Setter Property="Width" Value="210" />
@@ -726,7 +726,7 @@
         <Setter Property="Template">
             <Setter.Value>
 
-                <ControlTemplate TargetType="ToggleButton">
+                <ControlTemplate TargetType="RadioButton">
 
                     <Border x:Name="Border"
                             Background="{TemplateBinding Background}"
