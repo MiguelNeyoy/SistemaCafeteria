@@ -14,7 +14,6 @@
         xmlns:local="clr-namespace:Presentation.WPF"
         xmlns:views="clr-namespace:Presentation.WPF.Views"
         xmlns:viewmodels="clr-namespace:Presentation.WPF.ViewModels"
-        xmlns:converters ="clr-namespace:Presentation.WPF.Converters"
         mc:Ignorable="d"
         Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
 
@@ -31,8 +30,6 @@
         <DataTemplate DataType="{x:Type viewmodels:ConfiguracionMenuViewModel}">
             <views:ConfiguracionMenuViewModel/>
         </DataTemplate>
-
-        <converters:BotonSeleccionadoConverter x:Key="BotonSeleccionadoConverter"/>
 
     </Window.Resources>
 
@@ -65,13 +62,13 @@
                 
 
                 <!--#region RadioButton (Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
-                <RadioButton Tag="Menu" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}"/>
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}"/>
 
-                <RadioButton Tag="Configuracion" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" />
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" />
 
-                <RadioButton Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja"/>
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja"/>
 
-                <RadioButton Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Ventas" />
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Ventas" />
                 <!--#endregion-->
                 
 
