@@ -64,42 +64,14 @@
                 </Border>
                 
 
-                <!--#region ToggleButton (Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
-                <ToggleButton Tag="Menu" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}">
+                <!--#region RadioButton (Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
+                <RadioButton Tag="Menu" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}"/>
 
-                    <ToggleButton.IsChecked>
+                <RadioButton Tag="Configuracion" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" />
 
-                        <MultiBinding Converter="{StaticResource BotonSeleccionadoConverter}" Mode="OneWay">
+                <RadioButton Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja"/>
 
-                            <Binding Path="BotonSeleccionado" />
-                            
-                            <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
-
-                        </MultiBinding>
-                                  
-                    </ToggleButton.IsChecked>
-
-                </ToggleButton>
-
-                <ToggleButton Tag="Configuracion" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" >
-                    
-                    <ToggleButton.IsChecked>
-
-                    <MultiBinding Converter="{StaticResource BotonSeleccionadoConverter}" Mode="OneWay">
-
-                        <Binding Path="BotonSeleccionado" />
-
-                        <Binding Path="Tag" RelativeSource="{RelativeSource Self}"/>
-
-                    </MultiBinding>
-
-                    </ToggleButton.IsChecked>
-                    
-                </ToggleButton>
-
-                    <ToggleButton Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja"/>
-
-                <ToggleButton Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Ventas" />
+                <RadioButton Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Ventas" />
                 <!--#endregion-->
                 
 
