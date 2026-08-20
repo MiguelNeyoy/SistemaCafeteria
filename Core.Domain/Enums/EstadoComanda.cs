@@ -1,14 +1,10 @@
-﻿/**
- * 
- *  Enum representa el estado de la comanda si ya se completo o no 
- * 
- */
+namespace Core.Domain.Enums;
 
-namespace Core.Domain.Enums
+/// <summary>
+/// Representa el estado de una orden/comanda en cocina.
+/// </summary>
+public enum EstadoComanda
 {
-    public enum EstadoComanda
-    {
-        Pendiente,
-        Entregado
-    }
+    Pendiente,
+    Entregado
 }
