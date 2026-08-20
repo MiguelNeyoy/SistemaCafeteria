@@ -1,70 +1,97 @@
-namespace Core.Domain.Entities
-/**
- * Clase que representa un producto en el sistema.
-    Nombre: Nombre que recibe el producto
-    Precion: Precio que tiene el producto
-    Categoria: Categoria a la que pertenece el producto por ejmplo cafe, platillo, jugo Etc.
- */
+using Core.Domain.Exceptions;
 
+namespace Core.Domain.Entities;
+
+/// <summary>
+/// Representa un producto o platillo del menú de la cafetería.
+/// </summary>
+public class Producto
 {
-    public class Producto
+    public int Id { get; private set; }
+    public string Nombre { get; private set; } = string.Empty;
+    public decimal Precio { get; private set; }
+    public int CategoriaId { get; private set; }
+    public bool Activo { get; private set; } = true;
+
+    // Constructor privado para EF Core
+    private Producto() { }
+
+    // Constructor para nuevo producto en dominio
+    public Producto(string nombre, decimal precio, int categoriaId)
     {
-        public string Nombre { get; set; }
-        public decimal Precio { get; set; }
-        public string Categoria { get; set; }
-
-        public Producto(string nombre, decimal precio, string categoria)
-        {
-            if (string.IsNullOrEmpty(nombre))
-            {
-                throw new ArgumentException("El nombre del producto no puede estar vacío.");
-            }
-
-            if (precio <= 0)
-            {
-                throw new ArgumentException("El precio del producto debe ser mayor a cero.");
-            }
-
-            if (string.IsNullOrEmpty(categoria))
-            {
-                throw new ArgumentException("La categoría del producto no puede estar vacía.");
-            }
-
-            Nombre = nombre.Trim();
-            Precio = precio;
-            Categoria = categoria.Trim();
-        }
-
-        public void ModificarPrecio(decimal nuevoPrecio)
-        {
-            if (nuevoPrecio <= 0)
-            {
-                throw new ArgumentException("El nuevo precio del producto debe ser mayor a cero.");
-            }
-
-            Precio = nuevoPrecio;
-        }
-
-        public void CambiarCategoria(string nuevaCategoria)
-        {
-            if (string.IsNullOrEmpty(nuevaCategoria))
-            {
-                throw new ArgumentException("La nueva categoría del producto no puede estar vacía.");
-            }
-
-            Categoria = nuevaCategoria.Trim();
-        }
-
-        public void CambiarNombre(string nuevoNombre)
-        {
-            if (string.IsNullOrEmpty(nuevoNombre) || !System.Text.RegularExpressions.Regex.IsMatch(nuevoNombre, @"^[a-zA-Z0-9 ]+$"))
-            {
-                throw new ArgumentException("El nuevo nombre del producto no puede estar vacío.");
-            }
-
-            Nombre = nuevoNombre.Trim();
-        }
-
+        ValidarYAsignarNombre(nombre);
+        ValidarYAsignarPrecio(precio);
+        ValidarYAsignarCategoria(categoriaId);
+        Activo = true;
     }
 
+    // Constructor para reconstrucción desde persistencia
+    public Producto(int id, string nombre, decimal precio, int categoriaId, bool activo = true)
+    {
+        if (id < 0)
+        {
+            throw new DomainValidationException(nameof(Id), "El Id del producto no puede ser negativo.");
+        }
+
+        Id = id;
+        ValidarYAsignarNombre(nombre);
+        ValidarYAsignarPrecio(precio);
+        ValidarYAsignarCategoria(categoriaId);
+        Activo = activo;
+    }
+
+    public void ModificarPrecio(decimal nuevoPrecio)
+    {
+        ValidarYAsignarPrecio(nuevoPrecio);
+    }
+
+    public void CambiarNombre(string nuevoNombre)
+    {
+        ValidarYAsignarNombre(nuevoNombre);
+    }
+
+    public void CambiarCategoria(int nuevaCategoriaId)
+    {
+        ValidarYAsignarCategoria(nuevaCategoriaId);
+    }
+
+    public void Desactivar()
+    {
+        Activo = false;
+    }
+
+    public void Activar()
+    {
+        Activo = true;
+    }
+
+    private void ValidarYAsignarNombre(string nombre)
+    {
+        if (string.IsNullOrWhiteSpace(nombre))
+        {
+            throw new DomainValidationException(nameof(Nombre), "El nombre del producto no puede estar vacío.");
+        }
+
+        Nombre = nombre.Trim();
+    }
+
+    private void ValidarYAsignarPrecio(decimal precio)
+    {
+        if (precio <= 0)
+        {
+            throw new DomainValidationException(nameof(Precio), "El precio del producto debe ser mayor a cero.");
+        }
+
+        Precio = precio;
+    }
+
+    private void ValidarYAsignarCategoria(int categoriaId)
+    {
+        if (categoriaId <= 0)
+        {
+            throw new DomainValidationException(nameof(CategoriaId), "La categoría del producto es inválida o no fue seleccionada.");
+        }
+
+        CategoriaId = categoriaId;
+    }
 }

@@ -1,4 +1,6 @@
 # Interfaces (Domain)
-Contratos para repositorios sin acoplarse a la base de datos (puertos de salida).
-- Solo definen métodos, la implementación va en Infrastructure.Persistence
-- Ej: IPedidoRepository, IProductoRepository, IVentaRepository
+
+Siguiendo el enfoque de Clean Architecture adoptado en el proyecto, las interfaces de repositorios y puertos de entrada/salida se definen en
+`Core.Application.Interfaces`. 
+
+Esta capa de Dominio permanece pura, conteniendo únicamente entidades, enumeraciones y excepciones con sus reglas de negocio e invariantes.

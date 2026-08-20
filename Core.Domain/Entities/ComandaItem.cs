@@ -1,52 +1,68 @@
-namespace Core.Domain.Entities
+using Core.Domain.Exceptions;
+
+namespace Core.Domain.Entities;
+
+/// <summary>
+/// Ítem individual enviado a cocina para su preparación. No contiene información de precios.
+/// </summary>
+public class ComandaItem
 {
-    public class ComandaItem
+    private readonly List<ComandaItemExtra> _extras = new();
+
+    public int Id { get; private set; }
+    public int ComandaId { get; private set; }
+    public int ProductoId { get; private set; }
+    public string ProductoNombre { get; private set; } = string.Empty;
+    public int Cantidad { get; private set; }
+    public string? NotasCocina { get; private set; }
+    public IReadOnlyList<ComandaItemExtra> Extras => _extras.AsReadOnly();
+
+    // Constructor privado para EF Core
+    private ComandaItem() { }
+
+    public ComandaItem(int productoId, string productoNombre, int cantidad, string? notasCocina = null, IEnumerable<ComandaItemExtra>? extras = null)
     {
-        public int Id { get; set; }
-
-        /**
-         * Esto es el profucto principal
-         */
-        public string ProductoId { get; set; }
-        public string ProductoNombre { get; set; }
-        public string Cantidad { get; set; }
-        public DateTime Fecha { get; set; }
-        public string Descripcion { get; set; }
-
-        //Lista de productos adicionales
-
-        public List<ExtraItem> Extras { get; set; } = new();
-
-
-
-        public ComandaItem (string productoId, string productoNombre, string cantdad, DateTime fecha, string descripcion, List<ExtraItem> extras)
+        if (productoId <= 0)
         {
-            if (string.IsNullOrEmpty(productoId))
-            {
-                throw new ArgumentException("El ID del producto no puede estar vacío.");
-            }
-            if (string.IsNullOrEmpty(productoNombre))
-            {
-                throw new ArgumentException("El nombre del producto no puede estar vacío.");
-            }
-            if (string.IsNullOrEmpty(cantdad))
-            {
-                throw new ArgumentException("La cantidad no puede estar vacía.");
-            }
-            if (fecha == default)
-            {
-                throw new ArgumentException("La fecha no puede ser la predeterminada.");
-            }
-            ProductoId = productoId.Trim();
-            ProductoNombre = productoNombre.Trim();
-            Cantidad = cantdad.Trim();
-            Fecha = fecha;
-            Descripcion = descripcion?.Trim() ?? string.Empty;
-            Extras = extras ?? new List<ExtraItem>();
+            throw new DomainValidationException(nameof(ProductoId), "El Id del producto es inválido.");
         }
 
+        if (string.IsNullOrWhiteSpace(productoNombre))
+        {
+            throw new DomainValidationException(nameof(ProductoNombre), "El nombre del producto no puede estar vacío.");
+        }
+
+        if (cantidad <= 0)
+        {
+            throw new DomainValidationException(nameof(Cantidad), "La cantidad para cocina debe ser mayor a cero.");
+        }
+
+        ProductoId = productoId;
+        ProductoNombre = productoNombre.Trim();
+        Cantidad = cantidad;
+        NotasCocina = notasCocina?.Trim();
+
+        if (extras != null)
+        {
+            _extras.AddRange(extras);
+        }
     }
-     
 
+    public ComandaItem(int id, int comandaId, int productoId, string productoNombre, int cantidad, string? notasCocina = null, IEnumerable<ComandaItemExtra>? extras = null)
+        : this(productoId, productoNombre, cantidad, notasCocina, extras)
+    {
+        if (id < 0)
+        {
+            throw new DomainValidationException(nameof(Id), "El Id del ítem de comanda no puede ser negativo.");
+        }
 
+        Id = id;
+        ComandaId = comandaId;
+    }
+
+    public void AgregarExtra(ComandaItemExtra extra)
+    {
+        ArgumentNullException.ThrowIfNull(extra);
+        _extras.Add(extra);
+    }
 }
