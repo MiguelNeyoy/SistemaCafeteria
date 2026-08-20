@@ -5,15 +5,114 @@
     En esta ventana principal se coloca lo que no cambia en ninguna otra vista como el menu, logos, Botones para minimizar,cerrar y maximizar la app
     cosas que siempre vera el usuario.
 -->
-    <Window x:Class="Presentation.WPF.MainWindow"
+<Window x:Class="Presentation.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:Presentation.WPF"
+        xmlns:views="clr-namespace:Presentation.WPF.Views"
+        xmlns:viewmodels="clr-namespace:Presentation.WPF.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
+
+    <Window.DataContext>
+        <viewmodels:MainViewModel />
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
+            <views:MenuView />
+            
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:ConfiguracionMenuViewModel}">
+            <views:ConfiguracionMenuViewModel/>
+        </DataTemplate>
+
+    </Window.Resources>
+
+
     <Grid>
+
         
+        <!--#region Estructura Inicial-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="318" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!--#endregion-->
+
+
+        <!--#region Columna Izquierda (Logotipo y Botones) -->
+        <Border Grid.Column="0" Background="{StaticResource Fondo-lateral-izq}" BorderBrush="Gray" BorderThickness="0,0,1,0" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "300" />
+                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "*" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1">
+                    <Image Source="/Assets/Imagenes/Logo.png" />
+                </Border>
+                
+
+                <!--#region RadioButton (Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}"/>
+
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" />
+
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja"/>
+
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Ventas" />
+                <!--#endregion-->
+                
+
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+
+        <!--#region Columna Derecha -->
+        <Border Grid.Column="1" Background="{StaticResource Fondo}" BorderBrush="Gray" >
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "180" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,1" />
+
+                
+                <!--#region Categorias y Fecha)-->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1,0,0,0" >
+                        <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat='{}{0:dd/MM/yyyy}'}"
+                               FontSize="18"/>
+                    </Border>
+
+
+                </Grid>
+                <!--#endregion-->
+                
+
+                <ContentControl Grid.Row="1" Content="{Binding VistaActual}"/>
+
+            </Grid>
+        </Border>
+        <!--#endregion-->
+        
+
     </Grid>
+
 </Window>

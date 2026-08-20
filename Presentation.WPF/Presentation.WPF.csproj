@@ -1,11 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <None Remove="Assets\Imagenes\Icono_basura.png" />
+    <None Remove="Assets\Imagenes\Icono_de_Adicion.png" />
+    <None Remove="Assets\Imagenes\Icono_de_alimento.png" />
+    <None Remove="Assets\Imagenes\Icono_eliminacion_teclado.png" />
+    <None Remove="Assets\Imagenes\Icono_retroceso.png" />
+    <None Remove="Assets\Imagenes\Logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Application\Core.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Imagenes\Icono_basura.png" />
+    <Resource Include="Assets\Imagenes\Icono_de_Adicion.png" />
+    <Resource Include="Assets\Imagenes\Icono_de_alimento.png" />
+    <Resource Include="Assets\Imagenes\Icono_eliminacion_teclado.png" />
+    <Resource Include="Assets\Imagenes\Icono_retroceso.png" />
+    <Resource Include="Assets\Imagenes\Logo.png" />
   </ItemGroup>
 
   <PropertyGroup>
