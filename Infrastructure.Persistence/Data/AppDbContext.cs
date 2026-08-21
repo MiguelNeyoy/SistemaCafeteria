@@ -18,6 +18,7 @@ public class AppDbContext : DbContext
     public DbSet<ComandaItem> ComandaItems => Set<ComandaItem>();
     public DbSet<ComandaItemExtra> ComandaItemExtras => Set<ComandaItemExtra>();
     public DbSet<Ticket> Tickets => Set<Ticket>();
+    public DbSet<Configuracion> Configuraciones => Set<Configuracion>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {

@@ -1,5 +1,7 @@
 # Interfaces (Application)
-Contratos y puertos para casos de uso y persistencia.
+Contratos y puertos para casos de uso, persistencia y hardware.
 
-- `IUnitOfWork.cs`: Contrato para confirmar transacciones atómicas.
-- `Repositories/`: Contratos de persistencia para cada entidad de dominio (`ICategoriaRepository`, `IProductoRepository`, `IExtraRepository`, `IVentaRepository`, `IComandaRepository`, `ITicketRepository`).
+- `IUnitOfWork.cs`: Contrato para transacciones atómicas.
+- `IPrinterService.cs`: Puerto de salida hacia el hardware de impresión física.
+- `Services/`: Contratos de casos de uso (`ICategoriaService`, `IProductoService`, `IExtraService`, `IVentaService`, `IComandaService`, `ITicketService`, `ICorteCajaService`, `IPurgaService`, `ISeguridadService`).
+- `Repositories/`: Contratos de persistencia para cada entidad del sistema.
