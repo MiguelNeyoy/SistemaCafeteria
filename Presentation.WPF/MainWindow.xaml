@@ -31,6 +31,10 @@
             <views:ConfiguracionMenuViewModel/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewmodels:CierreDeCajaViewModel}">
+            <views:CierreDeCajaViewModel/>
+        </DataTemplate>
+
     </Window.Resources>
 
 
