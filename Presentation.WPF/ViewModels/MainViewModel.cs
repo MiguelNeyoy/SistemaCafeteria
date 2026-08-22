@@ -27,4 +27,12 @@ public partial class MainViewModel : ObservableObject
 
         BotonSeleccionado = "Configuracion";
     }
+
+    [RelayCommand]
+    private void ShowCierreDeCaja()
+    {
+        VistaActual = new CierreDeCajaViewModel();
+
+        BotonSeleccionado = "CierreDeCaja";
+    }
 }
