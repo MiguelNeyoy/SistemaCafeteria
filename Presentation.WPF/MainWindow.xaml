@@ -70,7 +70,7 @@
 
                 <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" />
 
-                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja" Command="{Binding ShowCierreDeCaja}"/>
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja" Command="{Binding ShowCierreDeCajaCommand}"/>
 
                 <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Ventas" />
                 <!--#endregion-->
