@@ -45,49 +45,29 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="0,10,10,5"/>
+                        <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}"/>
+                        <Setter Property="FontSize" Value="30"/>
+                    </Style>
+                </Grid.Resources>
+
 
                 <!--#region Total vendido-->
                 <StackPanel Grid.Column="0">
-                    <TextBlock 
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Margin="0,5,5,5"
-                        FontFamily="{StaticResource Fuente-principal}" 
-                        FontSize="30"
-                        Text="Total venta:"
-                        />
-
-                    <TextBlock 
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Margin="0,5,5,5"
-                        FontFamily="{StaticResource Fuente-principal}"
-                        FontSize="30"
-                        Text="{Binding TotalVenta}"
-                        />
+                    <TextBlock Text="Total venta" />
+                    <TextBlock Text="{Binding TotalVenta}" />
                 </StackPanel>
                 <!--#endregion-->
 
 
                 <!--#region Total transaccion-->
                 <StackPanel Grid.Column="1">
-                    <TextBlock 
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Margin="0,5,5,5"
-                        FontFamily="{StaticResource Fuente-principal}" 
-                        FontSize="30"
-                        Text="Total transaccion:"
-                        />
-
-                    <TextBlock 
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Margin="0,5,5,5"
-                        FontFamily="{StaticResource Fuente-principal}"
-                        FontSize="30"
-                        Text="{Binding TotalTransaccion}"
-                        />
+                    <TextBlock Text="Total transaccion:"/>
+                    <TextBlock Text="{Binding TotalTransaccion}"/>
                 </StackPanel>
                 <!--#endregion-->
 
