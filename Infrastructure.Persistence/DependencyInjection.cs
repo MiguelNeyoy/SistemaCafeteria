@@ -19,9 +19,7 @@ public static class DependencyInjection
         services.AddScoped<IProductoRepository, ProductoRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        services.AddPersistence();
-
+            
         return services;
     }
 }
