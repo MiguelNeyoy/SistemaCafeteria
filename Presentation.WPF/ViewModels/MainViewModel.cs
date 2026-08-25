@@ -8,16 +8,18 @@ namespace Presentation.WPF.ViewModels;
 public partial class MainViewModel : ObservableObject
 {
     private readonly IProductoService _productoService;
+    private readonly ICategoriaService _categoriaService;
 
     [ObservableProperty]
-    private object _vistaActual;
+    private object? _vistaActual;
 
     [ObservableProperty]
-    private string _botonSeleccionado;
+    private string? _botonSeleccionado;
 
-    public MainViewModel( IProductoService productoService)
+    public MainViewModel( IProductoService productoService ICategoriaService categoriaService )
     {
         _productoService = productoService;
+        _categoriaService = categoriaService;
     }
 
 
@@ -30,9 +32,13 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ShowConfigMenu()
+    private async Task ShowConfigMenu()
     {
-        VistaActual = new ConfiguracionMenuViewModel();
+        var viewModel = new ConfiguracionMenuViewModel( _categoriaService, _productoService );
+
+        await viewModel.CargarDatosAsync();
+
+        VistaActual = viewModel;
 
         BotonSeleccionado = "Configuracion";
     }
