@@ -1,9 +1,10 @@
 ﻿using Core.Application;
 using Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
-using Presentation.WPF;
 using Presentation.WPF.ViewModels;
 using System.Windows;
+
+namespace Presentation.WPF;
 
 /// <summary>
 /// Interaction logic for App.xaml
