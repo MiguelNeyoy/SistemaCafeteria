@@ -16,7 +16,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string? _botonSeleccionado;
 
-    public MainViewModel( IProductoService productoService ICategoriaService categoriaService )
+    public MainViewModel( IProductoService productoService, ICategoriaService categoriaService )
     {
         _productoService = productoService;
         _categoriaService = categoriaService;
