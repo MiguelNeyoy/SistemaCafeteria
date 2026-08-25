@@ -243,7 +243,7 @@
             <TextBox Grid.Row="1" Width="240" Height="20"/>
 
             <TextBlock Grid.Row="2" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5">Categoria</TextBlock>
-            <ComboBox Grid.Row="3" Width="240" Height="20"></ComboBox>
+            <ComboBox Grid.Row="3" Width="240" Height="20" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaSeleccionada}" />
 
             <TextBlock Grid.Row="4" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5  ">Precio</TextBlock>
             <TextBox Grid.Row="5" Width="240" Height="20"/>
