@@ -29,6 +29,14 @@ public partial class App : Application
 
         _serviceProvider = services.BuildServiceProvider();
 
+
+        //Obtener la base de datos
+        var dbContext = _serviceProvider.GetRequiredService<AppDbContext>();
+
+        //Realiza las migraciones
+        dbContext.Database.Migrate();
+
+
         var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
 
         mainWindow.Show();
