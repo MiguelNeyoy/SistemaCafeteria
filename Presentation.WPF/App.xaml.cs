@@ -26,6 +26,7 @@ public partial class App : Application
 
         services.AddTransient<MainWindow>();
         services.AddTransient<MainViewModel>();
+        services.AddTransient<ConfiguracionMenuViewModel>();
 
         _serviceProvider = services.BuildServiceProvider();
 
