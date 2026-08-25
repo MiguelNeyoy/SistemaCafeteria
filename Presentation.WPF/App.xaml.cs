@@ -1,4 +1,6 @@
-﻿using Core.Application;
+﻿using Infrastructure.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
+using Core.Application;
 using Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.WPF.ViewModels;
