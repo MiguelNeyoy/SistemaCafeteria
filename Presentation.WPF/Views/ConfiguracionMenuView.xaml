@@ -179,7 +179,7 @@
 
                         <TextBlock HorizontalAlignment = "Center" FontFamily="{StaticResource Fuente-principal}" FontSize="24" > Producto </TextBlock>
 
-                        <ListBox Grid.Row="1" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Productos}" SelectedItem="{Binding CategoriaSeleccionada}">
 
                             <ListBox.ItemTemplate>
 
