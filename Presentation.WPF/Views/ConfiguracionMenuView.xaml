@@ -228,6 +228,49 @@
         
         <!--#region Columna Derecha (Panel para agregar productos y categorias )-->
         <Grid Grid.Column="1" Background="{StaticResource Fondo-lateral-izq}">
+            
+            
+            <!--#region Estado inicial-->
+            <Grid>
+
+                <Grid.Style>
+                    
+                    <Style TargetType="Grid">
+
+                        <Setter Property="Visibility" Value="Visible"/>
+
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding MostrarFormulario}" Value="true">
+
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                            </DataTrigger>
+                            
+                        </Style.Triggers>
+
+                    </Style>
+                    
+                </Grid.Style>
+
+                <TextBlock Text="Seleciona cualquier boton para comenzar"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           FontFamily="{StaticResource Fuente-principal}"
+                           FontSize="28"
+                           FontWeight="Black"
+                           Foreground="Gray"
+                           TextWrapping="Wrap"/>
+
+            </Grid>
+            <!--#endregion-->
+            
+            
+            <!--#region Formulario-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -258,6 +301,7 @@
                 <Button Grid.Column="1" Style="{StaticResource BtnGuardarCambios}" Height="40" Margin="0,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18" > Guardar Cambios </Button>
 
             </Grid>
+            <!--#endregion-->
 
 
         </Grid>
