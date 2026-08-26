@@ -271,34 +271,60 @@
             
             
             <!--#region Formulario-->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Grid>
+                
+                <Grid.Style>
 
-            
-            <TextBlock Grid.Row="0" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,200,0,5">Nombre del producto</TextBlock>
-            <TextBox Grid.Row="1" Width="240" Height="20"/>
+                    <Style TargetType="Grid">
 
-            <TextBlock Grid.Row="2" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5">Categoria</TextBlock>
-            <ComboBox Grid.Row="3" Width="240" Height="20" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaSeleccionada}" />
+                        <Setter Property="Visibility" Value="Collapsed"/>
 
-            <TextBlock Grid.Row="4" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5  ">Precio</TextBlock>
-            <TextBox Grid.Row="5" Width="240" Height="20"/>
+                        <Style.Triggers>
 
-            <Grid Grid.Row="6">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
+                            <DataTrigger Binding="{Binding MostrarFormulario}" Value="true">
 
-                <Button Grid.Column="0" Style="{StaticResource BtnComentario}" Height="40" Margin="10,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18"> CANCELAR </Button>
-                <Button Grid.Column="1" Style="{StaticResource BtnGuardarCambios}" Height="40" Margin="0,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18" > Guardar Cambios </Button>
+                                <Setter Property="Visibility" Value="Visible"/>
+
+                            </DataTrigger>
+
+                        </Style.Triggers>
+
+                    </Style>
+
+                </Grid.Style>
+                
+                
+                <!--#region Estructura del Formulario-->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                
+                <TextBlock Grid.Row="0" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,200,0,5">Nombre del producto</TextBlock>
+                <TextBox Grid.Row="1" Width="240" Height="20"/>
+
+                <TextBlock Grid.Row="2" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5">Categoria</TextBlock>
+                <ComboBox Grid.Row="3" Width="240" Height="20" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaSeleccionada}" />
+
+                <TextBlock Grid.Row="4" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5  ">Precio</TextBlock>
+                <TextBox Grid.Row="5" Width="240" Height="20"/>
+
+                <Grid Grid.Row="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Style="{StaticResource BtnComentario}" Height="40" Margin="10,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18">CANCELAR</Button>
+                    <Button Grid.Column="1" Style="{StaticResource BtnGuardarCambios}" Height="40" Margin="0,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18" >Guardar Cambios</Button>
+
+                </Grid>
 
             </Grid>
             <!--#endregion-->
