@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="900">
+             d:DesignHeight="800" d:DesignWidth="1000">
 
     <Grid >
         
@@ -179,7 +179,7 @@
 
                         <TextBlock HorizontalAlignment = "Center" FontFamily="{StaticResource Fuente-principal}" FontSize="24" > Producto </TextBlock>
 
-                        <ListBox Grid.Row="1" ItemsSource="{Binding Productos}" SelectedItem="{Binding CategoriaSeleccionada}">
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Productos}" SelectedItem="{Binding ProductoSeleccionado}">
 
                             <ListBox.ItemTemplate>
 
@@ -228,36 +228,106 @@
         
         <!--#region Columna Derecha (Panel para agregar productos y categorias )-->
         <Grid Grid.Column="1" Background="{StaticResource Fondo-lateral-izq}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
             
-            <TextBlock Grid.Row="0" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,200,0,5">Nombre del producto</TextBlock>
-            <TextBox Grid.Row="1" Width="240" Height="20"/>
+            
+            <!--#region Estado inicial-->
+            <Grid>
 
-            <TextBlock Grid.Row="2" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5">Categoria</TextBlock>
-            <ComboBox Grid.Row="3" Width="240" Height="20" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaSeleccionada}" />
+                <Grid.Style>
+                    
+                    <Style TargetType="Grid">
 
-            <TextBlock Grid.Row="4" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5  ">Precio</TextBlock>
-            <TextBox Grid.Row="5" Width="240" Height="20"/>
+                        <Setter Property="Visibility" Value="Visible"/>
 
-            <Grid Grid.Row="6">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
 
-                <Button Grid.Column="0" Style="{StaticResource BtnComentario}" Height="40" Margin="10,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18"> CANCELAR </Button>
-                <Button Grid.Column="1" Style="{StaticResource BtnGuardarCambios}" Height="40" Margin="0,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18" > Guardar Cambios </Button>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding MostrarFormulario}" Value="true">
+
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                            </DataTrigger>
+                            
+                        </Style.Triggers>
+
+                    </Style>
+                    
+                </Grid.Style>
+
+                <TextBlock Text="Seleciona cualquier boton para comenzar"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           FontFamily="{StaticResource Fuente-principal}"
+                           FontSize="28"
+                           FontWeight="Black"
+                           Foreground="Gray"
+                           TextWrapping="Wrap"/>
 
             </Grid>
+            <!--#endregion-->
+            
+            
+            <!--#region Formulario-->
+            <Grid>
+                
+                <Grid.Style>
+
+                    <Style TargetType="Grid">
+
+                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding MostrarFormulario}" Value="true">
+
+                                <Setter Property="Visibility" Value="Visible"/>
+
+                            </DataTrigger>
+
+                        </Style.Triggers>
+
+                    </Style>
+
+                </Grid.Style>
+                
+                
+                <!--#region Estructura del Formulario-->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                
+                <TextBlock Grid.Row="0" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,200,0,5">Nombre del producto</TextBlock>
+                <TextBox Grid.Row="1" Width="240" Height="20"/>
+
+                <TextBlock Grid.Row="2" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5">Categoria</TextBlock>
+                <ComboBox Grid.Row="3" Width="240" Height="20" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaSeleccionada}" />
+
+                <TextBlock Grid.Row="4" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5  ">Precio</TextBlock>
+                <TextBox Grid.Row="5" Width="240" Height="20"/>
+
+                <Grid Grid.Row="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Style="{StaticResource BtnComentario}" Height="40" Margin="10,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18">CANCELAR</Button>
+                    <Button Grid.Column="1" Style="{StaticResource BtnGuardarCambios}" Height="40" Margin="0,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18" >Guardar Cambios</Button>
+
+                </Grid>
+
+            </Grid>
+            <!--#endregion-->
 
 
         </Grid>
