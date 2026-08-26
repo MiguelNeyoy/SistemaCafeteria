@@ -21,14 +21,14 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private ProductoDto? productoSeleccionado;
 
     [ObservableProperty]
-    private bool _mostrarFormulario;
+    private bool mostrarFormulario;
 
-    [RelayCommand]
-    private void mostrarFormularioProducto()
-    {
-        MostrarFormulario = true; 
-    }
-    
+    [ObservableProperty]
+    private bool formularioCategoria;
+
+    [ObservableProperty]
+    private bool formularioProducto;
+
 
     public ConfiguracionMenuViewModel(
         ICategoriaService categoriaService,
@@ -56,4 +56,21 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             Productos.Add(producto);
         }
     }
+
+    [RelayCommand]
+    private void MostrarFormularioCategoria()
+    {
+        MostrarFormulario = true;
+        FormularioCategoria = true;
+        FormularioProducto = false;
+    }
+
+    [RelayCommand]
+    private void MostrarFormularioProducto()
+    {
+        MostrarFormulario = true;
+        FormularioProducto = true;
+        FormularioCategoria = false;
+    }
+
 }
