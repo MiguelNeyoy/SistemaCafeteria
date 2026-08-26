@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
+using System.DirectoryServices;
 
 namespace Presentation.WPF.ViewModels;
 
@@ -28,6 +29,18 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
     [ObservableProperty]
     private bool formularioProducto;
+
+    [ObservableProperty]
+    private string nombreProducto = string.Empty;
+
+    [ObservableProperty]
+    private decimal precioProducto;
+
+    [ObservableProperty]
+    private string nombreCategoria = string.Empty;
+
+    [ObservableProperty]
+    private CategoriaDto? categoriaProductoSeleccionado;
 
 
     public ConfiguracionMenuViewModel(
