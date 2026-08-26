@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
@@ -21,6 +22,12 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _mostrarFormulario;
+
+    [RelayCommand]
+    private void mostrarFormularioProducto()
+    {
+        MostrarFormulario = true; 
+    }
     
 
     public ConfiguracionMenuViewModel(
