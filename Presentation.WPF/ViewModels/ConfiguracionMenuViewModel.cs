@@ -16,6 +16,10 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [ObservableProperty]
     private CategoriaDto? categoriaSeleccionada;
 
+    [ObservableProperty]
+    private bool _mostrarFormulario;
+    
+
     public ConfiguracionMenuViewModel(
         ICategoriaService categoriaService,
         IProductoService productoService)
