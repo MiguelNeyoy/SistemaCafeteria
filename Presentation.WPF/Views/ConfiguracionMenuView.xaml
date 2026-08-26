@@ -75,7 +75,7 @@
 
 
                 <!--#region Boton añadir categoria-->
-                <Button Grid.Column="1" Style="{StaticResource BtnCatyPro}" Height="170" Width="180" Margin="10">
+                <Button Grid.Column="1" Command="{Binding MostrarFormularioCategoriaCommand}" Style="{StaticResource BtnCatyPro}" Height="170" Width="180" Margin="10">
 
                     <StackPanel>
 
@@ -90,7 +90,7 @@
 
 
                 <!--#region Añadir Producto-->
-                <Button Grid.Column="2" Style="{StaticResource BtnCatyPro}" Height="170" Width="180" Margin="10">
+                <Button Grid.Column="2" Command="{Binding MostrarFormularioProductoCommand}" Style="{StaticResource BtnCatyPro}" Height="170" Width="180" Margin="10">
 
                     <StackPanel>
 
