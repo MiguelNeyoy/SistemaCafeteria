@@ -21,13 +21,13 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private ProductoDto? productoSeleccionado;
 
     [ObservableProperty]
-    private bool _mostrarFormulario;
+    private bool mostrarFormulario;
 
-    [RelayCommand]
-    private void mostrarFormularioProducto()
-    {
-        MostrarFormulario = true; 
-    }
+    [ObservableProperty]
+    private bool mostrarFormularioCategoria;
+
+    [ObservableProperty]
+    private bool mostrarFormularioProducto;
     
 
     public ConfiguracionMenuViewModel(
