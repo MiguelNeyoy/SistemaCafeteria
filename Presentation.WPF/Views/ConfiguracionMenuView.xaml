@@ -257,7 +257,7 @@
                     
                 </Grid.Style>
 
-                <TextBlock Text="Seleciona cualquier boton para comenzar"
+                <TextBlock Text="Selecciona cualquier boton para comenzar"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Top"
                            FontFamily="{StaticResource Fuente-principal}"
@@ -308,7 +308,7 @@
 
                 <!--Nombre-->
                 <TextBlock Grid.Row="0" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,200,0,5">Nombre de la categoria</TextBlock>
-                <TextBox Grid.Row="1" Width="240" Height="20"/>
+                <TextBox Grid.Row="1" Width="240" Height="20" Text="{Binding NombreCategoria, UpdateSourceTrigger=PropertyChanged}"/>
 
 
                 <!--#region Botones-->
@@ -368,17 +368,17 @@
                 
                 <!--Nombre-->
                 <TextBlock Grid.Row="0" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,200,0,5">Nombre del producto</TextBlock>
-                <TextBox Grid.Row="1" Width="240" Height="20"/>
+                <TextBox Grid.Row="1" Width="240" Height="20" Text="{Binding NombreProducto, UpdateSourceTrigger=PropertyChanged}"/>
 
                 
                 <!--Categoria-->
                 <TextBlock Grid.Row="2" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5">Categoria</TextBlock>
-                <ComboBox Grid.Row="3" Width="240" Height="20" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaSeleccionada}" />
+                <ComboBox Grid.Row="3" Width="240" Height="20" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaProductoSeleccionado}" />
 
                 
                 <!--Precio-->
                 <TextBlock Grid.Row="4" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5  ">Precio</TextBlock>
-                <TextBox Grid.Row="5" Width="240" Height="20"/>
+                <TextBox Grid.Row="5" Width="240" Height="20" Text="{Binding PrecioProducto, UpdateSourceTrigger=PropertyChanged}"/>
                 
                 
                 <!--#region Botones-->
@@ -389,7 +389,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Grid.Column="0" Style="{StaticResource BtnComentario}" Height="40" Margin="10,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18">CANCELAR</Button>
-                    <Button Grid.Column="1" Style="{StaticResource BtnGuardarCambios}" Height="40" Margin="0,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18" >Guardar Cambios</Button>
+                    <Button Grid.Column="1" Command="{Binding ProbrarDatosProductosCommand}" Style="{StaticResource BtnGuardarCambios}" Height="40" Margin="0,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18" >Guardar Cambios</Button>
 
                 </Grid>
                 <!--#endregion-->
