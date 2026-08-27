@@ -109,14 +109,20 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [RelayCommand]
     private async Task GuardarProducto()
     {
+        if (String.IsNullOrWhiteSpace(NombreProducto))
+            return;
 
-        if ( CategoriaProductoSeleccionado == null )
+        if (PrecioProducto <= 0)
+            return;
+
+
+        if ( CategoriaProductoSeleccionado is null )
             return;
 
 
         var dtoProducto = new CrearProductoDto
         {
-            Nombre = NombreProducto,
+            Nombre = NombreProducto.Trim(),
             Precio = PrecioProducto,
             CategoriaId = CategoriaProductoSeleccionado.Id
         };
