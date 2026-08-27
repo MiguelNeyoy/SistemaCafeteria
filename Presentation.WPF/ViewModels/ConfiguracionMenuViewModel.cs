@@ -106,4 +106,33 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioCategoria = false;
     }
 
+    [RelayCommand]
+    private async Task GuardarProducto()
+    {
+
+        if ( CategoriaProductoSeleccionado == null )
+            return;
+
+
+        var dtoProducto = new CrearProductoDto
+        {
+            Nombre = NombreProducto,
+            Precio = PrecioProducto,
+            CategoriaId = CategoriaProductoSeleccionado.Id
+        };
+
+
+        var producto = await _productoService.CrearAsync( dtoProducto );
+
+        Productos.Add( producto );
+
+        NombreProducto = string.Empty;
+        PrecioProducto = 0;
+        CategoriaProductoSeleccionado = null;
+
+        MostrarFormulario = false;
+        FormularioProducto = false;
+
+    }
+
 }
