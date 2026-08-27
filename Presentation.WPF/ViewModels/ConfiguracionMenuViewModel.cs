@@ -42,6 +42,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [ObservableProperty]
     private CategoriaDto? categoriaProductoSeleccionado;
 
+    [ObservableProperty]
+    private bool modoEdicionCategoria;
 
     public ConfiguracionMenuViewModel(
         ICategoriaService categoriaService,
@@ -96,6 +98,20 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         MostrarFormulario = false;
         FormularioCategoria = false;
 
+    }
+
+    [RelayCommand]
+    private void EditarCategoria(CategoriaDto categoria)
+    {
+        CategoriaSeleccionada = categoria;
+
+        NombreCategoria = categoria.Nombre;
+
+        MostrarFormulario = true;
+        FormularioCategoria = true;
+        FormularioProducto = false;
+
+        ModoEdicionCategoria = true;
     }
 
     [RelayCommand]
