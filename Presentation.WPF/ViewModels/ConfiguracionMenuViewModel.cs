@@ -80,6 +80,26 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private async Task GuardarCategoria()
+    {
+
+        var dtoCategoria = new CrearCategoriaDto
+        {
+            Nombre = NombreCategoria
+        };
+
+        var categoria = await _categoriaService.CrearAsync( dtoCategoria );
+
+        Categorias.Add( categoria );
+
+        NombreCategoria = string.Empty;
+
+        MostrarFormulario = false;
+        FormularioCategoria = false;
+
+    }
+
+    [RelayCommand]
     private void MostrarFormularioProducto()
     {
         MostrarFormulario = true;
