@@ -108,19 +108,32 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ProbarDatosProductos()
+    private async Task GuardarProducto()
     {
-        MessageBox.Show(
-            $"Producto: {NombreProducto}\n" +
-            $"Precio: {PrecioProducto}\n" +
-            $"Categoría: {CategoriaProductoSeleccionado?.Nombre}");
-    }
 
-    [RelayCommand]
-    private void ProbarDatosCategoria()
-    {
-        MessageBox.Show(
-            $"Categoria:{NombreCategoria}");
+        if ( CategoriaProductoSeleccionado == null )
+            return;
+
+
+        var dtoProducto = new CrearProductoDto
+        {
+            Nombre = NombreProducto,
+            Precio = PrecioProducto,
+            CategoriaId = CategoriaProductoSeleccionado.Id
+        };
+
+
+        var producto = await _productoService.CrearAsync( dtoProducto );
+
+        Productos.Add( producto );
+
+        NombreProducto = string.Empty;
+        PrecioProducto = 0;
+        CategoriaProductoSeleccionado = null;
+
+        MostrarFormulario = false;
+        FormularioProducto = false;
+
     }
 
 }
