@@ -4,6 +4,7 @@ using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
 using System.DirectoryServices;
+using System.Windows;
 
 namespace Presentation.WPF.ViewModels;
 
@@ -84,6 +85,22 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         MostrarFormulario = true;
         FormularioProducto = true;
         FormularioCategoria = false;
+    }
+
+    [RelayCommand]
+    private void ProbarDatosProductos()
+    {
+        MessageBox.Show(
+            $"Producto: {NombreProducto}\n" +
+            $"Precio: {PrecioProducto}\n" +
+            $"Categoría: {CategoriaProductoSeleccionado?.Nombre}");
+    }
+
+    [RelayCommand]
+    private void ProbarDatosCategoria()
+    {
+        MessageBox.Show(
+            $"Categoria:{NombreCategoria}");
     }
 
 }
