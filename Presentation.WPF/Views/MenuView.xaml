@@ -132,7 +132,7 @@
 
                         <DataTemplate>
 
-                            <Button Style="{StaticResource BotonCategorias}" 
+                            <Button Style="{StaticResource BtnCategorias}" 
                                     Command="{Binding DataContext.SeleccionarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
                                     CommandParameter="{Binding}">
 
