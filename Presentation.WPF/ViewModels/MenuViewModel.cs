@@ -19,9 +19,6 @@ public partial class MenuViewModel : ObservableObject
     [ObservableProperty]
     private bool tieneCategorias;
 
-    [ObservableProperty]
-    private CategoriaItem? categoriaSeleccionada;
-
 
     public MenuViewModel( ICategoriaService categoriaService, IProductoService productoService ) 
     {
