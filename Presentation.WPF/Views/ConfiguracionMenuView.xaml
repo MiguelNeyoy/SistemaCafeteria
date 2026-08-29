@@ -64,8 +64,8 @@
 
                             <Image Source="/Assets/Imagenes/Icono_de_alimento.png" Stretch="Uniform" />
 
-                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="28"> 0 </TextBlock>
-                            
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="28" Text="{Binding TotalProductos}" />
+
                         </Grid>
                         
                     </Grid>
