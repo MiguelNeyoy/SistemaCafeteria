@@ -24,9 +24,13 @@ public partial class MainViewModel : ObservableObject
 
 
     [RelayCommand]
-    private void ShowMenu()
+    private async Task ShowMenu()
     {
-        VistaActual = new MenuViewModel();
+        var viewModel = new MenuViewModel(_categoriaService);
+
+        await viewModel.CargarCategoriasAsync();
+
+        VistaActual = viewModel;
 
         BotonSeleccionado = "Menu";
     }
