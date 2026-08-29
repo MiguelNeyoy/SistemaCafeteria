@@ -14,6 +14,8 @@ public partial class MenuViewModel : ObservableObject
 
     private readonly IProductoService _productoService;
 
+    public event Action<CategoriaDto>? CategoriaSeleccionada;
+
     [ObservableProperty]
     private bool tieneCategorias;
 
@@ -53,10 +55,18 @@ public partial class MenuViewModel : ObservableObject
 
 
     [RelayCommand]
-    private void SeleccionarCategoria( CategoriaItem categoria)
+    private void SeleccionarCategoria( CategoriaItem categoria )
     {
-        CategoriaSeleccionada = categoria;
-    }
+        var categoriaDto = new CategoriaDto
+        {
+            Id = categoria.Id,
+            Nombre = categoria.Nombre,
+            Activo = true
+        };
+
+        CategoriaSeleccionada?.Invoke( categoriaDto );
+
+    }//Fin - SeleccionarCategoria
 
 
 }//Fin - MenuViewModel
