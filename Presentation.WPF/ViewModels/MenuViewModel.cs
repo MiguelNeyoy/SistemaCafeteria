@@ -12,6 +12,8 @@ public partial class MenuViewModel : ObservableObject
 
     private readonly ICategoriaService _categoriaService;
 
+    private readonly IProductoService productoService;
+
     [ObservableProperty]
     private bool tieneCategorias;
 
@@ -19,9 +21,10 @@ public partial class MenuViewModel : ObservableObject
     private CategoriaItem? categoriaSeleccionada;
 
 
-    public MenuViewModel( ICategoriaService categoriaService ) 
+    public MenuViewModel( ICategoriaService categoriaService, IProductoService productoService ) 
     {
         _categoriaService = categoriaService;
+        _productoService = productoService;
 
         Categorias.CollectionChanged += (_, _) =>
         {

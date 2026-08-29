@@ -26,7 +26,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowMenu()
     {
-        var viewModel = new MenuViewModel(_categoriaService);
+        var viewModel = new MenuViewModel( _categoriaService, _productoService );
 
         await viewModel.CargarCategoriasAsync();
 
