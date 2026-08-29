@@ -88,9 +88,25 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         }
     }
 
+    private void LimpiarFormulario()
+    {
+        NombreCategoria = string.Empty;
+        NombreProducto = string.Empty;
+        PrecioProducto = 0;
+
+        CategoriaProductoSeleccionado = null;
+
+        CategoriaSeleccionada = null;
+        ProductoSeleccionado = null;
+
+        ModoEdicionCategoria = false;
+    }
+
     [RelayCommand]
     private void MostrarFormularioCategoria()
     {
+        LimpiarFormulario();
+
         MostrarFormulario = true;
         FormularioCategoria = true;
         FormularioProducto = false;
@@ -164,6 +180,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [RelayCommand]
     private void MostrarFormularioProducto()
     {
+        LimpiarFormulario();
+
         MostrarFormulario = true;
         FormularioProducto = true;
         FormularioCategoria = false;
