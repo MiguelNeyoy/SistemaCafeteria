@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.DirectoryServices;
 using System.Windows;
 
@@ -85,20 +86,51 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private async Task GuardarCategoria()
     {
 
-        var dtoCategoria = new CrearCategoriaDto
+        if (string.IsNullOrWhiteSpace(NombreCategoria))
+            return;
+
+        if (ModoEdicionCategoria)
         {
-            Nombre = NombreCategoria
-        };
+            if (CategoriaSeleccionada is null)
+                return;
 
-        var categoria = await _categoriaService.CrearAsync( dtoCategoria );
+            var dtoCategoria = new EditarCategoriaDto
+            {
+                Id = CategoriaSeleccionada.Id,
+                Nombre = NombreCategoria.Trim()
+            };
 
-        Categorias.Add( categoria );
+            var categoriaEditada = await _categoriaService.EditarAsync(dtoCategoria);
+
+            var categoriaEnLista = Categorias.FirstOrDefault(c => c.Id == categoriaEditada.Id);
+
+
+            if ( categoriaEnLista is not null)
+            {
+                categoriaEnLista.Nombre = categoriaEditada.Nombre;
+            }
+
+
+        }
+        else
+        {
+            var dtoCategoria = new CrearCategoriaDto
+            {
+                Nombre = NombreCategoria.Trim()
+            };
+
+
+            var categoria = await _categoriaService.CrearAsync( dtoCategoria );
+
+            Categorias.Add( categoria );
+        }
 
         NombreCategoria = string.Empty;
+        CategoriaSeleccionada = null;
+        ModoEdicionCategoria = false;
 
         MostrarFormulario = false;
         FormularioCategoria = false;
-
     }
 
     [RelayCommand]
