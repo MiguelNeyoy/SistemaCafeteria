@@ -16,6 +16,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     public ObservableCollection<CategoriaDto> Categorias { get; } = new();
     public ObservableCollection<ProductoDto> Productos { get; } = new();
 
+    public int TotalProductos => Productos.Count;
+
     [ObservableProperty]
     private CategoriaDto? categoriaSeleccionada;
 
@@ -52,6 +54,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     {
         _categoriaService = categoriaService;
         _productoService = productoService;
+
+        Productos.CollectionChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(TotalProductos));
+        };
     }
 
     public async Task CargarDatosAsync()
