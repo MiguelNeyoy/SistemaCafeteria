@@ -51,6 +51,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [ObservableProperty]
     private bool modoEdicionCategoria;
 
+    [ObservableProperty]
+    private bool modoEdicionProducto;
+
     public ConfiguracionMenuViewModel(
         ICategoriaService categoriaService,
         IProductoService productoService)
@@ -111,6 +114,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         MostrarFormulario = true;
         FormularioCategoria = true;
         FormularioProducto = false;
+
+        ModoEdicionCategoria = false;
     }
 
     [RelayCommand]
@@ -186,6 +191,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         MostrarFormulario = true;
         FormularioProducto = true;
         FormularioCategoria = false;
+
+        ModoEdicionProducto = false;
     }
 
     [RelayCommand]
