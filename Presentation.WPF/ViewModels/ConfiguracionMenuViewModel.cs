@@ -190,6 +190,23 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void EditarProducto( ProductoDto producto )
+    {
+        ProductoSeleccionado = producto;
+
+        NombreProducto = producto.Nombre;
+        PrecioProducto = producto.Precio;
+
+        CategoriaProductoSeleccionado = Categorias.FirstOrDefault( c => c.Id == producto.CategoriaId );
+
+        MostrarFormulario = true;
+        FormularioProducto = true;
+        FormularioCategoria = false;
+    }
+
+
+
+    [RelayCommand]
     private void CancelarFormulario()
     {
         MostrarFormulario = false;
