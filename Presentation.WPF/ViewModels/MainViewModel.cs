@@ -28,6 +28,15 @@ public partial class MainViewModel : ObservableObject
     {
         var viewModel = new MenuViewModel( _categoriaService, _productoService );
 
+        viewModel.CategoriaSeleccionada += async categoria =>
+        {
+            var comandaViewModel = new ComandaViewModel(_productoService, categoria);
+
+            await comandaViewModel.CargarProductosAsync();
+
+            VistaActual = comandaViewModel;
+        };
+
         await viewModel.CargarCategoriasAsync();
 
         VistaActual = viewModel;
