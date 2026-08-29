@@ -158,32 +158,58 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [RelayCommand]
     private async Task GuardarProducto()
     {
-        if (String.IsNullOrWhiteSpace(NombreProducto))
+        if ( string.IsNullOrWhiteSpace( NombreProducto ) )
             return;
 
-        if (PrecioProducto <= 0)
-            return;
-
-
-        if (CategoriaProductoSeleccionado is null)
+        if ( PrecioProducto <= 0 )
             return;
 
 
-        var dtoProducto = new CrearProductoDto
+        if ( CategoriaProductoSeleccionado is null )
+            return;
+
+
+        if( ProductoSeleccionado is not null)
         {
-            Nombre = NombreProducto.Trim(),
-            Precio = PrecioProducto,
-            CategoriaId = CategoriaProductoSeleccionado.Id
-        };
+            var dtoProducto = new EditarProductoDto
+            {
+                Id = ProductoSeleccionado.Id,
+                Nombre = NombreProducto.Trim(),
+                Precio = PrecioProducto,
+                CategoriaId = CategoriaProductoSeleccionado.Id
+            };
 
+            var productoEditado = await _productoService.EditarAsync( dtoProducto );
 
-        var producto = await _productoService.CrearAsync(dtoProducto);
+            var productoEnLista = Productos.FirstOrDefault( p => p.Id == productoEditado.Id );
 
-        Productos.Add(producto);
+            if( productoEnLista is not null)
+            {
+                productoEnLista.Nombre = productoEditado.Nombre;
+                productoEnLista.Precio = productoEditado.Precio;
+                productoEnLista.CategoriaId = productoEditado.CategoriaId;
+                productoEnLista.CategoriaNombre = productoEditado.CategoriaNombre;
+            }
+        }
+        else
+        {
+            var dtoProducto = new CrearProductoDto
+            {
+                Nombre = NombreProducto.Trim(),
+                Precio = PrecioProducto,
+                CategoriaId = CategoriaProductoSeleccionado.Id
+            };
+
+            var producto = await _productoService.CrearAsync(dtoProducto);
+
+            Productos.Add(producto);
+        }
+
 
         NombreProducto = string.Empty;
         PrecioProducto = 0;
         CategoriaProductoSeleccionado = null;
+        ProductoSeleccionado = null;
 
         MostrarFormulario = false;
         FormularioProducto = false;
