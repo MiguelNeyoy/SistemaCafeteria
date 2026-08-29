@@ -17,14 +17,13 @@
         mc:Ignorable="d"
         Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
 
-    <Window.DataContext>
-        <viewmodels:MainViewModel />
-    </Window.DataContext>
-    
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
             <views:MenuView />
-            
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:ComandaViewModel}">
+            <views:Comanda />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type viewmodels:ConfiguracionMenuViewModel}">
