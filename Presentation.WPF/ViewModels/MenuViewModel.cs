@@ -12,7 +12,7 @@ public partial class MenuViewModel : ObservableObject
 
     private readonly ICategoriaService _categoriaService;
 
-    private readonly IProductoService productoService;
+    private readonly IProductoService _productoService;
 
     [ObservableProperty]
     private bool tieneCategorias;
