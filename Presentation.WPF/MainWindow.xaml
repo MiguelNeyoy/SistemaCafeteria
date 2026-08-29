@@ -39,8 +39,8 @@
 
     <Grid>
 
-        
-        <!--#region Estructura Inicial-->
+
+        <!--#region Estructura -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="318" />
             <ColumnDefinition Width="*"/>
@@ -48,21 +48,28 @@
         <!--#endregion-->
 
 
-        <!--#region Columna Izquierda (Logotipo y Botones) -->
-        <Border Grid.Column="0" Background="{StaticResource Fondo-lateral-izq}" BorderBrush="Gray" BorderThickness="0,0,1,0" >
+        <!--#region Panel Izquierdo -->
+        <Border Grid.Column="0" Background="{StaticResource Fondo-lateral-izq}" BorderBrush="Gray" BorderThickness="0,0,3,0" >
             <Grid>
+
+
+                <!--#region Estructura -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height = "300" />
+                    <RowDefinition Height = "280" />
                     <RowDefinition Height = "*" />
                     <RowDefinition Height = "*" />
                     <RowDefinition Height = "*" />
                     <RowDefinition Height = "*" />
                 </Grid.RowDefinitions>
+                <!--#endregion-->
 
-                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,1">
+
+                <!--#region Logotipo-->
+                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,3">
                     <Image Source="/Assets/Imagenes/Logo.png" />
                 </Border>
-                
+                <!--#endregion-->
+
 
                 <!--#region RadioButton (Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
                 <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}"/>
@@ -73,49 +80,62 @@
 
                 <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Ventas" />
                 <!--#endregion-->
-                
+
 
             </Grid>
         </Border>
         <!--#endregion-->
 
 
-        <!--#region Columna Derecha -->
-        <Border Grid.Column="1" Background="{StaticResource Fondo}" BorderBrush="Gray" >
+        <!--#region Panel Derecho -->
+        <Border Grid.Column="1" Background="{StaticResource Fondo}">
             <Grid>
 
+
+                <!--#region Estructura -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height = "180" />
+                    <RowDefinition Height = "50" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                <!--#endregion-->
 
-                <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,0,1" />
+
+                <!--#region Barra Superior-->
+                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,3" >
+                    <Grid>
+
+
+                        <!--#region Estructura-->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!--#endregion-->
+
+
+                        <!--#region  Fecha-->
+                        <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="2,0,0,0" >
+                            <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat='{}{0:dd/MM/yyyy}'}" FontSize="18"/>
+                        </Border>
+                        <!--#endregion-->
+
+
+                    </Grid>
+                </Border>
+                <!--#endregion-->
 
                 
-                <!--#region Categorias y Fecha)-->
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1,0,0,0" >
-                        <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat='{}{0:dd/MM/yyyy}'}"
-                               FontSize="18"/>
-                    </Border>
-
-
-                </Grid>
+                <!--#region Vista Actual-->
+                <ContentControl Grid.Row="1" Content="{Binding VistaActual}"/>
                 <!--#endregion-->
                 
 
-                <ContentControl Grid.Row="1" Content="{Binding VistaActual}"/>
-
             </Grid>
         </Border>
         <!--#endregion-->
-        
+
 
     </Grid>
+    
 
 </Window>
