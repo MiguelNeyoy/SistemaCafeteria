@@ -6,26 +6,25 @@ namespace Presentation.WPF.ViewModels;
 
 public partial class MenuViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private ObservableCollection<CategoriaItem> _categorias;
+    public ObservableCollection<CategoriaItem> Categorias { get; } = new();
 
     [ObservableProperty]
-    private bool _tieneCategorias;
+    private bool tieneCategorias;
+
 
     public MenuViewModel() {
 
-        Categorias = new ObservableCollection<CategoriaItem>();
-
-        CategoriaItem Categoria = new();
-
-
-       
-        TieneCategorias = Categorias.Count > 0;
+        Categorias.CollectionChanged += (_, _) =>
+        {
+            TieneCategorias = Categorias.Count > 0;
+        };
     }
-}
+    
+}//Fin - MenuViewModel
+
 
 public class CategoriaItem
 {
-    public string Nombre { get; set; }
-    public string Imagen { get; set; }
+    public string Nombre { get; set; } = string.Empty;
+    public string Imagen { get; set; } = string.Empty;
 }
