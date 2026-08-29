@@ -2,15 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     
-    <!--#region Boton para vista Menu-->
-    <Style x:Key="BotonCategorias" TargetType="Button">
+    <!--#region Boton de Categorias-->
+    <Style x:Key="BtnCategorias" TargetType="Button">
 
         <Setter Property="Background" Value="White"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="2"/>
         
-        <Setter Property="Width" Value="180"/>
-        <Setter Property="Height" Value="190"/>
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="Height" Value="280"/>
         
         <Setter Property="Margin" Value="15"/>
         <Setter Property="Padding" Value="8"/>
@@ -42,7 +42,7 @@
 
                             <Setter TargetName="Border"
                                     Property="Background"
-                                    Value="{StaticResource gris70%}"/>
+                                    Value="{StaticResource gris30%}"/>
 
                         </Trigger>
 
