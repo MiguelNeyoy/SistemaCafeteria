@@ -199,7 +199,7 @@
 
                                             <TextBlock Text="{Binding Nombre}"/>
 
-                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}">
+                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}" Command="{Binding DataContext.EditarProductoCommand, RelativeSource={ RelativeSource AncestorType=ListBox} }" CommandParameter="{Binding}" >
                                                 <Image Source="/Assets/Imagenes/Icono_de_editar.png"/>
                                             </Button>
 
