@@ -104,7 +104,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             var categoriaEnLista = Categorias.FirstOrDefault(c => c.Id == categoriaEditada.Id);
 
 
-            if ( categoriaEnLista is not null)
+            if (categoriaEnLista is not null)
             {
                 categoriaEnLista.Nombre = categoriaEditada.Nombre;
             }
@@ -119,9 +119,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             };
 
 
-            var categoria = await _categoriaService.CrearAsync( dtoCategoria );
+            var categoria = await _categoriaService.CrearAsync(dtoCategoria);
 
-            Categorias.Add( categoria );
+            Categorias.Add(categoria);
         }
 
         NombreCategoria = string.Empty;
@@ -164,7 +164,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             return;
 
 
-        if ( CategoriaProductoSeleccionado is null )
+        if (CategoriaProductoSeleccionado is null)
             return;
 
 
@@ -176,9 +176,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         };
 
 
-        var producto = await _productoService.CrearAsync( dtoProducto );
+        var producto = await _productoService.CrearAsync(dtoProducto);
 
-        Productos.Add( producto );
+        Productos.Add(producto);
 
         NombreProducto = string.Empty;
         PrecioProducto = 0;
@@ -187,6 +187,26 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         MostrarFormulario = false;
         FormularioProducto = false;
 
+    }
+
+    [RelayCommand]
+    private void CancelarFormulario()
+    {
+        MostrarFormulario = false;
+
+        FormularioCategoria = false;
+        FormularioProducto = false;
+
+        NombreCategoria = string.Empty;
+
+        NombreProducto = string.Empty;
+        PrecioProducto = 0;
+        CategoriaProductoSeleccionado = null;
+
+        CategoriaSeleccionada = null;
+        ProductoSeleccionado = null;
+
+        ModoEdicionCategoria = false;
     }
 
 }
