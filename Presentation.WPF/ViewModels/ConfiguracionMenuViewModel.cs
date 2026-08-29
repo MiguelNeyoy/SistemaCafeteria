@@ -16,8 +16,10 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
     public ObservableCollection<CategoriaDto> Categorias { get; } = new();
     public ObservableCollection<ProductoDto> Productos { get; } = new();
-
     public int TotalProductos => Productos.Count;
+
+    public bool TieneCategorias => Categorias.Count > 0;
+
 
     [ObservableProperty]
     private CategoriaDto? categoriaSeleccionada;
@@ -59,6 +61,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         Productos.CollectionChanged += (_, _) =>
         {
             OnPropertyChanged(nameof(TotalProductos));
+        };
+
+        Categorias.CollectionChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(TieneCategorias));
         };
     }
 
