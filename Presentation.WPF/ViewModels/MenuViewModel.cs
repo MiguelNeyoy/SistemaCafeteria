@@ -24,20 +24,11 @@ public partial class MenuViewModel : ObservableObject
         {
             TieneCategorias = Categorias.Count > 0;
         };
-    }
-    
-}//Fin - MenuViewModel
+
+    }//Fin - MenuViewModel
 
 
-public class CategoriaItem
-{
-    public int Id { get; set; }
-    public string Nombre { get; set; } = string.Empty;
-    public string Imagen { get; set; } = string.Empty;
-}
-
-
-public async Task CargarCategoriasAsync()
+    public async Task CargarCategoriasAsync()
     {
         var categorias = await _categoriaService.ObtenerActivasAsync();
 
@@ -51,4 +42,17 @@ public async Task CargarCategoriasAsync()
                 Nombre = categoria.Nombre
             });
         }
-    }
+
+    }//Fin - CargarCategoriasAsync
+
+
+}//Fin - MenuViewModel
+
+
+public class CategoriaItem
+{
+    public int Id { get; set; }
+    public string Nombre { get; set; } = string.Empty;
+    public string Imagen { get; set; } = string.Empty;
+
+}//Fin - CategoriaItem
