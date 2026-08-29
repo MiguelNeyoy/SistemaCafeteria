@@ -49,6 +49,13 @@ public partial class MenuViewModel : ObservableObject
     }//Fin - CargarCategoriasAsync
 
 
+    [RelayCommand]
+    private void SeleccionarCategoria( CategoriaItem categoria)
+    {
+        CategoriaSeleccionada = categoria;
+    }
+
+
 }//Fin - MenuViewModel
 
 
