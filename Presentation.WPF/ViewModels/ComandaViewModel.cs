@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
@@ -41,6 +42,28 @@ public partial class ComandaViewModel : ObservableObject
         }
 
     }//Fin - CargarProductosAsync
+
+
+    [RelayCommand]
+    private void AgregarProducto( ProductoDto producto)
+    {
+        var itemExistente = ItemsComanda.FirstOrDefault( item => item.ProductoId == producto.Id );
+
+        if( itemExistente is not null)
+        {
+            itemExistente.Cantidad++;
+            return;
+        }
+
+        ItemsComanda.Add( new ComandaItemViewModel
+        {
+            ProductoId = producto.Id,
+            Nombre = producto.Nombre,
+            Precio = producto.Precio,
+            Cantidad = 1
+        } );
+
+    }//Fin - AgregarProducto
 
 }
 
