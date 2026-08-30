@@ -85,7 +85,7 @@
 
 
                             <!--Titulo-->
-                            <TextBlock HorizontalAlignment="Center" FontSize="26" FontFamily="{StaticResource Fuente-principal}"> Comanda</TextBlock>
+                            <TextBlock HorizontalAlignment="Center" FontSize="28" FontFamily="{StaticResource Fuente-principal}" FontWeight="SemiBold"> Comanda </TextBlock>
                             
 
                             <Grid Grid.Row="1">
@@ -93,14 +93,15 @@
                                 
                                 <!--Estructura-->
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
 
 
                                 <!--Numero Ticket-->
-                                <TextBlock HorizontalAlignment="Left" FontSize="20" FontFamily="{StaticResource Fuente-principal}"> Numero Ticket #</TextBlock>
-                                <TextBlock Grid.Column="1" Text="{Binding numeroTicket}" HorizontalAlignment="Left" FontSize="18" FontFamily="{StaticResource Fuente-principal}" />
+                                <TextBlock FontSize="18" FontFamily="{StaticResource Fuente-principal}" FontWeight="SemiBold" Margin="10,0,0,6">Ticket #</TextBlock>
+                                
+                                <TextBlock Grid.Column="1" Text="{Binding NumeroTicket}" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="SemiBold" />
 
                             </Grid>
 
@@ -124,48 +125,73 @@
                 <!--#region Distribucion de productos en la comanda-->
                 <ListBox Grid.Row="1">
 
-                    <ItemsControl.ItemTemplate>
+                    <ListBox.ItemTemplate>
 
                         <DataTemplate>
 
-                            <Border>
+                            <Border BorderBrush="{StaticResource gris70%}" BorderThickness="1" CornerRadius="8" Margin="5">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
-
+                                    
+                                    
+                                    <!--#region Producto principal-->
                                     <Grid Grid.Row="0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock Grid.Column="0" Text="{Binding Nombre}" />
-                                        <TextBlock Grid.Column="1" Text="{Binding Precio}" />
+                                        <TextBlock Grid.Column="0" Text="{Binding Nombre}" 
+                                                   FontFamily="{StaticResource Fuente-principal}" 
+                                                   FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" 
+                                                   Margin="0,0,0,4"/>
+                                        
+                                        <TextBlock Grid.Column="1" Text="{Binding Precio, StringFormat={}{0:C}}" 
+                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                   FontSize="17" FontWeight="SemiBold"
+                                                   VerticalAlignment="Top"/>
 
                                     </Grid>
-
-                                    <Grid Grid.Row="1">
+                                    <!--#endregion-->
+                                    
+                                    
+                                    <!--#region Extra-->
+                                    <Grid Grid.Row="1" Margin="0,2,0,6">
+                                        
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <Border Grid.Column="0">
-                                            <TextBlock Text="{Binding NombreExtra}" />
-                                        </Border>
-                                        
-                                        <TextBlock Grid.Column="1" Text="{Binding Precio}" />
+                                        <!--- Texto para las propiedades Extra
+                                        <TextBlock Grid.Column="0" Text="{Binding}"
+                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                   FontSize="13" TextWrapping="Wrap" Foreground="Gray"/>
+
+                                        <TextBlock Grid.Column="1" Text="{Binding , StringFormat={}{0:C}}" 
+                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                   FontSize="13" Foreground="Gray"/>
+                                        -->
                                         
                                     </Grid>
+                                    <!--#endregion-->
 
-                                    <Grid Grid.Row="2">
+                                    
+                                    <!--#region Cantidad-->
+                                    <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="0,5,0,0">
 
-                                        <TextBlock Text="{Binding Cantidad}"/>
+                                        <TextBlock Text="{Binding Cantidad}"
+                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                   FontSize="16" FontWeight="SemiBold"
+                                                   HorizontalAlignment="Center"/>
 
-                                    </Grid>
+                                    </Border>
+                                    <!--#endregion-->
+                                    
                                     
                                 </Grid>
 
@@ -173,7 +199,7 @@
                             
                         </DataTemplate>
                         
-                    </ItemsControl.ItemTemplate>
+                    </ListBox.ItemTemplate>
                     
                 </ListBox>
                 <!--#endregion-->
@@ -252,28 +278,19 @@
 
                                             <TextBlock Text="{Binding Nombre}"
                                                        FontFamily="{StaticResource Fuente-principal}"
-                                                       FontSize="24"
+                                                       FontSize="20"
                                                        FontWeight="SemiBold"
                                                        VerticalAlignment="Center"
                                                        HorizontalAlignment="Left"
                                                        />
 
                                             <Border Grid.Row="1" Background="{StaticResource Precio-productos}" HorizontalAlignment="Right" Margin="5">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                    </Grid.ColumnDefinitions>
+                                                
 
-                                                    <TextBlock Text="$"/>
+                                                <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"
+                                                           FontFamily="{StaticResource Fuente-principal}"
+                                                           FontSize="18" FontWeight="SemiBold"/>
 
-                                                    <TextBlock Grid.Column="1" 
-                                                               Text="{Binding Precio, StringFormat={}{0:C}}"
-                                                               FontFamily="{StaticResource Fuente-principal}"
-                                                               FontSize="18"
-                                                               FontWeight="SemiBold"/>
-
-                                                </Grid>
                                                 
                                             </Border>
 
