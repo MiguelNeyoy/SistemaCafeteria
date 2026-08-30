@@ -1,0 +1,269 @@
+﻿<UserControl x:Class="Presentation.WPF.Views.ConfiguracionMenuViewModel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="900">
+
+    <Grid >
+        
+
+        <!--#region Estructura Inicial-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!--#endregion-->
+        
+        
+        <!--#region Columna Izquierda (Total de Productos, Añadir Categoria y Añadir Productos )-->
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="250"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <!--#region Panel Superior -->
+            <Grid Grid.Row="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <!--#region Total Productos-->
+                <Border Grid.Column="0" 
+                        Height="170" Width="240"
+                        Background="White"
+                        BorderBrush="Black" BorderThickness="2"
+                        CornerRadius="10">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Margin="5,0,0,0" 
+                                   FontFamily="{StaticResource Fuente-principal}" FontSize="24"
+                                   HorizontalAlignment="Center"> 
+                                   Total de productos: 
+                        </TextBlock>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Source="/Assets/Imagenes/Icono_de_alimento.png" Stretch="Uniform" />
+
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="28"> 0 </TextBlock>
+                            
+                        </Grid>
+                        
+                    </Grid>
+
+                </Border>
+                <!--#endregion-->
+
+
+                <!--#region Boton añadir categoria-->
+                <Button Grid.Column="1" Style="{StaticResource BtnCatyPro}" Height="170" Width="180" Margin="10">
+
+                    <StackPanel>
+
+                        <TextBlock Text="Añadir &#x0a;Categoria" Margin="0,0,0,5" FontFamily="{StaticResource Fuente-principal}" FontSize="24" />
+
+                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="85" Width="85" Stretch="Uniform" />
+
+                    </StackPanel>
+
+                </Button>
+                <!--#endregion-->
+
+
+                <!--#region Añadir Producto-->
+                <Button Grid.Column="2" Style="{StaticResource BtnCatyPro}" Height="170" Width="180" Margin="10">
+
+                    <StackPanel>
+
+                        <TextBlock Text="Añadir &#x0a;Producto" Margin="0,0,0,5" FontFamily="{StaticResource Fuente-principal}" FontSize="24"/>
+
+                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="85" Width="85" Stretch="Uniform" />
+
+                    </StackPanel>
+
+                </Button>
+                <!--#endregion-->
+
+
+            </Grid>
+            <!--#endregion-->
+
+
+            <!--#region Panel Inferior-->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                
+                <!--#region Lista categorias-->
+                <Border Grid.Column="0" Height="500" Width="320" Background="White" CornerRadius="5" BorderBrush="Gray" BorderThickness="1">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock HorizontalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="24"> Categoria </TextBlock>
+
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
+
+                            <ListBox.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <Border Margin="5"
+                                            Background="#fffaf4"
+                                            BorderBrush="Gray"
+                                            BorderThickness="0,0,0,1"
+                                            Padding="10">
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Nombre}"/>
+
+                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}">
+                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png"/>
+                                            </Button>
+
+                                        </Grid>
+                                        
+                                    </Border>
+                                    
+                                </DataTemplate>
+                                    
+                            </ListBox.ItemTemplate>
+
+                        </ListBox>
+
+                    </Grid>
+                    
+                </Border>
+                <!--#endregion-->
+
+
+
+                <!--#region Lista productos -->
+                <Border Grid.Column="1" Height="500" Width="320" Background="White" CornerRadius="5" BorderBrush="Gray" BorderThickness="1">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock HorizontalAlignment = "Center" FontFamily="{StaticResource Fuente-principal}" FontSize="24" > Producto </TextBlock>
+
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
+
+                            <ListBox.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <Border Margin="5"
+                            Background="#fffaf4"
+                            BorderBrush="Gray"
+                            BorderThickness="0,0,0,1"
+                            Padding="10">
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{Binding Nombre}"/>
+
+                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}">
+                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png"/>
+                                            </Button>
+
+                                        </Grid>
+
+                                    </Border>
+
+                                </DataTemplate>
+
+                            </ListBox.ItemTemplate>
+
+                        </ListBox>
+
+                    </Grid>
+
+                </Border>
+                <!--#endregion-->
+
+            </Grid>
+            <!--#endregion-->
+
+
+        </Grid>
+        <!--#endregion-->
+        
+        
+        <!--#region Columna Derecha (Panel para agregar productos y categorias )-->
+        <Grid Grid.Column="1" Background="{StaticResource Fondo-lateral-izq}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            
+            <TextBlock Grid.Row="0" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,200,0,5">Nombre del producto</TextBlock>
+            <TextBox Grid.Row="1" Width="240" Height="20"/>
+
+            <TextBlock Grid.Row="2" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5">Categoria</TextBlock>
+            <ComboBox Grid.Row="3" Width="240" Height="20"></ComboBox>
+
+            <TextBlock Grid.Row="4" FontFamily="{StaticResource Fuente-principal}" FontSize="22" HorizontalAlignment="Center" Margin="0,30,0,5  ">Precio</TextBlock>
+            <TextBox Grid.Row="5" Width="240" Height="20"/>
+
+            <Grid Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Style="{StaticResource BtnComentario}" Height="40" Margin="10,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18"> CANCELAR </Button>
+                <Button Grid.Column="1" Style="{StaticResource BtnGuardarCambios}" Height="40" Margin="0,0,10,0" FontFamily="{StaticResource Fuente-principal}" FontSize="18" > Guardar Cambios </Button>
+
+            </Grid>
+
+
+        </Grid>
+        <!--#endregion-->
+        
+        
+    </Grid>
+    
+</UserControl>

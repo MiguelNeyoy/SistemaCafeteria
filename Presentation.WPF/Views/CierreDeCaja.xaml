@@ -1,0 +1,159 @@
+﻿<UserControl x:Class="Presentation.WPF.Views.CierreDeCaja"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="900">
+    <Grid>
+
+
+        <!--#region Estructura Inicial-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <!--#endregion-->
+
+
+        <!--#region Titulo-->
+        <TextBlock Grid.Row="0" 
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="0,10,0,10"
+                   FontFamily="{StaticResource Fuente-principal}"
+                   FontSize="36"
+                   Text="Desgloce del cierre de caja"
+                   />
+        <!--#endregion-->
+
+
+        <!--#region Panel de informacion -->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <!--#region Panel: Total venta y Total Transaccion/Ticket -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Margin" Value="0,10,10,5"/>
+                        <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}"/>
+                        <Setter Property="FontSize" Value="30"/>
+                    </Style>
+                </Grid.Resources>
+
+
+                <!--#region Total vendido-->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Total venta" />
+                    <TextBlock Text="{Binding TotalVenta}" />
+                </StackPanel>
+                <!--#endregion-->
+
+
+                <!--#region Total transaccion-->
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Total transaccion:"/>
+                    <TextBlock Text="{Binding TotalTransaccion}"/>
+                </StackPanel>
+                <!--#endregion-->
+
+
+            </Grid>
+            <!--#endregion-->
+
+
+            <!--#region Panel: Total Efectivo, Transferencia, Tarjeta y Descuento -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                        <Setter Property="VerticalAlignment" Value="Bottom"/>
+                        <Setter Property="Margin" Value="0,10,10,10"/>
+                        <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}"/>
+                        <Setter Property="FontSize" Value="24"/>
+                    </Style>
+                </Grid.Resources>
+                
+                
+                <!--#region Total Efectivo -->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Total efectivo:" />
+
+                    <TextBlock Text="{Binding TotalEfectivo}" />
+                </StackPanel>
+                <!--#endregion-->
+
+
+                <!--#region Total Transferencia -->
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Total transferencia:" />
+
+                    <TextBlock Text="{Binding TotalTransferencia}" />
+                </StackPanel>
+                <!--#endregion-->
+
+
+                <!--#region Total Tarjeta -->
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Total tarjeta:" />
+
+                    <TextBlock Text="{Binding TotalTarjeta}" />
+                </StackPanel>
+                <!--#endregion-->
+
+
+                <!--#region Total Descuento -->
+                <StackPanel Grid.Column="3">
+                    <TextBlock Text="Total descuento:" />
+
+                    <TextBlock Text="{Binding TotalDescuento}" />
+                </StackPanel>
+                <!--#endregion-->
+
+
+            </Grid>
+            <!--#endregion-->
+
+
+        </Grid>
+        <!--#endregion-->
+        
+        
+        <!--#region Boton de Confirmar Corte-->
+        <Button Grid.Row="2"
+                Height="80"
+                Width="150"
+                Style="{StaticResource BtnGuardarCambios}"
+                HorizontalAlignment="Right"
+                Margin="0,10,15,30"
+                FontFamily="{StaticResource Fuente-principal}"
+                FontSize="18"
+                FontWeight="Bold"
+                Content="Confirmar corte"
+                />
+        <!--#endregion-->
+
+
+    </Grid>
+</UserControl>

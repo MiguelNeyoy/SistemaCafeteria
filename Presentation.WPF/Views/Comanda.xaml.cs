@@ -1,4 +1,5 @@
-﻿using Presentation.WPF.Views;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,15 +11,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Presentation.WPF;
-
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace Presentation.WPF.Views
 {
-    public MainWindow()
+    /// <summary>
+    /// Lógica de interacción para Comanda.xaml
+    /// </summary>
+    public partial class Comanda : UserControl
     {
-        InitializeComponent();
+        public Comanda()
+        {
+            InitializeComponent();
+        }
     }
 }

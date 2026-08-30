@@ -1,0 +1,776 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--#region Boton para vista Menu-->
+    <Style x:Key="BotonCategorias" TargetType="Button">
+
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="2"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                        Background ="{TemplateBinding Background}"
+                        BorderBrush ="{TemplateBinding BorderBrush}"
+                        BorderThickness ="{TemplateBinding BorderThickness}"
+                        CornerRadius="10" >
+
+                        <ContentPresenter 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                    </Border>
+                    
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="Gray"/>
+
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+                    
+                </ControlTemplate>
+                
+            </Setter.Value>
+            
+        </Setter>
+        
+    </Style>
+    <!--#endregion-->
+    
+    <!--#region Boton para Configuracion de Menu-->
+    <Style x:Key="BtnCatyPro" TargetType="Button">
+
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="2"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                    Background ="{TemplateBinding Background}"
+                    BorderBrush ="{TemplateBinding BorderBrush}"
+                    BorderThickness ="{TemplateBinding BorderThickness}"
+                    CornerRadius="10" >
+
+                        <ContentPresenter 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+
+                    </Border>
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                                Property="Background"
+                                Value="Gray"/>
+                            
+                            <Setter TargetName="Border"
+                                Property="Opacity"
+                                Value="0.8"/>
+
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{StaticResource Boton-interactivo}"/>
+
+                        </Trigger>
+                        
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton de edicion-->
+    <Style x:Key="BotonEdicion" TargetType="Button">
+
+        <Setter Property="Background" Value="{StaticResource Fondo-btn-edicion}"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="2"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                Background ="{TemplateBinding Background}"
+                BorderBrush ="{TemplateBinding BorderBrush}"
+                BorderThickness ="{TemplateBinding BorderThickness}"
+                CornerRadius="10" >
+
+                        <ContentPresenter 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
+
+                    </Border>
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                            Property="Background"
+                            Value="Gray"/>
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton de retroceso -->
+    <Style x:Key="BotonRetroceso" TargetType="Button">
+
+        <Setter Property="Background" Value="{StaticResource Fondo-lateral-izq}"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="2"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                            
+                            Background ="{TemplateBinding Background}"
+                            BorderBrush ="{TemplateBinding BorderBrush}"
+                            BorderThickness ="{TemplateBinding BorderThickness}"
+                            CornerRadius="10" >
+
+                            <ContentPresenter 
+                                
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+
+                    </Border>
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                                   
+                                    Property="Opacity"
+                                    Value="0.8"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+                                    
+                                    Property="Background"
+                                    Value="Transparent"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton de retroceso -->
+    <Style x:Key="BtnBasura" TargetType="Button">
+
+        <Setter Property="Background" Value="Transparent"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                        
+                        Background ="{TemplateBinding Background}" 
+                        CornerRadius="10">
+
+                        <ContentPresenter 
+                            
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                    </Border>
+                    
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="Red"/>
+
+                            <Setter TargetName="Border"
+                               
+                                Property="Opacity"
+                                Value="0.8"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+                                
+                                Property="Background"
+                                Value="Transparent"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+                    
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton comentario -->
+    <Style x:Key="BtnComentario" TargetType="Button">
+
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{StaticResource Fondo-btn-finalizar}" />
+        <Setter Property="BorderThickness" Value="2" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                     
+                     Background ="{TemplateBinding Background}"
+                     BorderBrush="{TemplateBinding BorderBrush}"
+                     BorderThickness="{TemplateBinding BorderThickness}"
+                     CornerRadius="10">
+
+                        <ContentPresenter 
+                         
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
+
+                    </Border>
+
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                                 Property="Background"
+                                 Value="{StaticResource Fondo-btn-finalizar}"/>
+
+                            <Setter TargetName="Border"
+                            
+                             Property="Opacity"
+                             Value="0.9"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+                             
+                             Property="Background"
+                             Value="Transparent"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton finalizar -->
+    <Style x:Key="BtnFinalizar" TargetType="Button">
+
+        <Setter Property="Background" Value="{StaticResource Fondo-btn-finalizar}"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                 
+                 Background ="{TemplateBinding Background}"
+                 CornerRadius="10">
+
+                        <ContentPresenter 
+                     
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center" />
+
+                    </Border>
+
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                             Property="Background"
+                             Value="{StaticResource Fondo-btn-finalizar}"/>
+
+                            <Setter TargetName="Border"
+                                    Property="Opacity"
+                                    Value="0.9"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+                         
+                                    Property="Background"
+                                    Value="Transparent"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton guardar cambios -->
+    <Style x:Key="BtnGuardarCambios" TargetType="Button">
+
+        <Setter Property="Background" Value="{StaticResource Boton-interactivo}"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                            
+                            Background ="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+
+                        <ContentPresenter 
+                 
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center" />
+
+                    </Border>
+
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                                Property="Opacity"
+                                Value="0.9"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+                     
+                                Property="Background"
+                                Value="Transparent"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton mostrar productos -->
+    <Style x:Key="BtnComandaProducto" TargetType="Button">
+
+        <Setter Property="Background" Value= "#fbfbe2"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Opacity" Value="0.7"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                        
+                        Background ="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Opacity="{TemplateBinding Opacity}"
+                        CornerRadius="10">
+
+                        <ContentPresenter 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                    </Border>
+
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                            Property="Opacity"
+                            Value="0.9"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+                 
+                            Property="Background"
+                            Value="Transparent"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton Metodos de Pago -->
+    <Style x:Key="BtnMetodosdePago" TargetType="Button">
+
+        <Setter Property="Background" Value= "{StaticResource blanco70%}"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Cursor" Value="Hand" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                        
+                        Background ="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10">
+
+                        <ContentPresenter 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center" />
+
+                    </Border>
+
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                            Property="Opacity"
+                            Value="0.9"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+                 
+                            Property="Background"
+                            Value="{StaticResource blanco70%}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsFocused" Value="True">
+
+                            <Setter TargetName="Border"
+                                    
+                                    Property="Background"
+                                    Value="{StaticResource Boton-interactivo}"
+                                    />
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton Metodos de Pago -->
+    <Style x:Key="BtnTecladoNumerico" TargetType="Button">
+
+        <Setter Property="Background" Value= "{StaticResource blanco70%}"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Cursor" Value="Hand" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                    
+                    Background ="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="10">
+
+                        <ContentPresenter 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+
+                    </Border>
+
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                        Property="Opacity"
+                        Value="0.9"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+             
+                        Property="Background"
+                        Value="{StaticResource blanco70%}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsFocused" Value="True">
+
+                            <Setter TargetName="Border"
+                                
+                                Property="Background"
+                                Value="{StaticResource Boton-interactivo}"
+                                />
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+
+
+    <!--#region Boton de confirmar compra -->
+    <Style x:Key="BtnDePago" TargetType="Button">
+
+        <Setter Property="Background" Value= "Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="Button">
+
+                    <Border x:Name="Border"
+                
+                Background ="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <ContentPresenter 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
+
+                    </Border>
+
+
+                    <!--#region Reglas de Button-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter TargetName="Border"
+                    Property="Opacity"
+                    Value="0.9"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+
+                            <Setter TargetName="Border"
+         
+                    Property="Background"
+                    Value="{StaticResource blanco70%}"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+    
+    
+    <!--#region Boton de barra lateral izquierda en MainWindow -->
+    <Style x:Key = "BtnBarraLateral" TargetType="RadioButton">
+        
+        <Setter Property="Height" Value="100"/>
+        <Setter Property="Width" Value="210" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontFamily" Value="Arial Rounded MT Bold"/>
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="Cursor" Value="Hand"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="RadioButton">
+
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+
+                        <ContentPresenter 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            />
+
+                    </Border>
+                    
+                    
+                    <!--#region Comportamiento del boton-->
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+
+                            <Setter Property="Background" Value="{StaticResource blanco70%}"/>
+                            
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+
+                            <Setter TargetName="Border"
+                                    Property="Background" 
+                                    Value="{StaticResource Boton-interactivo}"/>
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                    <!--#endregion-->
+
+
+                </ControlTemplate>
+
+            </Setter.Value>
+            
+        </Setter>
+
+    </Style>
+    
+    <!--#endregion-->
+
+
+</ResourceDictionary>
