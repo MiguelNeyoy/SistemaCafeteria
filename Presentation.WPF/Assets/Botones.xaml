@@ -468,13 +468,17 @@
     <!--#endregion-->
 
 
-    <!--#region Boton mostrar productos -->
+    <!--#region Boton de productos comanda -->
     <Style x:Key="BtnComandaProducto" TargetType="Button">
 
-        <Setter Property="Background" Value= "#fbfbe2"/>
-        <Setter Property="BorderBrush" Value="Gray"/>
+        <Setter Property="Background" Value= "{StaticResource Fondo70%}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource gris70%}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Opacity" Value="0.7"/>
+
+        <Setter Property="Margin" Value="15"/>
+        <Setter Property="Padding" Value="8"/>
+
+        <Setter Property="Cursor" Value="Hand"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -486,12 +490,12 @@
                         Background ="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        Opacity="{TemplateBinding Opacity}"
+                        Padding="{TemplateBinding Padding}"
                         CornerRadius="10">
 
                         <ContentPresenter 
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center" />
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" />
 
                     </Border>
 
@@ -501,17 +505,14 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
 
-                            <Setter TargetName="Border"
-                            Property="Opacity"
-                            Value="0.9"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource gris30%}"/>
+                            
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
 
-                            <Setter TargetName="Border"
-                 
-                            Property="Background"
-                            Value="Transparent"/>
+                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                            
                         </Trigger>
 
                     </ControlTemplate.Triggers>
