@@ -8,38 +8,49 @@
              d:DesignHeight="1024" d:DesignWidth="900">
 
     <UserControl.Resources>
+        
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
     </UserControl.Resources>
+    
 
     <Grid>
         
+        
         <!--#region Estado: Sin Categorias -->
         <Grid>
-            
-            <!--#region Comportamiento del Grid-->
+
             <Grid.Style>
+
                 <Style TargetType="Grid">
+
                     <Setter Property="VerticalAlignment" Value = "Center" />
                     <Setter Property="HorizontalAlignment" Value = "Center" />
                     <Setter Property="Visibility" Value="Visible"/>
-                    
+
                     <Style.Triggers>
+
                         <DataTrigger Binding="{Binding TieneCategorias}" Value="True">
+                            
                             <Setter Property="Visibility" Value="Collapsed" />
+                            
                         </DataTrigger>
+
                     </Style.Triggers>
-                    
-                </Style>        
+
+                </Style>
+                
             </Grid.Style>
-            <!--#endregion-->
+
             
-            <TextBlock Text ="No hay productos o categorías, ingresa a configuración de menú para agregarlas."
+            <!--Texto-->
+            <TextBlock Text ="No hay Categorías, ingresa a Configuración de Menú para agregarlas."
                        FontFamily="{StaticResource Fuente-principal}"
-                       FontSize="24"
+                       FontSize="30"
                        FontWeight="SemiBold"
                        Foreground="Gray"
                        TextWrapping="Wrap" />
-
+            
         </Grid>
         <!--#endregion-->
         
@@ -47,24 +58,46 @@
         <!--#region Estado: Con Categorias-->
         <Grid>
 
+            <Grid.Style>
+
+                <Style TargetType="Grid">
+
+                    <Setter Property="Visibility" Value="Visible"/>
+
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding TieneCategorias}" Value="False">
+
+                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                        </DataTrigger>
+                        
+                    </Style.Triggers>
+
+                </Style>
+                
+            </Grid.Style>
+            
+            
+            <!--#region Estructura-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <!--#endregion-->
             
-            <!--#region Fila 0( Texto:Categorias )-->
+            
+            <!--#region Encabezado-->
             <Border Grid.Row="0"
-                    Width="170"
-                    Height="55"
                     Background="{StaticResource Boton-interactivo}"
                     CornerRadius="10"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Margin="15">
-
-
-
-                <TextBlock Text="Categorias"
+                    Padding="15"
+                    Margin="10,10,0,15">
+                
+                
+                <!--Texto-->
+                <TextBlock Text="CATEGORÍAS"
                            FontFamily="{StaticResource Fuente-principal}"
                            FontSize="30"
                            VerticalAlignment="Center"
@@ -74,22 +107,48 @@
             </Border>
             <!--#endregion-->
             
-            <!--#region Fila 1( Categorias )-->
+            
+            <!--#region Categorias -->
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 
                 <ItemsControl ItemsSource="{Binding Categorias}">
 
+                    
+                    <!--#region Distribucion de Categorias-->
+                    <ItemsControl.ItemsPanel>
+
+                        <ItemsPanelTemplate>
+
+                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+
+                        </ItemsPanelTemplate>
+                            
+                    </ItemsControl.ItemsPanel>
+                    <!--#endregion-->
+                    
+                    
+                    <!--#region Diseño de Categorias-->
                     <ItemsControl.ItemTemplate>
 
                         <DataTemplate>
 
-                            <Button Style="{StaticResource BotonCategorias}">
+                            <Button Style="{StaticResource BtnCategorias}" 
+                                    Command="{Binding DataContext.SeleccionarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                    CommandParameter="{Binding}">
 
-                                <StackPanel Margin="15">
-
-                                    <Image Source="{Binding Imagen}"/>
-
-                                    <TextBlock Text="{Binding Nombre}"/>
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    
+                                    <!--Imagen-->
+                                    <Image Source="{Binding Imagen}" Width="100" Height="100" Stretch="Uniform" Margin="8"/>
+                                    
+                                    
+                                    <!--Nombre-->
+                                    <TextBlock Text="{Binding Nombre}" 
+                                               FontFamily="{StaticResource Fuente-principal}" 
+                                               FontSize="30" FontWeight="SemiBold" 
+                                               TextAlignment="Center" TextWrapping="Wrap" 
+                                               HorizontalAlignment="Center"/>
+                                    
 
                                 </StackPanel>
                                 
@@ -98,13 +157,18 @@
                         </DataTemplate>
 
                     </ItemsControl.ItemTemplate>
+                    <!--#endregion-->
+                    
+                    
                 </ItemsControl>
                 
             </ScrollViewer>
             <!--#endregion-->
             
+            
         </Grid>
         <!--#endregion-->
+        
 
     </Grid>
 </UserControl>

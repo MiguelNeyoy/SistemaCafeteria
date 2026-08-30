@@ -5,6 +5,7 @@ using Core.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.DirectoryServices;
+using System.Windows;
 
 namespace Presentation.WPF.ViewModels;
 
