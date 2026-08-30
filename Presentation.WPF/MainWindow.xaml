@@ -91,39 +91,6 @@
         <Border Grid.Column="1" Background="{StaticResource Fondo}">
             <Grid>
 
-
-                <!--#region Estructura -->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height = "50" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <!--#endregion-->
-
-
-                <!--#region Barra Superior-->
-                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,3" >
-                    <Grid>
-
-
-                        <!--#region Estructura-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <!--#endregion-->
-
-
-                        <!--#region  Fecha-->
-                        <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="2,0,0,0" >
-                            <TextBlock Text="{Binding Source={x:Static sys:DateTime.Today}, StringFormat='{}{0:dd/MM/yyyy}'}" FontSize="18"/>
-                        </Border>
-                        <!--#endregion-->
-
-
-                    </Grid>
-                </Border>
-                <!--#endregion-->
-
                 
                 <!--#region Vista Actual-->
                 <ContentControl Grid.Row="1" Content="{Binding VistaActual}"/>
