@@ -2,6 +2,7 @@
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
+using System.Drawing.Printing;
 
 namespace Presentation.WPF.ViewModels;
 
@@ -10,6 +11,8 @@ public partial class ComandaViewModel : ObservableObject
     private readonly IProductoService _productoService;
 
     public ObservableCollection<ProductoDto> ProductoCategoriaSeleccionada { get; } = new();
+
+    public ObservableCollection<ComandaItemViewModel> ItemsComanda { get; } = new(); 
 
     [ObservableProperty]
     private CategoriaDto? categoriaSeleccionada;
@@ -40,3 +43,19 @@ public partial class ComandaViewModel : ObservableObject
     }//Fin - CargarProductosAsync
 
 }
+
+
+public partial class ComandaItemViewModel : ObservableObject
+{
+    public int ProductoId { get; set; }
+
+    public string Nombre { get; set; } = string.Empty;
+
+    public decimal Precio { get; set; }
+
+    [ObservableProperty]
+    private int cantidad = 1;
+
+   public decimal Subtotal => Precio * Cantidad;
+
+}//Fin - ComandaItemViewModel
