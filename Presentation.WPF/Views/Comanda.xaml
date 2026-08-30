@@ -5,75 +5,100 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="900">
+             d:DesignHeight="1024" d:DesignWidth="1000">
 
     <Grid>
         
-        <!--#region Estructura Inicial-->
+        
+        <!--Estructura -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="180"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!--#endregion-->
         
-        <!--#region Fila Superior ( Boton de retroceso, Categorias)-->
-        <Grid Grid.Row="0" >
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
+        
+        <!--#region Panel Superior-->
+        <Border Grid.Row="0" BorderThickness="0,0,0,3" BorderBrush="Gray">
             
-            <!--#region Boton de retroceso-->
-            <Button Grid.Column="0" Style="{StaticResource BotonRetroceso}" Height="80" Width="120" Margin="15,0,15,0">
-                <Image Source="/Assets/Imagenes/Icono_retroceso.png" Stretch="Uniform"/>
-            </Button>
-            <!--#endregion-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-        </Grid>
+
+                <!--#region Boton de retroceso-->
+                <Button Grid.Column="0" Style="{StaticResource BotonRetroceso}" Height="65" Width="120" Margin="15,0,0,5">
+                    <Image Source="/Assets/Imagenes/Icono_retroceso.png" Stretch="Uniform"/>
+                </Button>
+                <!--#endregion-->
+
+
+            </Grid>
+        </Border>
         <!--#endregion-->
         
-        <!--#region Fila Inferior (Comanda, Productos) -->
+        
+        <!--#region Panel Inferior -->
         <Grid Grid.Row="1">
+            
+            
+            <!--Estructura -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="380"/>
+                <ColumnDefinition Width="460"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
 
             <!--#region Comanda-->
             <Grid Grid.Column="0">
+                
+                
+                <!--Estructura -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                
-                
-                <!--#region Fila 0( Titulo, Numero de ticket y boton para eliminar comanda )-->
+
+
                 <Border Grid.Row="0" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1">
 
                     <Grid>
+                        
+                        
+                        <!--Estructura -->
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
 
+
                         <Grid Grid.Column="0">
+
+
+                            <!--Estructura-->
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock HorizontalAlignment="Center" FontSize="26" FontFamily="{StaticResource Fuente-principal}"> Comanda </TextBlock>
+
+                            <!--Titulo-->
+                            <TextBlock HorizontalAlignment="Center" FontSize="26" FontFamily="{StaticResource Fuente-principal}"> Comanda</TextBlock>
+                            
 
                             <Grid Grid.Row="1">
+                                
+                                
+                                <!--Estructura-->
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
+
+                                <!--Numero Ticket-->
                                 <TextBlock HorizontalAlignment="Left" FontSize="20" FontFamily="{StaticResource Fuente-principal}"> Numero Ticket #</TextBlock>
                                 <TextBlock Grid.Column="1" Text="{Binding numeroTicket}" HorizontalAlignment="Left" FontSize="18" FontFamily="{StaticResource Fuente-principal}" />
 
@@ -82,18 +107,21 @@
                         </Grid>
 
                         <Grid Grid.Column="1">
+                            
+                            
+                            <!--Boton de basura-->
                             <Button Style="{StaticResource BtnBasura}">
                                 <Image Source="/Assets/Imagenes/Icono_basura.png" Height="50" Width="50"/>
                             </Button>
+                            
                         </Grid>
 
                     </Grid>
 
                 </Border>
-                <!--#endregion-->
-                
 
-                <!--#region Fila 1( Productos que se añaden a la comanda )-->
+
+                <!--#region Distribucion de productos en la comanda-->
                 <ListBox Grid.Row="1">
 
                     <ItemsControl.ItemTemplate>
@@ -151,7 +179,7 @@
                 <!--#endregion-->
                 
 
-                <!--#region Fila 2( Total,Comentario, Precio y Finalizar )-->
+                <!--#region Barra inferior-->
                 <Border Grid.Row="2" Background="#fbfbe2" >
 
                     <Grid>
@@ -214,23 +242,42 @@
 
                                 <DataTemplate>
 
-                                    <Button Style="{StaticResource BtnComandaProducto}" Height="170" Width="170">
+                                    <Button Style="{StaticResource BtnComandaProducto}" >
 
-                                        <StackPanel>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
 
                                             <TextBlock Text="{Binding Nombre}"
-                                                       HorizontalAlignment="Left"
-                                                       TextWrapping="Wrap"
                                                        FontFamily="{StaticResource Fuente-principal}"
-                                                       FontSize="20"/>
-
-                                            <TextBlock Text="{Binding Precio}"
-                                                       Background="{StaticResource Precio-productos}"
+                                                       FontSize="24"
+                                                       FontWeight="SemiBold"
+                                                       VerticalAlignment="Center"
                                                        HorizontalAlignment="Left"
-                                                       FontFamily="{StaticResource Fuente-principal}"
-                                                       FontSize="18"/>
+                                                       />
 
-                                        </StackPanel>
+                                            <Border Grid.Row="1" Background="{StaticResource Precio-productos}" HorizontalAlignment="Right" Margin="5">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Text="$"/>
+
+                                                    <TextBlock Grid.Column="1" 
+                                                               Text="{Binding Precio, StringFormat={}{0:C}}"
+                                                               FontFamily="{StaticResource Fuente-principal}"
+                                                               FontSize="18"
+                                                               FontWeight="SemiBold"/>
+
+                                                </Grid>
+                                                
+                                            </Border>
+
+                                        </Grid>
                                         
                                     </Button>
                                     
