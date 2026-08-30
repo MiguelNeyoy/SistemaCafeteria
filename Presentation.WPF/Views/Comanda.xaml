@@ -206,39 +206,70 @@
                 
 
                 <!--#region Barra inferior-->
-                <Border Grid.Row="2" Background="#fbfbe2" >
+                <Border Grid.Row="2" Background="#fbfbe2" BorderBrush="Gray" BorderThickness="0,1,0,0">
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid Margin="0,0,0,25">
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        
+                        <!--#region Total-->
+                        <Grid Margin="20,0,20,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Column="0" Margin="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Text="Total" 
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="26" FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
 
-                            <TextBlock FontSize="20" FontFamily="{StaticResource Fuente-principal}" Margin="0,0,0,15"> Total </TextBlock>
+                            <TextBlock Grid.Column="1" Text="{Binding TotalComanda, StringFormat={}{0:C}}"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="24" FontWeight="Bold"
+                                       VerticalAlignment="Center"/>
 
-                            <Button Grid.Row="1" Style="{StaticResource BtnComentario}" Height="40" Width="120" FontSize="20" FontFamily="{StaticResource Fuente-principal}" HorizontalAlignment="Left"> Comentario </Button>
+                        </Grid>
+                        <!--#endregion-->
+                        
+                        
+                        <!--#region Botones-->
+                        <Grid Grid.Row="1" Margin="20,15,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" Command="{Binding}"
+                                    Style="{StaticResource BtnComentario}"
+                                    Height="40" Width="160"
+                                    FontFamily="{StaticResource Fuente-principal}"
+                                    FontSize="22" FontWeight="SemiBold"
+                                    HorizontalAlignment="Left">
+                                
+                                Comentarios
+                            </Button>
+
+
+                            <Button Grid.Column="1" Command="{Binding}"
+                                    Style="{StaticResource BtnFinalizar}"
+                                    Height="40" Width="160"
+                                    FontFamily="{StaticResource Fuente-principal}"
+                                    FontSize="22" FontWeight="SemiBold">
+
+                                Finalizar
+                            </Button>
+
+                            </Grid>
+                        <!--#endregion-->
+                  
                             
-                        </Grid>
-
-                        <Grid Grid.Column="1" Margin="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <TextBlock Text="{Binding TotalComanda}"  FontSize="20" FontFamily="{StaticResource Fuente-principal}" Margin="0,0,0,15"/>
-
-                            <Button Grid.Row="1" Style="{StaticResource BtnFinalizar}" Height="40" Width="120" FontSize="20" FontFamily="{StaticResource Fuente-principal}" HorizontalAlignment="Right" > Finalizar </Button>
-
-                        </Grid>
                     </Grid>
-
+                    
                 </Border>
                 <!--#endregion-->
 
