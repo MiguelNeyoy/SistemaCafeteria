@@ -123,6 +123,12 @@ public partial class ComandaItemViewModel : ObservableObject
     [NotifyPropertyChangedFor( nameof( Subtotal ) ) ]
     private int cantidad = 1;
 
+    [ObservableProperty]
+    private string? nota;
+
+    [ObservableProperty]
+    private bool mostrarComenatario;
+
    public decimal Subtotal => Precio * Cantidad;
 
 }//Fin - ComandaItemViewModel
