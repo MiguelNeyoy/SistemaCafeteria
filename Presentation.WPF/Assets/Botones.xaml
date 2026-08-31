@@ -42,7 +42,7 @@
 
                             <Setter TargetName="Border"
                                     Property="Background"
-                                    Value="{StaticResource gris30%}"/>
+                                    Value="Gray"/>
 
                         </Trigger>
 
@@ -102,7 +102,7 @@
 
                             <Setter TargetName="Border"
                                     Property="Background"
-                                    Value="{StaticResource Boton-interactivo}"/>
+                                    Value="{StaticResource Naranja}"/>
 
                         </Trigger>
                         
@@ -123,7 +123,7 @@
     <!--#region Boton de edicion-->
     <Style x:Key="BotonEdicion" TargetType="Button">
 
-        <Setter Property="Background" Value="{StaticResource Fondo-btn-edicion}"/>
+        <Setter Property="Background" Value="{StaticResource Naranja claro}"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="2"/>
 
@@ -171,7 +171,7 @@
     <!--#region Boton de retroceso -->
     <Style x:Key="BotonRetroceso" TargetType="Button">
 
-        <Setter Property="Background" Value="{StaticResource Fondo-lateral-izq}"/>
+        <Setter Property="Background" Value="{StaticResource Amarillo claro_fuerte}"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="2"/>
 
@@ -226,7 +226,7 @@
     <!--#endregion-->
 
 
-    <!--#region Boton de retroceso -->
+    <!--#region Boton de eliminar cuenta comanda -->
     <Style x:Key="BtnBasura" TargetType="Button">
 
         <Setter Property="Background" Value="Transparent"/>
@@ -290,7 +290,7 @@
     <Style x:Key="BtnComentario" TargetType="Button">
 
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Fondo-btn-finalizar}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Naranja apagado}" />
         <Setter Property="BorderThickness" Value="2" />
 
         <Setter Property="Template">
@@ -320,7 +320,7 @@
 
                             <Setter TargetName="Border"
                                  Property="Background"
-                                 Value="{StaticResource Fondo-btn-finalizar}"/>
+                                 Value="{StaticResource Naranja apagado}"/>
 
                             <Setter TargetName="Border"
                             
@@ -353,7 +353,7 @@
     <!--#region Boton finalizar -->
     <Style x:Key="BtnFinalizar" TargetType="Button">
 
-        <Setter Property="Background" Value="{StaticResource Fondo-btn-finalizar}"/>
+        <Setter Property="Background" Value="{StaticResource Naranja apagado}"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -380,7 +380,7 @@
 
                             <Setter TargetName="Border"
                              Property="Background"
-                             Value="{StaticResource Fondo-btn-finalizar}"/>
+                             Value="{StaticResource Naranja apagado}"/>
 
                             <Setter TargetName="Border"
                                     Property="Opacity"
@@ -412,7 +412,7 @@
     <!--#region Boton guardar cambios -->
     <Style x:Key="BtnGuardarCambios" TargetType="Button">
 
-        <Setter Property="Background" Value="{StaticResource Boton-interactivo}"/>
+        <Setter Property="Background" Value="{StaticResource Naranja}"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="1"/>
 
@@ -471,8 +471,8 @@
     <!--#region Boton de productos comanda -->
     <Style x:Key="BtnComandaProducto" TargetType="Button">
 
-        <Setter Property="Background" Value= "{StaticResource Fondo70%}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource gris70%}"/>
+        <Setter Property="Background" Value= "{StaticResource Amarillo claro_bajo}"/>
+        <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="BorderThickness" Value="1"/>
 
         <Setter Property="Margin" Value="15"/>
@@ -505,7 +505,7 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
 
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource gris30%}"/>
+                            <Setter TargetName="Border" Property="Background" Value="Gray"/>
                             
                         </Trigger>
 
@@ -532,7 +532,7 @@
     <!--#region Boton Metodos de Pago -->
     <Style x:Key="BtnMetodosdePago" TargetType="Button">
 
-        <Setter Property="Background" Value= "{StaticResource blanco70%}"/>
+        <Setter Property="Background" Value= "{StaticResource Blanco 70%}"/>
         <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Cursor" Value="Hand" />
@@ -571,7 +571,7 @@
                             <Setter TargetName="Border"
                  
                             Property="Background"
-                            Value="{StaticResource blanco70%}"/>
+                            Value="{StaticResource Blanco 70%}"/>
                         </Trigger>
 
                         <Trigger Property="IsFocused" Value="True">
@@ -579,8 +579,7 @@
                             <Setter TargetName="Border"
                                     
                                     Property="Background"
-                                    Value="{StaticResource Boton-interactivo}"
-                                    />
+                                    Value="{StaticResource Naranja}"/>
 
                         </Trigger>
 
@@ -598,10 +597,10 @@
     <!--#endregion-->
 
 
-    <!--#region Boton Metodos de Pago -->
+    <!--#region Boton Teclado Numerico -->
     <Style x:Key="BtnTecladoNumerico" TargetType="Button">
 
-        <Setter Property="Background" Value= "{StaticResource blanco70%}"/>
+        <Setter Property="Background" Value= "{StaticResource Blanco 70%}"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Cursor" Value="Hand" />
@@ -640,7 +639,7 @@
                             <Setter TargetName="Border"
              
                         Property="Background"
-                        Value="{StaticResource blanco70%}"/>
+                        Value="{StaticResource Blanco 70%}"/>
                         </Trigger>
 
                         <Trigger Property="IsFocused" Value="True">
@@ -648,8 +647,7 @@
                             <Setter TargetName="Border"
                                 
                                 Property="Background"
-                                Value="{StaticResource Boton-interactivo}"
-                                />
+                                Value="{StaticResource Naranja}"/>
 
                         </Trigger>
 
@@ -707,7 +705,7 @@
                             <Setter TargetName="Border"
          
                     Property="Background"
-                    Value="{StaticResource blanco70%}"/>
+                    Value="{StaticResource Blanco 70%}"/>
                         </Trigger>
 
                     </ControlTemplate.Triggers>
@@ -758,7 +756,7 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
 
-                            <Setter Property="Background" Value="{StaticResource blanco70%}"/>
+                            <Setter Property="Background" Value="{StaticResource Blanco 70%}"/>
                             
                         </Trigger>
 
@@ -766,7 +764,7 @@
 
                             <Setter TargetName="Border"
                                     Property="Background" 
-                                    Value="{StaticResource Boton-interactivo}"/>
+                                    Value="{StaticResource Naranja}"/>
 
                         </Trigger>
 

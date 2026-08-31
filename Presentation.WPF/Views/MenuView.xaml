@@ -89,7 +89,7 @@
             
             <!--#region Encabezado-->
             <Border Grid.Row="0"
-                    Background="{StaticResource Boton-interactivo}"
+                    Background="{StaticResource Naranja}"
                     CornerRadius="10"
                     HorizontalAlignment="Left"
                     Padding="15"

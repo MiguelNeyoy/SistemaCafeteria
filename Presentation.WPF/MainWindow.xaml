@@ -49,7 +49,7 @@
 
 
         <!--#region Panel Izquierdo -->
-        <Border Grid.Column="0" Background="{StaticResource Fondo-lateral-izq}" BorderBrush="Gray" BorderThickness="0,0,3,0" >
+        <Border Grid.Column="0" Background="{StaticResource Amarillo claro_fuerte}" BorderBrush="Gray" BorderThickness="0,0,3,0" >
             <Grid>
 
 
@@ -88,7 +88,7 @@
 
 
         <!--#region Panel Derecho -->
-        <Border Grid.Column="1" Background="{StaticResource Fondo}">
+        <Border Grid.Column="1" Background="{StaticResource Amarillo claro_bajo}">
             <Grid>
 
                 

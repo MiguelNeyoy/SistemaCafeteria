@@ -129,7 +129,7 @@
 
                         <DataTemplate>
 
-                            <Border BorderBrush="{StaticResource gris70%}" BorderThickness="1" CornerRadius="8" Margin="5">
+                            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto" />
@@ -317,7 +317,7 @@
                                                        HorizontalAlignment="Left"
                                                        />
 
-                                            <Border Grid.Row="1" Background="{StaticResource Precio-productos}" HorizontalAlignment="Right" Margin="5">
+                                            <Border Grid.Row="1" Background="{StaticResource Naranja pastel apagado}" HorizontalAlignment="Right" Margin="5">
                                                 
 
                                                 <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"

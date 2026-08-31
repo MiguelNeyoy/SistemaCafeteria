@@ -331,7 +331,7 @@
         
         
         <!--#region Columna Derecha (Panel para agregar productos y categorias )-->
-        <Border Grid.Column="1" Background="{StaticResource Fondo-lateral-izq}" BorderBrush="Black" BorderThickness="4,0,0,0">
+        <Border Grid.Column="1" Background="{StaticResource Amarillo claro_fuerte}" BorderBrush="Black" BorderThickness="4,0,0,0">
             <Grid>
 
 

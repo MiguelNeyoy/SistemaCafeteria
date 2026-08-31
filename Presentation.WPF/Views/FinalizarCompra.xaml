@@ -18,7 +18,7 @@
 
 
         <!--#region Fila Superior( Boton de retroceso ) -->
-        <Border Grid.Row="0" Background="{StaticResource Fondo70%}" BorderBrush="Gray" BorderThickness="0,0,0,2">
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,2">
             
         </Border>
         <!--#endregion-->
@@ -33,9 +33,9 @@
             
             
             <!--#region Columna Izquierda ( Resumen de Comanda ) -->
-            <Border Grid.Column="0" Background="{StaticResource Amarillo-claro70%}" BorderBrush="Gray" BorderThickness="0,0,2,0">
+            <Border Grid.Column="0" Background="{StaticResource Amarillo claro_fuerte}" BorderBrush="Gray" BorderThickness="0,0,2,0">
 
-                <Border Background="{StaticResource Naranjan-claro}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Height="700" Width="360">
+                <Border Background="{StaticResource Naranja claro_fuerte}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Height="700" Width="360">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition  Height="50"/>
@@ -104,7 +104,7 @@
 
 
             <!--#region Columna Derecha ( Metodos de Pago, Teclado y Boton de "Confirmar Compra" ) -->
-            <Grid Grid.Column="1" Background="{StaticResource Amarillo-claro70%}">
+            <Grid Grid.Column="1" Background="{StaticResource Amarillo claro_fuerte}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80"/>
                     <RowDefinition Height="*"/>
@@ -130,7 +130,7 @@
 
                 
                 <!--#region Panel de cobro-->
-                <Border Grid.Row="1" Background="{StaticResource Naranja-claro90%}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Width="600">
+                <Border Grid.Row="1" Background="{StaticResource Naranja claro}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Width="600">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100"/>
@@ -176,7 +176,7 @@
                 
                 
                 <!--#region Boton "Confirmar Compra"-->
-                <Border Grid.Row="2" Background="{StaticResource Boton-interactivo}" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Height="90" Width="600">
+                <Border Grid.Row="2" Background="{StaticResource Naranja 90%}" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Height="90" Width="600">
 
                     <Button Style="{StaticResource BtnDePago}" Height="85" Width="280">
                         <Grid>
