@@ -122,10 +122,11 @@
 
                         <DataTemplate>
 
-                            <Border Background="{StaticResource Amarillo claro_bajo}" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5">
+                            <Border Background="{StaticResource Amarillo claro_bajo}" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5" Height="420">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
+                                        <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
@@ -180,10 +181,31 @@
                                         
                                     </Grid>
                                     <!--#endregion-->
+                                    
+                                    
+                                    <!--#region Comentarios-->
+                                    <Grid Grid.Row="2">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0" Text="Comentarios:"
+                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                   FontSize="16" FontWeight="SemiBold" Foreground="Gray"/>
+
+                                        <TextBox Grid.Row="1" Text="{Binding Nota, UpdateSourceTrigger=PropertyChanged}"
+                                                 MinHeight="50" MaxHeight="80" Margin="0,5,0,0"
+                                                 TextWrapping="Wrap"
+                                                 AcceptsReturn="True" VerticalScrollBarVisibility="auto"/>
+
+                                    </Grid>
+                                    <!--#endregion-->
 
                                     
                                     <!--#region Cantidad-->
-                                    <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="0,5,0,0">
+                                    <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="0,5,0,0">
 
                                         <TextBlock Text="{Binding Cantidad}"
                                                    FontFamily="{StaticResource Fuente-principal}"
