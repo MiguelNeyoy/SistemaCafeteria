@@ -19,22 +19,15 @@
         
         <!--#region Panel Superior-->
         <Border Grid.Row="0" BorderThickness="0,0,0,3" BorderBrush="Gray">
+           
             
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-
                 <!--#region Boton de retroceso-->
-                <Button Grid.Column="0" Style="{StaticResource BotonRetroceso}" Height="65" Width="120" Margin="15,0,0,5">
+                <Button Style="{StaticResource BotonRetroceso}" Height="65" Width="120" Margin="15,0,0,5" HorizontalAlignment="Left">
                     <Image Source="/Assets/Imagenes/Icono_retroceso.png" Stretch="Uniform"/>
                 </Button>
                 <!--#endregion-->
 
 
-            </Grid>
         </Border>
         <!--#endregion-->
         
