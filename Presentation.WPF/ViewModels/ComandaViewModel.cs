@@ -75,6 +75,19 @@ public partial class ComandaViewModel : ObservableObject
 
     }//Fin - AgregarProducto
 
+
+    [RelayCommand]
+    private void DisminuirCantidad( ComandaItemViewModel item)
+    {
+        if (item.Cantidad <= 1)
+            return;
+
+        item.Cantidad--;
+
+        ActualizarTotal( );
+
+    }//Fin - DisminuirCantidad
+
 }
 
 
