@@ -15,6 +15,10 @@ public partial class ComandaViewModel : ObservableObject
     public ObservableCollection<ProductoDto> ProductoCategoriaSeleccionada { get; } = new();
 
     public ObservableCollection<ComandaItemViewModel> ItemsComanda { get; } = new();
+
+    [ObservableProperty]
+    private ComandaItemViewModel? itemSeleccionado;
+
     public decimal TotalComanda => ItemsComanda.Sum(item => item.Subtotal);
 
     [ObservableProperty]
@@ -122,6 +126,12 @@ public partial class ComandaItemViewModel : ObservableObject
     [ObservableProperty]
     [NotifyPropertyChangedFor( nameof( Subtotal ) ) ]
     private int cantidad = 1;
+
+    [ObservableProperty]
+    private string? nota;
+
+    [ObservableProperty]
+    private bool mostrarComenatario;
 
    public decimal Subtotal => Precio * Cantidad;
 
