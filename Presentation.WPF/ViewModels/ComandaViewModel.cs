@@ -20,9 +20,6 @@ public partial class ComandaViewModel : ObservableObject
     [ObservableProperty]
     private CategoriaDto? categoriaSeleccionada;
 
-    [ObservableProperty]
-    private decimal totalComanda;
-
 
     public ComandaViewModel( IProductoService productoService, CategoriaDto categoria )
     {
@@ -50,7 +47,7 @@ public partial class ComandaViewModel : ObservableObject
 
     private void ActualizarTotal()
     {
-        TotalComanda = ItemsComanda.Sum(item => item.Subtotal);
+        OnPropertyChanged(nameof(TotalComanda));
     }
 
 
@@ -73,6 +70,8 @@ public partial class ComandaViewModel : ObservableObject
             Precio = producto.Precio,
             Cantidad = 1
         } );
+
+        ActualizarTotal();
 
     }//Fin - AgregarProducto
 
