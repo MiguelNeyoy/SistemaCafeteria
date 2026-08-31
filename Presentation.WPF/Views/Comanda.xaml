@@ -116,7 +116,7 @@
 
 
                 <!--#region Distribucion de productos en la comanda-->
-                <ListBox Grid.Row="1" ItemsSource="{Binding ItemsComanda}">
+                <ListBox Grid.Row="1" ItemsSource="{Binding ItemsComanda}" SelectedItem="{Binding ItemSeleccionado, Mode=TwoWay}">
 
                     <ListBox.ItemTemplate>
 
