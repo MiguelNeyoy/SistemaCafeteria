@@ -77,6 +77,7 @@ public partial class ComandaItemViewModel : ObservableObject
     public decimal Precio { get; set; }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor( nameof( Subtotal ) ) ]
     private int cantidad = 1;
 
    public decimal Subtotal => Precio * Cantidad;
