@@ -245,7 +245,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Button Grid.Column="0" Command="{Binding}"
+                            <Button Grid.Column="0" Command="{Binding MostrarOcultarComentarioCommand}"
                                     Style="{StaticResource BtnComentario}"
                                     Height="40" Width="160"
                                     FontFamily="{StaticResource Fuente-principal}"
