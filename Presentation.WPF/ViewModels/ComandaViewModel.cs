@@ -87,7 +87,7 @@ public partial class ComandaViewModel : ObservableObject
         if (ItemSeleccionado is null)
             return;
 
-        ItemSeleccionado.MostrarComenatario = !ItemSeleccionado.MostrarComenatario;
+        ItemSeleccionado.MostrarComentario = !ItemSeleccionado.MostrarComentario;
 
     }//Fin - MostrarOcultarComentario
 
