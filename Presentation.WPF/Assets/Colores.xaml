@@ -4,47 +4,39 @@
     <!--#region Colores -->
 
     
-    <SolidColorBrush x:Key = "Fondo" Color = "#fbfbe2" Opacity="0.7"/>
-    <!-- Amarillo claro -->
+    <!--Amarillo-->
+    <SolidColorBrush x:Key="Amarillo claro_bajo" Color="#fbfbe2" Opacity="0.7"/>
 
-    <SolidColorBrush x:Key = "Fondo70%" Color = "#fbfbe2"/>
-
-
-    <SolidColorBrush x:Key = "Fondo-lateral-izq" Color = "#f5f5dc" />
-    <!-- Amarillo claro-->
-
+    <SolidColorBrush x:Key="Amarillo claro_fuerte" Color="#f5f5dc"/>
     
-    <SolidColorBrush x:Key = "Amarillo-claro70%" Color = "#f5f5dc" Opacity="1.0" />
-
-    <SolidColorBrush x:Key = "Naranjan-claro" Color = "#fffaf4" />
-
-    <SolidColorBrush x:Key = "Naranja-claro90%" Color="#ffedba" />
-
-
-    <SolidColorBrush x:Key = "Boton-interactivo" Color = "#ffbf00" />
-    <!-- Naranja -->
     
+    <!--Naranja-->
+    <SolidColorBrush x:Key="Naranja" Color="#ffbf00"/>
 
-    <SolidColorBrush x:Key = "Precio-productos" Color = "#d4c3be" Opacity="0.7" />
-    <!-- Naranja pastel apagado -->
-    
+    <SolidColorBrush x:Key="Naranja 50%" Color="#ffbf00" Opacity="0.5"/>
 
-    <SolidColorBrush x:Key = "Fondo-btn-edicion" Color="#ffedba" />
-    <!-- Naranja claro -->
-    
+    <SolidColorBrush x:Key="Naranja 70%" Color="#ffbf00" Opacity="0.7"/>
 
-    <SolidColorBrush x:Key = "Fondo-btn-finalizar" Color="#b88b5c" Opacity="0.9"/>
-    <!-- Naranja apagado -->
+    <SolidColorBrush x:Key="Naranja 90%" Color="#ffbf00" Opacity="0.9"/>
 
-    
-    <SolidColorBrush x:Key="blanco70%" Color="White" Opacity="0.7" />
+    <SolidColorBrush x:Key="Naranja claro" Color="#ffedba" Opacity="0.9"/>
 
-    <SolidColorBrush x:Key="gris70%" Color="Gray" Opacity="0.7"/>
+    <SolidColorBrush x:Key="Naranja claro_bajo" Color="#fffaf4" Opacity="0.7"/>
 
-    <SolidColorBrush x:Key="gris30%" Color="Gray" Opacity="0.3"/>
+    <SolidColorBrush x:Key="Naranja claro_fuerte" Color="#fffaf4"/>
+
+    <SolidColorBrush x:Key="Naranja apagado" Color="#b88b5c" Opacity="0.9"/>
+
+    <SolidColorBrush x:Key="Naranja pastel apagado" Color="#d4c3be" Opacity="0.7"/>
+
+
+    <!--Blanco-->
+    <SolidColorBrush x:Key="Blanco" Color="#ffffff"/>
+
+    <SolidColorBrush x:Key="Blanco 70%" Color="#ffffff" Opacity="0.7"/>
 
 
     <!--#endregion-->
     
-
+    
 </ResourceDictionary>
