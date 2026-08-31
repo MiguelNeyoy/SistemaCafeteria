@@ -129,12 +129,12 @@
 
                         <DataTemplate>
 
-                            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5">
+                            <Border Background="{StaticResource Amarillo claro_bajo}" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto" />
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     
                                     
@@ -166,6 +166,14 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="auto"/>
                                         </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0" Text="Subtotal"
+                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                   FontSize="14" Foreground="Gray" FontWeight="SemiBold"/>
+
+                                        <TextBlock Grid.Column="1" Text="{Binding Subtotal, StringFormat={}{0:C}}" 
+                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                   FontSize="16" Foreground="Gray"/>
 
                                         <!--- Texto para las propiedades Extra
                                         <TextBlock Grid.Column="0" Text="{Binding}"
