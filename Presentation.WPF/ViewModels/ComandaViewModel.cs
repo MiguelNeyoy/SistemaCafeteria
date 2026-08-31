@@ -98,6 +98,16 @@ public partial class ComandaViewModel : ObservableObject
 
     }//Fin - EliminarProducto
 
+
+    [RelayCommand]
+    private void LimpiarComanda()
+    {
+        ItemsComanda.Clear();
+
+        ActualizarTotal( ) ;
+
+    }//Fin - LimpiarComanda
+
 }
 
 
