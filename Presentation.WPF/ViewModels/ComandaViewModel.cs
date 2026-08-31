@@ -142,7 +142,7 @@ public partial class ComandaItemViewModel : ObservableObject
 
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor( nameof( TieneNota ) ) ]
+    [NotifyPropertyChangedFor( nameof( TieneNota ) ) ]
     private string? nota;
 
 
