@@ -81,6 +81,18 @@ public partial class ComandaViewModel : ObservableObject
 
 
     [RelayCommand]
+    private void MostrarOcultarComentario()
+    {
+
+        if (ItemSeleccionado is null)
+            return;
+
+        ItemSeleccionado.MostrarComenatario = !ItemSeleccionado.MostrarComenatario;
+
+    }//Fin - MostrarOcultarComentario
+
+
+    [RelayCommand]
     private void DisminuirCantidad( ComandaItemViewModel item)
     {
         if (item.Cantidad <= 1)
