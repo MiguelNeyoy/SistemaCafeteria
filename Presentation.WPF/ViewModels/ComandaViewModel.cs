@@ -15,6 +15,10 @@ public partial class ComandaViewModel : ObservableObject
     public ObservableCollection<ProductoDto> ProductoCategoriaSeleccionada { get; } = new();
 
     public ObservableCollection<ComandaItemViewModel> ItemsComanda { get; } = new();
+
+    [ObservableProperty]
+    private ComandaItemViewModel? itemSeleccionado;
+
     public decimal TotalComanda => ItemsComanda.Sum(item => item.Subtotal);
 
     [ObservableProperty]
