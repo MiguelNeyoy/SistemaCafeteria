@@ -185,20 +185,69 @@
                                     
                                     <!--#region Comentarios-->
                                     <Grid Grid.Row="2">
+                                        
+                                        
+                                        <!--#region Editar comentario-->
+                                        <Grid Visibility="Collapsed">
 
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                        </Grid.RowDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
 
-                                        <TextBlock Grid.Row="0" Text="Comentarios:"
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding MostrarComentario}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <TextBlock Grid.Row="0" Text="Comentarios:"
                                                    FontFamily="{StaticResource Fuente-principal}"
                                                    FontSize="16" FontWeight="SemiBold" Foreground="Gray"/>
 
-                                        <TextBox Grid.Row="1" Text="{Binding Nota, UpdateSourceTrigger=PropertyChanged}"
+                                            <TextBox Grid.Row="1" Text="{Binding Nota, UpdateSourceTrigger=PropertyChanged}"
                                                  MinHeight="50" MaxHeight="80" Margin="0,5,0,0"
                                                  TextWrapping="Wrap"
                                                  AcceptsReturn="True" VerticalScrollBarVisibility="auto"/>
+                                            
+                                        </Grid>
+                                        <!--#endregion-->
+
+
+                                        <!--#region Comentario guardado-->
+                                        <Grid Visibility="Collapsed">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding TieneNota}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+
+                                            <TextBlock Grid.Row="0" Text="Comentarios:"
+                                                       FontFamily="{StaticResource Fuente-principal}"
+                                                       FontSize="16" FontWeight="SemiBold" Foreground="Gray"/>
+
+                                            <TextBlock Grid.Row="1" Text="{Binding Nota}"
+                                                       FontFamily="{StaticResource Fuente-principal}"
+                                                       FontSize="14" Foreground="Gray" TextWrapping="Wrap" 
+                                                       Margin="0,5,0,0"/>
+
+                                        </Grid>
+                                        <!--#endregion-->
+                                        
 
                                     </Grid>
                                     <!--#endregion-->
