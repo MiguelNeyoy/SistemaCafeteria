@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Drawing.Printing;
 
 namespace Presentation.WPF.ViewModels;
@@ -13,10 +14,14 @@ public partial class ComandaViewModel : ObservableObject
 
     public ObservableCollection<ProductoDto> ProductoCategoriaSeleccionada { get; } = new();
 
-    public ObservableCollection<ComandaItemViewModel> ItemsComanda { get; } = new(); 
+    public ObservableCollection<ComandaItemViewModel> ItemsComanda { get; } = new();
+    public decimal TotalComanda => ItemsComanda.Sum(item => item.Subtotal);
 
     [ObservableProperty]
     private CategoriaDto? categoriaSeleccionada;
+
+    [ObservableProperty]
+    private decimal totalComanda;
 
 
     public ComandaViewModel( IProductoService productoService, CategoriaDto categoria )
@@ -43,6 +48,11 @@ public partial class ComandaViewModel : ObservableObject
 
     }//Fin - CargarProductosAsync
 
+    private void ActualizarTotal()
+    {
+        TotalComanda = ItemsComanda.Sum(item => item.Subtotal);
+    }
+
 
     [RelayCommand]
     private void AgregarProducto( ProductoDto producto)
@@ -52,6 +62,7 @@ public partial class ComandaViewModel : ObservableObject
         if( itemExistente is not null)
         {
             itemExistente.Cantidad++;
+            ActualizarTotal();
             return;
         }
 
