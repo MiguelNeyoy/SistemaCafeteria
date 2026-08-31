@@ -104,7 +104,7 @@
                             
                             
                             <!--Boton de basura-->
-                            <Button Style="{StaticResource BtnBasura}">
+                            <Button Style="{StaticResource BtnBasura}" Command="{Binding LimpiarComandaCommand}">
                                 <Image Source="/Assets/Imagenes/Icono_basura.png" Height="50" Width="50"/>
                             </Button>
                             
