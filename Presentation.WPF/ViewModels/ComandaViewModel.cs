@@ -135,16 +135,22 @@ public partial class ComandaItemViewModel : ObservableObject
 
     public decimal Precio { get; set; }
 
+
     [ObservableProperty]
     [NotifyPropertyChangedFor( nameof( Subtotal ) ) ]
     private int cantidad = 1;
 
+
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor( nameof( TieneNota ) ) ]
     private string? nota;
 
-    [ObservableProperty]
-    private bool mostrarComenatario;
 
-   public decimal Subtotal => Precio * Cantidad;
+    [ObservableProperty]
+    private bool mostrarComentario;
+
+
+    public decimal Subtotal => Precio * Cantidad;
+    public bool TieneNota => !string.IsNullOrWhiteSpace(Nota);
 
 }//Fin - ComandaItemViewModel
