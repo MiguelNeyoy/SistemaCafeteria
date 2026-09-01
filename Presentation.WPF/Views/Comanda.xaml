@@ -188,7 +188,7 @@
                                         
                                         
                                         <!--#region Editar comentario-->
-                                        <Grid Visibility="Collapsed">
+                                        <Grid>
 
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="auto"/>
@@ -196,13 +196,21 @@
                                             </Grid.RowDefinitions>
 
                                             <Grid.Style>
+                                                
                                                 <Style TargetType="Grid">
+
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+
                                                     <Style.Triggers>
+                                                        
                                                         <DataTrigger Binding="{Binding MostrarComentario}" Value="True">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
+                                                        
                                                     </Style.Triggers>
+                                                    
                                                 </Style>
+                                                
                                             </Grid.Style>
 
                                             <TextBlock Grid.Row="0" Text="Comentarios:"
@@ -219,7 +227,7 @@
 
 
                                         <!--#region Comentario guardado-->
-                                        <Grid Visibility="Collapsed">
+                                        <Grid>
 
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="auto"/>
@@ -227,13 +235,23 @@
                                             </Grid.RowDefinitions>
 
                                             <Grid.Style>
+                                                
                                                 <Style TargetType="Grid">
+
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+
                                                     <Style.Triggers>
+                                                        
                                                         <DataTrigger Binding="{Binding TieneNota}" Value="True">
+                                                            
                                                             <Setter Property="Visibility" Value="Visible"/>
+                                                            
                                                         </DataTrigger>
+                                                        
                                                     </Style.Triggers>
+                                                    
                                                 </Style>
+                                                
                                             </Grid.Style>
 
                                             <TextBlock Grid.Row="0" Text="Comentarios:"
