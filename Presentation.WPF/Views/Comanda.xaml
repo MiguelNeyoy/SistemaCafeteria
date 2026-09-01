@@ -122,8 +122,8 @@
 
                         <DataTemplate>
 
-                            <Border Background="{StaticResource Amarillo claro_bajo}" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5" Width ="420">
-                                <Grid>
+                            <Border Background="{StaticResource Amarillo claro_bajo}" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5" Width ="420" HorizontalAlignment="Center">
+                                <Grid Margin="5,5,6,6">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*"/>
@@ -141,20 +141,20 @@
 
                                         <TextBlock Grid.Column="0" Text="{Binding Nombre}" 
                                                    FontFamily="{StaticResource Fuente-principal}" 
-                                                   FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" 
+                                                   FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" 
                                                    Margin="0,0,0,4"/>
                                         
                                         <TextBlock Grid.Column="1" Text="{Binding Precio, StringFormat={}{0:C}}" 
                                                    FontFamily="{StaticResource Fuente-principal}"
-                                                   FontSize="17" FontWeight="SemiBold"
+                                                   FontSize="20" FontWeight="SemiBold"
                                                    VerticalAlignment="Top"/>
 
                                     </Grid>
                                     <!--#endregion-->
                                     
                                     
-                                    <!--#region Extra-->
-                                    <Grid Grid.Row="1" Margin="0,2,0,6">
+                                    <!--#region Subtotal -->
+                                    <Grid Grid.Row="1" Margin="0,5,0,0">
                                         
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -163,11 +163,11 @@
 
                                         <TextBlock Grid.Column="0" Text="Subtotal"
                                                    FontFamily="{StaticResource Fuente-principal}"
-                                                   FontSize="14" Foreground="Gray" FontWeight="SemiBold"/>
+                                                   FontSize="17" Foreground="Gray" FontWeight="SemiBold"/>
 
                                         <TextBlock Grid.Column="1" Text="{Binding Subtotal, StringFormat={}{0:C}}" 
                                                    FontFamily="{StaticResource Fuente-principal}"
-                                                   FontSize="16" Foreground="Gray"/>
+                                                   FontSize="17" Foreground="Gray"/>
 
                                         <!--- Texto para las propiedades Extra
                                         <TextBlock Grid.Column="0" Text="{Binding}"
@@ -283,7 +283,7 @@
 
                                         <TextBlock Text="{Binding Cantidad}"
                                                    FontFamily="{StaticResource Fuente-principal}"
-                                                   FontSize="16" FontWeight="SemiBold"
+                                                   FontSize="18" FontWeight="SemiBold"
                                                    HorizontalAlignment="Center"/>
 
                                     </Border>
