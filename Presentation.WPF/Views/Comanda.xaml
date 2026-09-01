@@ -242,11 +242,18 @@
 
                                                     <Style.Triggers>
                                                         
-                                                        <DataTrigger Binding="{Binding TieneNota}" Value="True">
-                                                            
+                                                        <MultiDataTrigger>
+
+                                                            <MultiDataTrigger.Conditions>
+
+                                                                <Condition Binding="{Binding TieneNota}" Value="True"/>
+                                                                <Condition Binding="{Binding MostrarComentario}" Value="False"/>
+
+                                                            </MultiDataTrigger.Conditions>
+
                                                             <Setter Property="Visibility" Value="Visible"/>
-                                                            
-                                                        </DataTrigger>
+
+                                                        </MultiDataTrigger>
                                                         
                                                     </Style.Triggers>
                                                     
