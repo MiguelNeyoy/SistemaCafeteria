@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
+using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
 
 namespace Presentation.WPF.ViewModels;
