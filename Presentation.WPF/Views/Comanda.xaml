@@ -22,8 +22,12 @@
            
             
                 <!--#region Boton de retroceso-->
-                <Button Style="{StaticResource BotonRetroceso}" Height="65" Width="120" Margin="15,0,0,5" HorizontalAlignment="Left">
+                <Button Command="{Binding RegresarCommand}"
+                        Style="{StaticResource BotonRetroceso}" 
+                        Height="65" Width="120" Margin="15,0,0,5" HorizontalAlignment="Left">
+                    
                     <Image Source="/Assets/Imagenes/Icono_retroceso.png" Stretch="Uniform"/>
+                    
                 </Button>
                 <!--#endregion-->
 
