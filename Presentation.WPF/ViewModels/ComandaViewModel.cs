@@ -24,6 +24,8 @@ public partial class ComandaViewModel : ObservableObject
     [ObservableProperty]
     private CategoriaDto? categoriaSeleccionada;
 
+    public event Action? RegresarACategorias;
+
 
     public ComandaViewModel( IProductoService productoService, CategoriaDto categoria )
     {
@@ -48,6 +50,16 @@ public partial class ComandaViewModel : ObservableObject
         }
 
     }//Fin - CargarProductosAsync
+
+
+    public async Task CambiarCategoriaAsync( CategoriaDto categoria )
+    {
+        CategoriaSeleccionada = categoria;
+
+        await CargarProductosAsync();
+
+    }//Fin - CambiarCategoriaAsync
+
 
     private void ActualizarTotal()
     {
@@ -123,6 +135,14 @@ public partial class ComandaViewModel : ObservableObject
         ActualizarTotal( ) ;
 
     }//Fin - LimpiarComanda
+
+
+    [RelayCommand]
+    private void Regresar()
+    {
+        RegresarACategorias?.Invoke();
+
+    }//Fin - Regresar
 
 }
 
