@@ -10,6 +10,9 @@ public partial class MainViewModel : ObservableObject
     private readonly IProductoService _productoService;
     private readonly ICategoriaService _categoriaService;
 
+    private MenuViewModel? _menuViewModel;
+    private ComandaViewModel? _comandaViewModel;
+
     [ObservableProperty]
     private object? _vistaActual;
 
@@ -20,29 +23,65 @@ public partial class MainViewModel : ObservableObject
     {
         _productoService = productoService;
         _categoriaService = categoriaService;
-    }
+
+    }//Fin - MainViewModel
 
 
     [RelayCommand]
     private async Task ShowMenu()
     {
-        var viewModel = new MenuViewModel( _categoriaService, _productoService );
 
-        viewModel.CategoriaSeleccionada += async categoria =>
+        if (_menuViewModel is null)
         {
-            var comandaViewModel = new ComandaViewModel(_productoService, categoria);
+            _menuViewModel = new MenuViewModel(_categoriaService, _productoService);
 
-            await comandaViewModel.CargarProductosAsync();
+            _menuViewModel.CategoriaSeleccionada += SeleccionarCategoria;
+        }
 
-            VistaActual = comandaViewModel;
-        };
 
-        await viewModel.CargarCategoriasAsync();
+        await _menuViewModel.CargarCategoriasAsync();
 
-        VistaActual = viewModel;
+        VistaActual = _menuViewModel;
 
         BotonSeleccionado = "Menu";
-    }
+
+    }//Fin - ShowMenu
+
+
+    private async void SeleccionarCategoria( CategoriaDto categoria )
+    {
+
+        if(_comandaViewModel is null)
+        {
+            _comandaViewModel = new ComandaViewModel( _productoService, categoria );
+
+            _comandaViewModel.RegresarACategorias += RegresarACategorias;
+
+            await _comandaViewModel.CargarProductosAsync();
+
+        }
+        else
+        {
+            await _comandaViewModel.CambiarCategoriaAsync( categoria );
+        }
+
+        VistaActual = _comandaViewModel;
+
+    }//Fin - SeleccionarCategoria
+
+
+    private void RegresarACategorias()
+    {
+
+        if (_menuViewModel is null)
+            return;
+
+        VistaActual = _menuViewModel;
+
+        BotonSeleccionado = "Menu";
+
+    }//Fin - RegresarACategorias
+
 
     [RelayCommand]
     private async Task ShowConfigMenu()
