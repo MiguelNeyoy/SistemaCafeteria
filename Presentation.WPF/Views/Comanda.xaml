@@ -19,17 +19,35 @@
         
         <!--#region Panel Superior-->
         <Border Grid.Row="0" BorderThickness="0,0,0,3" BorderBrush="Gray">
-           
-            
-                <!--#region Boton de retroceso-->
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                
+                <!--Boton de retroceso-->
                 <Button Command="{Binding RegresarCommand}"
+                        Grid.Column="0"
                         Style="{StaticResource BotonRetroceso}" 
                         Height="65" Width="120" Margin="15,0,0,5" HorizontalAlignment="Left">
                     
                     <Image Source="/Assets/Imagenes/Icono_retroceso.png" Stretch="Uniform"/>
                     
                 </Button>
-                <!--#endregion-->
+                
+                
+                <!-- Categoria Actual-->
+                <TextBlock Text="{Binding CategoriaSeleccionada.Nombre}"
+                           Grid.Column="1"
+                           FontFamily="{StaticResource Fuente-principal}"
+                           FontSize="22" FontWeight="SemiBold" Background="{StaticResource Naranja 70%}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                
+            </Grid>
+
+
 
 
         </Border>
