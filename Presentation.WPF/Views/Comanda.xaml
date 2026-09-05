@@ -39,11 +39,12 @@
                 
                 
                 <!-- Categoria Actual-->
-                <Border Grid.Column="1" Height="55" Background="{StaticResource Naranja 90%}" CornerRadius="10">
+                <Border Grid.Column="1" Height="65" HorizontalAlignment="Center" Background="{StaticResource Naranja 90%}" CornerRadius="10">
                     
                     <TextBlock Text="{Binding CategoriaSeleccionada.Nombre}"
                                FontFamily="{StaticResource Fuente-principal}"
-                               FontSize="22" FontWeight="SemiBold"/>
+                               FontSize="22" FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
                 </Border>
                 
             </Grid>
