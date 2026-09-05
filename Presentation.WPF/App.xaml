@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="/Assets/Colores.xaml" />
                 <ResourceDictionary Source="Assets/Tipografia.xaml" />
                 <ResourceDictionary Source="/Assets/Botones.xaml" />
+                <ResourceDictionary Source="/Assets/ListBox.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
             
