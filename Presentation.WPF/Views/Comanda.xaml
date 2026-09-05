@@ -22,7 +22,7 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -39,16 +39,14 @@
                 
                 
                 <!-- Categoria Actual-->
-                <TextBlock Text="{Binding CategoriaSeleccionada.Nombre}"
-                           Grid.Column="1"
-                           FontFamily="{StaticResource Fuente-principal}"
-                           FontSize="22" FontWeight="SemiBold" Background="{StaticResource Naranja 70%}"
-                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Border Grid.Column="1" Height="55" Background="{StaticResource Naranja 90%}" CornerRadius="10">
+                    
+                    <TextBlock Text="{Binding CategoriaSeleccionada.Nombre}"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="22" FontWeight="SemiBold"/>
+                </Border>
                 
             </Grid>
-
-
-
 
         </Border>
         <!--#endregion-->
