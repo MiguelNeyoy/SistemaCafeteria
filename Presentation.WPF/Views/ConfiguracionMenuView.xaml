@@ -94,7 +94,7 @@
                     
                     
                     <!--Lista-->
-                    <ListBox Grid.Column="1" Style="{StaticResource ListaCategorias}" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
+                    <ListBox Grid.Row="1" Style="{StaticResource ListaCategorias}" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
                         
                     </ListBox>
                     
