@@ -6,9 +6,25 @@
 
         <Setter Property="Background" Value="Transparent"/>
 
-        <Setter Property="Visibility" Value="Visible"/>
-
         <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+        <Setter Property="ItemContainerStyle">
+
+            <Setter.Value>
+
+                <Style TargetType="ListBoxItem">
+
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                    <Setter Property="Margin" Value="3"/>
+
+                </Style>
+                
+            </Setter.Value>
+            
+        </Setter>
 
         <Setter Property="ItemTemplate">
 
@@ -21,19 +37,25 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
 
-                            <!--Titulo-->
+                            <!--Nombre-->
                             <TextBlock Text="{Binding Nombre}"
                                        FontFamily="{StaticResource Fuente-principal}"
                                        FontSize="20" FontWeight="SemiBold"/>
 
 
                             <!--Boton de edicion-->
-                            <Image Grid.Column="1" Source="/Assets/Imagenes/Icono_de_editar.png" HorizontalAlignment="Right"/>
+                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}"
+                                    Height="40" Width="40"
+                                    Command="{Binding DataContext.EditarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}">
+                                
+                                <Image Grid.Column="1" Source="/Assets/Imagenes/Icono_de_editar.png" Height="20" Width="20"/>
 
+                            </Button>
 
                         </Grid>
 
@@ -54,9 +76,25 @@
 
         <Setter Property="Background" Value="Transparent"/>
 
-        <Setter Property="Visibility" Value="Visible"/>
-
         <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+        <Setter Property="ItemContainerStyle">
+
+            <Setter.Value>
+
+                <Style TargetType="ListBoxItem">
+
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                    <Setter Property="Margin" Value="3"/>
+
+                </Style>
+                
+            </Setter.Value>
+            
+        </Setter>
 
 
         <Setter Property="ItemTemplate">
@@ -70,12 +108,12 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
 
-                            <!--Titulo-->
+                            <!--Nombre-->
                             <TextBlock Text="{Binding Nombre}"
                                        FontFamily="{StaticResource Fuente-principal}"
                                        FontSize="20" FontWeight="SemiBold"/>
@@ -83,15 +121,21 @@
 
                             <!--Boton de edicion-->
                             <Button Grid.Column="1" Style="{StaticResource BotonEdicion}"
+                                    Height="40" Width="40"
                                     Command="{Binding DataContext.EditarProductoCommand,RelativeSource={RelativeSource AncestorType=ListBox}}"
                                     CommandParameter="{Binding}">
-                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" HorizontalAlignment="Right"/>
+
+                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" Height="20" Width="20"/>
+
                             </Button>
 
 
                             <!--Boton de eliminacion-->
-                            <Button Grid.Column="2" Style="{StaticResource BtnBasura}">
-                                <Image Source="/Assets/Imagenes/Icono_basura.png"/>
+                            <Button Grid.Column="2" Style="{StaticResource BtnBasura}"
+                                    Height="40" Width="40">
+
+                                <Image Source="/Assets/Imagenes/Icono_basura.png" Height="20" Width="20"/>
+
                             </Button>
 
 
@@ -104,17 +148,6 @@
             </Setter.Value>
 
         </Setter>
-
-
-        <Style.Triggers>
-
-            <DataTrigger Binding="{Binding TieneProductos}" Value="False">
-                
-                <Setter Property="Visibility" Value="Collapsed"/>
-                
-            </DataTrigger>
-            
-        </Style.Triggers>
 
     </Style>
     <!--#endregion-->

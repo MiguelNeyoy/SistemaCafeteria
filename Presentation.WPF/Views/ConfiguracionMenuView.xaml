@@ -98,7 +98,9 @@
 
 
                     <!--Boton-->
-                    <Button Grid.Row="2" Style="{StaticResource BtnCatyPro}" Width="420" Margin="0,0,0,5">
+                    <Button Grid.Row="2" Style="{StaticResource BtnCatyPro}" 
+                            Width="420" Margin="0,0,0,5"
+                            Command="{Binding MostrarFormularioCategoriaCommand}">
 
                         <StackPanel Orientation="Horizontal">
                             
