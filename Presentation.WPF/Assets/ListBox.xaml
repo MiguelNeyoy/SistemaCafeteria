@@ -31,7 +31,7 @@
                                        FontSize="20" FontWeight="SemiBold"/>
 
 
-                            <!--Boton-->
+                            <!--Boton de edicion-->
                             <Image Grid.Column="1" Source="/Assets/Imagenes/Icono_de_editar.png" HorizontalAlignment="Right"/>
 
 
@@ -46,5 +46,77 @@
         </Setter>
 
     </Style>
+    <!--#endregion-->
+    
+    
+    <!--#region Lista de productos-->
+    <Style x:Key="ListaProductos" TargetType="ListBox">
+
+        <Setter Property="Background" Value="Transparent"/>
+
+        <Setter Property="Visibility" Value="Visible"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+
+
+        <Setter Property="ItemTemplate">
+
+            <Setter.Value>
+
+                <DataTemplate>
+
+                    <Border Margin="5" Padding="10" BorderThickness="1" BorderBrush="Gray" CornerRadius="10" >
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+
+                            <!--Titulo-->
+                            <TextBlock Text="{Binding Nombre}"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="20" FontWeight="SemiBold"/>
+
+
+                            <!--Boton de edicion-->
+                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}"
+                                    Command="{Binding DataContext.EditarProductoCommand,RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}">
+                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" HorizontalAlignment="Right"/>
+                            </Button>
+
+
+                            <!--Boton de eliminacion-->
+                            <Button Grid.Column="2" Style="{StaticResource BtnBasura}">
+                                <Image Source="/Assets/Imagenes/Icono_basura.png"/>
+                            </Button>
+
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+
+        <Style.Triggers>
+
+            <DataTrigger Binding="{Binding TieneProductos}" Value="False">
+                
+                <Setter Property="Visibility" Value="Collapsed"/>
+                
+            </DataTrigger>
+            
+        </Style.Triggers>
+
+    </Style>
+    <!--#endregion-->
     
 </ResourceDictionary>
