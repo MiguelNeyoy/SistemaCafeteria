@@ -18,7 +18,7 @@
 
 
         <!--#region Tarjeta de productos -->
-        <Border Grid.Row="0" Width="300" Height="150" HorizontalAlignment="Left" Margin="20,0,0,0" Background="{StaticResource Blanco}" CornerRadius="10" BorderThickness="2">
+        <Border Grid.Row="0" Width="300" Height="150" HorizontalAlignment="Left" Margin="20,0,0,0" Background="{StaticResource Blanco}" CornerRadius="10" BorderThickness="2" BorderBrush="Black">
 
             <Grid Margin="10,5,0,0">
                 <Grid.RowDefinitions>
@@ -94,13 +94,39 @@
                     
                     
                     <!--Lista-->
-                    <ListBox Grid.Row="1" Style="{StaticResource ListaCategorias}" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}">
-                        
-                    </ListBox>
-                    
+                    <ListBox Grid.Row="1" Style="{StaticResource ListaCategorias}" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}" />
 
+
+                    <!--Boton-->
+                    <Button Grid.Row="2" Style="{StaticResource BtnCatyPro}" Width="420" Margin="0,0,0,5">
+
+                        <StackPanel Orientation="Horizontal">
+                            
+                            
+                            <!--Imagen-->
+                            <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="30" Stretch="Uniform"/>
+
+
+                            <!--Texto-->
+                            <TextBlock Grid.Column="1" Text="Añadir nueva categoria"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="18" FontWeight="SemiBold"
+                                       Margin="15,0,0,0"
+                                       VerticalAlignment="Center"/>
+
+                        </StackPanel>
+
+                    </Button>
+                    
                 </Grid>
                 
+            </Border>
+            <!--#endregion-->
+            
+            
+            <!--#region Productos-->
+            <Border Grid.Column="2" Background="{StaticResource Blanco}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10">
+
             </Border>
             <!--#endregion-->
 
