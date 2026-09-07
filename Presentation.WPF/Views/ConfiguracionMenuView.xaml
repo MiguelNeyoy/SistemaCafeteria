@@ -260,7 +260,7 @@
                                         FontSize="18"
                                         Margin="0,0,10,0"
                                         Height="40" Width="130"
-                                        Command="{Binding CancelarFormulaioCommand}"/>
+                                        Command="{Binding CancelarFormularioCommand}"/>
 
                                 <Button Content="GUARDAR" Style="{StaticResource BtnGuardarCambios}"
                                         FontFamily="{StaticResource Fuente-principal}"
