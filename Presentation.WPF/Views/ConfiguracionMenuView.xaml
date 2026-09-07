@@ -258,7 +258,7 @@
                             
                             
                             <!--Botones-->
-                            <StackPanel Grid.Row="3">
+                            <StackPanel Grid.Row="3" Orientation="Horizontal">
 
                                 <Button Content="CANCELAR" Style="{StaticResource BtnComentario}"
                                         FontFamily="{StaticResource Fuente-principal}"
@@ -311,77 +311,122 @@
                     
                     
                     <!--Lista-->
-                    <ListBox Grid.Row="1" Style="{StaticResource ListaProductos}" ItemsSource="{Binding ProductosCategoriaSeleccionada }" SelectedItem="{Binding ProductoSeleccionado}"/>
-                    
-                    
-                    <!--Estado Vacio-->
-                    <TextBlock Grid.Row="1" Text="Da clic a una categoría&#x0a;o añade una para empezar"
+                    <Grid Grid.Row="1">
+
+                        <Grid.Style>
+
+                            <Style TargetType="Grid">
+
+                                <Setter Property="Visibility" Value="Visible"/>
+
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding FormularioProducto}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                    </DataTrigger>
+                                    
+                                </Style.Triggers>
+
+                            </Style>
+                            
+                        </Grid.Style>
+                        
+                        <ListBox Style="{StaticResource ListaProductos}" ItemsSource="{Binding ProductosCategoriaSeleccionada }" SelectedItem="{Binding ProductoSeleccionado}"/>
+
+
+                        <!--Estado Vacio-->
+                        <TextBlock Grid.Row="1" Text="Da clic a una categoría&#x0a;o añade una para empezar"
                                FontFamily="{StaticResource Fuente-principal}"
                                FontSize="38" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
                                TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                        <TextBlock.Style>
+                            <TextBlock.Style>
 
-                            <Style TargetType="TextBlock">
+                                <Style TargetType="TextBlock">
 
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
 
-                                <Style.Triggers>
+                                    <Style.Triggers>
 
-                                    <DataTrigger Binding="{Binding TieneCategoriaSeleccionada}" Value="False">
+                                        <DataTrigger Binding="{Binding TieneCategoriaSeleccionada}" Value="False">
 
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                            <Setter Property="Visibility" Value="Visible"/>
 
-                                    </DataTrigger>
+                                        </DataTrigger>
 
-                                </Style.Triggers>
+                                    </Style.Triggers>
 
-                            </Style>
+                                </Style>
 
-                        </TextBlock.Style>
+                            </TextBlock.Style>
 
-                    </TextBlock>
+                        </TextBlock>
 
 
-                    <TextBlock Grid.Row="1" Text="Esta categoria no tiene productos registrados"
+                        <TextBlock Grid.Row="1" Text="Esta categoria no tiene productos registrados"
                                FontFamily="{StaticResource Fuente-principal}"
                                FontSize="38" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
                                HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                        <TextBlock.Style>
+                            <TextBlock.Style>
 
-                            <Style TargetType="TextBlock">
+                                <Style TargetType="TextBlock">
 
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
 
-                                <Style.Triggers>
+                                    <Style.Triggers>
 
-                                    <MultiDataTrigger>
+                                        <MultiDataTrigger>
 
-                                        <MultiDataTrigger.Conditions>
+                                            <MultiDataTrigger.Conditions>
 
-                                            <Condition Binding="{Binding TieneCategoriaSeleccionada}" Value="True"/>
+                                                <Condition Binding="{Binding TieneCategoriaSeleccionada}" Value="True"/>
 
-                                            <Condition Binding="{Binding TieneProductosCategoria}" Value="False"/>
+                                                <Condition Binding="{Binding TieneProductosCategoria}" Value="False"/>
 
-                                        </MultiDataTrigger.Conditions>
+                                            </MultiDataTrigger.Conditions>
 
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                            <Setter Property="Visibility" Value="Visible"/>
 
-                                    </MultiDataTrigger>
+                                        </MultiDataTrigger>
 
-                                </Style.Triggers>
+                                    </Style.Triggers>
 
-                            </Style>
-                                
-                        </TextBlock.Style>
+                                </Style>
 
-                    </TextBlock>
+                            </TextBlock.Style>
+
+                        </TextBlock>
+                        
+                    </Grid>
 
 
                     <!--Boton-->
-                    <Button Grid.Row="2" Style="{StaticResource BtnCatyPro}" Width="420" Margin="0,0,0,5"
+                    <Button Grid.Row="2"
+                            Width="420" Margin="0,0,0,5"
                             Command="{Binding MostrarFormularioProductoCommand}">
+
+                        <Button.Style>
+
+                            <Style TargetType="Button" BasedOn="{StaticResource BtnCatyPro}">
+
+                                <Setter Property="Visibility" Value="Visible"/>
+
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding FormularioProducto}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                    </DataTrigger>
+                                    
+                                </Style.Triggers>
+
+                            </Style>
+                            
+                        </Button.Style>
 
                         <StackPanel Orientation="Horizontal">
 
@@ -400,6 +445,122 @@
                         </StackPanel>
 
                     </Button>
+
+                    <!--#region Formulario de producto-->
+                    <Grid Grid.Row="1">
+
+                        <Grid.Style>
+
+                            <Style TargetType="Grid">
+
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding FormularioProducto}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+
+                            </Style>
+
+                        </Grid.Style>
+
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+
+                            <!--Título-->
+                            <TextBlock Grid.Row="0" Text="NUEVO PRODUCTO"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="28" FontWeight="SemiBold"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                            
+                            <!--Nombre-->
+                            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,15">
+                                
+                                <TextBlock Text="Nombre del producto"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="20" FontWeight="SemiBold"
+                                           Margin="0,0,0,8"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBox Text="{Binding NombreProducto, UpdateSourceTrigger=PropertyChanged}"
+                                         FontFamily="{StaticResource Fuente-principal}"
+                                         FontSize="18"
+                                         Height="40" Width="300"/>
+
+                            </StackPanel>
+
+
+                            <!-- Seleccionar Categoría-->
+                            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,0,15">
+                                
+                                <TextBlock Text="Categoría"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="20" FontWeight="SemiBold"
+                                           Margin="0,0,0,8"
+                                           HorizontalAlignment="Center"/>
+
+                                <ComboBox ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaProductoSeleccionado}" DisplayMemberPath="Nombre"
+                                          FontFamily="{StaticResource Fuente-principal}"
+                                          FontSize="18"
+                                          Height="40" Width="300"/>
+
+                            </StackPanel>
+
+
+                            <!--Precio-->
+                            <StackPanel Grid.Row="3" HorizontalAlignment="Center" Margin="0,0,0,20">
+
+                                <TextBlock Text="Precio"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="20" FontWeight="SemiBold"
+                                           Margin="0,0,0,8"
+                                           HorizontalAlignment="Center"/>
+
+                                <TextBox Text="{Binding PrecioProducto, UpdateSourceTrigger=PropertyChanged}"
+                                         FontFamily="{StaticResource Fuente-principal}"
+                                         FontSize="18"
+                                         Height="40" Width="300"/>
+
+                            </StackPanel>
+
+
+                            <!--Botones-->
+                            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                <Button Content="CANCELAR" Style="{StaticResource BtnComentario}"
+                                        FontFamily="{StaticResource Fuente-principal}"
+                                        FontSize="18"
+                                        Height="40" Width="130"
+                                        Margin="0,0,10,0"
+                                        Command="{Binding CancelarFormularioCommand}"/>
+
+                                <Button Content="GUARDAR" Style="{StaticResource BtnGuardarCambios}"
+                                        FontFamily="{StaticResource Fuente-principal}"
+                                        FontSize="18"
+                                        Height="40" Width="130"
+                                        Command="{Binding GuardarProductoCommand}"/>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Grid>
+                    <!--#endregion-->
 
                 </Grid>
 
