@@ -123,6 +123,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
     partial void OnCategoriaSeleccionadaChanged(CategoriaDto? value)
     {
+        OnPropertyChanged(nameof(TieneCategoriaSeleccionada));
+
         _ = CargarProductosCategoriaAsync();
     }
 
