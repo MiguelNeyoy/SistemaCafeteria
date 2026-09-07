@@ -49,11 +49,11 @@
 
                             <!--Boton de edicion-->
                             <Button Grid.Column="1" Style="{StaticResource BotonEdicion}"
-                                    Height="40" Width="40"
+                                    Height="60" Width="60"
                                     Command="{Binding DataContext.EditarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                     CommandParameter="{Binding}">
                                 
-                                <Image Grid.Column="1" Source="/Assets/Imagenes/Icono_de_editar.png" Height="20" Width="20"/>
+                                <Image Grid.Column="1" Source="/Assets/Imagenes/Icono_de_editar.png" Height="40" Width="40"/>
 
                             </Button>
 
