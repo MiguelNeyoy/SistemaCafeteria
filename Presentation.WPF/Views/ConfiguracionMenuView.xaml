@@ -149,10 +149,38 @@
                     
                     
                     <!--Lista-->
-                    <ListBox Grid.Row="1" Style="{StaticResource ListaProductos}" ItemsSource="{Binding Productos }" SelectedItem="{Binding ProductoSeleccionado}"/>
+                    <ListBox Grid.Row="1" Style="{StaticResource ListaProductos}" ItemsSource="{Binding ProductosCategoriaSeleccionada }" SelectedItem="{Binding ProductoSeleccionado}"/>
                     
                     
                     <!--Estado Vacio-->
+                    <TextBlock Text="Da clic a una categoría&#x0a;o añade una para empezar"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="26" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
+                               TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <TextBlock.Style>
+
+                            <Style TargetType="TextBlock">
+
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding TieneCategoriaSeleccionada}" Value="False">
+
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+
+                            </Style>
+
+                        </TextBlock.Style>
+
+                    </TextBlock>
+
+
                     <TextBlock Text="Esta categoria no tiene productos registrados"
                                FontFamily="{StaticResource Fuente-principal}"
                                FontSize="32" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
@@ -166,12 +194,20 @@
 
                                 <Style.Triggers>
 
-                                    <DataTrigger Binding="{Binding TieneProductos}" Value="False">
+                                    <MultiDataTrigger>
+
+                                        <MultiDataTrigger.Conditions>
+
+                                            <Condition Binding="{Binding TieneCategoriaSeleccionada}" Value="True"/>
+
+                                            <Condition Binding="{Binding TieneProductosCategoria}" Value="False"/>
+
+                                        </MultiDataTrigger.Conditions>
 
                                         <Setter Property="Visibility" Value="Visible"/>
 
-                                    </DataTrigger>
-                                    
+                                    </MultiDataTrigger>
+
                                 </Style.Triggers>
 
                             </Style>
