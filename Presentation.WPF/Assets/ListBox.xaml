@@ -149,6 +149,16 @@
 
         </Setter>
 
+        <Style.Triggers>
+
+            <DataTrigger Binding="{Binding TieneProductosCategoria}" Value="False">
+
+                <Setter Property="Visibility" Value="Collapsed"/>
+
+            </DataTrigger>
+            
+        </Style.Triggers>
+
     </Style>
     <!--#endregion-->
     
