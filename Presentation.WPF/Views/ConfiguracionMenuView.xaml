@@ -418,7 +418,7 @@
 
                                     <DataTrigger Binding="{Binding TieneCategoriaSeleccionada}" Value="True">
 
-                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
 
                                     </DataTrigger>
 
