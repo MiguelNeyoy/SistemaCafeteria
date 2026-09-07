@@ -15,9 +15,14 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
     public ObservableCollection<CategoriaDto> Categorias { get; } = new();
     public ObservableCollection<ProductoDto> Productos { get; } = new();
+    public ObservableCollection<ProductoDto> ProductosCategoriaSeleccionada { get; } = new();
+
     public int TotalProductos => Productos.Count;
     public bool TieneCategorias => Categorias.Count > 0;
     public bool TieneProductos => Productos.Count > 0;
+    public bool TieneCategoriaSeleccionada => CategoriaSeleccionada is not null;
+    public bool TieneProductosCategoria => ProductosCategoriaSeleccionada.Count > 0;
+
 
 
     [ObservableProperty]
@@ -70,6 +75,12 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         {
             OnPropertyChanged(nameof(TieneCategorias));
         };
+
+        ProductosCategoriaSeleccionada.CollectionChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(TieneProductosCategoria));
+        };
+
     }
 
     public async Task CargarDatosAsync()
@@ -90,6 +101,30 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             Productos.Add(producto);
         }
     }
+
+    private async Task CargarProductosCategoriaAsync()
+    {
+        ProductosCategoriaSeleccionada.Clear();
+
+        if (CategoriaSeleccionada is null)
+            return;
+
+        var productos = await _productoService .ObtenerPorCategoriaAsync(CategoriaSeleccionada.Id);
+
+        foreach (var producto in productos)
+        {
+            ProductosCategoriaSeleccionada.Add(producto);
+        }
+
+        OnPropertyChanged(nameof(TieneCategoriaSeleccionada));
+        OnPropertyChanged(nameof(TieneProductosCategoria));
+    }
+
+    partial void OnCategoriaSeleccionadaChanged(CategoriaDto? value)
+    {
+        _ = CargarProductosCategoriaAsync();
+    }
+
 
     private void LimpiarFormulario()
     {
