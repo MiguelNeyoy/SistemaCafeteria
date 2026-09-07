@@ -155,7 +155,7 @@
                     <!--Estado Vacio-->
                     <TextBlock Grid.Row="1" Text="Da clic a una categoría&#x0a;o añade una para empezar"
                                FontFamily="{StaticResource Fuente-principal}"
-                               FontSize="26" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
+                               FontSize="38" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
                                TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                         <TextBlock.Style>
@@ -183,7 +183,7 @@
 
                     <TextBlock Grid.Row="1" Text="Esta categoria no tiene productos registrados"
                                FontFamily="{StaticResource Fuente-principal}"
-                               FontSize="32" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
+                               FontSize="38" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
                                HorizontalAlignment="Center" VerticalAlignment="Center">
 
                         <TextBlock.Style>
