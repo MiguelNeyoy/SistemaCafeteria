@@ -75,13 +75,35 @@
             <Border Grid.Column="0" Background="{StaticResource Blanco}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10">
 
                 <Grid>
+
+                    <Grid.Style>
+
+                        <Style TargetType="Grid">
+
+                            <Setter Property="Visibility" Value="Visible"/>
+
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding FormularioCategoria}" Value="True">
+
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+
+                                </DataTrigger>
+
+                            </Style.Triggers>
+
+                        </Style>
+
+                    </Grid.Style>
+
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="55"/>
                     </Grid.RowDefinitions>
-                    
-                    
+
+
                     <!--Titulo-->
                     <Border Grid.Row="0" Height="50" Width="170" HorizontalAlignment="Left" Margin="15,0,0,0" Background="{StaticResource Naranja 70%}" CornerRadius="5">
 
@@ -89,10 +111,10 @@
                                    FontFamily="{StaticResource Fuente-principal}"
                                    FontSize="24" FontWeight="SemiBold"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        
+
                     </Border>
-                    
-                    
+
+
                     <!--Lista-->
                     <ListBox Grid.Row="1" Style="{StaticResource ListaCategorias}" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}" />
 
@@ -103,8 +125,8 @@
                             Command="{Binding MostrarFormularioCategoriaCommand}">
 
                         <StackPanel Orientation="Horizontal">
-                            
-                            
+
+
                             <!--Imagen-->
                             <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="30" Stretch="Uniform"/>
 
@@ -120,8 +142,143 @@
 
                     </Button>
                     
+                    
+                    <!--#region Formulario de categoria-->
+                    <Grid>
+
+                        <Grid.Style>
+
+                            <Style TargetType="Grid">
+
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding FormularioCategoria}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+
+                            </Style>
+
+                        </Grid.Style>
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            
+                            <!-- Texto (NUEVA CATEGORIA) -->
+                            <TextBlock Grid.Row="0" Text="NUEVA CATEGORIA" 
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="28" FontWeight="SemiBold"
+                                       Margin="0,5,0,20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                <TextBlock.Style>
+
+                                    <Style TargetType="TextBlock">
+
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding ModoEdicionCategoria}" Value="True">
+
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                            </DataTrigger>
+
+
+                                        </Style.Triggers>
+
+                                    </Style>
+                                    
+                                </TextBlock.Style>
+
+                            </TextBlock>
+                            
+                            
+                            <!-- Texto (EDITAR CATEGORIA) -->
+                            <TextBlock Grid.Row="0" Text="EDITAR CATEGORIA" 
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="28" FontWeight="SemiBold"
+                                       Margin="0,5,0,20"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                <TextBlock.Style>
+
+                                    <Style TargetType="TextBlock">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding ModoEdicionCategoria}" Value="True">
+
+                                                <Setter Property="Visibility" Value="Visible"/>
+
+                                            </DataTrigger>
+
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </TextBlock.Style>
+
+                            </TextBlock>
+                            
+                            
+                            <!--Nombre de la categoria-->
+                            <TextBlock Grid.Row="1" Text="Nombre de la categoria"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="22" FontWeight="SemiBold"
+                                       Margin="0,5,0,10"
+                                       HorizontalAlignment="Center"/>
+
+                            <TextBox Grid.Row="2" Text="{Binding NombreCategoria,UpdateSourceTrigger=PropertyChanged}"
+                                     FontFamily="{StaticResource Fuente-principal}"
+                                     FontSize="19"
+                                     Height="40" Width="300"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            
+                            
+                            <!--Botones-->
+                            <StackPanel Grid.Row="3">
+
+                                <Button Content="CANCELAR" Style="{StaticResource BtnComentario}"
+                                        FontFamily="{StaticResource Fuente-principal}"
+                                        FontSize="18"
+                                        Margin="0,0,10,0"
+                                        Height="40" Width="130"
+                                        Command="{Binding CancelarFormulaioCommand}"/>
+
+                                <Button Content="GUARDAR" Style="{StaticResource BtnGuardarCambios}"
+                                        FontFamily="{StaticResource Fuente-principal}"
+                                        FontSize="18"
+                                        Height="40" Width="130"
+                                        Command="{Binding GuardarCategoriaCommand}"/>
+
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Grid>
+                    <!--#endregion-->
+                    
+
                 </Grid>
-                
+
             </Border>
             <!--#endregion-->
             
