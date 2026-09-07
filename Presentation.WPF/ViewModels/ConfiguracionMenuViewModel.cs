@@ -138,6 +138,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         ProductoSeleccionado = null;
 
         ModoEdicionCategoria = false;
+        ModoEdicionProducto = false;
     }
 
     [RelayCommand]
@@ -303,6 +304,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         MostrarFormulario = true;
         FormularioProducto = true;
         FormularioCategoria = false;
+
+        ModoEdicionProducto = true;
     }
 
 
@@ -325,6 +328,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         ProductoSeleccionado = null;
 
         ModoEdicionCategoria = false;
+        ModoEdicionProducto = false;
     }
 
 }
