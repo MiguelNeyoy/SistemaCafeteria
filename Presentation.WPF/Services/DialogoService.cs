@@ -2,7 +2,7 @@
 
 namespace Presentation.WPF.Services;
 
-public class DialogService : IDialogService
+public class DialogoService : IDialogoService
 {
     public bool Confirmar(string mensaje, string titulo)
     {
