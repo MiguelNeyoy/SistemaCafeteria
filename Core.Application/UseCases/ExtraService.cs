@@ -10,11 +10,19 @@ namespace Core.Application.UseCases;
 public class ExtraService : IExtraService
 {
     private readonly IExtraRepository _extraRepository;
+    private readonly ICategoriaExtraRepository _categoriaExtraRepository;
+    private readonly ICategoriaRepository _categoriaRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ExtraService(IExtraRepository extraRepository, IUnitOfWork unitOfWork)
+    public ExtraService(
+        IExtraRepository extraRepository,
+        ICategoriaExtraRepository categoriaExtraRepository,
+        ICategoriaRepository categoriaRepository,
+        IUnitOfWork unitOfWork)
     {
         _extraRepository = extraRepository;
+        _categoriaExtraRepository = categoriaExtraRepository;
+        _categoriaRepository = categoriaRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -77,6 +85,26 @@ public class ExtraService : IExtraService
     {
         var extras = await _extraRepository.ObtenerActivosAsync();
         return extras.Select(MapToDto).ToList();
+    }
+
+    public async Task<List<ExtraDto>> ObtenerPorCategoriaAsync(int categoriaId)
+    {
+        var extras = await _categoriaExtraRepository.ObtenerExtrasPorCategoriaAsync(categoriaId);
+        return extras.Select(MapToDto).ToList();
+    }
+
+    public async Task<List<int>> ObtenerExtraIdsPorCategoriaAsync(int categoriaId)
+    {
+        return await _categoriaExtraRepository.ObtenerExtraIdsPorCategoriaAsync(categoriaId);
+    }
+
+    public async Task SincronizarExtrasCategoriaAsync(int categoriaId, List<int> extraIds)
+    {
+        var categoria = await _categoriaRepository.ObtenerPorIdAsync(categoriaId)
+            ?? throw new DomainException($"Categoría con Id {categoriaId} no encontrada.");
+
+        await _categoriaExtraRepository.SincronizarExtrasAsync(categoriaId, extraIds ?? new List<int>());
+        await _unitOfWork.SaveChangesAsync();
     }
 
     private static ExtraDto MapToDto(Extra extra)

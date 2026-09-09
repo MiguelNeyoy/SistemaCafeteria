@@ -1,4 +1,4 @@
-﻿using Core.Application.Interfaces;
+using Core.Application.Interfaces;
 using Core.Application.Interfaces.Repositories;
 using Infrastructure.Persistence.Data;
 using Infrastructure.Persistence.Repositories;
@@ -17,6 +17,12 @@ public static class DependencyInjection
 
         services.AddScoped<ICategoriaRepository, CategoriaRepository>();
         services.AddScoped<IProductoRepository, ProductoRepository>();
+        services.AddScoped<IExtraRepository, ExtraRepository>();
+        services.AddScoped<ICategoriaExtraRepository, CategoriaExtraRepository>();
+        services.AddScoped<IVentaRepository, VentaRepository>();
+        services.AddScoped<IComandaRepository, ComandaRepository>();
+        services.AddScoped<ITicketRepository, TicketRepository>();
+        services.AddScoped<IConfiguracionRepository, ConfiguracionRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
             
