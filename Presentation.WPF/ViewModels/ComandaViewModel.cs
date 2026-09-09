@@ -18,7 +18,7 @@ public partial class ComandaViewModel : ObservableObject
 
 
     [ObservableProperty]
-    private bool comandaEnviada;
+    private bool ordenEnviada;
 
     [ObservableProperty]
     private ComandaItemViewModel? itemSeleccionado;
@@ -29,6 +29,7 @@ public partial class ComandaViewModel : ObservableObject
     private CategoriaDto? categoriaSeleccionada;
 
     public event Action? RegresarACategorias;
+    public event Action? ComandaEnviada;
 
 
     public ComandaViewModel( IProductoService productoService, CategoriaDto categoria )
@@ -146,9 +147,9 @@ public partial class ComandaViewModel : ObservableObject
     {
         if( ItemsComanda.Count == 0  ) return;
 
-        ComandaEnviada = true;
+        OrdenEnviada = true;
 
-        RegresarACategorias?.Invoke();
+        ComandaEnviada?.Invoke();
 
     }//Fin - EnviarACocina
 

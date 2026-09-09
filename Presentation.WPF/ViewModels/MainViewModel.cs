@@ -72,11 +72,13 @@ public partial class MainViewModel : ObservableObject
     private async void SeleccionarCategoria( CategoriaDto categoria )
     {
 
-        if(_comandaViewModel is null)
+        if(_comandaViewModel is null)   
         {
             _comandaViewModel = new ComandaViewModel( _productoService, categoria );
 
             _comandaViewModel.RegresarACategorias += RegresarACategorias;
+
+            _comandaViewModel.ComandaEnviada += ComandaEnviada;
 
             await _comandaViewModel.CargarProductosAsync();
 
@@ -105,6 +107,17 @@ public partial class MainViewModel : ObservableObject
         BotonSeleccionado = "Menu";
 
     }//Fin - RegresarACategorias
+
+
+    private void ComandaEnviada()
+    {
+        if ( _menuViewModel is null ) return;
+
+        VistaActual = _menuViewModel;
+
+        BotonSeleccionado = "Menu";
+
+    }//Fin - ComandaEnviada
 
 
     [RelayCommand]
