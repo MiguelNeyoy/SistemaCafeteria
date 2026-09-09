@@ -15,6 +15,13 @@ public class PurgaService : IPurgaService
         _unitOfWork = unitOfWork;
     }
 
+    public async Task<int> ContarVentasAntiguasAsync(int diasAntiguedad = 30)
+    {
+        var fechaLimite = DateTime.Now.Date.AddDays(-diasAntiguedad);
+        var ventasAntiguas = await _ventaRepository.ObtenerPorRangoFechasAsync(DateTime.MinValue, fechaLimite);
+        return ventasAntiguas.Count;
+    }
+
     public async Task<int> PurgarVentasAntiguasAsync(int diasAntiguedad = 30)
     {
         var fechaLimite = DateTime.Now.Date.AddDays(-diasAntiguedad);

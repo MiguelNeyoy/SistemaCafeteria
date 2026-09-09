@@ -1,4 +1,4 @@
-﻿using Core.Application.Interfaces.Services;
+using Core.Application.Interfaces.Services;
 using Core.Application.UseCases;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +11,9 @@ public static class DependencyInjection
     {
         services.AddScoped<ICategoriaService, CategoriaService>();
         services.AddScoped<IProductoService, ProductoService>();
+        services.AddScoped<IExtraService, ExtraService>();
+        services.AddScoped<ISeguridadService, SeguridadService>();
+        services.AddScoped<IPurgaService, PurgaService>();
 
         return services;
     }
