@@ -142,6 +142,18 @@ public partial class ComandaViewModel : ObservableObject
 
 
     [RelayCommand]
+    private void EnviarACocina()
+    {
+        if( ItemsComanda.Count == 0  ) return;
+
+        ComandaEnviada = true;
+
+        RegresarACategorias?.Invoke();
+
+    }//Fin - EnviarACocina
+
+
+    [RelayCommand]
     private void Regresar()
     {
         RegresarACategorias?.Invoke();
