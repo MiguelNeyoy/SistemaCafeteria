@@ -1,6 +1,6 @@
 ﻿namespace Presentation.WPF.Services;
 
-public interface IDialogService
+public interface IDialogoService
 {
     bool Confirmar(string mensaje, string titulo);
 }
