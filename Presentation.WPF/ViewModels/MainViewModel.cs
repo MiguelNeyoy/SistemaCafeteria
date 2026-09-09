@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
+using Presentation.WPF.Services;
 
 namespace Presentation.WPF.ViewModels;
 
@@ -9,9 +10,13 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly IProductoService _productoService;
     private readonly ICategoriaService _categoriaService;
+    private readonly IDialogoService _dialogoService;
+
 
     private MenuViewModel? _menuViewModel;
     private ComandaViewModel? _comandaViewModel;
+    private bool HayOrdenEnProceso => _comandaViewModel is not null && _comandaViewModel.ItemsComanda.Count > 0;
+
 
     [ObservableProperty]
     private object? _vistaActual;
@@ -19,12 +24,27 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string? _botonSeleccionado;
 
-    public MainViewModel( IProductoService productoService, ICategoriaService categoriaService )
+    public MainViewModel( IProductoService productoService, ICategoriaService categoriaService, IDialogoService dialogoService )
     {
         _productoService = productoService;
         _categoriaService = categoriaService;
+        _dialogoService = dialogoService;
 
     }//Fin - MainViewModel
+
+
+    private bool ConfirmarSalidaDeComanda()
+    {
+        if( !HayOrdenEnProceso )
+            return true;
+
+        return _dialogoService.Confirmar(
+            "Tienes una comanda en proceso.\n\n" +
+            "Si sales ahora, perderas los productos que has agregado.\n\n" + 
+            "¿Deseas salir de la comanda?",
+            "Orden en proceso");
+         
+    }//Fin - ConfirmarSalidaDeComanda
 
 
     [RelayCommand]
