@@ -68,6 +68,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             
             
@@ -578,6 +580,41 @@
 
             </Border>
             <!--#endregion-->
+            
+            
+            <!--#region Extra / Modificadores-->
+            <Border Grid.Column="4" Background="{StaticResource Blanco}" BorderBrush="Gray" BorderThickness="2" CornerRadius="10">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="55"/>
+                    </Grid.RowDefinitions>
+
+
+                    <!--Titulo-->
+                    <Border Grid.Row="0" Height="50" Width="170" HorizontalAlignment="Left" Margin="15,0,0,0" Background="{StaticResource Naranja 70%}" CornerRadius="5">
+
+                        <TextBlock Text="EXTRAS / MODIFICADORES"
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="19" FontWeight="SemiBold" TextWrapping="Wrap"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    </Border>
+                    
+                    
+                    <!--Estado vacio-->
+                    <TextBlock Grid.Row="1" Text="Da clic a una Categoria para añadir un Extra/Modificares o visualizar el mismo."
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="38" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
+                               TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                </Grid>
+
+            </Border>
+            <!--#endregion-->
+            
 
             
         </Grid>
