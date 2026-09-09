@@ -16,6 +16,10 @@ public partial class ComandaViewModel : ObservableObject
 
     public ObservableCollection<ComandaItemViewModel> ItemsComanda { get; } = new();
 
+
+    [ObservableProperty]
+    private bool comandaEnviada;
+
     [ObservableProperty]
     private ComandaItemViewModel? itemSeleccionado;
 
