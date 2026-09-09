@@ -17,45 +17,144 @@
         </Grid.RowDefinitions>
 
 
-        <!--#region Tarjeta de productos -->
-        <Border Grid.Row="0" Width="300" Height="150" HorizontalAlignment="Left" Margin="20,0,0,0" Background="{StaticResource Blanco}" CornerRadius="10" BorderThickness="2" BorderBrush="Black">
+        <!--#region Tarjetas informativas -->
+        <Grid Grid.Row="0">
 
-            <Grid Margin="10,5,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            
+            <!--Tarjeta de productos-->
+            <Border Grid.Column="0" Width="auto" Height="150" HorizontalAlignment="Left" Margin="20,0,0,0" Background="{StaticResource Blanco}" CornerRadius="10" BorderThickness="2" BorderBrush="Black">
 
-
-                <!--Texto-->
-                <TextBlock Grid.Row="0" Text="Total productos:"
-                           FontFamily="{StaticResource Fuente-principal}"
-                           FontSize="24" FontWeight="SemiBold"
-                           HorizontalAlignment="Center"/>
-
-
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-
-                    <!--Imagen-->
-                    <Image Source="/Assets/Imagenes/Icono_de_alimento.png" Stretch="Uniform"/>
+                <Grid Margin="10,5,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
 
                     <!--Texto-->
-                    <TextBlock Grid.Column="1" Text="{Binding TotalProductos}"
+                    <TextBlock Grid.Row="0" Text="Total productos:"
+                           FontFamily="{StaticResource Fuente-principal}"
+                           FontSize="24" FontWeight="SemiBold"
+                           Padding="10"
+                           HorizontalAlignment="Center"/>
+
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <!--Imagen-->
+                        <Image Source="/Assets/Imagenes/Icono_de_alimento.png" Stretch="Uniform"/>
+
+
+                        <!--Texto-->
+                        <TextBlock Grid.Column="1" Text="{Binding TotalProductos}"
                                FontFamily="{StaticResource Fuente-principal}"
                                FontSize="26" FontWeight="SemiBold"
                                Margin="15,0,0,0"
                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+
                 </Grid>
 
-            </Grid>
+            </Border>
 
-        </Border>
+
+            <!--Tarjeta de categorias-->
+            <Border Grid.Column="1" Width="auto" Height="150" HorizontalAlignment="Left" Margin="20,0,0,0" Background="{StaticResource Blanco}" CornerRadius="10" BorderThickness="2" BorderBrush="Black">
+
+                <Grid Margin="10,5,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+
+                    <!--Texto-->
+                    <TextBlock Grid.Row="0" Text="Total categorias:"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="24" FontWeight="SemiBold"
+                               Padding="10"
+                               HorizontalAlignment="Center"/>
+
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <!--Imagen-->
+                        <Image Source="/Assets/Imagenes/Icono_de_alimento.png" Stretch="Uniform"/>
+
+
+                        <!--Texto-->
+                        <TextBlock Grid.Column="1" Text="{Binding TotalProductos}"
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="26" FontWeight="SemiBold"
+                                   Margin="15,0,0,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+
+                </Grid>
+
+            </Border>
+            
+            
+            <!--Tarjeta de Extra / Modificadores-->
+            <Border Grid.Column="2" Width="auto" Height="150" HorizontalAlignment="Left" Margin="20,0,0,0" Background="{StaticResource Blanco}" CornerRadius="10" BorderThickness="2" BorderBrush="Black">
+
+                <Grid Margin="10,5,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+
+                    <!--Texto-->
+                    <TextBlock Grid.Row="0" Text="Total extra/modificadores:"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap"
+                               Padding="10"
+                               HorizontalAlignment="Center"/>
+
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <!--Imagen-->
+                        <Image Source="/Assets/Imagenes/Icono_de_alimento.png" Stretch="Uniform"/>
+
+
+                        <!--Texto-->
+                        <TextBlock Grid.Column="1" Text="{Binding TotalProductos}"
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="26" FontWeight="SemiBold"
+                                   Margin="15,0,0,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+
+                </Grid>
+
+            </Border>
+
+
+        </Grid>
         <!--#endregion-->
         
         
