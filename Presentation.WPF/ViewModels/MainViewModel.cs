@@ -50,6 +50,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowMenu()
     {
+        if( !ConfirmarSalidaDeComanda () ) return;
 
         if (_menuViewModel is null)
         {
@@ -109,6 +110,8 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowConfigMenu()
     {
+        if( !ConfirmarSalidaDeComanda() ) return;
+
         var viewModel = new ConfiguracionMenuViewModel( _categoriaService, _productoService );
 
         await viewModel.CargarDatosAsync();
@@ -121,6 +124,8 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ShowCierreDeCaja()
     {
+        if (!ConfirmarSalidaDeComanda()) return;
+
         VistaActual = new CierreDeCajaViewModel();
 
         BotonSeleccionado = "CierreDeCaja";
