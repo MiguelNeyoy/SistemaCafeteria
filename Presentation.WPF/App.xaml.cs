@@ -4,6 +4,7 @@ using Core.Application;
 using Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.WPF.ViewModels;
+using Presentation.WPF.Services;
 using System.Windows;
 
 namespace Presentation.WPF;
@@ -23,6 +24,8 @@ public partial class App : Application
 
         services.AddApplication();
         services.AddPersistence();
+
+        services.AddSingleton<IDialogoService, DialogoService>();
 
         services.AddTransient<MainWindow>();
         services.AddTransient<MainViewModel>();
