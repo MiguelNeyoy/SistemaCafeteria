@@ -93,6 +93,9 @@ public partial class MainViewModel : ObservableObject
     private void RegresarACategorias()
     {
 
+        if (!ConfirmarSalidaDeComanda())
+            return;
+
         if (_menuViewModel is null)
             return;
 
