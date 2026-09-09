@@ -84,4 +84,11 @@ public class VentaRepository : IVentaRepository
             _context.Ventas.RemoveRange(ventasAntiguas);
         }
     }
+
+    public async Task<int> ContarVentasAnterioresAAsync(DateTime fecha)
+    {
+        return await _context.Ventas
+            .Where(v => v.FechaCreacion < fecha)
+            .CountAsync();
+    }
 }
