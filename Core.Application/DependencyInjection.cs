@@ -12,10 +12,13 @@ public static class DependencyInjection
         services.AddScoped<ICategoriaService, CategoriaService>();
         services.AddScoped<IProductoService, ProductoService>();
         services.AddScoped<IExtraService, ExtraService>();
+<<<<<<< HEAD
         services.AddScoped<IVentaService, VentaService>();
         services.AddScoped<IComandaService, ComandaService>();
         services.AddScoped<ITicketService, TicketService>();
         services.AddScoped<ICorteCajaService, CorteCajaService>();
+=======
+>>>>>>> Vistas
         services.AddScoped<ISeguridadService, SeguridadService>();
         services.AddScoped<IPurgaService, PurgaService>();
 

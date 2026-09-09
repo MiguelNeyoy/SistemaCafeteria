@@ -18,11 +18,16 @@ public static class DependencyInjection
         services.AddScoped<ICategoriaRepository, CategoriaRepository>();
         services.AddScoped<IProductoRepository, ProductoRepository>();
         services.AddScoped<IExtraRepository, ExtraRepository>();
+<<<<<<< HEAD
         services.AddScoped<ICategoriaExtraRepository, CategoriaExtraRepository>();
         services.AddScoped<IVentaRepository, VentaRepository>();
         services.AddScoped<IComandaRepository, ComandaRepository>();
         services.AddScoped<ITicketRepository, TicketRepository>();
         services.AddScoped<IConfiguracionRepository, ConfiguracionRepository>();
+=======
+        services.AddScoped<IConfiguracionRepository, ConfiguracionRepository>();
+        services.AddScoped<IVentaRepository, VentaRepository>();
+>>>>>>> Vistas
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
             

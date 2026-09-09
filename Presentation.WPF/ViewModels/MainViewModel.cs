@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using Core.Application.Interfaces.Services;
@@ -9,6 +9,9 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly IProductoService _productoService;
     private readonly ICategoriaService _categoriaService;
+    private readonly IExtraService _extraService;
+    private readonly ISeguridadService _seguridadService;
+    private readonly IPurgaService _purgaService;
 
     [ObservableProperty]
     private object? _vistaActual;
@@ -16,10 +19,18 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string? _botonSeleccionado;
 
-    public MainViewModel( IProductoService productoService, ICategoriaService categoriaService )
+    public MainViewModel(
+        IProductoService productoService,
+        ICategoriaService categoriaService,
+        IExtraService extraService,
+        ISeguridadService seguridadService,
+        IPurgaService purgaService)
     {
         _productoService = productoService;
         _categoriaService = categoriaService;
+        _extraService = extraService;
+        _seguridadService = seguridadService;
+        _purgaService = purgaService;
     }
 
 
@@ -47,7 +58,12 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowConfigMenu()
     {
-        var viewModel = new ConfiguracionMenuViewModel( _categoriaService, _productoService );
+        var viewModel = new ConfiguracionMenuViewModel(
+            _categoriaService,
+            _productoService,
+            _extraService,
+            _seguridadService,
+            _purgaService);
 
         await viewModel.CargarDatosAsync();
 
