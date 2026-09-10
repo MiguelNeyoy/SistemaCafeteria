@@ -695,7 +695,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
         ModoEdicionCategoria = false;
         ModoEdicionProducto = false;
-    }
+
         LimpiarFormulario();
     }
 }
