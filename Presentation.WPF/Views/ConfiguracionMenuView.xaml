@@ -733,7 +733,7 @@
                     
                     
                     <!--Lista de Extras / Modificadores-->
-                    <ListBox Grid.Row="1" ItemsSource="{Binding ExtraCategoriaSeleccionada}" SelectedItem="{Binding ExtraSeleccionado}" >
+                    <ListBox Grid.Row="1" ItemsSource="{Binding ExtrasCategoriaSeleccionada}" SelectedItem="{Binding ExtraSeleccionado}" >
 
                         <ListBox.Style>
 
@@ -778,7 +778,7 @@
 
                                             <Condition Binding="{Binding TieneCategoriaSeleccionada}" Value="True"/>
 
-                                            <Condition Binding="{Binding TieneExtrasCategorias}" Value="False"/>
+                                            <Condition Binding="{Binding TieneExtrasCategoria}" Value="False"/>
 
                                         </MultiDataTrigger.Conditions>
 
@@ -794,6 +794,62 @@
                         
                         
                     </TextBlock>
+
+
+                    <!--Boton-->
+                    <Button Grid.Row="2"
+                            Width="420" Margin="0,0,0,5"
+                            Command="{Binding MostrarFormularioExtraCommand}">
+
+                        <Button.Style>
+
+                            <Style TargetType="Button" BasedOn="{StaticResource BtnCatyPro}">
+
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding TieneCategoriaSeleccionada}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding FormularioProducto}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding FormularioCategoria}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+
+                            </Style>
+
+                        </Button.Style>
+
+                        <StackPanel Orientation="Horizontal">
+
+
+                            <!--Imagen-->
+                            <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="30" Stretch="Uniform"/>
+
+
+                            <!--Texto-->
+                            <TextBlock Grid.Column="1" Text="Añadir nuevo extra/modificador"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="18" FontWeight="SemiBold"
+                                       Margin="15,0,0,0"
+                                       VerticalAlignment="Center"/>
+
+                        </StackPanel>
+
+                    </Button>
 
 
 
