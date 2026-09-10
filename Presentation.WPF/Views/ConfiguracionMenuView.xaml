@@ -181,7 +181,7 @@
 
                         <!--Boton-->
                         <Button Grid.Row="2" Style="{StaticResource BtnCatyPro}" 
-                            Width="420" Margin="0,0,0,5"
+                            Width="auto" Margin="10,0,10,10"
                             Command="{Binding MostrarFormularioCategoriaCommand}">
 
                             <StackPanel Orientation="Horizontal">
@@ -463,7 +463,7 @@
 
                     <!--Boton-->
                     <Button Grid.Row="2"
-                            Width="420" Margin="0,0,0,5"
+                            Width="auto" Margin="10,0,10,10"
                             Command="{Binding MostrarFormularioProductoCommand}">
 
                         <Button.Style>
@@ -763,7 +763,7 @@
 
                     <!--Boton-->
                     <Button Grid.Row="2"
-                            Width="420" Margin="0,0,0,5"
+                            Width="auto" Margin="10,0,10,10"
                             Command="{Binding MostrarFormularioExtraCommand}">
 
                         <Button.Style>
