@@ -851,8 +851,8 @@
                     
                     
                     <!--Formulario Extra/Modificador-->
-                    <Grid Grid.Row="1">
-
+                    <Grid Grid.Row="1" Margin="10,50,10,0">
+                        
                         <Grid.Style>
 
                             <Style TargetType="Grid">
@@ -871,7 +871,7 @@
 
                             </Style>
                             
-                        </Grid.Style>
+                        </Grid.Style> 
 
                         <Grid>
 
@@ -879,26 +879,24 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             
                             <!-- Título -->
-                            <TextBlock Grid.Row="0" Text="NUEVO EXTRA / MODIFICADOR"
+                            <TextBlock Grid.Row="0" Text="NUEVO EXTRA"
                                        FontFamily="{StaticResource Fuente-principal}"
-                                       FontSize="24" FontWeight="SemiBold"
-                                       Margin="0,10,0,20"
-                                       HorizontalAlignment="Center"/>
+                                       FontSize="28" FontWeight="SemiBold"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                             
                             <!-- Nombre -->
-                            <StackPanel Grid.Row="1" Margin="15,0,15,10">
+                            <StackPanel Grid.Row="1" >
 
-                                <TextBlock Text="Nombre del extra/modificador"
+                                <TextBlock Text="Nombre del extra"
                                            FontFamily="{StaticResource Fuente-principal}"
-                                           FontSize="18" FontWeight="SemiBold"
-                                           Margin="0,0,0,5"/>
+                                           FontSize="20" FontWeight="SemiBold"
+                                           Margin="0,25,0,0"/>
 
                                 <TextBox Text="{Binding NombreExtra, UpdateSourceTrigger=PropertyChanged}"
                                          FontFamily="{StaticResource Fuente-principal}"
@@ -909,11 +907,16 @@
 
                             
                             <!-- Precio -->
-                            <StackPanel Grid.Row="2" Margin="15,0,15,10">
+                            <StackPanel Grid.Row="2">
 
-                                <TextBlock Text="Precio"
+                                <TextBlock Text="Precio adicional ($)"
                                            FontFamily="{StaticResource Fuente-principal}"
-                                           FontSize="18" FontWeight="SemiBold"
+                                           FontSize="20" FontWeight="SemiBold"
+                                           Margin="0,25,0,3"/>
+
+                                <TextBlock Text="* Coloca $0 si es un modificador sin costo (ej. Sin cebolla)   "
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="11" Foreground="Gray" FontStyle="Italic" FontWeight="SemiBold"
                                            Margin="0,0,0,5"/>
 
                                 <TextBox Text="{Binding PrecioExtra, UpdateSourceTrigger=PropertyChanged}"
@@ -924,20 +927,21 @@
                             </StackPanel>
 
                             
-                            <!-- Espacio -->
-                            <Grid Grid.Row="3"/>
-
-                            
                             <!-- Botones -->
-                            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,10,10,10">
+                            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,50,0,0" >
 
-                                <Button Content="Cancelar" Command="{Binding CancelarFormularioCommand}"
-                                        Width="150" Height="40"
-                                        Margin="5"/>
+                                <Button Content="Cancelar" Style="{StaticResource BtnComentario}"
+                                        FontFamily="{StaticResource Fuente-principal}"
+                                        FontSize="18"
+                                        Width="130" Height="40"
+                                        Margin="0,0,20,0"
+                                        Command="{Binding CancelarFormularioCommand}"/>
 
-                                <Button Content="Guardar" Command="{Binding GuardarExtraCommand}"
-                                        Width="150" Height="40"
-                                        Margin="5"/>
+                                <Button Content="Guardar" Style="{StaticResource BtnGuardarCambios}"
+                                        FontFamily="{StaticResource Fuente-principal}"
+                                        FontSize="18"
+                                        Width="130" Height="40"
+                                        Command="{Binding GuardarExtraCommand}"/>
 
                             </StackPanel>
 
