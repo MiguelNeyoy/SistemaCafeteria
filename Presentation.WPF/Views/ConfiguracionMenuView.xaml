@@ -109,7 +109,15 @@
                 </Grid>
 
             </Border>
-
+            
+            
+            <!--Boton: Configuracion Avanzada-->
+            <Button Grid.Column="2" Content="⚙" Style="{StaticResource BotonRetroceso}"
+                    FontSize="80"
+                    Margin="0,0,20,0"
+                    Height="150" Width="150"
+                    HorizontalAlignment="Right"
+                    Command="{Binding}"/>
 
         </Grid>
         <!--#endregion-->
