@@ -704,7 +704,7 @@
                     
                     
                     <!--Estado vacio-->
-                    <TextBlock Grid.Row="1" Text="Da clic a una Categoria para añadir un Extra/Modificares o visualizar el mismo."
+                    <TextBlock Grid.Row="1" Text="Da clic a una categoria&#x0a;o añade una para empezar"
                                FontFamily="{StaticResource Fuente-principal}"
                                FontSize="38" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
                                TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -716,10 +716,20 @@
                                 <Setter Property="Visibility" Value="Collapsed"/>
 
                                 <Style.Triggers>
-
+                                    
+                                    
+                                    <!--Sin categoria-->
                                     <DataTrigger Binding="{Binding TieneCategoriaSeleccionada}" Value="False">
 
                                         <Setter Property="Visibility" Value="Visible"/>
+
+                                    </DataTrigger>
+                                    
+                                    
+                                    <!--Formulario abierto-->
+                                    <DataTrigger Binding="{Binding FormularioExtra}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
 
                                     </DataTrigger>
                                     
@@ -746,6 +756,14 @@
                                     <DataTrigger Binding="{Binding TieneExtrasCategoria}" Value="True">
 
                                         <Setter Property="Visibility" Value="Visible"/>
+
+                                    </DataTrigger>
+
+                                    
+                                    <!--Formulario abierto-->
+                                    <DataTrigger Binding="{Binding FormularioExtra}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
 
                                     </DataTrigger>
                                     
@@ -785,6 +803,14 @@
                                         <Setter Property="Visibility" Value="Visible"/>
 
                                     </MultiDataTrigger>
+                                    
+                                    
+                                    <!--Formulario abierto-->
+                                    <DataTrigger Binding="{Binding FormularioExtra}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                    </DataTrigger>
                                     
                                 </Style.Triggers>
 
@@ -826,6 +852,13 @@
                                         <Setter Property="Visibility" Value="Collapsed"/>
 
                                     </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding FormularioExtra}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                    </DataTrigger>
+                                    
 
                                 </Style.Triggers>
 
