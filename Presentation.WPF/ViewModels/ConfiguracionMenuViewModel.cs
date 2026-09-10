@@ -340,7 +340,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [RelayCommand]
     private void MostrarFormularioProducto()
     {
+        var categoriaActual = CategoriaSeleccionada;
+
         LimpiarFormulario();
+
+        CategoriaSeleccionada = categoriaActual;
 
         MostrarFormulario = true;
         FormularioProducto = true;
@@ -360,7 +364,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         if (PrecioProducto <= 0)
             return;
 
-        if (CategoriaProductoSeleccionado is null)
+        if (CategoriaSeleccionada is null)
             return;
 
         if (ProductoSeleccionado is not null)
@@ -370,7 +374,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 Id = ProductoSeleccionado.Id,
                 Nombre = NombreProducto.Trim(),
                 Precio = PrecioProducto,
-                CategoriaId = CategoriaProductoSeleccionado.Id
+                CategoriaId = CategoriaSeleccionada.Id
             };
 
             var productoEditado = await _productoService.EditarAsync(dtoProducto);
@@ -390,7 +394,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             {
                 Nombre = NombreProducto.Trim(),
                 Precio = PrecioProducto,
-                CategoriaId = CategoriaProductoSeleccionado.Id
+                CategoriaId = CategoriaSeleccionada.Id
             };
 
             var producto = await _productoService.CrearAsync(dtoProducto);
