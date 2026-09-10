@@ -20,6 +20,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     public ObservableCollection<ProductoDto> ProductosCategoriaSeleccionada { get; } = new();
 
     public ObservableCollection<ExtraDto> Extras { get; } = new();
+    public ObservableCollection<ExtraDto> ExtrasCategoriaSeleccionada { get; } = new();
     public ObservableCollection<CategoriaCheckItem> CategoriasParaExtra { get; } = new();
 
     // Contadores y banderas para la interfaz
@@ -30,6 +31,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     public bool TieneCategoriaSeleccionada => CategoriaSeleccionada is not null;
     public bool TieneProductosCategoria => ProductosCategoriaSeleccionada.Count > 0;
     public bool TieneExtras => Extras.Count > 0;
+
+    public bool TieneExtrasCategoria => ExtrasCategoriaSeleccionada.Count > 0;
 
     // Visibilidad de formularios en panel lateral derecho
     [ObservableProperty]
@@ -161,6 +164,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             OnPropertyChanged(nameof(TotalExtras));
             OnPropertyChanged(nameof(TieneExtras));
         };
+
+        ExtrasCategoriaSeleccionada.CollectionChanged += (_, _) =>
+        {
+            OnPropertyChanged(nameof(TieneExtrasCategoria));
+        };
     }
 
     public async Task CargarDatosAsync()
@@ -207,11 +215,33 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         OnPropertyChanged(nameof(TieneProductosCategoria));
     }
 
+    private async Task CargarExtrasCategoriaAsync()
+    {
+        ExtrasCategoriaSeleccionada.Clear();
+
+        if (CategoriaSeleccionada is null)
+        {
+            OnPropertyChanged(nameof(TieneExtrasCategoria));
+            return;
+        }
+
+        var extras = await _extraService.ObtenerPorCategoriaAsync(CategoriaSeleccionada.Id);
+
+        foreach (var extra in extras)
+        {
+            ExtrasCategoriaSeleccionada.Add(extra);
+        }
+
+        OnPropertyChanged(nameof(TieneExtrasCategoria));
+    }
+
+
     partial void OnCategoriaSeleccionadaChanged(CategoriaDto? value)
     {
         OnPropertyChanged(nameof(TieneCategoriaSeleccionada));
 
         _ = CargarProductosCategoriaAsync();
+        _ = CargarExtrasCategoriaAsync();
     }
 
 
