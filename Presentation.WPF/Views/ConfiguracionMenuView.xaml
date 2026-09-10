@@ -584,7 +584,6 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
@@ -598,7 +597,7 @@
                             
                             <!--Nombre-->
                             <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,15">
-                                
+
                                 <TextBlock Text="Nombre del producto"
                                            FontFamily="{StaticResource Fuente-principal}"
                                            FontSize="20" FontWeight="SemiBold"
@@ -613,25 +612,8 @@
                             </StackPanel>
 
 
-                            <!-- Seleccionar Categoría-->
-                            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,0,15">
-                                
-                                <TextBlock Text="Categoría"
-                                           FontFamily="{StaticResource Fuente-principal}"
-                                           FontSize="20" FontWeight="SemiBold"
-                                           Margin="0,0,0,8"
-                                           HorizontalAlignment="Center"/>
-
-                                <ComboBox ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaProductoSeleccionado}" DisplayMemberPath="Nombre"
-                                          FontFamily="{StaticResource Fuente-principal}"
-                                          FontSize="18"
-                                          Height="40" Width="300"/>
-
-                            </StackPanel>
-
-
                             <!--Precio-->
-                            <StackPanel Grid.Row="3" HorizontalAlignment="Center" Margin="0,0,0,20">
+                            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,0,20">
 
                                 <TextBlock Text="Precio"
                                            FontFamily="{StaticResource Fuente-principal}"
@@ -648,7 +630,7 @@
 
 
                             <!--Botones-->
-                            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                                 <Button Content="CANCELAR" Style="{StaticResource BtnComentario}"
                                         FontFamily="{StaticResource Fuente-principal}"
