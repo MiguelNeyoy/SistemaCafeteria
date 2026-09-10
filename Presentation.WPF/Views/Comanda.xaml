@@ -373,7 +373,7 @@
                             </Button>
 
 
-                            <Button Grid.Column="1" Command="{Binding}"
+                            <Button Grid.Column="1" Command="{Binding EnviarACocinaCommand}"
                                     Style="{StaticResource BtnFinalizar}"
                                     Height="40" Width="160"
                                     FontFamily="{StaticResource Fuente-principal}"
