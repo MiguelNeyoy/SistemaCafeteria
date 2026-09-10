@@ -716,6 +716,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [RelayCommand]
     private void CancelarFormulario()
     {
+        var categoriaActual = CategoriaSeleccionada;
+
         MostrarFormulario = false;
         FormularioCategoria = false;
         FormularioProducto = false;
@@ -724,8 +726,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
         ModoEdicionCategoria = false;
         ModoEdicionProducto = false;
+        ModoEdicionExtra = false;
 
         LimpiarFormulario();
+
+        CategoriaSeleccionada = categoriaActual;
     }
 }
 
