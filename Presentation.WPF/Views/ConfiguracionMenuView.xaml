@@ -705,7 +705,95 @@
                     <TextBlock Grid.Row="1" Text="Da clic a una Categoria para añadir un Extra/Modificares o visualizar el mismo."
                                FontFamily="{StaticResource Fuente-principal}"
                                FontSize="38" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
-                               TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                               TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <TextBlock.Style>
+
+                            <Style TargetType="TextBlock">
+
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding TieneCategoriaSeleccionada}" Value="False">
+
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                    </DataTrigger>
+                                    
+                                </Style.Triggers>
+
+                            </Style>
+                            
+                        </TextBlock.Style>
+
+                    </TextBlock>
+                    
+                    
+                    <!--Lista de Extras / Modificadores-->
+                    <ListBox Grid.Row="1" ItemsSource="{Binding ExtraCategoriaSeleccionada}" SelectedItem="{Binding ExtraSeleccionado}" >
+
+                        <ListBox.Style>
+
+                            <Style TargetType="ListBox" BasedOn="{StaticResource ListaProductos}">
+
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding TieneExtrasCategoria}" Value="True">
+
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                    </DataTrigger>
+                                    
+                                </Style.Triggers>
+
+                            </Style>
+                            
+                        </ListBox.Style>
+                        
+                    </ListBox>
+                    
+                    
+                    <!--Estado: Categoria sin Extras-->
+                    <TextBlock Grid.Row="1" Text="Esta categoria no tiene Extras/Modificadores registrados."
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="38" FontStyle="Italic" Foreground="Gray" TextWrapping="Wrap"
+                               TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <TextBlock.Style>
+
+                            <Style TargetType="TextBlock">
+
+                                <Setter Property="Visibility" Value="Collapsed"/>
+
+                                <Style.Triggers>
+
+                                    <MultiDataTrigger>
+
+                                        <MultiDataTrigger.Conditions>
+
+                                            <Condition Binding="{Binding TieneCategoriaSeleccionada}" Value="True"/>
+
+                                            <Condition Binding="{Binding TieneExtrasCategorias}" Value="False"/>
+
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                    </MultiDataTrigger>
+                                    
+                                </Style.Triggers>
+
+                            </Style>
+                            
+                        </TextBlock.Style>
+                        
+                        
+                    </TextBlock>
+
+
 
                 </Grid>
 
