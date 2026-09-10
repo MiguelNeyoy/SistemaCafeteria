@@ -15,4 +15,5 @@ public interface IVentaRepository
     Task AgregarAsync(Venta venta);
     void Actualizar(Venta venta);
     Task EliminarVentasAnterioresAAsync(DateTime fecha);
+    Task<int> ContarVentasAnterioresAAsync(DateTime fecha);
 }

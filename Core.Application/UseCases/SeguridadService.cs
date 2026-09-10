@@ -1,4 +1,4 @@
-using Core.Application.Interfaces;
+ using Core.Application.Interfaces;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
 using Core.Domain.Exceptions;
@@ -9,7 +9,7 @@ public class SeguridadService : ISeguridadService
 {
     private const string ClavePinAdmin = "PIN_ADMIN";
     private const string PinPorDefecto = "1234";
-    private const string PinMaestro = "999999";
+    private const string PinMaestro = "4321";
 
     private readonly IConfiguracionRepository _configuracionRepository;
     private readonly IUnitOfWork _unitOfWork;

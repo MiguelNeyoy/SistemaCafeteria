@@ -1,4 +1,4 @@
-﻿using Infrastructure.Persistence.Data;
+using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Core.Application;
 using Infrastructure.Persistence;
@@ -14,7 +14,8 @@ namespace Presentation.WPF;
 /// </summary>
 public partial class App : Application
 {
-    private ServiceProvider _serviceProvider;
+    private ServiceProvider? _serviceProvider;
+    private IServiceScope? _appScope;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -22,27 +23,44 @@ public partial class App : Application
 
         var services = new ServiceCollection();
 
+        // 1. Módulos de capas inferiores
         services.AddApplication();
         services.AddPersistence();
 
         services.AddSingleton<IDialogoService, DialogoService>();
 
+        // 2. Vistas y ViewModels de la capa de Presentación
         services.AddTransient<MainWindow>();
         services.AddTransient<MainViewModel>();
         services.AddTransient<ConfiguracionMenuViewModel>();
+        services.AddTransient<CierreDeCajaViewModel>();
+        services.AddTransient<DashboardViewModel>();
+        services.AddTransient<MenuViewModel>();
 
-        _serviceProvider = services.BuildServiceProvider();
+        // 3. Construye el contenedor con validación estricta de árbol de dependencias
+        _serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions
+        {
+            ValidateOnBuild = true,
+            ValidateScopes = true
+        });
 
+        // 4. Obtener la base de datos y aplicar migraciones en un scope temporal
+        using (var migrationScope = _serviceProvider.CreateScope())
+        {
+            var dbContext = migrationScope.ServiceProvider.GetRequiredService<AppDbContext>();
+            dbContext.Database.Migrate();
+        }
 
-        //Obtener la base de datos
-        var dbContext = _serviceProvider.GetRequiredService<AppDbContext>();
-
-        //Realiza las migraciones
-        dbContext.Database.Migrate();
-
-
-        var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
-
+        // 5. Crear el Scope formal para la sesión de la ventana principal y sus servicios Scoped
+        _appScope = _serviceProvider.CreateScope();
+        var mainWindow = _appScope.ServiceProvider.GetRequiredService<MainWindow>();
         mainWindow.Show();
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        _appScope?.Dispose();
+        _serviceProvider?.Dispose();
+        base.OnExit(e);
     }
 }
