@@ -588,9 +588,6 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                        <TextBlock Text="Precio adicional ($)" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,12,0,2"/>
-                        <TextBlock Text="* Coloca $0 si es un modificador sin costo (ej. Sin Cebolla)" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="Gray" Margin="0,0,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding PrecioExtra, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
 
                             <!--Título-->
                             <TextBlock Grid.Row="0" Text="NUEVO PRODUCTO"
