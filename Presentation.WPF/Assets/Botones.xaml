@@ -135,10 +135,8 @@
                 BorderThickness ="{TemplateBinding BorderThickness}"
                 CornerRadius="10" >
 
-                        <ContentPresenter 
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
-
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        
                     </Border>
 
                     <!--#region Reglas de Button-->

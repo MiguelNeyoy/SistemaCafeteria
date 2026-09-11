@@ -152,9 +152,17 @@
 
                                             <TextBlock Text="{Binding Nombre}" FontFamily="{StaticResource Fuente-principal}" FontSize="16" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
 
-                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}" Width="36" Height="36" Command="{Binding DataContext.EditarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}">
-                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" Width="20" Height="20"/>
+                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}" 
+                                                    Width="36" Height="36" 
+                                                    Command="{Binding DataContext.EditarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                    CommandParameter="{Binding}">
+
+                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" 
+                                                       Height="15" Width="15"
+                                                       Stretch="Uniform"/>
+
                                             </Button>
+
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -309,8 +317,14 @@
                                             </Button>
 
                                             <!-- Botón Editar Extra -->
-                                            <Button Grid.Column="2" Style="{StaticResource BotonEdicion}" Width="36" Height="36" Command="{Binding DataContext.EditarExtraCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}">
-                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" Width="20" Height="20"/>
+                                            <Button Grid.Column="2" Style="{StaticResource BotonEdicion}" 
+                                                    Width="36" Height="36" 
+                                                    Command="{Binding DataContext.EditarExtraCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                    CommandParameter="{Binding}">
+
+                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png"
+                                                       Height="15" Width="15"
+                                                       Stretch="Uniform"/>
                                             </Button>
                                         </Grid>
                                     </Border>
