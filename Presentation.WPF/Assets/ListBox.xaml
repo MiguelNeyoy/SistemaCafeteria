@@ -162,4 +162,67 @@
     </Style>
     <!--#endregion-->
     
+    
+    <!--#region Lista para todas Categorias,Productos y Extras-->
+    <Style x:Key="EstiloListBoxLimpio" TargetType="ListBox">
+
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="ItemContainerStyle">
+
+            <Setter.Value>
+
+                <Style TargetType="ListBoxItem">
+
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Margin" Value="0,1"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+
+                            <ControlTemplate TargetType="ListBoxItem">
+
+                                <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="4">
+
+                                    <ContentPresenter HorizontalAlignment="Stretch"/>
+
+                                </Border>
+
+                                <ControlTemplate.Triggers>
+
+                                    <Trigger Property="IsSelected" Value="True">
+                                        
+                                        <Setter Property="Background" Value="#FFE0B2"/>
+
+                                    </Trigger>
+
+                                    <Trigger Property="IsMouseOver" Value="True">
+
+                                        <Setter Property="Background" Value="#FFFBE1"/>
+
+                                    </Trigger>
+                                    
+                                </ControlTemplate.Triggers>                            
+
+                            </ControlTemplate>
+
+                        </Setter.Value>
+
+                    </Setter>
+
+                </Style>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+    
 </ResourceDictionary>
