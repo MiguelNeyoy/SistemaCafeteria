@@ -225,4 +225,197 @@
     </Style>
     <!--#endregion-->
     
+    
+    <!--#region Lista de Comanda-->
+    <Style x:Key="ListaComanda" TargetType="ListBox">
+
+        <Setter Property="ItemTemplate">
+
+            <Setter.Value>
+
+                <DataTemplate>
+
+                    <Border Background="{StaticResource Amarillo claro_bajo}" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5" Width ="420" HorizontalAlignment="Center">
+
+                        <Grid Margin="5,5,6,6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+
+                            <!--#region Producto principal-->
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+
+                                <!--Nombre del producto-->
+                                <TextBlock Grid.Column="0" Text="{Binding Nombre}" 
+                                           FontFamily="{StaticResource Fuente-principal}" 
+                                           FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" 
+                                           Margin="0,0,0,4"/>
+
+
+                                <!--Precio-->
+                                <TextBlock Grid.Column="1" Text="{Binding Precio, StringFormat={}{0:C}}" 
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="20" FontWeight="SemiBold"
+                                           VerticalAlignment="Top"/>
+
+                            </Grid>
+                            <!--#endregion-->
+
+
+                            <!--#region Subtotal -->
+                            <Grid Grid.Row="1" Margin="0,5,0,0">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="Subtotal"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="17" Foreground="Gray" FontWeight="SemiBold"/>
+
+                                <TextBlock Grid.Column="1" Text="{Binding Subtotal, StringFormat={}{0:C}}" 
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="17" Foreground="Gray"/>
+
+                                <!--- Texto para las propiedades Extra
+            <TextBlock Grid.Column="0" Text="{Binding}"
+                       FontFamily="{StaticResource Fuente-principal}"
+                       FontSize="13" TextWrapping="Wrap" Foreground="Gray"/>
+
+            <TextBlock Grid.Column="1" Text="{Binding , StringFormat={}{0:C}}" 
+                       FontFamily="{StaticResource Fuente-principal}"
+                       FontSize="13" Foreground="Gray"/>
+            -->
+
+                            </Grid>
+                            <!--#endregion-->
+
+
+                            <!--#region Comentarios-->
+                            <Grid Grid.Row="2">
+
+
+                                <!--#region Editar comentario-->
+                                <Grid>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.Style>
+
+                                        <Style TargetType="Grid">
+
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                                            <Style.Triggers>
+
+                                                <DataTrigger Binding="{Binding MostrarComentario}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+
+                                        </Style>
+
+                                    </Grid.Style>
+
+                                    <TextBlock Grid.Row="0" Text="Comentarios:"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="16" FontWeight="SemiBold" Foreground="Gray"/>
+
+                                    <TextBox Grid.Row="1" Text="{Binding Nota, UpdateSourceTrigger=PropertyChanged}"
+                                              MinHeight="50" MaxHeight="80" Margin="0,5,0,0"
+                                              TextWrapping="Wrap"
+                                              AcceptsReturn="True" VerticalScrollBarVisibility="auto"/>
+
+                                </Grid>
+                                <!--#endregion-->
+
+
+                                <!--#region Comentario guardado-->
+                                <Grid>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.Style>
+
+                                        <Style TargetType="Grid">
+
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                                            <Style.Triggers>
+
+                                                <MultiDataTrigger>
+
+                                                    <MultiDataTrigger.Conditions>
+
+                                                        <Condition Binding="{Binding TieneNota}" Value="True"/>
+                                                        <Condition Binding="{Binding MostrarComentario}" Value="False"/>
+
+                                                    </MultiDataTrigger.Conditions>
+
+                                                    <Setter Property="Visibility" Value="Visible"/>
+
+                                                </MultiDataTrigger>
+
+                                            </Style.Triggers>
+
+                                        </Style>
+
+                                    </Grid.Style>
+
+                                    <TextBlock Grid.Row="0" Text="Comentarios:"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="16" FontWeight="SemiBold" Foreground="Gray"/>
+
+                                    <TextBlock Grid.Row="1" Text="{Binding Nota}"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="14" Foreground="Gray" TextWrapping="Wrap" 
+                                               Margin="0,5,0,0"/>
+
+                                </Grid>
+                                <!--#endregion-->
+
+
+                            </Grid>
+                            <!--#endregion-->
+
+
+                            <!--Cantidad-->
+                            <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="0,5,0,0">
+
+                                <TextBlock Text="{Binding Cantidad}"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="18" FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"/>
+
+                            </Border>
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
 </ResourceDictionary>
