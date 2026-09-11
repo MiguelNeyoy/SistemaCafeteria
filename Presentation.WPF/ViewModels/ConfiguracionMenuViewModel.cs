@@ -440,10 +440,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
     #region CRUD Extras
     [RelayCommand]
-    private void MostrarFormularioExtra()
+    private async Task MostrarFormularioExtra()
     {
         LimpiarFormulario();
-        PrepararCategoriasParaExtra();
+
+        await PrepararCategoriasParaExtraAsync();
 
         MostrarFormulario = true;
         FormularioExtra = true;
@@ -455,19 +456,17 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void EditarExtra(ExtraDto extra)
+    private async Task EditarExtra(ExtraDto extra)
     {
         ExtraSeleccionado = extra;
         NombreExtra = extra.Nombre;
         PrecioExtra = extra.Precio;
 
-        PrepararCategoriasParaExtra();
+        await PrepararCategoriasParaExtraAsync();
 
         MostrarFormulario = true;
         FormularioExtra = true;
         FormularioCategoria = false;
-
-        ModoEdicionProducto = true;
         FormularioProducto = false;
         FormularioSeguridad = false;
 
@@ -562,15 +561,30 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         }
     }
 
-    private void PrepararCategoriasParaExtra()
+    private async Task PrepararCategoriasParaExtraAsync()
     {
         CategoriasParaExtra.Clear();
-        foreach (var c in Categorias)
+
+        if (Categorias.Count == 0)
+            return;
+
+        int? extraId = ExtraSeleccionado?.Id;
+
+        foreach (var categoria in Categorias)
         {
+            bool estaSeleccionada = false;
+
+            if (extraId.HasValue)
+            {
+                var extraIds = await _extraService.ObtenerExtraIdsPorCategoriaAsync( categoria.Id );
+
+                estaSeleccionada = extraIds.Contains(extraId.Value);
+            }
+
             CategoriasParaExtra.Add(new CategoriaCheckItem
             {
-                Categoria = c,
-                IsChecked = false
+                Categoria = categoria,
+                IsChecked = estaSeleccionada
             });
         }
     }
