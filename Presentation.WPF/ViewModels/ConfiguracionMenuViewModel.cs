@@ -504,12 +504,31 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 Precio = PrecioExtra
             };
 
+            // 1. Crear el Extra
             var nuevoExtra = await _extraService.CrearAsync(dto);
+
+            // 2. Agregarlo a la colección de Extras
             Extras.Add(nuevoExtra);
+
+            // 3. Obtener las categorías seleccionadas
+            var categoriasSeleccionadas = CategoriasParaExtra
+                .Where(c => c.IsChecked)
+                .Select(c => c.Categoria.Id)
+                .ToList();
+
+            // 4. Crear las relaciones Categoría <-> Extra
+            foreach (var categoriaId in categoriasSeleccionadas)
+            {
+                await _extraService.SincronizarExtrasCategoriaAsync(
+                    categoriaId,
+                    new List<int> { nuevoExtra.Id });
+            }
         }
 
         CancelarFormulario();
+
     }
+
 
     [RelayCommand]
     private async Task ToggleActivoExtra(ExtraDto extra)
