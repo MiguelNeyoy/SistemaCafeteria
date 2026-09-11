@@ -225,7 +225,7 @@
 
                                 <ItemsPanelTemplate>
 
-                                    <WrapPanel Orientation="Horizontal" ItemHeight="170" ItemWidth="170"/>
+                                    <WrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="190"/>
 
                                 </ItemsPanelTemplate>
                                 
@@ -245,21 +245,23 @@
                                                 <RowDefinition Height="auto"/>
                                             </Grid.RowDefinitions>
 
+                                            
+                                            <!--Nombre-->
                                             <TextBlock Text="{Binding Nombre}"
                                                        FontFamily="{StaticResource Fuente-principal}"
-                                                       FontSize="20"
+                                                       FontSize="24" TextWrapping="Wrap"
                                                        FontWeight="SemiBold"
                                                        VerticalAlignment="Center"
-                                                       HorizontalAlignment="Left"
-                                                       />
-
+                                                       HorizontalAlignment="Left"/>
+                                            
+                                            
+                                            <!--Precio-->
                                             <Border Grid.Row="1" Background="{StaticResource Naranja pastel apagado}" HorizontalAlignment="Right" Margin="5">
-                                                
 
                                                 <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"
                                                            FontFamily="{StaticResource Fuente-principal}"
-                                                           FontSize="18" FontWeight="SemiBold"/>
-
+                                                           Padding="5"
+                                                           FontSize="22" FontWeight="SemiBold"/>
                                                 
                                             </Border>
 
