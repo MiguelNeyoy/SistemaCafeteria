@@ -408,6 +408,8 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding FormularioCategoria}" Value="True">
                                         <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -437,6 +439,8 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding FormularioProducto}" Value="True">
                                         <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -472,6 +476,8 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding FormularioExtra}" Value="True">
                                         <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -521,6 +527,8 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding FormularioSeguridad}" Value="True">
                                         <Setter Property="Visibility" Value="Visible"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
