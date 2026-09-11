@@ -23,7 +23,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 
@@ -39,11 +39,12 @@
                 
                 
                 <!-- Categoria Actual-->
-                <Border Grid.Column="1" Height="65" HorizontalAlignment="Center" Background="{StaticResource Naranja 90%}" CornerRadius="10">
+                <Border Grid.Column="1" Height="65" HorizontalAlignment="Center" Width="auto" Background="{StaticResource Naranja 90%}" CornerRadius="10">
                     
                     <TextBlock Text="{Binding CategoriaSeleccionada.Nombre}"
                                FontFamily="{StaticResource Fuente-principal}"
-                               FontSize="22" FontWeight="SemiBold"
+                               FontSize="28" FontWeight="SemiBold"
+                               Padding="25"
                                VerticalAlignment="Center"/>
                 </Border>
                 
