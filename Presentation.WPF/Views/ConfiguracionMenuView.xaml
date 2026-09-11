@@ -117,7 +117,7 @@
                     Margin="0,0,20,0"
                     Height="150" Width="150"
                     HorizontalAlignment="Right"
-                    Command="{Binding}"/>
+                    Command="{Binding MostrarConfiguracionAvanzadaCommand}"/>
 
         </Grid>
         <!--#endregion-->
