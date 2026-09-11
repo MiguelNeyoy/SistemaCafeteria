@@ -610,7 +610,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        
                     </Grid.RowDefinitions>
 
                     <!-- Encabezado -->
@@ -649,15 +649,10 @@
                     </UniformGrid>
 
                     <!-- Botones de Acción Modal -->
-                    <Grid Grid.Row="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Command="{Binding CancelarPinCommand}" Style="{StaticResource BtnComentario}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
-                        <Button Grid.Column="1" Command="{Binding ConfirmarPinCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Content="CONFIRMAR"/>
-                    </Grid>
+                    <Button Grid.Row="4" Command="{Binding ConfirmarPinCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Content="CONFIRMAR"/>
+                    
                 </Grid>
+                
             </Border>
         </Grid>
         <!--#endregion-->
