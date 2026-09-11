@@ -468,7 +468,7 @@
 
         <Setter Property="Background" Value= "{StaticResource Amarillo claro_bajo}"/>
         <Setter Property="BorderBrush" Value="Gray"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderThickness" Value="2"/>
 
         <Setter Property="Margin" Value="15"/>
         <Setter Property="Padding" Value="8"/>
@@ -500,13 +500,13 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
 
-                            <Setter TargetName="Border" Property="Background" Value="Gray"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Gris 50%}"/>
                             
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
 
-                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Naranja 50%}"/>
                             
                         </Trigger>
 
