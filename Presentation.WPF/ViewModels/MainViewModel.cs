@@ -134,6 +134,8 @@ public partial class MainViewModel : ObservableObject
         VistaActual = _configuracionMenuViewModel;
 
         BotonSeleccionado = "Configuracion";
+
+        _configuracionMenuViewModel.SolicitarAccesoConfiguracion();
     }
 
 
