@@ -34,6 +34,12 @@
     <SolidColorBrush x:Key="Blanco" Color="#ffffff"/>
 
     <SolidColorBrush x:Key="Blanco 70%" Color="#ffffff" Opacity="0.7"/>
+    
+    
+    <!--Gris-->
+    <SolidColorBrush x:Key="Gris" Color="Gray"/>
+
+    <SolidColorBrush x:Key="Gris 50%" Color="Gray" Opacity="0.5"/>
 
 
     <!--#endregion-->
