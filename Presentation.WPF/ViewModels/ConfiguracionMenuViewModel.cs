@@ -173,6 +173,20 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         };
     }
 
+
+    public void SolicitarAccesoConfiguracion()
+    {
+        MensajeErrorPin = string.Empty;
+        PinIngresado = string.Empty;
+
+        OnPropertyChanged(nameof(PinEnmascarado));
+
+        _accionPendientePostPin = null;
+
+        MostrarModalPin = true;
+
+    }//Fin - SolicitarAccesoConfiguracion
+
     public async Task CargarDatosAsync()
     {
         var categorias = await _categoriaService.ObtenerActivasAsync();
