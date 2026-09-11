@@ -7,6 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1100">
 
+
+    <UserControl.Resources>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+
+    </UserControl.Resources>
+    
     <Grid>
 
 
@@ -936,6 +943,68 @@
             
 
             
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region MODAL PIN OVERLAY (Teclado Numérico Táctil)-->
+        <Grid Grid.ColumnSpan="2" Background="#A6000000" Visibility="{Binding MostrarModalPin, Converter={StaticResource BoolToVisConverter}}">
+            <Border Width="380" Background="White" CornerRadius="16" BorderBrush="Black" BorderThickness="2" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Encabezado -->
+                    <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,12">
+                        <TextBlock Text="🔒 AUTORIZACIÓN" FontFamily="{StaticResource Fuente-principal}" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Ingrese PIN de administrador" FontFamily="{StaticResource Fuente-principal}" FontSize="14" Foreground="Gray" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                    </StackPanel>
+
+                    <!-- Visor de PIN enmascarado -->
+                    <Border Grid.Row="1" Height="50" Background="#F5F5F5" BorderBrush="Black" BorderThickness="2" CornerRadius="8" Margin="0,0,0,6">
+                        <TextBlock Text="{Binding PinEnmascarado}" FontFamily="{StaticResource Fuente-principal}" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#212121" Margin="10,0"/>
+                    </Border>
+
+                    <!-- Mensaje de error -->
+                    <TextBlock Grid.Row="2" Text="{Binding MensajeErrorPin}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" Foreground="Red" HorizontalAlignment="Center" Margin="0,0,0,8" Height="18" TextTrimming="CharacterEllipsis"/>
+
+                    <!-- Teclado Numérico Táctil -->
+                    <UniformGrid Grid.Row="3" Rows="4" Columns="3" Margin="0,0,0,15">
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="1" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="1"/>
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="2" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="2"/>
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="3" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="3"/>
+
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="4" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="4"/>
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="5" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="5"/>
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="6" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="6"/>
+
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="7" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="7"/>
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="8" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="8"/>
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="9" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="9"/>
+
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="22" FontWeight="Bold" Foreground="#C62828" Content="C" Command="{Binding LimpiarPinCommand}"/>
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="0" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="0"/>
+                        <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" Command="{Binding BorrarDigitoPinCommand}">
+                            <Image Source="/Assets/Imagenes/Icono_eliminacion_teclado.png" Height="26" Width="26" Stretch="Uniform"/>
+                        </Button>
+                    </UniformGrid>
+
+                    <!-- Botones de Acción Modal -->
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Command="{Binding CancelarPinCommand}" Style="{StaticResource BtnComentario}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
+                        <Button Grid.Column="1" Command="{Binding ConfirmarPinCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Content="CONFIRMAR"/>
+                    </Grid>
+                </Grid>
+            </Border>
         </Grid>
         <!--#endregion-->
 
