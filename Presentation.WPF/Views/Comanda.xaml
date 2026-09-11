@@ -209,68 +209,190 @@
             
             <!--#region Productos -->
             <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1,0,0,0" Background="white">
+                
                 <Grid>
 
-                    <ScrollViewer>
+                    <Grid>
+                        <Grid.Style>
 
-                        <ItemsControl ItemsSource="{Binding ProductoCategoriaSeleccionada}">
+                            <Style TargetType="Grid">
 
-                            <ItemsControl.ItemsPanel>
+                                <Setter Property="Visibility" Value="Visible"/>
 
-                                <ItemsPanelTemplate>
+                                <Style.Triggers>
 
-                                    <WrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="190"/>
+                                    <DataTrigger Binding="{Binding MostrarExtras}" Value="True">
 
-                                </ItemsPanelTemplate>
-                                
-                            </ItemsControl.ItemsPanel>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
 
-                            <ItemsControl.ItemTemplate>
+                                    </DataTrigger>
 
-                                <DataTemplate>
+                                </Style.Triggers>
 
-                                    <Button Style="{StaticResource BtnComandaProducto}" 
+                            </Style>
+
+                        </Grid.Style>
+
+
+                        <ScrollViewer>
+
+                            <ItemsControl ItemsSource="{Binding ProductoCategoriaSeleccionada}">
+
+                                <ItemsControl.ItemsPanel>
+
+                                    <ItemsPanelTemplate>
+
+                                        <WrapPanel Orientation="Horizontal" ItemHeight="190" ItemWidth="190"/>
+
+                                    </ItemsPanelTemplate>
+
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+
+                                    <DataTemplate>
+
+                                        <Button Style="{StaticResource BtnComandaProducto}" 
                                             Command="{Binding DataContext.AgregarProductoCommand, RelativeSource={RelativeSource  AncestorType=ItemsControl}}"
                                             CommandParameter="{Binding}">
 
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="auto"/>
-                                            </Grid.RowDefinitions>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="auto"/>
+                                                </Grid.RowDefinitions>
 
-                                            
-                                            <!--Nombre-->
-                                            <TextBlock Text="{Binding Nombre}"
+
+                                                <!--Nombre-->
+                                                <TextBlock Text="{Binding Nombre}"
                                                        FontFamily="{StaticResource Fuente-principal}"
                                                        FontSize="24" TextWrapping="Wrap"
                                                        FontWeight="SemiBold"
                                                        VerticalAlignment="Center"
                                                        HorizontalAlignment="Left"/>
-                                            
-                                            
-                                            <!--Precio-->
-                                            <Border Grid.Row="1" Background="{StaticResource Naranja pastel apagado}" HorizontalAlignment="Right" Margin="5">
 
-                                                <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"
+
+                                                <!--Precio-->
+                                                <Border Grid.Row="1" Background="{StaticResource Naranja pastel apagado}" HorizontalAlignment="Right" Margin="5">
+
+                                                    <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"
                                                            FontFamily="{StaticResource Fuente-principal}"
                                                            Padding="5"
                                                            FontSize="22" FontWeight="SemiBold"/>
-                                                
-                                            </Border>
 
-                                        </Grid>
-                                        
-                                    </Button>
-                                    
-                                </DataTemplate>
-                                
-                            </ItemsControl.ItemTemplate>
-                            
-                        </ItemsControl>
-                        
-                    </ScrollViewer>
-                    
+                                                </Border>
+
+                                            </Grid>
+
+                                        </Button>
+
+                                    </DataTemplate>
+
+                                </ItemsControl.ItemTemplate>
+
+                            </ItemsControl>
+
+                        </ScrollViewer>
+
+                    </Grid>
+
+
+
+                    <Grid>
+
+                        <Grid.Style>
+
+                            <Style TargetType="Grid">
+
+                                <Setter Property="Visibility"
+                    Value="Collapsed"/>
+
+                                <Style.Triggers>
+
+                                    <DataTrigger Binding="{Binding MostrarExtras}"
+                             Value="True">
+
+                                        <Setter Property="Visibility"
+                            Value="Visible"/>
+
+                                    </DataTrigger>
+
+                                </Style.Triggers>
+
+                            </Style>
+
+                        </Grid.Style>
+
+                        <ScrollViewer>
+
+                            <ItemsControl ItemsSource="{Binding ExtrasCategoriaSeleccionada}">
+
+                                <ItemsControl.ItemsPanel>
+
+                                    <ItemsPanelTemplate>
+
+                                        <WrapPanel Orientation="Horizontal"
+                               ItemHeight="190"
+                               ItemWidth="190"/>
+
+                                    </ItemsPanelTemplate>
+
+                                </ItemsControl.ItemsPanel>
+
+
+                                <ItemsControl.ItemTemplate>
+
+                                    <DataTemplate>
+
+                                        <Button Style="{StaticResource BtnComandaProducto}">
+
+                                            <Grid>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+
+
+                                                <!-- Nombre del Extra -->
+                                                <TextBlock Text="{Binding Nombre}"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="24"
+                                       TextWrapping="Wrap"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"/>
+
+
+                                                <!-- Precio -->
+                                                <Border Grid.Row="1"
+                                    Background="{StaticResource Naranja pastel apagado}"
+                                    HorizontalAlignment="Right"
+                                    Margin="5">
+
+                                                    <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           Padding="5"
+                                           FontSize="22"
+                                           FontWeight="SemiBold"/>
+
+                                                </Border>
+
+                                            </Grid>
+
+                                        </Button>
+
+                                    </DataTemplate>
+
+                                </ItemsControl.ItemTemplate>
+
+                            </ItemsControl>
+
+                        </ScrollViewer>
+
+                    </Grid>
+
+
                 </Grid>
                 
             </Border>
