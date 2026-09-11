@@ -77,6 +77,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [ObservableProperty]
     private bool modoEdicionProducto;
 
+    public event Action? ConfiguracionAvanzadaSolicitada;
+
     // Formulario Extra
     [ObservableProperty]
     private ExtraDto? extraSeleccionado;
@@ -736,6 +738,16 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
         CategoriaSeleccionada = categoriaActual;
     }
+
+
+    [RelayCommand]
+    private void MostrarConfiguracionAvanzada()
+    {
+        ConfiguracionAvanzadaSolicitada?.Invoke();
+
+    } //Fin - MostrarConfiguracionAvanzada
+
+
 }
 
 public partial class CategoriaCheckItem : ObservableObject
