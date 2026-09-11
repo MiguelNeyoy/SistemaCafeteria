@@ -83,7 +83,7 @@ public partial class MainViewModel : ObservableObject
 
         if (_comandaViewModel is null)
         {
-            _comandaViewModel = new ComandaViewModel(_productoService, categoria);
+            _comandaViewModel = new ComandaViewModel(_productoService, _extraService, categoria);
 
             _comandaViewModel.RegresarACategorias += RegresarACategorias;
 

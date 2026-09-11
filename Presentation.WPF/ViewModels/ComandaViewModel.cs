@@ -12,9 +12,13 @@ public partial class ComandaViewModel : ObservableObject
 {
     private readonly IProductoService _productoService;
 
+    private readonly IExtraService _extraService;
+
     public ObservableCollection<ProductoDto> ProductoCategoriaSeleccionada { get; } = new();
 
     public ObservableCollection<ComandaItemViewModel> ItemsComanda { get; } = new();
+
+    public ObservableCollection<ExtraDto> ExtrasCategoriaSeleccionada { get; } = new();
 
     [ObservableProperty]
     private ComandaItemViewModel? itemSeleccionado;
@@ -24,12 +28,19 @@ public partial class ComandaViewModel : ObservableObject
     [ObservableProperty]
     private CategoriaDto? categoriaSeleccionada;
 
+    [ObservableProperty]
+    private ProductoDto? productoEnPersonalizacion;
+
+    [ObservableProperty]
+    private bool mostrarExtras;
+
     public event Action? RegresarACategorias;
 
 
-    public ComandaViewModel( IProductoService productoService, CategoriaDto categoria )
+    public ComandaViewModel( IProductoService productoService, IExtraService extraService,CategoriaDto categoria )
     {
         _productoService = productoService;
+        _extraService = extraService;
         CategoriaSeleccionada = categoria;
 
     }//Fin - ComandaViewModel
@@ -37,16 +48,23 @@ public partial class ComandaViewModel : ObservableObject
 
     public async Task CargarProductosAsync()
     {
-        if ( CategoriaSeleccionada is null )
-            return;
+        if ( CategoriaSeleccionada is null ) return;
 
         var productos = await _productoService.ObtenerPorCategoriaAsync( CategoriaSeleccionada.Id );
 
+        var extras = await _extraService.ObtenerPorCategoriaAsync( CategoriaSeleccionada.Id );
+
         ProductoCategoriaSeleccionada.Clear();
+        ExtrasCategoriaSeleccionada.Clear();
 
         foreach ( var producto in productos )
         {
             ProductoCategoriaSeleccionada.Add( producto );
+        }
+
+        foreach ( var extra in extras)
+        {
+            ExtrasCategoriaSeleccionada.Add( extra );
         }
 
     }//Fin - CargarProductosAsync
