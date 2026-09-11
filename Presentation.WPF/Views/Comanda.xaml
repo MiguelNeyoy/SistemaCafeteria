@@ -180,27 +180,21 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Button Grid.Column="0" Command="{Binding MostrarOcultarComentarioCommand}"
-                                    Style="{StaticResource BtnComentario}"
+                            <Button Grid.Column="0" Content="Comentarios" Style="{StaticResource BtnComentario}"
                                     Height="40" Width="160"
                                     FontFamily="{StaticResource Fuente-principal}"
                                     FontSize="22" FontWeight="SemiBold"
-                                    HorizontalAlignment="Left">
-                                
-                                Comentarios
-                            </Button>
+                                    HorizontalAlignment="Left"
+                                    Command="{Binding MostrarOcultarComentarioCommand}"/>
 
 
-                            <Button Grid.Column="1" Command="{Binding EnviarACocinaCommand}"
-                                    Style="{StaticResource BtnFinalizar}"
-                                    Height="40" Width="160"
+                            <Button Grid.Column="1" Content="Enviar a Cocina" Style="{StaticResource BtnFinalizar}" 
                                     FontFamily="{StaticResource Fuente-principal}"
-                                    FontSize="22" FontWeight="SemiBold">
+                                    FontSize="22" FontWeight="SemiBold"
+                                    Height="40" Width="175"
+                                    Command="{Binding EnviarACocinaCommand}"/>
 
-                                Finalizar
-                            </Button>
-
-                            </Grid>
+                        </Grid>
                         <!--#endregion-->
                   
                             
