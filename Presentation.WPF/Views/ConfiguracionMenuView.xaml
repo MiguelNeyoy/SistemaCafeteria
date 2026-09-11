@@ -952,7 +952,7 @@
         <!--#endregion-->
 
         <!--#region MODAL PIN OVERLAY (Teclado Numérico Táctil)-->
-        <Grid Grid.ColumnSpan="2" Background="#A6000000" Visibility="{Binding MostrarModalPin, Converter={StaticResource BoolToVisConverter}}">
+        <Grid Grid.RowSpan="2" Background="#A6000000" Visibility="{Binding MostrarModalPin, Converter={StaticResource BoolToVisConverter}}">
             <Border Width="380" Background="White" CornerRadius="16" BorderBrush="Black" BorderThickness="2" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="20">
                 <Grid>
                     <Grid.RowDefinitions>
