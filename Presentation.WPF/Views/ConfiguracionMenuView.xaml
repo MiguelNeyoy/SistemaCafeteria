@@ -400,6 +400,26 @@
                         <TextBlock Text="Nombre de la categoría" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,0,0,6"/>
                         <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding NombreCategoria, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
 
+                        <!-- Aviso de Error en Categoría (Rojo) -->
+                        <TextBlock Text="{Binding MensajeErrorCategoria}" 
+                                   Foreground="#D32F2F" 
+                                   FontFamily="{StaticResource Fuente-principal}" 
+                                   FontSize="13" 
+                                   FontWeight="SemiBold" 
+                                   Margin="0,4,0,0" 
+                                   TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TieneErrorCategoria}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
                         <Grid Margin="0,30,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -430,6 +450,26 @@
 
                         <TextBlock Text="Nombre del producto" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,0,0,6"/>
                         <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding NombreProducto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+
+                        <!-- Aviso de Error en Producto (Rojo) -->
+                        <TextBlock Text="{Binding MensajeErrorProducto}" 
+                                   Foreground="#D32F2F" 
+                                   FontFamily="{StaticResource Fuente-principal}" 
+                                   FontSize="13" 
+                                   FontWeight="SemiBold" 
+                                   Margin="0,4,0,0" 
+                                   TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TieneErrorProducto}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
 
                         <TextBlock Text="Categoría" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,15,0,6"/>
                         <ComboBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaProductoSeleccionado}"/>
@@ -550,7 +590,7 @@
                                 <TextBlock Text="Borrado Físico de Ventas" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="Bold" Foreground="#C62828" Margin="0,0,0,6"/>
 
                                 <Border Background="#FFEBEE" CornerRadius="6" Padding="8" Margin="0,0,0,10">
-                                    <TextBlock Text="⚠️ ATENCIÓN: Las ventas borradas se eliminarán definitivamente de la base de datos para liberar espacio. Se solicitará el PIN de administrador para proceder." FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#B71C1C" TextWrapping="Wrap"/>
+                                    <TextBlock Text="ATENCION: Las ventas borradas se eliminaran definitivamente de la base de datos para liberar espacio. Se solicitara el PIN de administrador para proceder." FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#B71C1C" TextWrapping="Wrap"/>
                                 </Border>
 
                                 <TextBlock Text="Días de antigüedad:" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,4"/>
@@ -573,7 +613,7 @@
                                     </Grid>
                                 </Border>
 
-                                <Button Command="{Binding SolicitarPurgaVentasCommand}" Style="{StaticResource BtnGuardarCambios}" Background="#D32F2F" Height="42" Margin="0,0,0,6" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="White" Content="🗑️ BORRAR VENTAS"/>
+                                <Button Command="{Binding SolicitarPurgaVentasCommand}" Style="{StaticResource BtnGuardarCambios}" Background="#D32F2F" Height="42" Margin="0,0,0,6" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="White" Content="BORRAR VENTAS"/>
 
                                 <TextBlock Text="{Binding MensajeResultadoPurga}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" Foreground="#1565C0" Margin="0,4,0,0" TextWrapping="Wrap" FontWeight="SemiBold"/>
                             </StackPanel>
@@ -603,7 +643,7 @@
 
                     <!-- Encabezado -->
                     <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,12">
-                        <TextBlock Text="🔒 AUTORIZACIÓN" FontFamily="{StaticResource Fuente-principal}" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="AUTORIZACION" FontFamily="{StaticResource Fuente-principal}" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center"/>
                         <TextBlock Text="Ingrese PIN de administrador" FontFamily="{StaticResource Fuente-principal}" FontSize="14" Foreground="Gray" HorizontalAlignment="Center" Margin="0,2,0,0"/>
                     </StackPanel>
 

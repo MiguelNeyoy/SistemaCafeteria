@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
+using Core.Domain.Exceptions;
 using System.Collections.ObjectModel;
 
 namespace Presentation.WPF.ViewModels;
@@ -61,6 +62,17 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [ObservableProperty]
     private bool modoEdicionCategoria;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TieneErrorCategoria))]
+    private string? mensajeErrorCategoria;
+
+    public bool TieneErrorCategoria => !string.IsNullOrWhiteSpace(MensajeErrorCategoria);
+
+    partial void OnNombreCategoriaChanged(string value)
+    {
+        MensajeErrorCategoria = null;
+    }
+
     // Formulario Producto
     [ObservableProperty]
     private ProductoDto? productoSeleccionado;
@@ -76,6 +88,17 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
     [ObservableProperty]
     private bool modoEdicionProducto;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TieneErrorProducto))]
+    private string? mensajeErrorProducto;
+
+    public bool TieneErrorProducto => !string.IsNullOrWhiteSpace(MensajeErrorProducto);
+
+    partial void OnNombreProductoChanged(string value)
+    {
+        MensajeErrorProducto = null;
+    }
 
     public event Action? ConfiguracionAvanzadaSolicitada;
 
@@ -279,8 +302,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
         ModoEdicionCategoria = false;
         ModoEdicionProducto = false;
-        ModoEdicionProducto = false;
         ModoEdicionExtra = false;
+        MensajeErrorProducto = null;
+        MensajeErrorCategoria = null;
     }
 
     #region CRUD Categorias
@@ -301,39 +325,63 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [RelayCommand]
     private async Task GuardarCategoria()
     {
+        MensajeErrorCategoria = null;
+
         if (string.IsNullOrWhiteSpace(NombreCategoria))
+        {
+            MensajeErrorCategoria = "El nombre de la categoría es obligatorio.";
             return;
+        }
 
-        if (ModoEdicionCategoria)
+        try
         {
-            if (CategoriaSeleccionada is null)
-                return;
-
-            var dtoCategoria = new EditarCategoriaDto
+            if (ModoEdicionCategoria)
             {
-                Id = CategoriaSeleccionada.Id,
-                Nombre = NombreCategoria.Trim()
-            };
+                if (CategoriaSeleccionada is null)
+                    return;
 
-            var categoriaEditada = await _categoriaService.EditarAsync(dtoCategoria);
-            var categoriaEnLista = Categorias.FirstOrDefault(c => c.Id == categoriaEditada.Id);
-            if (categoriaEnLista is not null)
-            {
-                categoriaEnLista.Nombre = categoriaEditada.Nombre;
+                var dtoCategoria = new EditarCategoriaDto
+                {
+                    Id = CategoriaSeleccionada.Id,
+                    Nombre = NombreCategoria.Trim()
+                };
+
+                var categoriaEditada = await _categoriaService.EditarAsync(dtoCategoria);
+                var categoriaEnLista = Categorias.FirstOrDefault(c => c.Id == categoriaEditada.Id);
+                if (categoriaEnLista is not null)
+                {
+                    categoriaEnLista.Nombre = categoriaEditada.Nombre;
+                }
             }
-        }
-        else
-        {
-            var dtoCategoria = new CrearCategoriaDto
+            else
             {
-                Nombre = NombreCategoria.Trim()
-            };
+                var dtoCategoria = new CrearCategoriaDto
+                {
+                    Nombre = NombreCategoria.Trim()
+                };
 
-            var categoria = await _categoriaService.CrearAsync(dtoCategoria);
-            Categorias.Add(categoria);
+                var categoria = await _categoriaService.CrearAsync(dtoCategoria);
+                Categorias.Add(categoria);
+            }
+
+            // Mantener la lista observable ordenada alfabéticamente
+            var categoriasOrdenadas = Categorias.OrderBy(c => c.Nombre).ToList();
+            Categorias.Clear();
+            foreach (var item in categoriasOrdenadas)
+            {
+                Categorias.Add(item);
+            }
+
+            CancelarFormulario();
         }
-
-        CancelarFormulario();
+        catch (DomainValidationException ex)
+        {
+            MensajeErrorCategoria = $"⚠️ {ex.Message}";
+        }
+        catch (Exception ex)
+        {
+            MensajeErrorCategoria = $"⚠️ Error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -341,6 +389,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     {
         CategoriaSeleccionada = categoria;
         NombreCategoria = categoria.Nombre;
+        MensajeErrorCategoria = null;
 
         MostrarFormulario = true;
         FormularioCategoria = true;
@@ -374,50 +423,87 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [RelayCommand]
     private async Task GuardarProducto()
     {
+        MensajeErrorProducto = null;
+
         if (string.IsNullOrWhiteSpace(NombreProducto))
+        {
+            MensajeErrorProducto = "El nombre del producto es obligatorio.";
             return;
+        }
 
         if (PrecioProducto <= 0)
-            return;
-
-        if (CategoriaSeleccionada is null)
-            return;
-
-        if (ProductoSeleccionado is not null)
         {
-            var dtoProducto = new EditarProductoDto
-            {
-                Id = ProductoSeleccionado.Id,
-                Nombre = NombreProducto.Trim(),
-                Precio = PrecioProducto,
-                CategoriaId = CategoriaSeleccionada.Id
-            };
+            MensajeErrorProducto = "El precio debe ser mayor a $0.";
+            return;
+        }
 
-            var productoEditado = await _productoService.EditarAsync(dtoProducto);
-            var productoEnLista = Productos.FirstOrDefault(p => p.Id == productoEditado.Id);
+        var categoria = CategoriaProductoSeleccionado ?? CategoriaSeleccionada;
+        if (categoria is null)
+        {
+            MensajeErrorProducto = "Debes seleccionar una categoría para el producto.";
+            return;
+        }
 
-            if (productoEnLista is not null)
+        try
+        {
+            if (ProductoSeleccionado is not null)
             {
-                productoEnLista.Nombre = productoEditado.Nombre;
-                productoEnLista.Precio = productoEditado.Precio;
-                productoEnLista.CategoriaId = productoEditado.CategoriaId;
-                productoEnLista.CategoriaNombre = productoEditado.CategoriaNombre;
+                var dtoProducto = new EditarProductoDto
+                {
+                    Id = ProductoSeleccionado.Id,
+                    Nombre = NombreProducto.Trim(),
+                    Precio = PrecioProducto,
+                    CategoriaId = categoria.Id
+                };
+
+                var productoEditado = await _productoService.EditarAsync(dtoProducto);
+                var productoEnLista = Productos.FirstOrDefault(p => p.Id == productoEditado.Id);
+
+                if (productoEnLista is not null)
+                {
+                    productoEnLista.Nombre = productoEditado.Nombre;
+                    productoEnLista.Precio = productoEditado.Precio;
+                    productoEnLista.CategoriaId = productoEditado.CategoriaId;
+                    productoEnLista.CategoriaNombre = productoEditado.CategoriaNombre;
+                }
             }
-        }
-        else
-        {
-            var dtoProducto = new CrearProductoDto
+            else
             {
-                Nombre = NombreProducto.Trim(),
-                Precio = PrecioProducto,
-                CategoriaId = CategoriaSeleccionada.Id
-            };
+                var dtoProducto = new CrearProductoDto
+                {
+                    Nombre = NombreProducto.Trim(),
+                    Precio = PrecioProducto,
+                    CategoriaId = categoria.Id
+                };
 
-            var producto = await _productoService.CrearAsync(dtoProducto);
-            Productos.Add(producto);
+                var producto = await _productoService.CrearAsync(dtoProducto);
+                Productos.Add(producto);
+            }
+
+            // Mantener la lista observable global ordenada alfabéticamente
+            var productosOrdenados = Productos.OrderBy(p => p.Nombre).ToList();
+            Productos.Clear();
+            foreach (var p in productosOrdenados)
+            {
+                Productos.Add(p);
+            }
+
+            // Refrescar y ordenar productos de la categoría seleccionada
+            if (CategoriaSeleccionada is not null)
+            {
+                await CargarProductosCategoriaAsync();
+            }
+
+            CancelarFormulario();
         }
-
-        CancelarFormulario();
+        catch (DomainValidationException ex)
+        {
+            MensajeErrorProducto = $"⚠️ {ex.Message}";
+        }
+        catch (Exception ex)
+        {
+            MensajeErrorProducto = $"⚠️ Error: {ex.Message}";
+        }
     }
 
     [RelayCommand]
@@ -427,6 +513,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         NombreProducto = producto.Nombre;
         PrecioProducto = producto.Precio;
         CategoriaProductoSeleccionado = Categorias.FirstOrDefault(c => c.Id == producto.CategoriaId);
+        MensajeErrorProducto = null;
 
         MostrarFormulario = true;
         FormularioProducto = true;
