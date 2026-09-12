@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 
 namespace Presentation.WPF.Services;
 
@@ -13,5 +13,14 @@ public class DialogoService : IDialogoService
             MessageBoxImage.Warning);
 
         return resultado == MessageBoxResult.Yes;
+    }
+
+    public void MostrarMensaje(string mensaje, string titulo)
+    {
+        MessageBox.Show(
+            mensaje,
+            titulo,
+            MessageBoxButton.OK,
+            MessageBoxImage.Information);
     }
 }
