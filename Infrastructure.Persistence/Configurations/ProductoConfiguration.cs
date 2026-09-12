@@ -31,5 +31,8 @@ public class ProductoConfiguration : IEntityTypeConfiguration<Producto>
             .WithMany()
             .HasForeignKey(p => p.CategoriaId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // Índice compuesto para acelerar búsquedas por categoría y nombre
+        builder.HasIndex(p => new { p.CategoriaId, p.Nombre });
     }
 }

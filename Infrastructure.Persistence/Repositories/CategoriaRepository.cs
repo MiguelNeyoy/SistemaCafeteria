@@ -21,13 +21,16 @@ public class CategoriaRepository : ICategoriaRepository
 
     public async Task<List<Categoria>> ObtenerTodasAsync()
     {
-        return await _context.Categorias.ToListAsync();
+        return await _context.Categorias
+            .OrderBy(c => c.Nombre)
+            .ToListAsync();
     }
 
     public async Task<List<Categoria>> ObtenerActivasAsync()
     {
         return await _context.Categorias
             .Where(c => c.Activo)
+            .OrderBy(c => c.Nombre)
             .ToListAsync();
     }
 

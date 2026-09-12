@@ -21,13 +21,16 @@ public class ProductoRepository : IProductoRepository
 
     public async Task<List<Producto>> ObtenerTodosAsync()
     {
-        return await _context.Productos.ToListAsync();
+        return await _context.Productos
+            .OrderBy(p => p.Nombre)
+            .ToListAsync();
     }
 
     public async Task<List<Producto>> ObtenerActivosAsync()
     {
         return await _context.Productos
             .Where(p => p.Activo)
+            .OrderBy(p => p.Nombre)
             .ToListAsync();
     }
 
@@ -35,6 +38,7 @@ public class ProductoRepository : IProductoRepository
     {
         return await _context.Productos
             .Where(p => p.CategoriaId == categoriaId && p.Activo)
+            .OrderBy(p => p.Nombre)
             .ToListAsync();
     }
 
@@ -46,5 +50,20 @@ public class ProductoRepository : IProductoRepository
     public void Actualizar(Producto producto)
     {
         _context.Productos.Update(producto);
+    }
+
+    public async Task<bool> ExisteNombreEnCategoriaAsync(string nombre, int categoriaId, int? excluirId = null)
+    {
+        var nombreLimpio = nombre.Trim().ToUpper();
+
+        var query = _context.Productos
+            .Where(p => p.CategoriaId == categoriaId && p.Nombre.ToUpper() == nombreLimpio);
+
+        if (excluirId.HasValue)
+        {
+            query = query.Where(p => p.Id != excluirId.Value);
+        }
+
+        return await query.AnyAsync();
     }
 }

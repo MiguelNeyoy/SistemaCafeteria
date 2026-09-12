@@ -21,13 +21,16 @@ public class ExtraRepository : IExtraRepository
 
     public async Task<List<Extra>> ObtenerTodosAsync()
     {
-        return await _context.Extras.ToListAsync();
+        return await _context.Extras
+            .OrderBy(e => e.Nombre)
+            .ToListAsync();
     }
 
     public async Task<List<Extra>> ObtenerActivosAsync()
     {
         return await _context.Extras
             .Where(e => e.Activo)
+            .OrderBy(e => e.Nombre)
             .ToListAsync();
     }
 
