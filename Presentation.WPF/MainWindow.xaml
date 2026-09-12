@@ -1,4 +1,4 @@
-﻿<!--
+<!--
     Este es el punto de entrada de la app es decir esta es la ventana principal y lo que esta en la carpeta de /Views son 
     componentes reutilizables que incrustran aqui en esta ventana principal. 
     
@@ -32,6 +32,10 @@
 
         <DataTemplate DataType="{x:Type viewmodels:CierreDeCajaViewModel}">
             <views:CierreDeCaja/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:CuentasAbiertasViewModel}">
+            <views:CuentasAbiertasView/>
         </DataTemplate>
 
     </Window.Resources>
@@ -78,7 +82,7 @@
 
                 <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja" Command="{Binding ShowCierreDeCajaCommand}"/>
 
-                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Ventas" />
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Cuentas&#x0a;Abiertas" Command="{Binding ShowCuentasAbiertasCommand}"/>
                 <!--#endregion-->
 
 

@@ -15,15 +15,15 @@ public partial class MainViewModel : ObservableObject
     private readonly IExtraService _extraService;
     private readonly ISeguridadService _seguridadService;
     private readonly IPurgaService _purgaService;
-
+    private readonly IVentaService _ventaService;
+    private readonly IComandaService _comandaService;
 
     private MenuViewModel? _menuViewModel;
     private ComandaViewModel? _comandaViewModel;
-
     private ConfiguracionMenuViewModel? _configuracionMenuViewModel;
+    private CuentasAbiertasViewModel? _cuentasAbiertasViewModel;
 
     private bool HayOrdenEnProceso => _comandaViewModel is not null && _comandaViewModel.ItemsComanda.Count > 0;
-
 
     [ObservableProperty]
     private object? _vistaActual;
@@ -31,7 +31,15 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string? _botonSeleccionado;
 
-    public MainViewModel(IProductoService productoService, ICategoriaService categoriaService, IExtraService extraService, ISeguridadService seguridadService, IPurgaService purgaService, IDialogoService dialogoService)
+    public MainViewModel(
+        IProductoService productoService, 
+        ICategoriaService categoriaService, 
+        IExtraService extraService, 
+        ISeguridadService seguridadService, 
+        IPurgaService purgaService, 
+        IDialogoService dialogoService,
+        IVentaService ventaService,
+        IComandaService comandaService)
     {
         _productoService = productoService;
         _categoriaService = categoriaService;
@@ -39,6 +47,8 @@ public partial class MainViewModel : ObservableObject
         _extraService = extraService;
         _seguridadService = seguridadService;
         _purgaService = purgaService;
+        _ventaService = ventaService;
+        _comandaService = comandaService;
 
     }//Fin - MainViewModel
 
@@ -83,7 +93,13 @@ public partial class MainViewModel : ObservableObject
 
         if (_comandaViewModel is null)
         {
-            _comandaViewModel = new ComandaViewModel(_productoService, _extraService, categoria);
+            _comandaViewModel = new ComandaViewModel(
+                _productoService, 
+                _extraService, 
+                _ventaService, 
+                _comandaService, 
+                _dialogoService, 
+                categoria);
 
             _comandaViewModel.RegresarACategorias += RegresarACategorias;
 
@@ -134,8 +150,6 @@ public partial class MainViewModel : ObservableObject
         VistaActual = _configuracionMenuViewModel;
 
         BotonSeleccionado = "Configuracion";
-
-        _configuracionMenuViewModel.SolicitarAccesoConfiguracion();
     }
 
 
@@ -159,5 +173,23 @@ public partial class MainViewModel : ObservableObject
         VistaActual = new CierreDeCajaViewModel();
 
         BotonSeleccionado = "CierreDeCaja";
+    }
+
+    [RelayCommand]
+    private async Task ShowCuentasAbiertas()
+    {
+        if (!ConfirmarSalidaDeComanda())
+            return;
+
+        if (_cuentasAbiertasViewModel is null)
+        {
+            _cuentasAbiertasViewModel = new CuentasAbiertasViewModel(_ventaService, _dialogoService);
+        }
+
+        await _cuentasAbiertasViewModel.CargarCuentasAsync();
+
+        VistaActual = _cuentasAbiertasViewModel;
+
+        BotonSeleccionado = "CuentasAbiertas";
     }
 }
