@@ -13,4 +13,5 @@ public interface IProductoRepository
     Task<List<Producto>> ObtenerPorCategoriaAsync(int categoriaId);
     Task AgregarAsync(Producto producto);
     void Actualizar(Producto producto);
+    Task<bool> ExisteNombreEnCategoriaAsync(string nombre, int categoriaId, int? excluirId = null);
 }

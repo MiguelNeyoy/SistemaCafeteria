@@ -28,6 +28,12 @@ public class ProductoService : IProductoService
         var categoria = await _categoriaRepository.ObtenerPorIdAsync(dto.CategoriaId)
             ?? throw new DomainValidationException(nameof(dto.CategoriaId), "La categoría seleccionada no existe.");
 
+        if (await _productoRepository.ExisteNombreEnCategoriaAsync(dto.Nombre, dto.CategoriaId))
+        {
+            throw new DomainValidationException(nameof(dto.Nombre), 
+                $"Ya existe un producto con el nombre '{dto.Nombre.Trim()}' en la categoría '{categoria.Nombre}'.");
+        }
+
         var producto = new Producto(dto.Nombre, dto.Precio, dto.CategoriaId);
         await _productoRepository.AgregarAsync(producto);
         await _unitOfWork.SaveChangesAsync();
@@ -42,6 +48,12 @@ public class ProductoService : IProductoService
 
         var categoria = await _categoriaRepository.ObtenerPorIdAsync(dto.CategoriaId)
             ?? throw new DomainValidationException(nameof(dto.CategoriaId), "La categoría seleccionada no existe.");
+
+        if (await _productoRepository.ExisteNombreEnCategoriaAsync(dto.Nombre, dto.CategoriaId, dto.Id))
+        {
+            throw new DomainValidationException(nameof(dto.Nombre), 
+                $"Ya existe otro producto con el nombre '{dto.Nombre.Trim()}' en la categoría '{categoria.Nombre}'.");
+        }
 
         producto.CambiarNombre(dto.Nombre);
         producto.ModificarPrecio(dto.Precio);
