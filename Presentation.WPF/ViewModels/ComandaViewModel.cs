@@ -464,10 +464,6 @@ public partial class ComandaViewModel : ObservableObject
             ActualizarTotal();
 
             await CargarCuentasDisponiblesAsync();
-
-            _dialogoService.MostrarMensaje(
-                $"Productos agregados exitosamente a la cuenta #{ventaId}.",
-                "Cuenta Actualizada");
         }
         catch (Exception ex)
         {
@@ -530,10 +526,6 @@ public partial class ComandaViewModel : ObservableObject
             ActualizarTotal();
 
             await CargarCuentasDisponiblesAsync();
-
-            _dialogoService.MostrarMensaje(
-                $"Cuenta #{venta.Id} para '{cliente}' abierta exitosamente.\nTotal registrado: ${venta.Total:F2}",
-                "Cuenta Abierta");
         }
         catch (Exception ex)
         {

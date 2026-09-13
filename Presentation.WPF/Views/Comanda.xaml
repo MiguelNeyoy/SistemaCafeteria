@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.WPF.Views"
+             xmlns:converters="clr-namespace:Presentation.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="1024" d:DesignWidth="1000">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <converters:NombreLargoToFontSizeConverter x:Key="NombreLargoToFontSizeConverter"/>
 
         <!-- Estilo de Botón para Selección de Extras en Modal (Touch Friendly) -->
         <Style x:Key="BtnExtraCard" TargetType="Button">
@@ -280,37 +282,41 @@
                     <ItemsControl ItemsSource="{Binding ProductoCategoriaSeleccionada}" Padding="10">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal" ItemHeight="115" ItemWidth="235"/>
+                                <WrapPanel Orientation="Horizontal" ItemHeight="126" ItemWidth="235"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button Style="{StaticResource BtnComandaProducto}" 
-                                        Margin="5"
+                                        Margin="4"
+                                        Padding="6,4"
                                         Command="{Binding DataContext.AgregarProductoCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                         CommandParameter="{Binding}">
-                                    <Grid Margin="6,4">
+                                    <Grid Margin="4,2">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
 
-                                        <!-- Nombre del producto con salto de línea automático -->
+                                        <!-- Nombre del producto con tamano dinamico segun longitud/palabras -->
                                         <TextBlock Text="{Binding Nombre}"
                                                    FontFamily="{StaticResource Fuente-principal}"
-                                                   FontSize="18" TextWrapping="Wrap"
+                                                   FontSize="{Binding Nombre, Converter={StaticResource NombreLargoToFontSizeConverter}}"
+                                                   TextWrapping="Wrap"
+                                                   LineHeight="16"
+                                                   LineStackingStrategy="BlockLineHeight"
                                                    FontWeight="SemiBold"
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Left"
                                                    Margin="4,2,4,2"/>
 
                                         <!-- Precio -->
-                                        <Border Grid.Row="1" Background="{StaticResource Naranja pastel apagado}" HorizontalAlignment="Right" Margin="4,2,4,4" CornerRadius="5">
+                                        <Border Grid.Row="1" Background="{StaticResource Naranja pastel apagado}" HorizontalAlignment="Right" Margin="4,2,4,2" CornerRadius="5">
                                             <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"
                                                        FontFamily="{StaticResource Fuente-principal}"
-                                                       Padding="8,3"
-                                                       FontSize="17" FontWeight="Bold"/>
+                                                       Padding="7,2"
+                                                       FontSize="15" FontWeight="Bold"/>
                                         </Border>
                                     </Grid>
                                 </Button>
