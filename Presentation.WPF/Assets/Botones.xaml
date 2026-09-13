@@ -236,10 +236,7 @@
                         Background ="{TemplateBinding Background}" 
                         CornerRadius="10">
 
-                        <ContentPresenter 
-                            
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center" />
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                     </Border>
                     
@@ -249,22 +246,14 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
 
-                            <Setter TargetName="Border"
-                                    Property="Background"
-                                    Value="Red"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Rojo 50%}"/>
 
-                            <Setter TargetName="Border"
-                               
-                                Property="Opacity"
-                                Value="0.8"/>
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
 
-                            <Setter TargetName="Border"
-                                
-                                Property="Background"
-                                Value="Transparent"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Rojo 70%}"/>
+                            
                         </Trigger>
 
                     </ControlTemplate.Triggers>
@@ -373,21 +362,16 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
 
-                            <Setter TargetName="Border"
-                             Property="Background"
-                             Value="{StaticResource Naranja apagado}"/>
-
-                            <Setter TargetName="Border"
-                                    Property="Opacity"
-                                    Value="0.9"/>
+                            <Setter TargetName="Border" Property="Opacity" Value="0.7"/>
+                            
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
 
-                            <Setter TargetName="Border"
-                         
-                                    Property="Background"
-                                    Value="Transparent"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Naranja apagado 70%}"/>
+
+                            <Setter TargetName="Border" Property="Opacity" Value="1"/>
+                            
                         </Trigger>
 
                     </ControlTemplate.Triggers>
