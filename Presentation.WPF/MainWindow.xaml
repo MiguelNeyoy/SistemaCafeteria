@@ -50,8 +50,8 @@
 
         <!--#region Estructura -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="318" />
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*" MinWidth="190" MaxWidth="240"/>
+            <ColumnDefinition Width="8*"/>
         </Grid.ColumnDefinitions>
         <!--#endregion-->
 
@@ -63,18 +63,18 @@
 
                 <!--#region Estructura -->
                 <Grid.RowDefinitions>
-                    <RowDefinition Height = "280" />
-                    <RowDefinition Height = "*" />
-                    <RowDefinition Height = "*" />
-                    <RowDefinition Height = "*" />
-                    <RowDefinition Height = "*" />
+                    <RowDefinition Height = "Auto" MaxHeight="135" />
+                    <RowDefinition Height = "*" MinHeight="60" />
+                    <RowDefinition Height = "*" MinHeight="60" />
+                    <RowDefinition Height = "*" MinHeight="60" />
+                    <RowDefinition Height = "*" MinHeight="60" />
                 </Grid.RowDefinitions>
                 <!--#endregion-->
 
 
                 <!--#region Logotipo-->
-                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,3">
-                    <Image Source="/Assets/Imagenes/Logo.png" />
+                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,2" Padding="12,8">
+                    <Image Source="/Assets/Imagenes/Logo.png" MaxHeight="115" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
                 <!--#endregion-->
 

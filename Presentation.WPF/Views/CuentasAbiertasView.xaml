@@ -172,8 +172,8 @@
         <!--#region Cuerpo Master-Detail -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="420"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3.5*" MinWidth="320" MaxWidth="380"/>
+                <ColumnDefinition Width="6.5*"/>
             </Grid.ColumnDefinitions>
 
             <!--#region PANEL IZQUIERDO: LISTA DE CUENTAS (MASTER) -->

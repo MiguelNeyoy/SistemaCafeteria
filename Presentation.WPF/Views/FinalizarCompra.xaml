@@ -166,8 +166,8 @@
         <!--#region Cuerpo: Resumen y Panel de Cobro -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="410"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3.5*" MinWidth="320" MaxWidth="380"/>
+                <ColumnDefinition Width="6.5*"/>
             </Grid.ColumnDefinitions>
 
             <!--#region Columna Izquierda: Resumen de Compra -->
