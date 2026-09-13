@@ -230,20 +230,49 @@
     <!--#region Lista de Comanda-->
     <Style x:Key="ListaComanda" TargetType="ListBox">
 
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Margin" Value="0,2"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Stretch"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="ItemTemplate">
 
             <Setter.Value>
 
                 <DataTemplate>
 
-                    <Border Background="{StaticResource Amarillo claro_bajo}" BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="5" Width ="420" HorizontalAlignment="Center">
+                    <Border Background="{StaticResource Amarillo claro_bajo}" BorderBrush="#BDBDBD" BorderThickness="1" CornerRadius="8" Margin="6,3" HorizontalAlignment="Stretch">
 
-                        <Grid Margin="5,5,6,6">
+                        <Grid Margin="8,6">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
 
@@ -251,32 +280,33 @@
                             <Grid Grid.Row="0">
 
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                
                                 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
 
                                 <!--Nombre del producto-->
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Nombre}" 
+                                <TextBlock Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" 
+                                           Text="{Binding Nombre}" 
                                            FontFamily="{StaticResource Fuente-principal}" 
-                                           FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" 
-                                           Margin="0,0,0,4"/>
-                                
+                                           FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" 
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,8,2"/>
                                 
                                 <!--X Eliminar-->
-                                <Button Grid.Row="0" Grid.Column="1" Content="X"
+                                <Button Grid.Row="0" Grid.Column="1" Content="✕"
                                         FontFamily="{StaticResource Fuente-principal}"
                                         FontWeight="Bold"
-                                        FontSize="14"
-                                        Width="30" Height="30"
-                                        Margin="0,0,0,10"
+                                        FontSize="13"
+                                        Width="26" Height="26"
+                                        Margin="0,0,0,2"
                                         HorizontalAlignment="Right" VerticalAlignment="Top"
+                                        Cursor="Hand"
                                         Command="{Binding DataContext.EliminarProductoCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                         CommandParameter="{Binding}"/>
 
@@ -284,8 +314,8 @@
                                 <!--Precio-->
                                 <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Precio, StringFormat={}{0:C}}" 
                                            FontFamily="{StaticResource Fuente-principal}"
-                                           FontSize="20" FontWeight="SemiBold"
-                                           VerticalAlignment="Top"/>
+                                           FontSize="17" FontWeight="Bold"
+                                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
                             </Grid>
                             <!--#endregion-->
@@ -301,16 +331,16 @@
                                 <Grid Grid.Row="0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock Grid.Column="0" Text="Subtotal"
                                                FontFamily="{StaticResource Fuente-principal}"
-                                               FontSize="17" Foreground="Gray" FontWeight="SemiBold"/>
+                                               FontSize="15" Foreground="#616161" FontWeight="SemiBold"/>
 
                                     <TextBlock Grid.Column="1" Text="{Binding Subtotal, StringFormat={}{0:C}}" 
                                                FontFamily="{StaticResource Fuente-principal}"
-                                               FontSize="17" Foreground="Gray" FontWeight="SemiBold"/>
+                                               FontSize="15" Foreground="#616161" FontWeight="SemiBold"/>
                                 </Grid>
 
                                 <!-- Lista para las propiedades Extra -->
@@ -334,10 +364,10 @@
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0" Text="{Binding Nombre, StringFormat='+ {0}'}"
                                                            FontFamily="{StaticResource Fuente-principal}"
-                                                           FontSize="14" Foreground="#E65100"/>
+                                                           FontSize="13" Foreground="#E65100" TextWrapping="Wrap" Margin="0,0,6,0"/>
                                                 <TextBlock Grid.Column="1" Text="{Binding Precio, StringFormat={}{0:C}}" 
                                                            FontFamily="{StaticResource Fuente-principal}"
-                                                           FontSize="14" Foreground="#E65100" FontWeight="SemiBold"/>
+                                                           FontSize="13" Foreground="#E65100" FontWeight="SemiBold"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -348,15 +378,15 @@
 
 
                             <!--#region Comentarios-->
-                            <Grid Grid.Row="2">
+                            <Grid Grid.Row="2" Margin="0,4,0,0">
 
 
                                 <!--#region Editar comentario-->
                                 <Grid>
 
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
                                     <Grid.Style>
@@ -379,12 +409,12 @@
 
                                     <TextBlock Grid.Row="0" Text="Comentarios:"
                                                FontFamily="{StaticResource Fuente-principal}"
-                                               FontSize="16" FontWeight="SemiBold" Foreground="Gray"/>
+                                               FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
 
                                     <TextBox Grid.Row="1" Text="{Binding Nota, UpdateSourceTrigger=PropertyChanged}"
-                                              MinHeight="50" MaxHeight="80" Margin="0,5,0,0"
+                                              MinHeight="45" MaxHeight="80" Margin="0,4,0,0"
                                               TextWrapping="Wrap"
-                                              AcceptsReturn="True" VerticalScrollBarVisibility="auto"/>
+                                              AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
 
                                 </Grid>
                                 <!--#endregion-->
@@ -394,8 +424,8 @@
                                 <Grid>
 
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
                                     <Grid.Style>
@@ -427,12 +457,12 @@
 
                                     <TextBlock Grid.Row="0" Text="Comentarios:"
                                                FontFamily="{StaticResource Fuente-principal}"
-                                               FontSize="16" FontWeight="SemiBold" Foreground="Gray"/>
+                                               FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
 
                                     <TextBlock Grid.Row="1" Text="{Binding Nota}"
                                                FontFamily="{StaticResource Fuente-principal}"
-                                               FontSize="14" Foreground="Gray" TextWrapping="Wrap" 
-                                               Margin="0,5,0,0"/>
+                                               FontSize="13" Foreground="#424242" TextWrapping="Wrap" 
+                                               Margin="0,4,0,0"/>
 
                                 </Grid>
                                 <!--#endregion-->
@@ -443,7 +473,7 @@
 
 
                             <!--Cantidad-->
-                            <Border Grid.Row="3" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="0,5,0,0">
+                            <Border Grid.Row="3" BorderBrush="#BDBDBD" BorderThickness="0,1,0,0" Padding="0,5,0,0" Margin="0,5,0,0">
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 

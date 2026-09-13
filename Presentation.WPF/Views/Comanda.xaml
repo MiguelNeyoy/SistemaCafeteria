@@ -232,7 +232,9 @@
                 <ListBox Grid.Row="1" 
                          Style="{StaticResource ListaComanda}" 
                          ItemsSource="{Binding ItemsComanda}" 
-                         SelectedItem="{Binding ItemSeleccionado, Mode=TwoWay}"/>
+                         SelectedItem="{Binding ItemSeleccionado, Mode=TwoWay}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         HorizontalContentAlignment="Stretch"/>
 
                 <!-- Barra inferior: Total y Acciones -->
                 <Border Grid.Row="2" Background="#fbfbe2" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="0,8,0,10">
