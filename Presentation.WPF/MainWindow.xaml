@@ -18,6 +18,10 @@
         Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
 
     <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:DashboardViewModel}">
+            <views:DashboardView />
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
             <views:MenuView />
         </DataTemplate>
@@ -72,21 +76,38 @@
                 <!--#endregion-->
 
 
-                <!--#region Logotipo-->
-                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,2" Padding="12,8">
-                    <Image Source="/Assets/Imagenes/Logo.png" MaxHeight="115" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <!--#region Logotipo / Botón Home-->
+                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="0,0,0,2" Padding="8,6">
+                    <Button Command="{Binding ShowHomeCommand}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            ToolTip="Ir al Inicio / Dashboard">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="10" Padding="4">
+                                    <Image Source="/Assets/Imagenes/Logo.png" MaxHeight="115" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="{StaticResource Blanco 70%}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </Border>
                 <!--#endregion-->
 
 
                 <!--#region RadioButton (Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
-                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}"/>
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}" IsChecked="{Binding EsMenuSeleccionado, Mode=OneWay}"/>
 
-                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" />
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" IsChecked="{Binding EsConfigSeleccionado, Mode=OneWay}"/>
 
-                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja" Command="{Binding ShowCierreDeCajaCommand}"/>
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja" Command="{Binding ShowCierreDeCajaCommand}" IsChecked="{Binding EsCierreSeleccionado, Mode=OneWay}"/>
 
-                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Cuentas&#x0a;Abiertas" Command="{Binding ShowCuentasAbiertasCommand}"/>
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Cuentas&#x0a;Abiertas" Command="{Binding ShowCuentasAbiertasCommand}" IsChecked="{Binding EsCuentasSeleccionado, Mode=OneWay}"/>
                 <!--#endregion-->
 
 

@@ -18,6 +18,7 @@ public partial class MainViewModel : ObservableObject
     private readonly IVentaService _ventaService;
     private readonly IComandaService _comandaService;
 
+    private readonly DashboardViewModel _dashboardViewModel;
     private MenuViewModel? _menuViewModel;
     private ComandaViewModel? _comandaViewModel;
     private ConfiguracionMenuViewModel? _configuracionMenuViewModel;
@@ -32,6 +33,19 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string? _botonSeleccionado;
 
+    public bool EsMenuSeleccionado => BotonSeleccionado == "Menu";
+    public bool EsConfigSeleccionado => BotonSeleccionado == "Configuracion";
+    public bool EsCierreSeleccionado => BotonSeleccionado == "CierreDeCaja";
+    public bool EsCuentasSeleccionado => BotonSeleccionado == "CuentasAbiertas";
+
+    partial void OnBotonSeleccionadoChanged(string? value)
+    {
+        OnPropertyChanged(nameof(EsMenuSeleccionado));
+        OnPropertyChanged(nameof(EsConfigSeleccionado));
+        OnPropertyChanged(nameof(EsCierreSeleccionado));
+        OnPropertyChanged(nameof(EsCuentasSeleccionado));
+    }
+
     public MainViewModel(
         IProductoService productoService, 
         ICategoriaService categoriaService, 
@@ -40,7 +54,8 @@ public partial class MainViewModel : ObservableObject
         IPurgaService purgaService, 
         IDialogoService dialogoService,
         IVentaService ventaService,
-        IComandaService comandaService)
+        IComandaService comandaService,
+        DashboardViewModel dashboardViewModel)
     {
         _productoService = productoService;
         _categoriaService = categoriaService;
@@ -50,6 +65,12 @@ public partial class MainViewModel : ObservableObject
         _purgaService = purgaService;
         _ventaService = ventaService;
         _comandaService = comandaService;
+        _dashboardViewModel = dashboardViewModel;
+
+        // Establecer el Dashboard de Inicio como vista inicial al arrancar
+        VistaActual = _dashboardViewModel;
+        BotonSeleccionado = "Home";
+        _ = _dashboardViewModel.CargarDatosCommand.ExecuteAsync(null);
 
     }//Fin - MainViewModel
 
@@ -69,8 +90,24 @@ public partial class MainViewModel : ObservableObject
 
 
     [RelayCommand]
+    private async Task ShowHome()
+    {
+        if (!ConfirmarSalidaDeComanda())
+            return;
+
+        await _dashboardViewModel.CargarDatosCommand.ExecuteAsync(null);
+
+        VistaActual = _dashboardViewModel;
+
+        BotonSeleccionado = "Home";
+    }
+
+
+    [RelayCommand]
     private async Task ShowMenu()
     {
+        if (!ConfirmarSalidaDeComanda())
+            return;
 
         if (_menuViewModel is null)
         {
@@ -133,6 +170,9 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowConfigMenu()
     {
+        if (!ConfirmarSalidaDeComanda())
+            return;
+
         if (_configuracionMenuViewModel is null)
         {
             _configuracionMenuViewModel = new ConfiguracionMenuViewModel(
@@ -172,6 +212,9 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ShowCierreDeCaja()
     {
+        if (!ConfirmarSalidaDeComanda())
+            return;
+
         VistaActual = new CierreDeCajaViewModel();
 
         BotonSeleccionado = "CierreDeCaja";
