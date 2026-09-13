@@ -109,12 +109,12 @@
     <Grid>
         <!--#region Estructura Principal -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--#region Panel Superior-->
-        <Border Grid.Row="0" BorderThickness="0,0,0,3" BorderBrush="Gray">
+        <Border Grid.Row="0" BorderThickness="0,0,0,2" BorderBrush="Gray">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -125,16 +125,16 @@
                 <Button Command="{Binding RegresarCommand}"
                         Grid.Column="0"
                         Style="{StaticResource BotonRetroceso}" 
-                        Height="65" Width="120" Margin="15,0,0,5" HorizontalAlignment="Left">
+                        Height="48" Width="95" Margin="12,0,0,0" HorizontalAlignment="Left">
                     <Image Source="/Assets/Imagenes/Icono_retroceso.png" Stretch="Uniform"/>
                 </Button>
 
                 <!-- Categoría Actual -->
-                <Border Grid.Column="1" Height="65" HorizontalAlignment="Center" Width="Auto" Background="{StaticResource Naranja 90%}" CornerRadius="10">
+                <Border Grid.Column="1" Height="48" HorizontalAlignment="Center" Width="Auto" Background="{StaticResource Naranja 90%}" CornerRadius="8">
                     <TextBlock Text="{Binding CategoriaSeleccionada.Nombre}"
                                FontFamily="{StaticResource Fuente-principal}"
-                               FontSize="28" FontWeight="SemiBold"
-                               Padding="25"
+                               FontSize="22" FontWeight="SemiBold"
+                               Padding="20,0"
                                VerticalAlignment="Center"/>
                 </Border>
             </Grid>
@@ -144,8 +144,8 @@
         <!--#region Panel Inferior (Comanda y Productos) -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="460"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3.5*" MinWidth="320" MaxWidth="380"/>
+                <ColumnDefinition Width="6.5*"/>
             </Grid.ColumnDefinitions>
 
             <!--#region Columna Izquierda: Comanda Activa -->
@@ -157,7 +157,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Encabezado de la comanda y selector de cuenta -->
-                <Border Grid.Row="0" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="12,8">
+                <Border Grid.Row="0" Background="White" BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="12,6">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -172,24 +172,24 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                <TextBlock FontSize="24" FontFamily="{StaticResource Fuente-principal}" FontWeight="SemiBold" Text="Comanda"/>
-                                <TextBlock FontSize="13" FontFamily="{StaticResource Fuente-principal}" Foreground="#757575" Text="Orden activa en preparacion"/>
+                                <TextBlock FontSize="22" FontFamily="{StaticResource Fuente-principal}" FontWeight="SemiBold" Text="Comanda"/>
+                                <TextBlock FontSize="12" FontFamily="{StaticResource Fuente-principal}" Foreground="#757575" Text="Orden activa en preparacion"/>
                             </StackPanel>
 
                             <Button Grid.Column="1" Style="{StaticResource BtnBasura}" Command="{Binding LimpiarComandaCommand}">
-                                <Image Source="/Assets/Imagenes/Icono_basura.png" Height="40" Width="40"/>
+                                <Image Source="/Assets/Imagenes/Icono_basura.png" Height="36" Width="36"/>
                             </Button>
                         </Grid>
 
                         <!-- Fila 2: Selector de Cuenta (Nueva Cuenta o Pendiente) -->
-                        <Border Grid.Row="1" Margin="0,8,0,0" Background="#FFF8E1" BorderBrush="#FFE082" BorderThickness="1.5" CornerRadius="8" Padding="10,6">
+                        <Border Grid.Row="1" Margin="0,6,0,0" Background="#FFF8E1" BorderBrush="#FFE082" BorderThickness="1.5" CornerRadius="8" Padding="8,5">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <Grid Grid.Row="0" Margin="0,0,0,4">
+                                <Grid Grid.Row="0" Margin="0,0,0,3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
@@ -198,7 +198,7 @@
                                     <TextBlock Grid.Column="0" 
                                                Text="Asignar a cuenta:" 
                                                FontFamily="{StaticResource Fuente-principal}" 
-                                               FontSize="13" FontWeight="SemiBold" 
+                                               FontSize="12" FontWeight="SemiBold" 
                                                Foreground="#E65100" 
                                                VerticalAlignment="Center"/>
 
@@ -208,10 +208,10 @@
                                             Background="Transparent"
                                             Foreground="#757575"
                                             BorderThickness="0"
-                                            FontSize="12"
+                                            FontSize="11"
                                             FontFamily="{StaticResource Fuente-principal}"
                                             Cursor="Hand"
-                                            Padding="4,2"/>
+                                            Padding="4,1"/>
                                 </Grid>
 
                                 <ComboBox Grid.Row="1"
@@ -219,8 +219,8 @@
                                           SelectedItem="{Binding CuentaSeleccionadaOpcion, Mode=TwoWay}"
                                           DisplayMemberPath="Titulo"
                                           FontFamily="{StaticResource Fuente-principal}"
-                                          FontSize="15" FontWeight="SemiBold"
-                                          Height="38"
+                                          FontSize="14" FontWeight="SemiBold"
+                                          Height="34"
                                           VerticalContentAlignment="Center"
                                           HorizontalAlignment="Stretch"/>
                             </Grid>
@@ -235,7 +235,7 @@
                          SelectedItem="{Binding ItemSeleccionado, Mode=TwoWay}"/>
 
                 <!-- Barra inferior: Total y Acciones -->
-                <Border Grid.Row="2" Background="#fbfbe2" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="0,12,0,18">
+                <Border Grid.Row="2" Background="#fbfbe2" BorderBrush="Gray" BorderThickness="0,1,0,0" Padding="0,8,0,10">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -243,7 +243,7 @@
                         </Grid.RowDefinitions>
 
                         <!-- Total de la comanda -->
-                        <Grid Margin="20,0,20,12">
+                        <Grid Margin="16,0,16,6">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
@@ -251,25 +251,25 @@
 
                             <TextBlock Grid.Column="0" Text="Total" 
                                        FontFamily="{StaticResource Fuente-principal}"
-                                       FontSize="26" FontWeight="SemiBold"
+                                       FontSize="22" FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
 
                             <TextBlock Grid.Column="1" Text="{Binding TotalComanda, StringFormat={}{0:C}}"
                                        FontFamily="{StaticResource Fuente-principal}"
-                                       FontSize="28" FontWeight="Bold"
+                                       FontSize="24" FontWeight="Bold"
                                        Foreground="#E65100"
                                        VerticalAlignment="Center"/>
                         </Grid>
 
                         <!-- Botón de Acción: Finalizar (Ocupa todo el ancho) -->
-                        <Grid Grid.Row="1" Margin="15,0,15,0">
+                        <Grid Grid.Row="1" Margin="12,0,12,0">
                             <!-- Botón Finalizar (Abre o acumula a la cuenta) -->
                             <Button Content="Finalizar" 
-                                    Style="{StaticResource BtnFinalizar}" 
-                                    FontFamily="{StaticResource Fuente-principal}"
-                                    FontSize="22" FontWeight="Bold"
-                                    Height="50" HorizontalAlignment="Stretch"
-                                    Command="{Binding SolicitarFinalizarComandaCommand}"/>
+                                     Style="{StaticResource BtnFinalizar}" 
+                                     FontFamily="{StaticResource Fuente-principal}"
+                                     FontSize="20" FontWeight="Bold"
+                                     Height="46" HorizontalAlignment="Stretch"
+                                     Command="{Binding SolicitarFinalizarComandaCommand}"/>
                         </Grid>
                     </Grid>
                 </Border>
@@ -279,10 +279,10 @@
             <!--#region Columna Derecha: Catálogo de Productos -->
             <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1,0,0,0" Background="White">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding ProductoCategoriaSeleccionada}" Padding="10">
+                    <ItemsControl ItemsSource="{Binding ProductoCategoriaSeleccionada}" Padding="8">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal" ItemHeight="126" ItemWidth="235"/>
+                                <WrapPanel Orientation="Horizontal" ItemHeight="115" ItemWidth="205"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
 

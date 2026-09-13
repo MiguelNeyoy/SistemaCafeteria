@@ -17,21 +17,21 @@
         <!--#region Estructura Principal-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="380" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <!--#endregion-->
 
         <!--#region Columna Izquierda (Acciones Superiores + 3 Listas de Catálogo)-->
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="200"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!--#region Panel Superior de Acciones y Resumen-->
-            <Grid Grid.Row="0" Margin="10,10,10,5">
+            <Grid Grid.Row="0" Margin="8,8,8,4">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="190"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -39,74 +39,84 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Tarjeta Resumen Catálogo -->
-                <Border Grid.Column="0" Height="175" Background="White" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Margin="4">
-                    <Grid Margin="10,8">
+                <Border Grid.Column="0" Width="150" Height="78" Background="White" BorderBrush="Black" BorderThickness="1.5" CornerRadius="8" Margin="3" Padding="8,4">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Catálogo" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,2"/>
+                        <TextBlock Text="Catálogo" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,2"/>
 
-                        <!-- Total Productos -->
-                        <Grid Grid.Row="1">
+                        <!-- Métricas en Horizontal -->
+                        <Grid Grid.Row="1" VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="/Assets/Imagenes/Icono_de_alimento.png" Stretch="Uniform" Height="32"/>
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,0">
-                                <TextBlock Text="Productos" FontFamily="{StaticResource Fuente-principal}" FontSize="12" Foreground="Gray"/>
-                                <TextBlock Text="{Binding TotalProductos}" FontFamily="{StaticResource Fuente-principal}" FontSize="20" FontWeight="Bold"/>
+
+                            <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding TotalProductos}" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Productos" FontFamily="{StaticResource Fuente-principal}" FontSize="9" Foreground="Gray" HorizontalAlignment="Center"/>
                             </StackPanel>
-                        </Grid>
 
-                        <!-- Total Extras -->
-                        <Grid Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Stretch="Uniform" Height="28"/>
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="6,0,0,0">
-                                <TextBlock Text="Extras" FontFamily="{StaticResource Fuente-principal}" FontSize="12" Foreground="Gray"/>
-                                <TextBlock Text="{Binding TotalExtras}" FontFamily="{StaticResource Fuente-principal}" FontSize="20" FontWeight="Bold"/>
+                            <Border Grid.Column="1" Width="1" Background="#E0E0E0" Margin="2,1"/>
+
+                            <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding TotalExtras}" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Extras" FontFamily="{StaticResource Fuente-principal}" FontSize="9" Foreground="Gray" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
                     </Grid>
                 </Border>
 
                 <!-- Botón Añadir Categoría -->
-                <Button Grid.Column="1" Command="{Binding MostrarFormularioCategoriaCommand}" Style="{StaticResource BtnCatyPro}" Height="175" Margin="4" Background="WhiteSmoke">
-                    <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Añadir &#x0a;Categoría" TextAlignment="Center" Margin="0,0,0,4" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="Bold" />
-                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="65" Width="65" Stretch="Uniform" />
-                    </StackPanel>
+                <Button Grid.Column="1" Command="{Binding MostrarFormularioCategoriaCommand}" Style="{StaticResource BtnCatyPro}" Height="78" Margin="3" Background="WhiteSmoke">
+                    <Grid Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="26" Width="26" Stretch="Uniform" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="Añadir Categoría" TextAlignment="Center" Margin="0,2,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" TextWrapping="Wrap"/>
+                    </Grid>
                 </Button>
 
                 <!-- Botón Añadir Producto -->
-                <Button Grid.Column="2" Command="{Binding MostrarFormularioProductoCommand}" Style="{StaticResource BtnCatyPro}" Height="175" Margin="4">
-                    <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Añadir &#x0a;Producto" TextAlignment="Center" Margin="0,0,0,4" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="Bold" />
-                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="65" Width="65" Stretch="Uniform" />
-                    </StackPanel>
+                <Button Grid.Column="2" Command="{Binding MostrarFormularioProductoCommand}" Style="{StaticResource BtnCatyPro}" Height="78" Margin="3">
+                    <Grid Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="26" Width="26" Stretch="Uniform" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="Añadir Producto" TextAlignment="Center" Margin="0,2,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" TextWrapping="Wrap"/>
+                    </Grid>
                 </Button>
 
                 <!-- Botón Añadir Extra -->
-                <Button Grid.Column="3" Command="{Binding MostrarFormularioExtraCommand}" Style="{StaticResource BtnCatyPro}" Height="175" Margin="4">
-                    <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Añadir &#x0a;Extra" TextAlignment="Center" Margin="0,0,0,4" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="Bold" />
-                        <Image Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="65" Width="65" Stretch="Uniform" />
-                    </StackPanel>
+                <Button Grid.Column="3" Command="{Binding MostrarFormularioExtraCommand}" Style="{StaticResource BtnCatyPro}" Height="78" Margin="3">
+                    <Grid Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="26" Width="26" Stretch="Uniform" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="Añadir Extra" TextAlignment="Center" Margin="0,2,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" TextWrapping="Wrap"/>
+                    </Grid>
                 </Button>
 
                 <!-- Botón Seguridad y Purga -->
-                <Button Grid.Column="4" Command="{Binding MostrarFormularioSeguridadCommand}" Style="{StaticResource BtnCatyPro}" Height="175" Margin="4">
-                    <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Seguridad &#x0a;&amp; Purga" TextAlignment="Center" Margin="0,0,0,4" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="Bold" Foreground="#8B0000"/>
-                        <Image Source="/Assets/Imagenes/Icono_basura.png" Height="65" Width="65" Stretch="Uniform" />
-                    </StackPanel>
+                <Button Grid.Column="4" Command="{Binding MostrarFormularioSeguridadCommand}" Style="{StaticResource BtnCatyPro}" Height="78" Margin="3">
+                    <Grid Margin="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_basura.png" Height="26" Width="26" Stretch="Uniform" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="Seguridad &amp; Purga" TextAlignment="Center" Margin="0,2,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#8B0000" TextWrapping="Wrap"/>
+                    </Grid>
                 </Button>
             </Grid>
             <!--#endregion-->
@@ -398,31 +408,14 @@
         <!--#endregion-->
 
         <!--#region Columna Derecha (Panel de Formularios Dinámicos)-->
-        <Border Grid.Column="1" Background="{StaticResource Amarillo claro_fuerte}" BorderBrush="Black" BorderThickness="3,0,0,0">
+        <Border Grid.Column="1" 
+                Width="330"
+                Background="{StaticResource Amarillo claro_fuerte}" 
+                BorderBrush="Black" 
+                BorderThickness="2,0,0,0"
+                Visibility="{Binding MostrarFormulario, Converter={StaticResource BoolToVisConverter}}">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <Grid Margin="18">
-
-                    <!--#region Estado Inicial (Sin formulario abierto)-->
-                    <Grid>
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Setter Property="Visibility" Value="Visible"/>
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="HorizontalAlignment" Value="Center"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding MostrarFormulario}" Value="True">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
-
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Source="/Assets/Imagenes/Logo.png" Height="100" Opacity="0.5" Margin="0,0,0,15" Stretch="Uniform"/>
-                            <TextBlock Text="Selecciona cualquier opción para comenzar" HorizontalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="22" FontWeight="Bold" Foreground="Gray" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </StackPanel>
-                    </Grid>
-                    <!--#endregion-->
+                <Grid Margin="14">
 
                     <!--#region Formulario Categoría-->
                     <StackPanel>
