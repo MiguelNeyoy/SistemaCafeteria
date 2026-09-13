@@ -181,13 +181,12 @@ public partial class CuentasAbiertasViewModel : ObservableObject
         }
     }
 
+    public event Action<int>? CobrarCuentaSolicitado;
+
     [RelayCommand]
     private void CobrarCuenta()
     {
         if (CuentaSeleccionada is null) return;
-
-        _dialogoService.MostrarMensaje(
-            $"Cuenta #{CuentaSeleccionada.Id} - {CuentaSeleccionada.Cliente}\nTotal a cobrar: ${CuentaSeleccionada.Total:F2}\n\nEl módulo de cobro y pasarela de pagos se integrará a continuación.",
-            "Cobro de Cuenta");
+        CobrarCuentaSolicitado?.Invoke(CuentaSeleccionada.Id);
     }
 }

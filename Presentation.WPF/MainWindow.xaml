@@ -38,6 +38,10 @@
             <views:CuentasAbiertasView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewmodels:FinalizarCompraViewModel}">
+            <views:FinalizarCompra />
+        </DataTemplate>
+
     </Window.Resources>
 
 

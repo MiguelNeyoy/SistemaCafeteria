@@ -22,6 +22,7 @@ public partial class MainViewModel : ObservableObject
     private ComandaViewModel? _comandaViewModel;
     private ConfiguracionMenuViewModel? _configuracionMenuViewModel;
     private CuentasAbiertasViewModel? _cuentasAbiertasViewModel;
+    private FinalizarCompraViewModel? _finalizarCompraViewModel;
 
     private bool HayOrdenEnProceso => _comandaViewModel is not null && _comandaViewModel.ItemsComanda.Count > 0;
 
@@ -184,6 +185,7 @@ public partial class MainViewModel : ObservableObject
         if (_cuentasAbiertasViewModel is null)
         {
             _cuentasAbiertasViewModel = new CuentasAbiertasViewModel(_ventaService, _dialogoService);
+            _cuentasAbiertasViewModel.CobrarCuentaSolicitado += IniciarCobroCuenta;
         }
 
         await _cuentasAbiertasViewModel.CargarCuentasAsync();
@@ -191,5 +193,37 @@ public partial class MainViewModel : ObservableObject
         VistaActual = _cuentasAbiertasViewModel;
 
         BotonSeleccionado = "CuentasAbiertas";
+    }
+
+    private async void IniciarCobroCuenta(int ventaId)
+    {
+        if (_finalizarCompraViewModel is null)
+        {
+            _finalizarCompraViewModel = new FinalizarCompraViewModel(_ventaService, _dialogoService);
+            _finalizarCompraViewModel.CobroFinalizado += OnCobroFinalizado;
+            _finalizarCompraViewModel.RegresarSolicitado += OnRegresarDeCobro;
+        }
+
+        await _finalizarCompraViewModel.CargarVentaAsync(ventaId);
+        VistaActual = _finalizarCompraViewModel;
+    }
+
+    private async void OnCobroFinalizado()
+    {
+        if (_cuentasAbiertasViewModel is not null)
+        {
+            await _cuentasAbiertasViewModel.CargarCuentasAsync();
+            VistaActual = _cuentasAbiertasViewModel;
+            BotonSeleccionado = "CuentasAbiertas";
+        }
+    }
+
+    private void OnRegresarDeCobro()
+    {
+        if (_cuentasAbiertasViewModel is not null)
+        {
+            VistaActual = _cuentasAbiertasViewModel;
+            BotonSeleccionado = "CuentasAbiertas";
+        }
     }
 }
