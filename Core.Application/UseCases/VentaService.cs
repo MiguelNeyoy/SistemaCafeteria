@@ -3,6 +3,7 @@ using Core.Application.Interfaces;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
 using Core.Domain.Entities;
+using Core.Domain.Enums;
 using Core.Domain.Exceptions;
 
 namespace Core.Application.UseCases;
@@ -146,6 +147,40 @@ public class VentaService : IVentaService
     {
         var ventas = await _ventaRepository.ObtenerPorFechaAsync(fecha);
         return ventas.Select(MapToResumenDto).ToList();
+    }
+
+    public async Task<List<ProductoTopDto>> ObtenerTopProductosMesAsync(int anio, int mes, int limite = 5)
+    {
+        if (limite <= 0) limite = 5;
+
+        var inicio = new DateTime(anio, mes, 1, 0, 0, 0);
+        var fin = inicio.AddMonths(1).AddTicks(-1);
+
+        var ventas = await _ventaRepository.ObtenerPorRangoFechasAsync(inicio, fin);
+        var ventasPagadas = ventas.Where(v => v.Estado == EstadoVenta.Pagado);
+
+        return ventasPagadas
+            .SelectMany(v => v.Items)
+            .GroupBy(i => new { i.ProductoId, i.ProductoNombre })
+            .Select(g => new
+            {
+                ProductoId = g.Key.ProductoId,
+                Nombre = g.Key.ProductoNombre,
+                CantidadVendida = g.Sum(i => i.Cantidad),
+                TotalRecaudado = g.Sum(i => i.Subtotal)
+            })
+            .OrderByDescending(p => p.CantidadVendida)
+            .ThenByDescending(p => p.TotalRecaudado)
+            .Take(limite)
+            .Select((p, index) => new ProductoTopDto
+            {
+                Posicion = index + 1,
+                ProductoId = p.ProductoId,
+                Nombre = p.Nombre,
+                CantidadVendida = p.CantidadVendida,
+                TotalRecaudado = p.TotalRecaudado
+            })
+            .ToList();
     }
 
     private static VentaResumenDto MapToResumenDto(Venta venta)

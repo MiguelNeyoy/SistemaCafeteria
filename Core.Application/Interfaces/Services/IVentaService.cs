@@ -21,4 +21,5 @@ public interface IVentaService
     Task<VentaResumenDto?> ObtenerPorIdAsync(int id);
     Task<List<VentaResumenDto>> ObtenerPendientesAsync();
     Task<List<VentaResumenDto>> ObtenerPorFechaAsync(DateTime fecha);
+    Task<List<ProductoTopDto>> ObtenerTopProductosMesAsync(int anio, int mes, int limite = 5);
 }
