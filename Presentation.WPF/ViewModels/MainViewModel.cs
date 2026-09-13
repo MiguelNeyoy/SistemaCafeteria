@@ -140,7 +140,8 @@ public partial class MainViewModel : ObservableObject
                 _productoService,
                 _extraService,
                 _seguridadService,
-                _purgaService);
+                _purgaService,
+                _dialogoService);
 
             _configuracionMenuViewModel.ConfiguracionAvanzadaSolicitada += MostrarConfiguracionAvanzada;
         }

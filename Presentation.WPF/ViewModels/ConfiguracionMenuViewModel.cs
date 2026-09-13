@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces.Services;
 using Core.Domain.Exceptions;
+using Presentation.WPF.Services;
 using System.Collections.ObjectModel;
 
 namespace Presentation.WPF.ViewModels;
@@ -14,6 +15,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private readonly IExtraService _extraService;
     private readonly ISeguridadService _seguridadService;
     private readonly IPurgaService _purgaService;
+    private readonly IDialogoService _dialogoService;
 
     // Colecciones de Catálogo
     public ObservableCollection<CategoriaDto> Categorias { get; } = new();
@@ -115,6 +117,21 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [ObservableProperty]
     private bool modoEdicionExtra;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TieneErrorExtra))]
+    private string? mensajeErrorExtra;
+
+    public bool TieneErrorExtra => !string.IsNullOrWhiteSpace(MensajeErrorExtra);
+
+    partial void OnNombreExtraChanged(string value)
+    {
+        MensajeErrorExtra = null;
+    }
+
+    public bool CategoriaSeleccionadaEsActiva => CategoriaSeleccionada?.Activo ?? true;
+    public bool ProductoSeleccionadoEsActivo => ProductoSeleccionado?.Activo ?? true;
+    public bool ExtraSeleccionadoEsActivo => ExtraSeleccionado?.Activo ?? true;
+
     // Sección Seguridad y Purga
     [ObservableProperty]
     private string pinActual = string.Empty;
@@ -159,13 +176,15 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         IProductoService productoService,
         IExtraService extraService,
         ISeguridadService seguridadService,
-        IPurgaService purgaService)
+        IPurgaService purgaService,
+        IDialogoService dialogoService)
     {
         _categoriaService = categoriaService;
         _productoService = productoService;
         _extraService = extraService;
         _seguridadService = seguridadService;
         _purgaService = purgaService;
+        _dialogoService = dialogoService;
 
         Productos.CollectionChanged += (_, _) =>
         {
@@ -212,8 +231,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
     public async Task CargarDatosAsync()
     {
-        var categorias = await _categoriaService.ObtenerActivasAsync();
-        var productos = await _productoService.ObtenerActivosAsync();
+        var categorias = await _categoriaService.ObtenerTodasAsync();
+        var productos = await _productoService.ObtenerTodosAsync();
         var extras = await _extraService.ObtenerTodosAsync();
 
         Categorias.Clear();
@@ -305,6 +324,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         ModoEdicionExtra = false;
         MensajeErrorProducto = null;
         MensajeErrorCategoria = null;
+        MensajeErrorExtra = null;
+
+        OnPropertyChanged(nameof(CategoriaSeleccionadaEsActiva));
+        OnPropertyChanged(nameof(ProductoSeleccionadoEsActivo));
+        OnPropertyChanged(nameof(ExtraSeleccionadoEsActivo));
     }
 
     #region CRUD Categorias
@@ -376,11 +400,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         }
         catch (DomainValidationException ex)
         {
-            MensajeErrorCategoria = $"⚠️ {ex.Message}";
+            MensajeErrorCategoria = ex.Message;
         }
         catch (Exception ex)
         {
-            MensajeErrorCategoria = $"⚠️ Error: {ex.Message}";
+            MensajeErrorCategoria = $"Error: {ex.Message}";
         }
     }
 
@@ -398,6 +422,37 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioSeguridad = false;
 
         ModoEdicionCategoria = true;
+        OnPropertyChanged(nameof(CategoriaSeleccionadaEsActiva));
+    }
+
+    [RelayCommand]
+    private async Task AlternarEstadoCategoria()
+    {
+        if (CategoriaSeleccionada is null) return;
+
+        if (CategoriaSeleccionada.Activo)
+        {
+            var confirmacion = _dialogoService.Confirmar(
+                $"¿Desea deshabilitar la categoría '{CategoriaSeleccionada.Nombre}'? Los productos de esta categoría no se mostrarán en la comanda.",
+                "Confirmar Deshabilitación");
+
+            if (!confirmacion) return;
+
+            await _categoriaService.DesactivarAsync(CategoriaSeleccionada.Id);
+        }
+        else
+        {
+            var confirmacion = _dialogoService.Confirmar(
+                $"¿Desea habilitar la categoría '{CategoriaSeleccionada.Nombre}'?",
+                "Confirmar Habilitación");
+
+            if (!confirmacion) return;
+
+            await _categoriaService.ActivarAsync(CategoriaSeleccionada.Id);
+        }
+
+        CancelarFormulario();
+        await CargarDatosAsync();
     }
     #endregion
 
@@ -498,11 +553,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         }
         catch (DomainValidationException ex)
         {
-            MensajeErrorProducto = $"⚠️ {ex.Message}";
+            MensajeErrorProducto = ex.Message;
         }
         catch (Exception ex)
         {
-            MensajeErrorProducto = $"⚠️ Error: {ex.Message}";
+            MensajeErrorProducto = $"Error: {ex.Message}";
         }
     }
 
@@ -522,6 +577,37 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioSeguridad = false;
 
         ModoEdicionProducto = true;
+        OnPropertyChanged(nameof(ProductoSeleccionadoEsActivo));
+    }
+
+    [RelayCommand]
+    private async Task AlternarEstadoProducto()
+    {
+        if (ProductoSeleccionado is null) return;
+
+        if (ProductoSeleccionado.Activo)
+        {
+            var confirmacion = _dialogoService.Confirmar(
+                $"¿Desea deshabilitar el producto '{ProductoSeleccionado.Nombre}'? No aparecerá en el menú al tomar comandas.",
+                "Confirmar Deshabilitación");
+
+            if (!confirmacion) return;
+
+            await _productoService.DesactivarAsync(ProductoSeleccionado.Id);
+        }
+        else
+        {
+            var confirmacion = _dialogoService.Confirmar(
+                $"¿Desea habilitar el producto '{ProductoSeleccionado.Nombre}'?",
+                "Confirmar Habilitación");
+
+            if (!confirmacion) return;
+
+            await _productoService.ActivarAsync(ProductoSeleccionado.Id);
+        }
+
+        CancelarFormulario();
+        await CargarDatosAsync();
     }
     #endregion
 
@@ -548,6 +634,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         ExtraSeleccionado = extra;
         NombreExtra = extra.Nombre;
         PrecioExtra = extra.Precio;
+        MensajeErrorExtra = null;
 
         await PrepararCategoriasParaExtraAsync();
 
@@ -558,6 +645,37 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioSeguridad = false;
 
         ModoEdicionExtra = true;
+        OnPropertyChanged(nameof(ExtraSeleccionadoEsActivo));
+    }
+
+    [RelayCommand]
+    private async Task AlternarEstadoExtra()
+    {
+        if (ExtraSeleccionado is null) return;
+
+        if (ExtraSeleccionado.Activo)
+        {
+            var confirmacion = _dialogoService.Confirmar(
+                $"¿Desea deshabilitar el extra '{ExtraSeleccionado.Nombre}'? No aparecerá en el menú al tomar comandas.",
+                "Confirmar Deshabilitación");
+
+            if (!confirmacion) return;
+
+            await _extraService.DesactivarAsync(ExtraSeleccionado.Id);
+        }
+        else
+        {
+            var confirmacion = _dialogoService.Confirmar(
+                $"¿Desea habilitar el extra '{ExtraSeleccionado.Nombre}'?",
+                "Confirmar Habilitación");
+
+            if (!confirmacion) return;
+
+            await _extraService.ActivarAsync(ExtraSeleccionado.Id);
+        }
+
+        CancelarFormulario();
+        await CargarDatosAsync();
     }
 
     [RelayCommand]
