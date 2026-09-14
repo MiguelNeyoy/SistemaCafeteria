@@ -72,15 +72,21 @@
                 </Border>
 
                 <!-- Botón Añadir Categoría -->
-                <Button Grid.Column="1" Command="{Binding MostrarFormularioCategoriaCommand}" Style="{StaticResource BtnCatyPro}" Height="78" Margin="3" Background="WhiteSmoke">
+                <Button Grid.Column="1" Command="{Binding MostrarFormularioCategoriaCommand}" Style="{StaticResource BtnCatyPro}" Height="78" Margin="3">
+                    
                     <Grid Margin="2">
+                        
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        
                         <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="26" Width="26" Stretch="Uniform" VerticalAlignment="Center"/>
+                        
                         <TextBlock Grid.Row="1" Text="Añadir Categoría" TextAlignment="Center" Margin="0,2,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" TextWrapping="Wrap"/>
+                        
                     </Grid>
+                    
                 </Button>
 
                 <!-- Botón Añadir Producto -->
