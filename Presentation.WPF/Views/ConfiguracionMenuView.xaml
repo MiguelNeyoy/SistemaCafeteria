@@ -506,7 +506,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnComentario}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
+                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnBasura}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
                             <Button Grid.Column="1" Command="{Binding GuardarCategoriaCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="Guardar"/>
                         </Grid>
                     </StackPanel>
@@ -607,7 +607,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnComentario}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
+                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnBasura}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
                             <Button Grid.Column="1" Command="{Binding GuardarProductoCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="Guardar"/>
                         </Grid>
                     </StackPanel>
@@ -722,7 +722,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnComentario}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
+                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnBasura}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
                             <Button Grid.Column="1" Command="{Binding GuardarExtraCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="Guardar"/>
                         </Grid>
                     </StackPanel>
@@ -808,7 +808,7 @@
                             </StackPanel>
                         </Border>
 
-                        <Button Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnComentario}" Height="40" Margin="0,15,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="15" Content="CERRAR"/>
+                        <Button Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnBasura}" Height="40" Margin="0,15,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="15" Content="CERRAR"/>
                     </StackPanel>
                     <!--#endregion-->
 
