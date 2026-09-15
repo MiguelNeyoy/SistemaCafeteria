@@ -196,13 +196,13 @@
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Column="0" Content="🖨️ Probar Ticket"
-                                Style="{StaticResource BtnComentario}"
+                                Style="{StaticResource BotonRetroceso}"
                                 FontFamily="{StaticResource Fuente-principal}"
                                 FontSize="12" Height="36"
                                 Command="{Binding ProbarImpresionCommand}"/>
 
                         <Button Grid.Column="2" Content="💵 Probar Cajón [F12]"
-                                Style="{StaticResource BtnComentario}"
+                                Style="{StaticResource BotonRetroceso}"
                                 FontFamily="{StaticResource Fuente-principal}"
                                 FontSize="11" Height="36"
                                 Command="{Binding ProbarAperturaCajonCommand}"/>
