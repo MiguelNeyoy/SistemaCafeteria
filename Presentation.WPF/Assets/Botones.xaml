@@ -114,17 +114,17 @@
         <Setter Property="Background" Value="{StaticResource Naranja claro}"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="2"/>
-
+        
         <Setter Property="Template">
             <Setter.Value>
 
                 <ControlTemplate TargetType="Button">
 
                     <Border x:Name="Border"
-                Background ="{TemplateBinding Background}"
-                BorderBrush ="{TemplateBinding BorderBrush}"
-                BorderThickness ="{TemplateBinding BorderThickness}"
-                CornerRadius="10" >
+                            Background ="{TemplateBinding Background}"
+                            BorderBrush ="{TemplateBinding BorderBrush}"
+                            BorderThickness ="{TemplateBinding BorderThickness}"
+                            CornerRadius="10" >
 
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         
@@ -135,7 +135,7 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
 
-                            <Setter TargetName="Border" Property="Background" Value="Gray"/>
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Blanco 70%}"/>
 
                         </Trigger>
 
