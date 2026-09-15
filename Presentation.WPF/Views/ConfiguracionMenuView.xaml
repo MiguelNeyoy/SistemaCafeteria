@@ -421,13 +421,13 @@
         <!--#endregion-->
 
         <!--#region Columna Derecha (Panel de Formularios Dinámicos)-->
-        <Border Grid.Column="1" 
+        <Border Grid.Column="1" Background="{StaticResource Amarillo claro_fuerte}"
                 Width="330"
-                Background="{StaticResource Amarillo claro_fuerte}" 
-                BorderBrush="Black" 
-                BorderThickness="2,0,0,0"
+                BorderBrush="Black" BorderThickness="2,0,0,0"
                 Visibility="{Binding MostrarFormulario, Converter={StaticResource BoolToVisConverter}}">
+            
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                
                 <Grid Margin="14">
 
                     <!--#region Formulario Categoría-->
@@ -445,19 +445,22 @@
                             </Style>
                         </StackPanel.Style>
 
-                        <TextBlock Text="Categoría" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,25"/>
+                        <TextBlock Text="Categoría" 
+                                   FontFamily="{StaticResource Fuente-principal}" 
+                                   FontSize="24" FontWeight="Bold" 
+                                   HorizontalAlignment="Center" 
+                                   Margin="0,20,0,25"/>
 
                         <TextBlock Text="Nombre de la categoría" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,0,0,6"/>
                         <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding NombreCategoria, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
 
                         <!-- Aviso de Error en Categoría (Rojo) -->
-                        <TextBlock Text="{Binding MensajeErrorCategoria}" 
-                                   Foreground="#D32F2F" 
+                        <TextBlock Text="{Binding MensajeErrorCategoria}"  
                                    FontFamily="{StaticResource Fuente-principal}" 
-                                   FontSize="13" 
-                                   FontWeight="SemiBold" 
+                                   FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap"
                                    Margin="0,4,0,0" 
-                                   TextWrapping="Wrap">
+                                   Foreground="#D32F2F">
+                            
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -471,11 +474,12 @@
                         </TextBlock>
 
                         <!-- Botón Deshabilitar (Rojo) -->
-                        <Button Command="{Binding AlternarEstadoCategoriaCommand}" 
+                        <Button Content="Deshabilitar Categoría" 
                                 Height="45" Margin="0,20,0,0" 
                                 FontFamily="{StaticResource Fuente-principal}" 
                                 FontSize="16" FontWeight="Bold"
-                                Content="Deshabilitar Categoría">
+                                Command="{Binding AlternarEstadoCategoriaCommand}" >
+                            
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource BtnEliminar}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -515,13 +519,26 @@
                         </Button>
 
                         <Grid Margin="0,15,0,0">
+                            
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnBasura}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
-                            <Button Grid.Column="1" Command="{Binding GuardarCategoriaCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="Guardar"/>
+
+                            <Button Grid.Column="0" Content="CANCELAR" Style="{StaticResource BtnBasura}" 
+                                    Height="45" Margin="0,0,6,0" 
+                                    FontFamily="{StaticResource Fuente-principal}" 
+                                    FontSize="16" 
+                                    Command="{Binding CancelarFormularioCommand}"/>
+
+                            <Button Grid.Column="1" Content="Guardar" Style="{StaticResource BtnGuardarCambios}" 
+                                    Height="45" Margin="6,0,0,0" 
+                                    FontFamily="{StaticResource Fuente-principal}" 
+                                    FontSize="16" 
+                                    Command="{Binding GuardarCategoriaCommand}" />
+                            
                         </Grid>
+                        
                     </StackPanel>
                     <!--#endregion-->
 
