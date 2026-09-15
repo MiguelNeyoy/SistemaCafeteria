@@ -59,7 +59,7 @@
     <!--#region Boton para Configuracion de Menu-->
     <Style x:Key="BtnCatyPro" TargetType="Button">
 
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="{StaticResource Blanco 70%}"/>
         <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Cursor" Value="Hand"/>
