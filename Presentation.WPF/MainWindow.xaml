@@ -14,6 +14,7 @@
         xmlns:local="clr-namespace:Presentation.WPF"
         xmlns:views="clr-namespace:Presentation.WPF.Views"
         xmlns:viewmodels="clr-namespace:Presentation.WPF.ViewModels"
+        xmlns:alertas="clr-namespace:Presentation.WPF.Views.Alertas"
         mc:Ignorable="d"
         Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
 
@@ -130,6 +131,13 @@
         </Border>
         <!--#endregion-->
 
+        <!--#region Notificaciones Flotantes (Toasts No Bloqueantes) -->
+        <alertas:NotificacionesOverlay Grid.ColumnSpan="2" 
+                                      HorizontalAlignment="Right" 
+                                      VerticalAlignment="Top" 
+                                      Margin="0,18,22,0" 
+                                      Panel.ZIndex="999"/>
+        <!--#endregion-->
 
     </Grid>
     
