@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Ventas;
 using Core.Application.Interfaces.Services;
@@ -293,17 +293,17 @@ public partial class FinalizarCompraViewModel : ObservableObject
 
             await _ventaService.CobrarAsync(dto);
 
-            string mensaje = EsEfectivo
-                ? $"Cobro registrado exitosamente.\n\nTicket #{VentaId} - {Cliente}\nTotal: ${Total:F2}\nEfectivo Recibido: ${MontoRecibido:F2}\nCambio a Entregar: ${Cambio:F2}"
-                : $"Cobro con {TipoPagoSeleccionado} registrado exitosamente.\n\nTicket #{VentaId} - {Cliente}\nTotal: ${Total:F2}";
+            string mensajeToast = EsEfectivo
+                ? $"Total: ${Total:F2} • Efectivo: ${MontoRecibido:F2} • Cambio: ${Cambio:F2}"
+                : $"Ticket #{VentaId} pagado con {TipoPagoSeleccionado} (${Total:F2})";
 
-            _dialogoService.MostrarMensaje(mensaje, "Cobro Exitoso");
+            _dialogoService.NotificarExito(mensajeToast, "Cobro Exitoso", 4);
 
             CobroFinalizado?.Invoke();
         }
         catch (Exception ex)
         {
-            _dialogoService.MostrarMensaje($"Error al procesar el cobro: {ex.Message}", "Error");
+            _dialogoService.MostrarError($"Error al procesar el cobro: {ex.Message}");
         }
         finally
         {

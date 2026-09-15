@@ -168,7 +168,7 @@ public partial class CuentasAbiertasViewModel : ObservableObject
         try
         {
             await _ventaService.CancelarAsync(cuenta.Id);
-            _dialogoService.MostrarMensaje($"La cuenta #{cuenta.Id} ha sido cancelada.", "Cuenta Cancelada");
+            _dialogoService.NotificarExito($"La cuenta #{cuenta.Id} ha sido cancelada.", "Cuenta Cancelada");
             await CargarCuentasAsync();
         }
         catch (Exception ex)

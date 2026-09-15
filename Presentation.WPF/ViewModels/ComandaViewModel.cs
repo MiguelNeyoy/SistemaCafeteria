@@ -464,6 +464,7 @@ public partial class ComandaViewModel : ObservableObject
             ActualizarTotal();
 
             await CargarCuentasDisponiblesAsync();
+            _dialogoService.NotificarExito("Productos agregados a la comanda correctamente.", "Cuenta Actualizada");
         }
         catch (Exception ex)
         {
@@ -526,6 +527,7 @@ public partial class ComandaViewModel : ObservableObject
             ActualizarTotal();
 
             await CargarCuentasDisponiblesAsync();
+            _dialogoService.NotificarExito($"Cuenta de '{cliente}' creada exitosamente.", "Cuenta Creada");
         }
         catch (Exception ex)
         {

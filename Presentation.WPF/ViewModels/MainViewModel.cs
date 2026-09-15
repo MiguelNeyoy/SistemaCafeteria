@@ -25,7 +25,6 @@ public partial class MainViewModel : ObservableObject
     private CuentasAbiertasViewModel? _cuentasAbiertasViewModel;
     private FinalizarCompraViewModel? _finalizarCompraViewModel;
 
-    private bool HayOrdenEnProceso => _comandaViewModel is not null && _comandaViewModel.ItemsComanda.Count > 0;
 
     [ObservableProperty]
     private object? _vistaActual;
@@ -75,26 +74,9 @@ public partial class MainViewModel : ObservableObject
     }//Fin - MainViewModel
 
 
-    private bool ConfirmarSalidaDeComanda()
-    {
-        if (!HayOrdenEnProceso)
-            return true;
-
-        return _dialogoService.Confirmar(
-            "Tienes una comanda en proceso.\n\n" +
-            "Si sales ahora, perderas los productos que has agregado.\n\n" +
-            "¿Deseas salir de la comanda?",
-            "Orden en proceso");
-
-    }//Fin - ConfirmarSalidaDeComanda
-
-
     [RelayCommand]
     private async Task ShowHome()
     {
-        if (!ConfirmarSalidaDeComanda())
-            return;
-
         await _dashboardViewModel.CargarDatosCommand.ExecuteAsync(null);
 
         VistaActual = _dashboardViewModel;
@@ -106,9 +88,6 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowMenu()
     {
-        if (!ConfirmarSalidaDeComanda())
-            return;
-
         if (_menuViewModel is null)
         {
             _menuViewModel = new MenuViewModel(_categoriaService, _productoService);
@@ -170,9 +149,6 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowConfigMenu()
     {
-        if (!ConfirmarSalidaDeComanda())
-            return;
-
         if (_configuracionMenuViewModel is null)
         {
             _configuracionMenuViewModel = new ConfiguracionMenuViewModel(
@@ -212,9 +188,6 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ShowCierreDeCaja()
     {
-        if (!ConfirmarSalidaDeComanda())
-            return;
-
         VistaActual = new CierreDeCajaViewModel();
 
         BotonSeleccionado = "CierreDeCaja";
@@ -223,9 +196,6 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task ShowCuentasAbiertas()
     {
-        if (!ConfirmarSalidaDeComanda())
-            return;
-
         if (_cuentasAbiertasViewModel is null)
         {
             _cuentasAbiertasViewModel = new CuentasAbiertasViewModel(_ventaService, _dialogoService);
