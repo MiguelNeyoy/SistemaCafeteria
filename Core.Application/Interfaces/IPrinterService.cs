@@ -13,4 +13,7 @@ public interface IPrinterService
     Task ImprimirTicketAsync(VentaResumenDto venta, string folio);
     Task ImprimirComandaAsync(ComandaResumenDto comanda);
     Task ImprimirCorteCajaAsync(CorteCajaDto corte);
+    Task AbrirCajonDineroAsync();
+    Task ImprimirTicketPruebaAsync(string nombreImpresora, string anchoPapel);
+    List<string> ObtenerImpresorasInstaladas();
 }
