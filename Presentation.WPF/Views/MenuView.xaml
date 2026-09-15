@@ -46,10 +46,7 @@
             <!--Texto-->
             <TextBlock Text ="No hay Categorías, ingresa a Configuración de Menú para agregarlas."
                        FontFamily="{StaticResource Fuente-principal}"
-                       FontSize="30"
-                       FontWeight="SemiBold"
-                       Foreground="Gray"
-                       TextWrapping="Wrap" />
+                       FontSize="30" FontWeight="SemiBold" Foreground="Gray" TextWrapping="Wrap" />
             
         </Grid>
         <!--#endregion-->
@@ -79,30 +76,25 @@
             </Grid.Style>
             
             
-            <!--#region Estructura-->
+            <!-- Estructura-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <!--#endregion-->
             
             
             <!--#region Encabezado-->
-            <Border Grid.Row="0"
-                    Background="{StaticResource Naranja}"
-                    CornerRadius="10"
+            <Border Grid.Row="0" Background="{StaticResource Naranja}"
                     HorizontalAlignment="Left"
-                    Padding="15"
-                    Margin="10,10,0,15">
+                    Padding="15" Margin="10,10,0,15"
+                    CornerRadius="10">
                 
                 
                 <!--Texto-->
                 <TextBlock Text="CATEGORÍAS"
                            FontFamily="{StaticResource Fuente-principal}"
-                           FontSize="30"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           FontWeight="SemiBold" />
+                           FontSize="30" FontWeight="SemiBold" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
             </Border>
             <!--#endregion-->
@@ -145,11 +137,9 @@
                                     <!--Nombre-->
                                     <TextBlock Text="{Binding Nombre}" 
                                                FontFamily="{StaticResource Fuente-principal}" 
-                                               FontSize="30" FontWeight="SemiBold" 
-                                               TextAlignment="Center" TextWrapping="Wrap" 
+                                               FontSize="30" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap" 
                                                HorizontalAlignment="Center"/>
                                     
-
                                 </StackPanel>
                                 
                             </Button>
