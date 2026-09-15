@@ -299,7 +299,7 @@
                                            Margin="0,0,8,2"/>
                                 
                                 <!--X Eliminar-->
-                                <Button Grid.Row="0" Grid.Column="1" Content="✕"
+                                <Button Grid.Row="0" Grid.Column="1" Content="✕" Style="{StaticResource BtnBasura}"
                                         FontFamily="{StaticResource Fuente-principal}"
                                         FontWeight="Bold"
                                         FontSize="13"
@@ -477,10 +477,10 @@
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 
-                                    <Button Content="-"
-                                            FontSize="18"
+                                    <Button Content="-" Style="{StaticResource BtnBasura}"
+                                            FontSize="24"
                                             Width="35" Height="30"
-                                            Margin="0,0,15,0"                                            
+                                            Margin="0,0,15,0"
                                             Command="{Binding DataContext.DisminuirCantidadCommand,RelativeSource={RelativeSource AncestorType=ListBox}}"
                                             CommandParameter="{Binding}"/>
 

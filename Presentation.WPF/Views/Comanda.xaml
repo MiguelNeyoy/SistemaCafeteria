@@ -214,14 +214,10 @@
                                             Padding="4,1"/>
                                 </Grid>
 
-                                <ComboBox Grid.Row="1"
-                                          ItemsSource="{Binding CuentasDisponibles}"
+                                <ComboBox Grid.Row="1" Style="{StaticResource ComboBoxCuentas}"
+                                          ItemsSource="{Binding CuentasDisponibles}" 
                                           SelectedItem="{Binding CuentaSeleccionadaOpcion, Mode=TwoWay}"
                                           DisplayMemberPath="Titulo"
-                                          FontFamily="{StaticResource Fuente-principal}"
-                                          FontSize="14" FontWeight="SemiBold"
-                                          Height="34"
-                                          VerticalContentAlignment="Center"
                                           HorizontalAlignment="Stretch"/>
                             </Grid>
                         </Border>
