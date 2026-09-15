@@ -199,8 +199,8 @@
                                                     CommandParameter="{Binding}">
 
                                                 <Image Source="/Assets/Imagenes/Icono_de_editar.png" 
-                                                       Height="15" Width="15"
-                                                       Stretch="Uniform"/>
+                                                       Height="20" Width="20"
+                                                       Stretch="Uniform"/> 
 
                                             </Button>
 
@@ -290,8 +290,15 @@
 
                                             <TextBlock Grid.Column="1" Text="{Binding Precio, StringFormat='${0:N2}'}" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="#333333" VerticalAlignment="Center" Margin="8,0"/>
 
-                                            <Button Grid.Column="2" Style="{StaticResource BotonEdicion}" Width="36" Height="36" Command="{Binding DataContext.EditarProductoCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}">
-                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" Width="20" Height="20"/>
+                                            <Button Grid.Column="2" Style="{StaticResource BotonEdicion}" 
+                                                    Width="36" Height="36" 
+                                                    Command="{Binding DataContext.EditarProductoCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                    CommandParameter="{Binding}">
+                                                
+                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" 
+                                                       Width="20" Height="20"
+                                                       Stretch="Uniform"/>
+                                                
                                             </Button>
                                         </Grid>
                                     </Border>
@@ -383,7 +390,7 @@
                                                     CommandParameter="{Binding}">
 
                                                 <Image Source="/Assets/Imagenes/Icono_de_editar.png"
-                                                       Height="15" Width="15"
+                                                       Height="20" Width="20"
                                                        Stretch="Uniform"/>
                                             </Button>
                                         </Grid>
