@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
+using Core.Application.Interfaces;
+using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
 using Presentation.WPF.Services;
 using Presentation.WPF.Views;
@@ -17,6 +19,9 @@ public partial class MainViewModel : ObservableObject
     private readonly IPurgaService _purgaService;
     private readonly IVentaService _ventaService;
     private readonly IComandaService _comandaService;
+    private readonly IPrinterService _printerService;
+    private readonly IConfiguracionRepository _configuracionRepository;
+    private readonly ITicketService _ticketService;
 
     private readonly DashboardViewModel _dashboardViewModel;
     private MenuViewModel? _menuViewModel;
@@ -54,7 +59,10 @@ public partial class MainViewModel : ObservableObject
         IDialogoService dialogoService,
         IVentaService ventaService,
         IComandaService comandaService,
-        DashboardViewModel dashboardViewModel)
+        DashboardViewModel dashboardViewModel,
+        IPrinterService printerService,
+        IConfiguracionRepository configuracionRepository,
+        ITicketService ticketService)
     {
         _productoService = productoService;
         _categoriaService = categoriaService;
@@ -65,6 +73,9 @@ public partial class MainViewModel : ObservableObject
         _ventaService = ventaService;
         _comandaService = comandaService;
         _dashboardViewModel = dashboardViewModel;
+        _printerService = printerService;
+        _configuracionRepository = configuracionRepository;
+        _ticketService = ticketService;
 
         // Establecer el Dashboard de Inicio como vista inicial al arrancar
         VistaActual = _dashboardViewModel;
@@ -116,6 +127,7 @@ public partial class MainViewModel : ObservableObject
                 _ventaService, 
                 _comandaService, 
                 _dialogoService, 
+                _printerService,
                 categoria);
 
             _comandaViewModel.RegresarACategorias += RegresarACategorias;
@@ -157,7 +169,9 @@ public partial class MainViewModel : ObservableObject
                 _extraService,
                 _seguridadService,
                 _purgaService,
-                _dialogoService);
+                _dialogoService,
+                _printerService,
+                _configuracionRepository);
 
             _configuracionMenuViewModel.ConfiguracionAvanzadaSolicitada += MostrarConfiguracionAvanzada;
         }
@@ -213,13 +227,33 @@ public partial class MainViewModel : ObservableObject
     {
         if (_finalizarCompraViewModel is null)
         {
-            _finalizarCompraViewModel = new FinalizarCompraViewModel(_ventaService, _dialogoService);
+            _finalizarCompraViewModel = new FinalizarCompraViewModel(
+                _ventaService, 
+                _dialogoService, 
+                _printerService, 
+                _ticketService);
             _finalizarCompraViewModel.CobroFinalizado += OnCobroFinalizado;
             _finalizarCompraViewModel.RegresarSolicitado += OnRegresarDeCobro;
         }
 
         await _finalizarCompraViewModel.CargarVentaAsync(ventaId);
         VistaActual = _finalizarCompraViewModel;
+    }
+
+    [RelayCommand]
+    private async Task AbrirCajon()
+    {
+        try
+        {
+            await _printerService.AbrirCajonDineroAsync();
+            _dialogoService.NotificarExito("Señal de apertura enviada al cajón de dinero.", "Cajón", 2);
+        }
+        catch (Exception ex)
+        {
+            _dialogoService.MostrarMensaje(
+                $"No se pudo abrir el cajón de dinero:\n\n{ex.Message}\n\n(Verifique que la impresora térmica esté configurada en Configuración Avanzada y conectada por USB)",
+                "Hardware No Detectado");
+        }
     }
 
     private async void OnCobroFinalizado()

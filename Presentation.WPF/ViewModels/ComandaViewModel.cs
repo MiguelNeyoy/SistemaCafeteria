@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Dtos.Comandas;
 using Core.Application.Dtos.Ventas;
+using Core.Application.Interfaces;
 using Core.Application.Interfaces.Services;
 using Presentation.WPF.Services;
 using System.Collections.ObjectModel;
@@ -104,15 +105,12 @@ public partial class ComandaViewModel : ObservableObject
     private readonly IVentaService _ventaService;
     private readonly IComandaService _comandaService;
     private readonly IDialogoService _dialogoService;
-
-    public ObservableCollection<ProductoDto> ProductoCategoriaSeleccionada { get; } = new();
+    private readonly IPrinterService _printerService;
 
     public ObservableCollection<ComandaItemViewModel> ItemsComanda { get; } = new();
-
+    public ObservableCollection<ProductoDto> ProductoCategoriaSeleccionada { get; } = new();
     public ObservableCollection<ExtraDto> ExtrasCategoriaSeleccionada { get; } = new();
-
     public ObservableCollection<ExtraSeleccionableViewModel> ExtrasDisponiblesModal { get; } = new();
-
     public ObservableCollection<CuentaOpcionSelector> CuentasDisponibles { get; } = new();
 
     [ObservableProperty]
@@ -167,6 +165,7 @@ public partial class ComandaViewModel : ObservableObject
         IVentaService ventaService,
         IComandaService comandaService,
         IDialogoService dialogoService,
+        IPrinterService printerService,
         CategoriaDto categoria)
     {
         _productoService = productoService;
@@ -174,6 +173,7 @@ public partial class ComandaViewModel : ObservableObject
         _ventaService = ventaService;
         _comandaService = comandaService;
         _dialogoService = dialogoService;
+        _printerService = printerService;
         CategoriaSeleccionada = categoria;
     }
 
@@ -458,7 +458,17 @@ public partial class ComandaViewModel : ObservableObject
                 ExtraInstrucciones = i.Extras.Select(e => e.Nombre).ToList()
             }).ToList();
 
-            await _comandaService.EnviarACocinaAsync(ventaId, comandaItems);
+            var comanda = await _comandaService.EnviarACocinaAsync(ventaId, comandaItems);
+            try
+            {
+                await _printerService.ImprimirComandaAsync(comanda);
+            }
+            catch (Exception ex)
+            {
+                _dialogoService.MostrarMensaje(
+                    $"Comanda guardada en el sistema.\n\n⚠️ Aviso de Impresora: No se pudo imprimir la comanda de cocina:\n{ex.Message}",
+                    "Aviso de Impresora");
+            }
 
             ItemsComanda.Clear();
             ActualizarTotal();
@@ -520,7 +530,17 @@ public partial class ComandaViewModel : ObservableObject
                 ExtraInstrucciones = i.Extras.Select(e => e.Nombre).ToList()
             }).ToList();
 
-            await _comandaService.EnviarACocinaAsync(venta.Id, comandaItems);
+            var comanda = await _comandaService.EnviarACocinaAsync(venta.Id, comandaItems);
+            try
+            {
+                await _printerService.ImprimirComandaAsync(comanda);
+            }
+            catch (Exception ex)
+            {
+                _dialogoService.MostrarMensaje(
+                    $"Comanda guardada en el sistema.\n\n⚠️ Aviso de Impresora: No se pudo imprimir la comanda de cocina:\n{ex.Message}",
+                    "Aviso de Impresora");
+            }
 
             // 4. Limpiar comanda activa y recargar cuentas disponibles
             ItemsComanda.Clear();

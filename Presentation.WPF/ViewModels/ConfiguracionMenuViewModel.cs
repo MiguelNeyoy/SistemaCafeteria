@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Catalogo;
+using Core.Application.Interfaces;
+using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
 using Core.Domain.Exceptions;
 using Presentation.WPF.Services;
@@ -16,6 +18,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private readonly ISeguridadService _seguridadService;
     private readonly IPurgaService _purgaService;
     private readonly IDialogoService _dialogoService;
+    private readonly IPrinterService _printerService;
+    private readonly IConfiguracionRepository _configuracionRepository;
 
     // Colecciones de Catálogo
     public ObservableCollection<CategoriaDto> Categorias { get; } = new();
@@ -171,13 +175,42 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
     private Func<Task>? _accionPendientePostPin;
 
+    // Sección Hardware / Impresora Térmica
+    public ObservableCollection<string> ImpresorasDisponibles { get; } = new();
+
+    [ObservableProperty]
+    private string? impresoraSeleccionada;
+
+    [ObservableProperty]
+    private string? impresoraComandaSeleccionada;
+
+    [ObservableProperty]
+    private bool esPapel58mm = true;
+
+    [ObservableProperty]
+    private bool esPapel80mm;
+
+    [ObservableProperty]
+    private bool abrirCajonAutomatico = true;
+
+    [ObservableProperty]
+    private bool cortarPapelAutomatico = true;
+
+    [ObservableProperty]
+    private string mensajeResultadoImpresora = string.Empty;
+
+    [ObservableProperty]
+    private bool tieneErrorImpresora;
+
     public ConfiguracionMenuViewModel(
         ICategoriaService categoriaService,
         IProductoService productoService,
         IExtraService extraService,
         ISeguridadService seguridadService,
         IPurgaService purgaService,
-        IDialogoService dialogoService)
+        IDialogoService dialogoService,
+        IPrinterService printerService,
+        IConfiguracionRepository configuracionRepository)
     {
         _categoriaService = categoriaService;
         _productoService = productoService;
@@ -185,6 +218,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         _seguridadService = seguridadService;
         _purgaService = purgaService;
         _dialogoService = dialogoService;
+        _printerService = printerService;
+        _configuracionRepository = configuracionRepository;
 
         Productos.CollectionChanged += (_, _) =>
         {
@@ -252,6 +287,46 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         foreach (var extra in extras)
         {
             Extras.Add(extra);
+        }
+
+        // Cargar impresoras del sistema y configuración persistida
+        RefrescarImpresoras();
+        await CargarConfiguracionImpresoraAsync();
+    }
+
+    public void RefrescarImpresoras()
+    {
+        ImpresorasDisponibles.Clear();
+        var lista = _printerService.ObtenerImpresorasInstaladas();
+        foreach (var item in lista)
+        {
+            ImpresorasDisponibles.Add(item);
+        }
+    }
+
+    private async Task CargarConfiguracionImpresoraAsync()
+    {
+        try
+        {
+            ImpresoraSeleccionada = await _configuracionRepository.ObtenerValorAsync("Impresora_NombreTicket");
+            ImpresoraComandaSeleccionada = await _configuracionRepository.ObtenerValorAsync("Impresora_NombreComanda");
+
+            string ancho = await _configuracionRepository.ObtenerValorAsync("Impresora_AnchoPapel") ?? "58mm";
+            EsPapel80mm = ancho == "80mm";
+            EsPapel58mm = !EsPapel80mm;
+
+            string abrirCajon = await _configuracionRepository.ObtenerValorAsync("Impresora_AbrirCajon") ?? "true";
+            AbrirCajonAutomatico = abrirCajon != "false";
+
+            string cortarPapel = await _configuracionRepository.ObtenerValorAsync("Impresora_CortarPapel") ?? "true";
+            CortarPapelAutomatico = cortarPapel != "false";
+        }
+        catch
+        {
+            // Valores por defecto
+            EsPapel58mm = true;
+            AbrirCajonAutomatico = true;
+            CortarPapelAutomatico = true;
         }
     }
 
@@ -996,9 +1071,78 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private void MostrarConfiguracionAvanzada()
     {
         ConfiguracionAvanzadaSolicitada?.Invoke();
-
     } //Fin - MostrarConfiguracionAvanzada
 
+    [RelayCommand]
+    private async Task GuardarConfiguracionImpresora()
+    {
+        try
+        {
+            await _configuracionRepository.GuardarValorAsync("Impresora_NombreTicket", ImpresoraSeleccionada ?? string.Empty);
+            await _configuracionRepository.GuardarValorAsync("Impresora_NombreComanda", ImpresoraComandaSeleccionada ?? string.Empty);
+            await _configuracionRepository.GuardarValorAsync("Impresora_AnchoPapel", EsPapel80mm ? "80mm" : "58mm");
+            await _configuracionRepository.GuardarValorAsync("Impresora_AbrirCajon", AbrirCajonAutomatico ? "true" : "false");
+            await _configuracionRepository.GuardarValorAsync("Impresora_CortarPapel", CortarPapelAutomatico ? "true" : "false");
+
+            MensajeResultadoImpresora = "✅ Configuración de hardware guardada correctamente.";
+            TieneErrorImpresora = false;
+            _dialogoService.NotificarExito("Configuración de impresora y cajón guardada.", "Hardware Guardado", 3);
+        }
+        catch (Exception ex)
+        {
+            MensajeResultadoImpresora = $"❌ Error al guardar: {ex.Message}";
+            TieneErrorImpresora = true;
+            _dialogoService.MostrarMensaje($"Error al guardar configuración: {ex.Message}", "Error");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ProbarImpresion()
+    {
+        if (string.IsNullOrWhiteSpace(ImpresoraSeleccionada))
+        {
+            MensajeResultadoImpresora = "⚠️ Debes seleccionar una impresora en la lista primero.";
+            TieneErrorImpresora = true;
+            _dialogoService.MostrarMensaje("Selecciona una impresora térmica antes de imprimir.", "Aviso");
+            return;
+        }
+
+        try
+        {
+            await _printerService.ImprimirTicketPruebaAsync(ImpresoraSeleccionada, EsPapel80mm ? "80mm" : "58mm");
+            MensajeResultadoImpresora = "✅ Ticket de prueba enviado exitosamente.";
+            TieneErrorImpresora = false;
+            _dialogoService.NotificarExito("Ticket de prueba enviado al spooler.", "Éxito");
+        }
+        catch (Exception ex)
+        {
+            MensajeResultadoImpresora = $"❌ Error: {ex.Message}";
+            TieneErrorImpresora = true;
+            _dialogoService.MostrarMensaje(
+                $"Error al imprimir ticket de prueba:\n\n{ex.Message}\n\n(Verifique que la impresora esté encendida y conectada)",
+                "Fallo de Hardware");
+        }
+    }
+
+    [RelayCommand]
+    private async Task ProbarAperturaCajon()
+    {
+        try
+        {
+            await _printerService.AbrirCajonDineroAsync();
+            MensajeResultadoImpresora = "✅ Señal de apertura enviada al cajón.";
+            TieneErrorImpresora = false;
+            _dialogoService.NotificarExito("Señal enviada al cajón de dinero.", "Cajón");
+        }
+        catch (Exception ex)
+        {
+            MensajeResultadoImpresora = $"❌ Error: {ex.Message}";
+            TieneErrorImpresora = true;
+            _dialogoService.MostrarMensaje(
+                $"Error al intentar abrir el cajón de dinero:\n\n{ex.Message}\n\n(Verifique que la impresora térmica esté conectada)",
+                "Fallo de Hardware");
+        }
+    }
 
 }
 

@@ -2,6 +2,7 @@ using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Core.Application;
 using Infrastructure.Persistence;
+using Infrastructure.Hardware;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.WPF.ViewModels;
 using Presentation.WPF.Services;
@@ -26,6 +27,7 @@ public partial class App : Application
         // 1. Módulos de capas inferiores
         services.AddApplication();
         services.AddPersistence();
+        services.AddHardwareServices();
 
         services.AddSingleton<IDialogoService, DialogoService>();
 

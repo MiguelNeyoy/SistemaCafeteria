@@ -18,6 +18,10 @@
         mc:Ignorable="d"
         Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
 
+    <Window.InputBindings>
+        <KeyBinding Key="F12" Command="{Binding AbrirCajonCommand}" />
+    </Window.InputBindings>
+
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewmodels:DashboardViewModel}">
             <views:DashboardView />

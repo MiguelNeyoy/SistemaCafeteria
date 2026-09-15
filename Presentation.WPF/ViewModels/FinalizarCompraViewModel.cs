@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Ventas;
+using Core.Application.Interfaces;
 using Core.Application.Interfaces.Services;
 using Core.Domain.Enums;
 using Presentation.WPF.Services;
@@ -20,6 +21,8 @@ public partial class FinalizarCompraViewModel : ObservableObject
 {
     private readonly IVentaService _ventaService;
     private readonly IDialogoService _dialogoService;
+    private readonly IPrinterService _printerService;
+    private readonly ITicketService _ticketService;
 
     public event Action? CobroFinalizado;
     public event Action? RegresarSolicitado;
@@ -77,10 +80,16 @@ public partial class FinalizarCompraViewModel : ObservableObject
 
     public ObservableCollection<CuentaItemDetalleModel> Items { get; } = new();
 
-    public FinalizarCompraViewModel(IVentaService ventaService, IDialogoService dialogoService)
+    public FinalizarCompraViewModel(
+        IVentaService ventaService, 
+        IDialogoService dialogoService,
+        IPrinterService printerService,
+        ITicketService ticketService)
     {
         _ventaService = ventaService;
         _dialogoService = dialogoService;
+        _printerService = printerService;
+        _ticketService = ticketService;
     }
 
     public async Task CargarVentaAsync(int ventaId)
@@ -291,7 +300,20 @@ public partial class FinalizarCompraViewModel : ObservableObject
                 MontoRecibido = EsEfectivo ? MontoRecibido : Total
             };
 
-            await _ventaService.CobrarAsync(dto);
+            var ventaResumen = await _ventaService.CobrarAsync(dto);
+
+            // Generar folio de ticket y mandar a imprimir ticket físico
+            try
+            {
+                var ticket = await _ticketService.GenerarTicketAsync(VentaId);
+                await _printerService.ImprimirTicketAsync(ventaResumen, ticket.Folio);
+            }
+            catch (Exception exHardware)
+            {
+                _dialogoService.MostrarMensaje(
+                    $"Cobro registrado exitosamente.\n\n⚠️ Aviso de Impresora: No se pudo imprimir el ticket ni abrir el cajón automáticamente:\n{exHardware.Message}\n\n(Verifique que la impresora esté conectada y encendida)",
+                    "Aviso de Hardware");
+            }
 
             string mensajeToast = EsEfectivo
                 ? $"Total: ${Total:F2} • Efectivo: ${MontoRecibido:F2} • Cambio: ${Cambio:F2}"
