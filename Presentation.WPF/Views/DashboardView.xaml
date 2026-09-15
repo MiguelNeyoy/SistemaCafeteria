@@ -191,8 +191,17 @@
             </ScrollViewer>
             <!--#endregion-->
 
-            <!--#region Columna Derecha: Top Más Vendidos del Mes -->
-            <Border Grid.Column="1" Background="White" CornerRadius="10" BorderBrush="#BDBDBD" BorderThickness="1.5" Padding="14,12" Margin="4,0,0,0">
+        <!--#region Columna Derecha: Top Más Vendidos y Ventas Recientes -->
+        <Grid Grid.Column="1" Margin="4,0,0,0">
+            <Grid.RowDefinitions>
+                <!-- Fila 0: Top Más Vendidos del Mes -->
+                <RowDefinition Height="*"/>
+                <!-- Fila 1: Ventas Más Recientes del Día -->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--#region Tarjeta 1: Top Más Vendidos -->
+            <Border Grid.Row="0" Background="White" CornerRadius="10" BorderBrush="#BDBDBD" BorderThickness="1.5" Padding="14,10" Margin="0,0,0,5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <!-- Encabezado de la Tarjeta -->
@@ -201,15 +210,15 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0" BorderBrush="#EEEEEE" BorderThickness="0,0,0,1.5" Padding="0,0,0,8" Margin="0,0,0,8">
+                    <Border Grid.Row="0" BorderBrush="#EEEEEE" BorderThickness="0,0,0,1.5" Padding="0,0,0,6" Margin="0,0,0,6">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0">
-                                <TextBlock Text="Top Más Vendidos" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="Bold" Foreground="#212121"/>
-                                <TextBlock Text="{Binding MesActualTexto, StringFormat='{}Acumulado en {0}'}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" Foreground="#757575"/>
+                                <TextBlock Text="Top Más Vendidos" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="Bold" Foreground="#212121"/>
+                                <TextBlock Text="{Binding MesActualTexto, StringFormat='{}Acumulado en {0}'}" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#757575"/>
                             </StackPanel>
                             <Border Grid.Column="1" Background="{StaticResource Naranja claro}" CornerRadius="6" Padding="8,3" VerticalAlignment="Center">
                                 <TextBlock Text="Mes Actual" FontFamily="{StaticResource Fuente-principal}" FontSize="11" FontWeight="Bold" Foreground="#E65100"/>
@@ -224,11 +233,11 @@
                             <ItemsControl ItemsSource="{Binding TopProductos}" Visibility="{Binding TieneTopProductos, Converter={StaticResource BoolToVis}}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="6,8">
+                                        <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="4,6">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <!-- Posición (#1, #2, #3...) -->
-                                                    <ColumnDefinition Width="34"/>
+                                                    <ColumnDefinition Width="30"/>
                                                     <!-- Nombre y Unidades -->
                                                     <ColumnDefinition Width="*"/>
                                                     <!-- Monto Total Recaudado -->
@@ -236,18 +245,18 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <!-- Insignia de Posición -->
-                                                <Border Grid.Column="0" Width="26" Height="26" CornerRadius="13" Background="{StaticResource Naranja}" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                                    <TextBlock Text="{Binding Posicion}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#1A1A1A" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Border Grid.Column="0" Width="24" Height="24" CornerRadius="12" Background="{StaticResource Naranja}" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Posicion}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#1A1A1A" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
 
                                                 <!-- Nombre y Cantidad -->
-                                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="6,0,8,0">
-                                                    <TextBlock Text="{Binding Nombre}" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="#212121"/>
-                                                    <TextBlock Text="{Binding CantidadVendida, StringFormat='{}{0} unidades vendidas'}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" Foreground="#757575" Margin="0,2,0,0"/>
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="4,0,6,0">
+                                                    <TextBlock Text="{Binding Nombre}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="#212121"/>
+                                                    <TextBlock Text="{Binding CantidadVendida, StringFormat='{}{0} unidades vendidas'}" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#757575" Margin="0,1,0,0"/>
                                                 </StackPanel>
 
                                                 <!-- Total Recaudado -->
-                                                <TextBlock Grid.Column="2" Text="{Binding TotalRecaudado, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="#E65100" VerticalAlignment="Center"/>
+                                                <TextBlock Grid.Column="2" Text="{Binding TotalRecaudado, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#E65100" VerticalAlignment="Center"/>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
@@ -255,7 +264,7 @@
                             </ItemsControl>
 
                             <!-- Estado Vacío cuando no hay ventas en el mes -->
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="14">
                                 <StackPanel.Style>
                                     <Style TargetType="StackPanel">
                                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -266,14 +275,104 @@
                                         </Style.Triggers>
                                     </Style>
                                 </StackPanel.Style>
-                                <TextBlock Text="No hay ventas registradas" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="SemiBold" Foreground="#9E9E9E" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Las ventas pagadas de este mes aparecerán aquí" FontFamily="{StaticResource Fuente-principal}" FontSize="12" Foreground="#BDBDBD" HorizontalAlignment="Center" Margin="0,4,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+                                <TextBlock Text="No hay ventas registradas" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="SemiBold" Foreground="#9E9E9E" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Las ventas pagadas de este mes aparecerán aquí" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#BDBDBD" HorizontalAlignment="Center" Margin="0,3,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
                             </StackPanel>
                         </Grid>
                     </ScrollViewer>
                 </Grid>
             </Border>
             <!--#endregion-->
+
+            <!--#region Tarjeta 2: Ventas Más Recientes de Hoy -->
+            <Border Grid.Row="1" Background="White" CornerRadius="10" BorderBrush="#BDBDBD" BorderThickness="1.5" Padding="14,10" Margin="0,5,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!-- Encabezado de la Tarjeta -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Lista de Ventas -->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" BorderBrush="#EEEEEE" BorderThickness="0,0,0,1.5" Padding="0,0,0,6" Margin="0,0,0,6">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Ventas Recientes" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="Bold" Foreground="#212121"/>
+                                <TextBlock Text="Últimos cobros registrados hoy" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#757575"/>
+                            </StackPanel>
+                            <Border Grid.Column="1" Background="#E8F5E9" CornerRadius="6" Padding="8,3" VerticalAlignment="Center">
+                                <TextBlock Text="Hoy" FontFamily="{StaticResource Fuente-principal}" FontSize="11" FontWeight="Bold" Foreground="#2E7D32"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Lista de Ventas Recientes -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <Grid>
+                            <!-- Listado de ventas recientes -->
+                            <ItemsControl ItemsSource="{Binding VentasRecientes}" Visibility="{Binding TieneVentasRecientes, Converter={StaticResource BoolToVis}}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="4,6">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <!-- Folio Ticket -->
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <!-- Cliente y Hora -->
+                                                    <ColumnDefinition Width="*"/>
+                                                    <!-- Total y Tipo de Pago -->
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Folio -->
+                                                <Border Grid.Column="0" Background="#FFF8E1" BorderBrush="#FFE082" BorderThickness="1" CornerRadius="5" Padding="6,2" VerticalAlignment="Center" Margin="0,0,8,0">
+                                                    <TextBlock Text="{Binding FolioTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#E65100"/>
+                                                </Border>
+
+                                                <!-- Cliente y Hora -->
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,6,0">
+                                                    <TextBlock Text="{Binding Cliente}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="SemiBold" Foreground="#212121" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding HoraTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#757575" Margin="0,1,0,0"/>
+                                                </StackPanel>
+
+                                                <!-- Total y Método de Pago -->
+                                                <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                    <TextBlock Text="{Binding Total, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#2E7D32" HorizontalAlignment="Right"/>
+                                                    <TextBlock Text="{Binding TipoPagoTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#757575" HorizontalAlignment="Right" Margin="0,1,0,0"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Estado Vacío cuando no hay ventas hoy -->
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="14">
+                                <StackPanel.Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding TieneVentasRecientes}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Style>
+                                <TextBlock Text="Sin ventas cobradas hoy" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="SemiBold" Foreground="#9E9E9E" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Los cobros que realices hoy aparecerán aquí" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#BDBDBD" HorizontalAlignment="Center" Margin="0,3,0,0" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+            <!--#endregion-->
+
+        </Grid>
+        <!--#endregion-->
 
         </Grid>
         <!--#endregion-->

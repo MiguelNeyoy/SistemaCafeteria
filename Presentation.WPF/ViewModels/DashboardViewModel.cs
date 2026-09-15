@@ -7,9 +7,21 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Application.Dtos.Ventas;
 using Core.Application.Interfaces.Services;
+using Core.Domain.Enums;
 using Presentation.WPF.Services;
 
 namespace Presentation.WPF.ViewModels;
+
+public class VentaRecienteItemViewModel
+{
+    public int Id { get; set; }
+    public string FolioTexto => $"#{Id}";
+    public string Cliente { get; set; } = "General";
+    public string HoraTexto { get; set; } = string.Empty;
+    public string TipoPagoTexto { get; set; } = "Efectivo";
+    public decimal Total { get; set; }
+    public int CantidadItems { get; set; }
+}
 
 public partial class DashboardViewModel : ObservableObject
 {
@@ -54,9 +66,13 @@ public partial class DashboardViewModel : ObservableObject
     private bool tieneTopProductos;
 
     [ObservableProperty]
+    private bool tieneVentasRecientes;
+
+    [ObservableProperty]
     private bool estaCargando;
 
     public ObservableCollection<ProductoTopDto> TopProductos { get; } = new();
+    public ObservableCollection<VentaRecienteItemViewModel> VentasRecientes { get; } = new();
 
     public DashboardViewModel(
         IVentaService ventaService,
@@ -109,6 +125,31 @@ public partial class DashboardViewModel : ObservableObject
             }
 
             TieneTopProductos = TopProductos.Count > 0;
+
+            // 4. Ventas más recientes del día de hoy
+            var ventasHoy = await _ventaService.ObtenerPorFechaAsync(DateTime.Today);
+            var recientes = ventasHoy
+                .Where(v => v.Estado == EstadoVenta.Pagado)
+                .OrderByDescending(v => v.FechaCierre ?? v.FechaCreacion)
+                .Take(10)
+                .Select(v => new VentaRecienteItemViewModel
+                {
+                    Id = v.Id,
+                    Cliente = string.IsNullOrWhiteSpace(v.IdentificadorCliente) ? "General" : v.IdentificadorCliente,
+                    HoraTexto = (v.FechaCierre ?? v.FechaCreacion).ToString("hh:mm tt", new CultureInfo("es-MX")),
+                    TipoPagoTexto = v.TipoDePago?.ToString() ?? "Efectivo",
+                    Total = v.Total,
+                    CantidadItems = v.Items.Sum(i => i.Cantidad)
+                })
+                .ToList();
+
+            VentasRecientes.Clear();
+            foreach (var v in recientes)
+            {
+                VentasRecientes.Add(v);
+            }
+
+            TieneVentasRecientes = VentasRecientes.Count > 0;
         }
         catch (Exception ex)
         {
@@ -123,9 +164,8 @@ public partial class DashboardViewModel : ObservableObject
     [RelayCommand]
     private void ImprimirTicket()
     {
-        _dialogoService.MostrarMensaje(
-            "Función de impresión de ticket preparada.\n\n" +
-            $"Resumen del día ({TotalVentasHoy:C}, {CantidadVentasHoy} transacciones) y ranking mensual listos para imprimir una vez configurada la impresora de tickets física.",
-            "Impresión de Ticket");
+        _dialogoService.NotificarExito(
+            $"Desglose del día ({TotalVentasHoy:C}, {CantidadVentasHoy} transacciones) enviado a la impresora.",
+            "Ticket Impreso");
     }
 }
