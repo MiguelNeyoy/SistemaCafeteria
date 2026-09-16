@@ -22,6 +22,7 @@ public partial class MainViewModel : ObservableObject
     private readonly IPrinterService _printerService;
     private readonly IConfiguracionRepository _configuracionRepository;
     private readonly ITicketService _ticketService;
+    private readonly ICorteCajaService _corteCajaService;
 
     private readonly DashboardViewModel _dashboardViewModel;
     private readonly ConfiguracionAvanzadaViewModel _configuracionAvanzadaViewModel;
@@ -30,6 +31,7 @@ public partial class MainViewModel : ObservableObject
     private ConfiguracionMenuViewModel? _configuracionMenuViewModel;
     private CuentasAbiertasViewModel? _cuentasAbiertasViewModel;
     private FinalizarCompraViewModel? _finalizarCompraViewModel;
+    private CierreDeCajaViewModel? _cierreDeCajaViewModel;
 
 
     [ObservableProperty]
@@ -64,7 +66,8 @@ public partial class MainViewModel : ObservableObject
         ConfiguracionAvanzadaViewModel configuracionAvanzadaViewModel,
         IPrinterService printerService,
         IConfiguracionRepository configuracionRepository,
-        ITicketService ticketService)
+        ITicketService ticketService,
+        ICorteCajaService corteCajaService)
     {
         _productoService = productoService;
         _categoriaService = categoriaService;
@@ -79,6 +82,7 @@ public partial class MainViewModel : ObservableObject
         _printerService = printerService;
         _configuracionRepository = configuracionRepository;
         _ticketService = ticketService;
+        _corteCajaService = corteCajaService;
 
         // Conectar eventos de navegacion para Configuracion Avanzada
         _dashboardViewModel.ConfiguracionAvanzadaSolicitada += MostrarConfiguracionAvanzada;
@@ -201,10 +205,20 @@ public partial class MainViewModel : ObservableObject
 
 
     [RelayCommand]
-    private void ShowCierreDeCaja()
+    private async Task ShowCierreDeCaja()
     {
-        VistaActual = new CierreDeCajaViewModel();
+        if (_cierreDeCajaViewModel is null)
+        {
+            _cierreDeCajaViewModel = new CierreDeCajaViewModel(
+                _corteCajaService,
+                _printerService,
+                _dialogoService,
+                _ventaService);
+        }
 
+        await _cierreDeCajaViewModel.CargarDatosAsync();
+
+        VistaActual = _cierreDeCajaViewModel;
         BotonSeleccionado = "CierreDeCaja";
     }
 

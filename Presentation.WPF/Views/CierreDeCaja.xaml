@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Presentation.WPF.Views.CierreDeCaja"
+<UserControl x:Class="Presentation.WPF.Views.CierreDeCaja"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -50,7 +50,7 @@
                            Margin="0,15,0,0"
                            HorizontalAlignment="Center"/>
 
-                    <TextBlock Text="{Binding TotalVenta, StringFormat={}{0:C}}"
+                    <TextBlock Text="{Binding TotalVentas, StringFormat={}{0:C}}"
                            FontFamily="{StaticResource Fuente-principal}"
                            FontSize="32" FontWeight="Bold"
                            Margin="0,8,0,0"
@@ -106,7 +106,7 @@
                                                FontFamily="{StaticResource Fuente-principal}"
                                                FontSize="24" FontWeight="SemiBold"/>
 
-                                    <TextBlock Text="{Binding TotalEfectivo, StringFormat={}{0:C}}"
+                                    <TextBlock Text="{Binding TotalTransferencia, StringFormat={}{0:C}}"
                                                FontFamily="{StaticResource Fuente-principal}"
                                                FontSize="22" FontWeight="SemiBold"
                                                Margin="5"/>
@@ -123,7 +123,7 @@
                                                FontFamily="{StaticResource Fuente-principal}"
                                                FontSize="24" FontWeight="SemiBold"/>
 
-                                    <TextBlock Text="{Binding TotalEfectivo, StringFormat={}{0:C}}"
+                                    <TextBlock Text="{Binding TotalTarjeta, StringFormat={}{0:C}}"
                                                FontFamily="{StaticResource Fuente-principal}"
                                                FontSize="22" FontWeight="SemiBold"
                                                Margin="5"/>
@@ -167,7 +167,7 @@
                                        FontFamily="{StaticResource Fuente-principal}"
                                        FontSize="24"/>
 
-                                <TextBlock Text="{Binding TotalVentas, StringFormat={}{0:C}}"
+                                <TextBlock Text="{Binding TotalVentasBruto, StringFormat={}{0:C}}"
                                            FontFamily="{StaticResource Fuente-principal}"
                                            FontSize="20"
                                            Margin="50,0,0,0"/>
@@ -181,7 +181,7 @@
                                            FontFamily="{StaticResource Fuente-principal}"
                                            FontSize="24"/>
 
-                                <TextBlock Text="{Binding TotalVentas, StringFormat={}{0:C}}"
+                                <TextBlock Text="{Binding TotalDescuentos, StringFormat={}{0:C}}"
                                            FontFamily="{StaticResource Fuente-principal}"
                                            FontSize="20"
                                            Margin="50,0,0,0"/>
@@ -195,7 +195,7 @@
                                            FontFamily="{StaticResource Fuente-principal}"
                                            FontSize="24"/>
 
-                                <TextBlock Text="{Binding TotalVentas, StringFormat={}{0:C}}"
+                                <TextBlock Text="{Binding TotalNeto, StringFormat={}{0:C}}"
                                            FontFamily="{StaticResource Fuente-principal}"
                                            FontSize="20"
                                            Margin="50,0,0,0"/>
@@ -222,7 +222,7 @@
                 Height="60" Width="200"
                 Margin="0,10,45,25"
                 HorizontalAlignment="Right"
-                Command="{Binding CerrarCaja}"/>
+                Command="{Binding CerrarCajaCommand}"/>
 
     </Grid>
 </UserControl>
