@@ -1,4 +1,4 @@
-﻿param (
+param (
     [string]$Version = "1.0.0"
 )
 
@@ -25,8 +25,7 @@ if (Test-Path $publishDir) {
 }
 
 # 4. Publicar la aplicación en modo Release para win-x64
-Write-Host "
-[1/2] Publicando binarios en $publishDir..." -ForegroundColor Green
+Write-Host "`n[1/2] Publicando binarios en $publishDir..." -ForegroundColor Green
 dotnet publish $projectPath -c Release -r win-x64 --self-contained -o $publishDir /p:Version=$Version
 
 if ($LASTEXITCODE -ne 0) {
@@ -35,13 +34,11 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # 5. Empaquetar con Velopack (genera Setup.exe y paquetes delta en Releases\)
-Write-Host "
-[2/2] Empaquetando instalador con Velopack (vpk pack)..." -ForegroundColor Green
+Write-Host "`n[2/2] Empaquetando instalador con Velopack (vpk pack)..." -ForegroundColor Green
 vpk pack -u "UnaMordidaMas" -v $Version -p $publishDir -e "Presentation.WPF.exe" -o $releasesDir
 
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "
-==========================================================" -ForegroundColor Green
+    Write-Host "`n==========================================================" -ForegroundColor Green
     Write-Host "  ¡INSTALADOR CREADO EXITOSAMENTE EN LA CARPETA Releases/!" -ForegroundColor Green
     Write-Host "  Archivos generados:" -ForegroundColor Cyan
     Get-ChildItem $releasesDir | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize
