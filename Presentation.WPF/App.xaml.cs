@@ -30,6 +30,7 @@ public partial class App : Application
         services.AddHardwareServices();
 
         services.AddSingleton<IDialogoService, DialogoService>();
+        services.AddSingleton<IActualizadorService, ActualizadorService>();
 
         // 2. Vistas y ViewModels de la capa de Presentación
         services.AddTransient<MainWindow>();
