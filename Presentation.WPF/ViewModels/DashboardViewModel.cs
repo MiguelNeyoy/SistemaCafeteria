@@ -29,6 +29,8 @@ public partial class DashboardViewModel : ObservableObject
     private readonly ICorteCajaService _corteCajaService;
     private readonly IDialogoService _dialogoService;
 
+    public event Action? ConfiguracionAvanzadaSolicitada;
+
     [ObservableProperty]
     private string fechaHoyTexto = string.Empty;
 
@@ -167,5 +169,11 @@ public partial class DashboardViewModel : ObservableObject
         _dialogoService.NotificarExito(
             $"Desglose del día ({TotalVentasHoy:C}, {CantidadVentasHoy} transacciones) enviado a la impresora.",
             "Ticket Impreso");
+    }
+
+    [RelayCommand]
+    private void AbrirConfiguracionAvanzada()
+    {
+        ConfiguracionAvanzadaSolicitada?.Invoke();
     }
 }

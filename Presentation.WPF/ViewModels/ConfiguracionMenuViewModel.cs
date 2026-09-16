@@ -149,17 +149,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [ObservableProperty]
     private bool esMensajeSeguridadError;
 
-    // Opciones rápidas de días para purga
-    public ObservableCollection<string> OpcionesDiasPurga { get; } = new() { "5", "10", "15", "30", "60", "90", "120" };
-
-    [ObservableProperty]
-    private string diasPurgaTexto = "30";
-
-    [ObservableProperty]
-    private int ventasAPurgar;
-
-    [ObservableProperty]
-    private string mensajeResultadoPurga = string.Empty;
 
     // Modal de PIN táctil
     [ObservableProperty]
@@ -870,9 +859,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     }
     #endregion
 
-    #region Seguridad y Purga de Ventas
+    #region Seguridad PIN
     [RelayCommand]
-    private async Task MostrarFormularioSeguridad()
+    private void MostrarFormularioSeguridad()
     {
         LimpiarFormulario();
 
@@ -881,61 +870,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioCategoria = false;
         FormularioProducto = false;
         FormularioExtra = false;
-
-        await ActualizarConteoVentasAPurgarAsync();
-    }
-
-    async partial void OnDiasPurgaTextoChanged(string value)
-    {
-        await ActualizarConteoVentasAPurgarAsync();
-    }
-
-    private async Task ActualizarConteoVentasAPurgarAsync()
-    {
-        if (int.TryParse(DiasPurgaTexto, out int dias) && dias > 0)
-        {
-            try
-            {
-                VentasAPurgar = await _purgaService.ContarVentasAntiguasAsync(dias);
-            }
-            catch
-            {
-                VentasAPurgar = 0;
-            }
-        }
-        else
-        {
-            VentasAPurgar = 0;
-        }
-    }
-
-    [RelayCommand]
-    private void SolicitarPurgaVentas()
-    {
-        if (!int.TryParse(DiasPurgaTexto, out int dias) || dias <= 0)
-        {
-            MensajeResultadoPurga = "Por favor ingrese un número válido de días.";
-            return;
-        }
-
-        if (VentasAPurgar == 0)
-        {
-            MensajeResultadoPurga = $"No existen ventas con más de {dias} días de antigüedad para eliminar.";
-            return;
-        }
-
-        MensajeErrorPin = string.Empty;
-        PinIngresado = string.Empty;
-        OnPropertyChanged(nameof(PinEnmascarado));
-
-        _accionPendientePostPin = async () =>
-        {
-            var eliminadas = await _purgaService.PurgarVentasAntiguasAsync(dias);
-            MensajeResultadoPurga = $"Operación exitosa: Se eliminaron {eliminadas} ventas físicamente.";
-            await ActualizarConteoVentasAPurgarAsync();
-        };
-
-        MostrarModalPin = true;
     }
 
     [RelayCommand]

@@ -24,6 +24,7 @@ public partial class MainViewModel : ObservableObject
     private readonly ITicketService _ticketService;
 
     private readonly DashboardViewModel _dashboardViewModel;
+    private readonly ConfiguracionAvanzadaViewModel _configuracionAvanzadaViewModel;
     private MenuViewModel? _menuViewModel;
     private ComandaViewModel? _comandaViewModel;
     private ConfiguracionMenuViewModel? _configuracionMenuViewModel;
@@ -60,6 +61,7 @@ public partial class MainViewModel : ObservableObject
         IVentaService ventaService,
         IComandaService comandaService,
         DashboardViewModel dashboardViewModel,
+        ConfiguracionAvanzadaViewModel configuracionAvanzadaViewModel,
         IPrinterService printerService,
         IConfiguracionRepository configuracionRepository,
         ITicketService ticketService)
@@ -73,9 +75,14 @@ public partial class MainViewModel : ObservableObject
         _ventaService = ventaService;
         _comandaService = comandaService;
         _dashboardViewModel = dashboardViewModel;
+        _configuracionAvanzadaViewModel = configuracionAvanzadaViewModel;
         _printerService = printerService;
         _configuracionRepository = configuracionRepository;
         _ticketService = ticketService;
+
+        // Conectar eventos de navegacion para Configuracion Avanzada
+        _dashboardViewModel.ConfiguracionAvanzadaSolicitada += MostrarConfiguracionAvanzada;
+        _configuracionAvanzadaViewModel.RegresarSolicitado += async () => await ShowHome();
 
         // Establecer el Dashboard de Inicio como vista inicial al arrancar
         VistaActual = _dashboardViewModel;
@@ -185,18 +192,12 @@ public partial class MainViewModel : ObservableObject
     }
 
 
-    private void MostrarConfiguracionAvanzada()
+    private async void MostrarConfiguracionAvanzada()
     {
-        if (_configuracionMenuViewModel is null) return;
-
-        var vista = new ConfiguracionAvanzadaView
-        {
-            DataContext = _configuracionMenuViewModel
-        };
-
-        VistaActual = vista;
-
-    }//Fin - MostrarConfiguracionAvanzadaView
+        await _configuracionAvanzadaViewModel.CargarDatosAsync();
+        VistaActual = _configuracionAvanzadaViewModel;
+        BotonSeleccionado = null;
+    }//Fin - MostrarConfiguracionAvanzada
 
 
     [RelayCommand]

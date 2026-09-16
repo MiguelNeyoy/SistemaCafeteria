@@ -41,6 +41,7 @@ public partial class App : Application
         services.AddTransient<MenuViewModel>();
         services.AddTransient<CuentasAbiertasViewModel>();
         services.AddTransient<FinalizarCompraViewModel>();
+        services.AddTransient<ConfiguracionAvanzadaViewModel>();
 
         // 3. Construye el contenedor con validación estricta de árbol de dependencias
         _serviceProvider = services.BuildServiceProvider(new ServiceProviderOptions

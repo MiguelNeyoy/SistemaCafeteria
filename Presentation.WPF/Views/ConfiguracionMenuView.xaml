@@ -113,15 +113,15 @@
                     </Grid>
                 </Button>
 
-                <!-- Botón Seguridad y Purga -->
+                <!-- Botón Seguridad (PIN) -->
                 <Button Grid.Column="4" Command="{Binding MostrarFormularioSeguridadCommand}" Style="{StaticResource BtnCatyPro}" Height="78" Margin="3">
                     <Grid Margin="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_basura.png" Height="26" Width="26" Stretch="Uniform" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Text="Seguridad &amp; Purga" TextAlignment="Center" Margin="0,2,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#8B0000" TextWrapping="Wrap"/>
+                        <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_confirmacion.png" Height="26" Width="26" Stretch="Uniform" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Text="Seguridad (PIN)" TextAlignment="Center" Margin="0,2,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#37474F" TextWrapping="Wrap"/>
                     </Grid>
                 </Button>
             </Grid>
@@ -749,7 +749,7 @@
                             </Style>
                         </StackPanel.Style>
 
-                        <TextBlock Text="Seguridad y Purga" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,15"/>
+                        <TextBlock Text="Seguridad (PIN)" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,15"/>
 
                         <!-- Subsección: Cambiar PIN -->
                         <Border Background="White" BorderBrush="#BDBDBD" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,0,0,15">
@@ -776,41 +776,6 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Subsección: Purga de Ventas Físicas -->
-                        <Border Background="White" BorderBrush="#E57373" BorderThickness="2" CornerRadius="8" Padding="12">
-                            <StackPanel>
-                                <TextBlock Text="Borrado Físico de Ventas" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="Bold" Foreground="#C62828" Margin="0,0,0,6"/>
-
-                                <Border Background="#FFEBEE" CornerRadius="6" Padding="8" Margin="0,0,0,10">
-                                    <TextBlock Text="ATENCION: Las ventas borradas se eliminaran definitivamente de la base de datos para liberar espacio. Se solicitara el PIN de administrador para proceder." FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#B71C1C" TextWrapping="Wrap"/>
-                                </Border>
-
-                                <TextBlock Text="Días de antigüedad:" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                                <TextBlock Text="Escribe los días o selecciona una opción rápida:" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="Gray" Margin="0,0,0,4"/>
-
-                                <ComboBox IsEditable="True" Height="32" FontSize="15" FontFamily="{StaticResource Fuente-principal}" ItemsSource="{Binding OpcionesDiasPurga}" Text="{Binding DiasPurgaTexto, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
-
-                                <!-- Conteo en vivo de ventas a purgar -->
-                                <Border Background="#FFF8E1" BorderBrush="#FFE082" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,0,0,12">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="Ventas a borrar encontradas:" FontFamily="{StaticResource Fuente-principal}" FontSize="12" Foreground="#5D4037"/>
-                                            <TextBlock Text="con más de los días indicados" FontFamily="{StaticResource Fuente-principal}" FontSize="10" Foreground="Gray"/>
-                                        </StackPanel>
-                                        <TextBlock Grid.Column="1" Text="{Binding VentasAPurgar}" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" Foreground="#D84315" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                                    </Grid>
-                                </Border>
-
-                                <Button Command="{Binding SolicitarPurgaVentasCommand}" Style="{StaticResource BtnGuardarCambios}" Background="#D32F2F" Height="42" Margin="0,0,0,6" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="White" Content="BORRAR VENTAS"/>
-
-                                <TextBlock Text="{Binding MensajeResultadoPurga}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" Foreground="#1565C0" Margin="0,4,0,0" TextWrapping="Wrap" FontWeight="SemiBold"/>
                             </StackPanel>
                         </Border>
 

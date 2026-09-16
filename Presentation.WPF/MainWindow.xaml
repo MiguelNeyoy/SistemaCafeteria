@@ -51,6 +51,10 @@
             <views:FinalizarCompra />
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewmodels:ConfiguracionAvanzadaViewModel}">
+            <views:ConfiguracionAvanzadaView />
+        </DataTemplate>
+
     </Window.Resources>
 
 
