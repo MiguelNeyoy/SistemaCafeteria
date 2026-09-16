@@ -112,11 +112,11 @@
                 <!--#region RadioButton (Menu,Configuracion de Menu,Cierre de caja y Ventas)-->
                 <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="1" Content="Menú" Command="{Binding ShowMenuCommand}" IsChecked="{Binding EsMenuSeleccionado, Mode=OneWay}"/>
 
-                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" IsChecked="{Binding EsConfigSeleccionado, Mode=OneWay}"/>
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="2" Content="Cuentas&#x0a;Abiertas" Command="{Binding ShowCuentasAbiertasCommand}" IsChecked="{Binding EsCuentasSeleccionado, Mode=OneWay}"/>
 
                 <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="3" Content="Cierre de caja" Command="{Binding ShowCierreDeCajaCommand}" IsChecked="{Binding EsCierreSeleccionado, Mode=OneWay}"/>
 
-                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Cuentas&#x0a;Abiertas" Command="{Binding ShowCuentasAbiertasCommand}" IsChecked="{Binding EsCuentasSeleccionado, Mode=OneWay}"/>
+                <RadioButton GroupName="NavegacionPrincipal" Style="{StaticResource BtnBarraLateral}" Grid.Row="4" Content="Configuración &#x0a;de menú" Command="{Binding ShowConfigMenuCommand}" IsChecked="{Binding EsConfigSeleccionado, Mode=OneWay}"/>
                 <!--#endregion-->
 
 
