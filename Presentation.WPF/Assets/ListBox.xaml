@@ -322,40 +322,14 @@
 
 
                             <!--#region Subtotal y Extras -->
-                            <Grid Grid.Row="1" Margin="0,5,0,0">
+                            <Grid Grid.Row="1" Margin="0,3,0,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Grid.Column="0" Text="Subtotal"
-                                               FontFamily="{StaticResource Fuente-principal}"
-                                               FontSize="15" Foreground="#616161" FontWeight="SemiBold"/>
-
-                                    <TextBlock Grid.Column="1" Text="{Binding Subtotal, StringFormat={}{0:C}}" 
-                                               FontFamily="{StaticResource Fuente-principal}"
-                                               FontSize="15" Foreground="#616161" FontWeight="SemiBold"/>
-
-
-                                    <Grid Grid.Row="1">
-                                        <TextBlock Grid.Column="1" Text="{Binding Nombre, StringFormat='+ {0}'}"
-           FontFamily="{StaticResource Fuente-principal}"
-           FontSize="13" Foreground="#E65100" TextWrapping="Wrap" Margin="0,0,6,0"/>
-                                        <TextBlock Grid.Column="1" Text="{Binding Precio, StringFormat={}{0:C}}" 
-           FontFamily="{StaticResource Fuente-principal}"
-           FontSize="13" Foreground="#E65100" FontWeight="SemiBold"/>
-                                    </Grid>
-                                    
-                                </Grid>
-
                                 <!-- Lista para las propiedades Extra -->
-                                <ItemsControl Grid.Row="1" ItemsSource="{Binding Extras}" Margin="0,4,0,0">
+                                <ItemsControl Grid.Row="0" ItemsSource="{Binding Extras}" Margin="0,2,0,3">
                                     <ItemsControl.Style>
                                         <Style TargetType="ItemsControl">
                                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -368,7 +342,7 @@
                                     </ItemsControl.Style>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Grid Margin="0,2">
+                                            <Grid Margin="0,1">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
@@ -383,6 +357,22 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
+
+                                <!-- Subtotal del item -->
+                                <Grid Grid.Row="1" Margin="0,2,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="Subtotal"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="15" Foreground="#616161" FontWeight="SemiBold"/>
+
+                                    <TextBlock Grid.Column="1" Text="{Binding Subtotal, StringFormat={}{0:C}}" 
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="15" Foreground="#616161" FontWeight="SemiBold"/>
+                                </Grid>
 
                             </Grid>
                             <!--#endregion-->
