@@ -55,9 +55,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [ObservableProperty]
     private bool formularioExtra;
 
-    [ObservableProperty]
-    private bool formularioSeguridad;
-
     // Formulario Categoría
     [ObservableProperty]
     private CategoriaDto? categoriaSeleccionada;
@@ -136,18 +133,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     public bool ProductoSeleccionadoEsActivo => ProductoSeleccionado?.Activo ?? true;
     public bool ExtraSeleccionadoEsActivo => ExtraSeleccionado?.Activo ?? true;
 
-    // Sección Seguridad y Purga
-    [ObservableProperty]
-    private string pinActual = string.Empty;
-
-    [ObservableProperty]
-    private string pinNuevo = string.Empty;
-
-    [ObservableProperty]
-    private string mensajeSeguridad = string.Empty;
-
-    [ObservableProperty]
-    private bool esMensajeSeguridadError;
 
 
     // Modal de PIN táctil
@@ -374,9 +359,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         PrecioProducto = 0;
         NombreExtra = string.Empty;
         PrecioExtra = 0;
-        PinActual = string.Empty;
-        PinNuevo = string.Empty;
-        MensajeSeguridad = string.Empty;
 
         CategoriaProductoSeleccionado = null;
         CategoriaSeleccionada = null;
@@ -405,7 +387,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioCategoria = true;
         FormularioProducto = false;
         FormularioExtra = false;
-        FormularioSeguridad = false;
 
         ModoEdicionCategoria = false;
     }
@@ -483,7 +464,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioCategoria = true;
         FormularioProducto = false;
         FormularioExtra = false;
-        FormularioSeguridad = false;
 
         ModoEdicionCategoria = true;
         OnPropertyChanged(nameof(CategoriaSeleccionadaEsActiva));
@@ -534,7 +514,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioProducto = true;
         FormularioCategoria = false;
         FormularioExtra = false;
-        FormularioSeguridad = false;
 
         ModoEdicionProducto = false;
     }
@@ -638,7 +617,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioProducto = true;
         FormularioCategoria = false;
         FormularioExtra = false;
-        FormularioSeguridad = false;
 
         ModoEdicionProducto = true;
         OnPropertyChanged(nameof(ProductoSeleccionadoEsActivo));
@@ -687,7 +665,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioExtra = true;
         FormularioCategoria = false;
         FormularioProducto = false;
-        FormularioSeguridad = false;
 
         ModoEdicionExtra = false;
     }
@@ -706,7 +683,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioExtra = true;
         FormularioCategoria = false;
         FormularioProducto = false;
-        FormularioSeguridad = false;
 
         ModoEdicionExtra = true;
         OnPropertyChanged(nameof(ExtraSeleccionadoEsActivo));
@@ -859,53 +835,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     }
     #endregion
 
-    #region Seguridad PIN
-    [RelayCommand]
-    private void MostrarFormularioSeguridad()
-    {
-        LimpiarFormulario();
-
-        MostrarFormulario = true;
-        FormularioSeguridad = true;
-        FormularioCategoria = false;
-        FormularioProducto = false;
-        FormularioExtra = false;
-    }
-
-    [RelayCommand]
-    private async Task CambiarPin()
-    {
-        MensajeSeguridad = string.Empty;
-
-        if (string.IsNullOrWhiteSpace(PinActual) || string.IsNullOrWhiteSpace(PinNuevo))
-        {
-            MensajeSeguridad = "Debe ingresar el PIN actual y el nuevo PIN.";
-            EsMensajeSeguridadError = true;
-            return;
-        }
-
-        if (PinNuevo.Trim().Length < 4)
-        {
-            MensajeSeguridad = "El nuevo PIN debe contener al menos 4 dígitos.";
-            EsMensajeSeguridadError = true;
-            return;
-        }
-
-        try
-        {
-            await _seguridadService.CambiarPinAsync(PinActual.Trim(), PinNuevo.Trim());
-            MensajeSeguridad = "PIN de seguridad actualizado correctamente.";
-            EsMensajeSeguridadError = false;
-            PinActual = string.Empty;
-            PinNuevo = string.Empty;
-        }
-        catch (Exception ex)
-        {
-            MensajeSeguridad = ex.Message;
-            EsMensajeSeguridadError = true;
-        }
-    }
-    #endregion
 
     #region Modal PIN Táctil
     [RelayCommand]
@@ -989,7 +918,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         FormularioCategoria = false;
         FormularioProducto = false;
         FormularioExtra = false;
-        FormularioSeguridad = false;
 
         ModoEdicionCategoria = false;
         ModoEdicionProducto = false;
