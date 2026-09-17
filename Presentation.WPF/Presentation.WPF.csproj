@@ -7,6 +7,7 @@
     <None Remove="Assets\Imagenes\Icono_de_editar.png" />
     <None Remove="Assets\Imagenes\Icono_eliminacion_teclado.png" />
     <None Remove="Assets\Imagenes\Icono_retroceso.png" />
+    <None Remove="Assets\Imagenes\Logo.ico" />
     <None Remove="Assets\Imagenes\Logo.png" />
   </ItemGroup>
 
@@ -29,6 +30,7 @@
     <Resource Include="Assets\Imagenes\Icono_de_editar.png" />
     <Resource Include="Assets\Imagenes\Icono_eliminacion_teclado.png" />
     <Resource Include="Assets\Imagenes\Icono_retroceso.png" />
+    <Resource Include="Assets\Imagenes\Logo.ico" />
     <Resource Include="Assets\Imagenes\Logo.png" />
   </ItemGroup>
 
