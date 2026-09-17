@@ -201,7 +201,7 @@
                                 <TextBlock Text="{Binding TotalNeto, StringFormat={}{0:C}}"
                                            FontFamily="{StaticResource Fuente-principal}"
                                            FontSize="20"
-                                           Margin="50,0,0,0"/>
+                                           Margin="112,0,0,0"/>
 
                             </StackPanel>
                             
