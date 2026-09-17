@@ -92,7 +92,8 @@
                                     <TextBlock Text="{Binding TotalEfectivo, StringFormat={}{0:C}}"
                                                FontFamily="{StaticResource Fuente-principal}"
                                                FontSize="22" FontWeight="SemiBold"
-                                               Margin="5"/>
+                                               Margin="5"
+                                               HorizontalAlignment="Center"/>
 
                                 </StackPanel>
                             
@@ -109,7 +110,8 @@
                                     <TextBlock Text="{Binding TotalTransferencia, StringFormat={}{0:C}}"
                                                FontFamily="{StaticResource Fuente-principal}"
                                                FontSize="22" FontWeight="SemiBold"
-                                               Margin="5"/>
+                                               Margin="5"
+                                               HorizontalAlignment="Center"/>
 
                                 </StackPanel>
 
@@ -126,7 +128,8 @@
                                     <TextBlock Text="{Binding TotalTarjeta, StringFormat={}{0:C}}"
                                                FontFamily="{StaticResource Fuente-principal}"
                                                FontSize="22" FontWeight="SemiBold"
-                                               Margin="5"/>
+                                               Margin="5"
+                                               HorizontalAlignment="Center"/>
 
                                 </StackPanel>
 
