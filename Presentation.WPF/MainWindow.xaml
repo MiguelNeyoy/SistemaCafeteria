@@ -16,7 +16,8 @@
         xmlns:viewmodels="clr-namespace:Presentation.WPF.ViewModels"
         xmlns:alertas="clr-namespace:Presentation.WPF.Views.Alertas"
         mc:Ignorable="d"
-        Title=" POS - UNAMORDIDA " Height="1024" Width="1280">
+        Title=" POS - UNAMORDIDA " Height="1024" Width="1280"
+        Icon="/Assets/Imagenes/Logo.ico">
 
     <Window.InputBindings>
         <KeyBinding Key="F12" Command="{Binding AbrirCajonCommand}" />
