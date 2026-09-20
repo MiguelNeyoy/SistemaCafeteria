@@ -71,4 +71,43 @@ public class CategoriaExtraRepository : ICategoriaExtraRepository
         return await _context.CategoriaExtras
             .AnyAsync(ce => ce.CategoriaId == categoriaId && ce.ExtraId == extraId);
     }
+
+    public async Task<List<int>> ObtenerCategoriaIdsPorExtraAsync(int extraId)
+    {
+        return await _context.CategoriaExtras
+            .Where(ce => ce.ExtraId == extraId)
+            .Select(ce => ce.CategoriaId)
+            .ToListAsync();
+    }
+
+    public async Task SincronizarCategoriasDeExtraAsync(int extraId, IEnumerable<int> categoriaIds)
+    {
+        var actuales = await _context.CategoriaExtras
+            .Where(ce => ce.ExtraId == extraId)
+            .ToListAsync();
+
+        var nuevosCatIds = categoriaIds?.Distinct().ToList() ?? new List<int>();
+
+        // Eliminar ÚNICAMENTE las asociaciones de este extra con categorías que se hayan desmarcado
+        var aEliminar = actuales
+            .Where(ce => !nuevosCatIds.Contains(ce.CategoriaId))
+            .ToList();
+
+        if (aEliminar.Any())
+        {
+            _context.CategoriaExtras.RemoveRange(aEliminar);
+        }
+
+        // Agregar este extra ÚNICAMENTE a las nuevas categorías marcadas (sin tocar los demás extras existentes)
+        var actualesCatIds = actuales.Select(ce => ce.CategoriaId).ToHashSet();
+        var aAgregar = nuevosCatIds
+            .Where(catId => !actualesCatIds.Contains(catId))
+            .Select(catId => new CategoriaExtra(catId, extraId))
+            .ToList();
+
+        if (aAgregar.Any())
+        {
+            await _context.CategoriaExtras.AddRangeAsync(aAgregar);
+        }
+    }
 }

@@ -11,4 +11,8 @@ public interface ICategoriaExtraRepository
     Task<List<Extra>> ObtenerExtrasPorCategoriaAsync(int categoriaId);
     Task SincronizarExtrasAsync(int categoriaId, IEnumerable<int> extraIds);
     Task<bool> ExisteRelacionAsync(int categoriaId, int extraId);
+
+    // Métodos para gestionar la relación desde la perspectiva del Extra
+    Task<List<int>> ObtenerCategoriaIdsPorExtraAsync(int extraId);
+    Task SincronizarCategoriasDeExtraAsync(int extraId, IEnumerable<int> categoriaIds);
 }

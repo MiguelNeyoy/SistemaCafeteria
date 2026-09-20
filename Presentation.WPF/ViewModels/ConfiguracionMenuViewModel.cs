@@ -724,6 +724,11 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         if (string.IsNullOrWhiteSpace(NombreExtra) || PrecioExtra < 0)
             return;
 
+        var categoriasSeleccionadas = CategoriasParaExtra
+            .Where(c => c.IsChecked)
+            .Select(c => c.Categoria.Id)
+            .ToList();
+
         if (ModoEdicionExtra && ExtraSeleccionado is not null)
         {
             var dto = new EditarExtraDto
@@ -739,6 +744,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             {
                 Extras[index] = extraEditado;
             }
+
+            // Sincronizar las categorías asociadas a este extra sin afectar a los demás extras
+            await _extraService.SincronizarCategoriasDeExtraAsync(extraEditado.Id, categoriasSeleccionadas);
         }
         else
         {
@@ -751,26 +759,20 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             // 1. Crear el Extra
             var nuevoExtra = await _extraService.CrearAsync(dto);
 
-            // 2. Agregarlo a la colección de Extras
+            // 2. Agregarlo a la colección observable de Extras
             Extras.Add(nuevoExtra);
 
-            // 3. Obtener las categorías seleccionadas
-            var categoriasSeleccionadas = CategoriasParaExtra
-                .Where(c => c.IsChecked)
-                .Select(c => c.Categoria.Id)
-                .ToList();
+            // 3. Asociar este nuevo extra a las categorías seleccionadas sin desmarcar los extras existentes
+            await _extraService.SincronizarCategoriasDeExtraAsync(nuevoExtra.Id, categoriasSeleccionadas);
+        }
 
-            // 4. Crear las relaciones Categoría <-> Extra
-            foreach (var categoriaId in categoriasSeleccionadas)
-            {
-                await _extraService.SincronizarExtrasCategoriaAsync(
-                    categoriaId,
-                    new List<int> { nuevoExtra.Id });
-            }
+        // Refrescar los extras de la categoría actualmente seleccionada si la hay
+        if (CategoriaSeleccionada is not null)
+        {
+            await CargarExtrasCategoriaAsync();
         }
 
         CancelarFormulario();
-
     }
 
 
@@ -814,22 +816,19 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             return;
 
         int? extraId = ExtraSeleccionado?.Id;
+        List<int> categoriasDelExtra = new();
+
+        if (extraId.HasValue)
+        {
+            categoriasDelExtra = await _extraService.ObtenerCategoriaIdsPorExtraAsync(extraId.Value);
+        }
 
         foreach (var categoria in Categorias)
         {
-            bool estaSeleccionada = false;
-
-            if (extraId.HasValue)
-            {
-                var extraIds = await _extraService.ObtenerExtraIdsPorCategoriaAsync( categoria.Id );
-
-                estaSeleccionada = extraIds.Contains(extraId.Value);
-            }
-
             CategoriasParaExtra.Add(new CategoriaCheckItem
             {
                 Categoria = categoria,
-                IsChecked = estaSeleccionada
+                IsChecked = extraId.HasValue && categoriasDelExtra.Contains(categoria.Id)
             });
         }
     }

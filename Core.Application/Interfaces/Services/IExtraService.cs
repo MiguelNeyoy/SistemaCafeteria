@@ -16,4 +16,8 @@ public interface IExtraService
     Task<List<ExtraDto>> ObtenerPorCategoriaAsync(int categoriaId);
     Task<List<int>> ObtenerExtraIdsPorCategoriaAsync(int categoriaId);
     Task SincronizarExtrasCategoriaAsync(int categoriaId, List<int> extraIds);
+
+    // Consultas y asignaciones por Extra
+    Task<List<int>> ObtenerCategoriaIdsPorExtraAsync(int extraId);
+    Task SincronizarCategoriasDeExtraAsync(int extraId, List<int> categoriaIds);
 }

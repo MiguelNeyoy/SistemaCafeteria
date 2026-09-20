@@ -107,6 +107,20 @@ public class ExtraService : IExtraService
         await _unitOfWork.SaveChangesAsync();
     }
 
+    public async Task<List<int>> ObtenerCategoriaIdsPorExtraAsync(int extraId)
+    {
+        return await _categoriaExtraRepository.ObtenerCategoriaIdsPorExtraAsync(extraId);
+    }
+
+    public async Task SincronizarCategoriasDeExtraAsync(int extraId, List<int> categoriaIds)
+    {
+        var extra = await _extraRepository.ObtenerPorIdAsync(extraId)
+            ?? throw new DomainException($"Extra con Id {extraId} no encontrado.");
+
+        await _categoriaExtraRepository.SincronizarCategoriasDeExtraAsync(extraId, categoriaIds ?? new List<int>());
+        await _unitOfWork.SaveChangesAsync();
+    }
+
     private static ExtraDto MapToDto(Extra extra)
     {
         return new ExtraDto
