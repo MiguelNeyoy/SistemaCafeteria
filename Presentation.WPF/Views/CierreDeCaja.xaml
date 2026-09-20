@@ -6,6 +6,11 @@
              xmlns:local="clr-namespace:Presentation.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="900">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </UserControl.Resources>
+
     <Grid>
 
 
@@ -219,13 +224,67 @@
         </Border>
         <!--#endregion-->
 
-        <Button Grid.Row="2" Content="Cerrar caja" Style="{StaticResource BtnGuardarCambios}"
-                FontFamily="{StaticResource Fuente-principal}"
-                FontSize="20" FontWeight="Bold"
-                Height="60" Width="200"
-                Margin="0,10,100,25"
-                HorizontalAlignment="Right"
-                Command="{Binding CerrarCajaCommand}"/>
+        <!--#region Acciones y Validaciones de Cierre-->
+        <Grid Grid.Row="2" Margin="100,5,100,25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Alerta visual de Cuentas Abiertas Pendientes -->
+            <Border Grid.Column="0" 
+                    Background="#FFEBEE" 
+                    BorderBrush="#EF5350" 
+                    BorderThickness="1.5" 
+                    CornerRadius="10" 
+                    Padding="14,10" 
+                    Margin="0,0,20,0"
+                    VerticalAlignment="Center"
+                    Visibility="{Binding TieneCuentasAbiertas, Converter={StaticResource BoolToVisConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="⚠️" FontSize="24" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="¡No se puede cerrar caja! Hay cuentas abiertas" 
+                                   FontFamily="{StaticResource Fuente-principal}" 
+                                   FontSize="14" FontWeight="Bold" Foreground="#C62828"/>
+                        <TextBlock Text="{Binding MensajeAlertaCuentas}" 
+                                   FontFamily="{StaticResource Fuente-principal}" 
+                                   FontSize="12" Foreground="#B71C1C" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Boton Refrescar Ventas del Dia -->
+            <Button Grid.Column="1" 
+                    Content="🔄 Actualizar" 
+                    Command="{Binding CargarDatosCommand}"
+                    FontFamily="{StaticResource Fuente-principal}"
+                    FontSize="16" FontWeight="SemiBold"
+                    Foreground="#424242"
+                    Background="#F5F5F5"
+                    BorderBrush="#BDBDBD"
+                    BorderThickness="1.5"
+                    Height="54" Padding="18,0"
+                    Margin="0,0,15,0"
+                    Cursor="Hand"
+                    VerticalAlignment="Center"/>
+
+            <!-- Boton Cerrar Caja -->
+            <Button Grid.Column="2" 
+                    Content="Cerrar caja" 
+                    Style="{StaticResource BtnGuardarCambios}"
+                    FontFamily="{StaticResource Fuente-principal}"
+                    FontSize="20" FontWeight="Bold"
+                    Height="54" Width="200"
+                    VerticalAlignment="Center"
+                    Command="{Binding CerrarCajaCommand}"/>
+        </Grid>
+        <!--#endregion-->
 
     </Grid>
 </UserControl>
