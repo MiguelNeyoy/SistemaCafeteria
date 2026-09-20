@@ -1,0 +1,290 @@
+<UserControl x:Class="Presentation.WPF.Views.CierreDeCaja"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="900">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+
+
+        <!--#region Estructura Inicial-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <!--#endregion-->
+
+
+        <!--Titulo-->
+        <TextBlock Grid.Row="0" Text="CORTE DE CAJA"
+                   FontFamily="{StaticResource Fuente-principal}"
+                   FontSize="36" FontWeight="SemiBold"
+                   Margin="0,15,0,15"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <!--#region Interfaz Visual-->
+        <Border Grid.Row="1" Background="{StaticResource Blanco 70%}" BorderBrush="{StaticResource Gris}" Margin="100,20" BorderThickness="2" CornerRadius="15">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <!--#region Resumen del Corte-->
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,15">
+
+                    <TextBlock Text="RESUMEN DEL CORTE"
+                           FontFamily="{StaticResource Fuente-principal}"
+                           FontSize="28" FontWeight="SemiBold" Foreground="{StaticResource Gris}"
+                           HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="TOTAL DE VENTAS"
+                           FontFamily="{StaticResource Fuente-principal}"
+                           FontSize="24" FontWeight="Bold"
+                           Margin="0,15,0,0"
+                           HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="{Binding TotalVentas, StringFormat={}{0:C}}"
+                           FontFamily="{StaticResource Fuente-principal}"
+                           FontSize="32" FontWeight="Bold"
+                           Margin="0,8,0,0"
+                           HorizontalAlignment="Center"/>
+
+                </StackPanel>
+                <!--#endregion-->
+
+                <Border Grid.Row="1" Padding="30" BorderBrush="{StaticResource Gris 50%}" BorderThickness="4" CornerRadius="10" HorizontalAlignment="Center">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        
+                        <TextBlock Text="DESGLOCE POR METODO DE PAGO"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="28" FontWeight="Bold"/>
+
+                        
+                        <Grid Grid.Row="1" Margin="0,20,0,0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Border Grid.Column="0" Background="{StaticResource Naranja 50%}" BorderBrush="{StaticResource Gris 50%}" BorderThickness="2" Margin="5" Padding="5" CornerRadius="8">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="Efectivo"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="24" FontWeight="SemiBold"/>
+                                    
+                                    <TextBlock Text="{Binding TotalEfectivo, StringFormat={}{0:C}}"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="22" FontWeight="SemiBold"
+                                               Margin="5"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+                            
+                             </Border>
+
+                            <Border Grid.Column="1" Background="{StaticResource Naranja 50%}" BorderBrush="{StaticResource Gris 50%}" BorderThickness="2" Margin="5" Padding="5" CornerRadius="8">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="Transferencia"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="24" FontWeight="SemiBold"/>
+
+                                    <TextBlock Text="{Binding TotalTransferencia, StringFormat={}{0:C}}"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="22" FontWeight="SemiBold"
+                                               Margin="5"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                            <Border Grid.Column="2" Background="{StaticResource Naranja 50%}" BorderBrush="{StaticResource Gris 50%}" BorderThickness="2" Margin="5" Padding="5" CornerRadius="8">
+
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <TextBlock Text="Tarjeta"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="24" FontWeight="SemiBold"/>
+
+                                    <TextBlock Text="{Binding TotalTarjeta, StringFormat={}{0:C}}"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="22" FontWeight="SemiBold"
+                                               Margin="5"
+                                               HorizontalAlignment="Center"/>
+
+                                </StackPanel>
+
+                            </Border>
+                            
+                        </Grid>
+
+                    </Grid>
+
+                </Border>
+                
+                
+                <!--#region Resumen Final-->
+                <Border Grid.Row="2" Padding="30" Margin="0,40,0,20" BorderBrush="{StaticResource Gris 50%}" BorderThickness="4" CornerRadius="10" HorizontalAlignment="Center">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Text="RESUMEN FINAL"
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="28" FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+
+                        <Grid Grid.Row="1" Margin="0,15,0,0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+
+                                <TextBlock Text="Total de ventas"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="24"/>
+
+                                <TextBlock Text="{Binding TotalVentasBruto, StringFormat={}{0:C}}"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="20"
+                                           Margin="50,0,0,0"/>
+
+                            </StackPanel>
+
+
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                                <TextBlock Text="Total descuentos"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="24"/>
+
+                                <TextBlock Text="{Binding TotalDescuentos, StringFormat={}{0:C}}"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="20"
+                                           Margin="50,0,0,0"/>
+
+                            </StackPanel>
+
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal">
+
+                                <TextBlock Text="Total neto"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="24"/>
+
+                                <TextBlock Text="{Binding TotalNeto, StringFormat={}{0:C}}"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="20"
+                                           Margin="112,0,0,0"/>
+
+                            </StackPanel>
+                            
+                        </Grid>
+
+                    </Grid>
+
+                </Border>
+                <!--#endregion-->
+                
+                
+
+            </Grid>
+
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Acciones y Validaciones de Cierre-->
+        <Grid Grid.Row="2" Margin="100,5,100,25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Alerta visual de Cuentas Abiertas Pendientes -->
+            <Border Grid.Column="0" 
+                    Background="#FFEBEE" 
+                    BorderBrush="#EF5350" 
+                    BorderThickness="1.5" 
+                    CornerRadius="10" 
+                    Padding="14,10" 
+                    Margin="0,0,20,0"
+                    VerticalAlignment="Center"
+                    Visibility="{Binding TieneCuentasAbiertas, Converter={StaticResource BoolToVisConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="⚠️" FontSize="24" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="¡No se puede cerrar caja! Hay cuentas abiertas" 
+                                   FontFamily="{StaticResource Fuente-principal}" 
+                                   FontSize="14" FontWeight="Bold" Foreground="#C62828"/>
+                        <TextBlock Text="{Binding MensajeAlertaCuentas}" 
+                                   FontFamily="{StaticResource Fuente-principal}" 
+                                   FontSize="12" Foreground="#B71C1C" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Boton Refrescar Ventas del Dia -->
+            <Button Grid.Column="1" 
+                    Content="🔄 Actualizar" 
+                    Command="{Binding CargarDatosCommand}"
+                    FontFamily="{StaticResource Fuente-principal}"
+                    FontSize="16" FontWeight="SemiBold"
+                    Foreground="#424242"
+                    Background="#F5F5F5"
+                    BorderBrush="#BDBDBD"
+                    BorderThickness="1.5"
+                    Height="54" Padding="18,0"
+                    Margin="0,0,15,0"
+                    Cursor="Hand"
+                    VerticalAlignment="Center"/>
+
+            <!-- Boton Cerrar Caja -->
+            <Button Grid.Column="2" 
+                    Content="Cerrar caja" 
+                    Style="{StaticResource BtnGuardarCambios}"
+                    FontFamily="{StaticResource Fuente-principal}"
+                    FontSize="20" FontWeight="Bold"
+                    Height="54" Width="200"
+                    VerticalAlignment="Center"
+                    Command="{Binding CerrarCajaCommand}"/>
+        </Grid>
+        <!--#endregion-->
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,23 @@
+using Core.Application.Dtos.Catalogo;
+
+namespace Core.Application.Interfaces.Services;
+
+public interface IExtraService
+{
+    Task<ExtraDto> CrearAsync(CrearExtraDto dto);
+    Task<ExtraDto> EditarAsync(EditarExtraDto dto);
+    Task ActivarAsync(int id);
+    Task DesactivarAsync(int id);
+    Task<ExtraDto?> ObtenerPorIdAsync(int id);
+    Task<List<ExtraDto>> ObtenerTodosAsync();
+    Task<List<ExtraDto>> ObtenerActivosAsync();
+
+    // Consultas y asignaciones por categoría
+    Task<List<ExtraDto>> ObtenerPorCategoriaAsync(int categoriaId);
+    Task<List<int>> ObtenerExtraIdsPorCategoriaAsync(int categoriaId);
+    Task SincronizarExtrasCategoriaAsync(int categoriaId, List<int> extraIds);
+
+    // Consultas y asignaciones por Extra
+    Task<List<int>> ObtenerCategoriaIdsPorExtraAsync(int extraId);
+    Task SincronizarCategoriasDeExtraAsync(int extraId, List<int> categoriaIds);
+}

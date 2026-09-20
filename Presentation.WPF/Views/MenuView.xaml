@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="Presentation.WPF.Views.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Presentation.WPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="1024" d:DesignWidth="900">
+
+    <UserControl.Resources>
+        
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+    </UserControl.Resources>
+    
+
+    <Grid>
+        
+        
+        <!--#region Estado: Sin Categorias -->
+        <Grid>
+
+            <Grid.Style>
+
+                <Style TargetType="Grid">
+
+                    <Setter Property="VerticalAlignment" Value = "Center" />
+                    <Setter Property="HorizontalAlignment" Value = "Center" />
+                    <Setter Property="Visibility" Value="Visible"/>
+
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding TieneCategorias}" Value="True">
+                            
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            
+                        </DataTrigger>
+
+                    </Style.Triggers>
+
+                </Style>
+                
+            </Grid.Style>
+
+            
+            <!--Texto-->
+            <TextBlock Text ="No hay Categorías, ingresa a Configuración de Menú para agregarlas."
+                       FontFamily="{StaticResource Fuente-principal}"
+                       FontSize="30" FontWeight="SemiBold" Foreground="Gray" TextWrapping="Wrap" />
+            
+        </Grid>
+        <!--#endregion-->
+        
+
+        <!--#region Estado: Con Categorias-->
+        <Grid>
+
+            <Grid.Style>
+
+                <Style TargetType="Grid">
+
+                    <Setter Property="Visibility" Value="Visible"/>
+
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding TieneCategorias}" Value="False">
+
+                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                        </DataTrigger>
+                        
+                    </Style.Triggers>
+
+                </Style>
+                
+            </Grid.Style>
+            
+            
+            <!-- Estructura-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            
+            <!--#region Encabezado-->
+            <Border Grid.Row="0" Background="{StaticResource Naranja}"
+                    HorizontalAlignment="Left"
+                    Padding="15" Margin="10,10,0,15"
+                    CornerRadius="10">
+                
+                
+                <!--Texto-->
+                <TextBlock Text="CATEGORÍAS"
+                           FontFamily="{StaticResource Fuente-principal}"
+                           FontSize="30" FontWeight="SemiBold" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            </Border>
+            <!--#endregion-->
+            
+            
+            <!--#region Categorias -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+
+                <ItemsControl ItemsSource="{Binding Categorias}">
+
+                    
+                    <!--#region Distribucion de Categorias-->
+                    <ItemsControl.ItemsPanel>
+
+                        <ItemsPanelTemplate>
+
+                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+
+                        </ItemsPanelTemplate>
+                            
+                    </ItemsControl.ItemsPanel>
+                    <!--#endregion-->
+                    
+                    
+                    <!--#region Diseño de Categorias-->
+                    <ItemsControl.ItemTemplate>
+
+                        <DataTemplate>
+
+                            <Button Style="{StaticResource BtnCategorias}" 
+                                    Command="{Binding DataContext.SeleccionarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                    CommandParameter="{Binding}">
+
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    
+                                    <!--Imagen-->
+                                    <Image Source="{Binding Imagen}" Width="100" Height="100" Stretch="Uniform" Margin="8"/>
+                                    
+                                    
+                                    <!--Nombre-->
+                                    <TextBlock Text="{Binding Nombre}" 
+                                               FontFamily="{StaticResource Fuente-principal}" 
+                                               FontSize="30" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap" 
+                                               HorizontalAlignment="Center"/>
+                                    
+                                </StackPanel>
+                                
+                            </Button>
+                            
+                        </DataTemplate>
+
+                    </ItemsControl.ItemTemplate>
+                    <!--#endregion-->
+                    
+                    
+                </ItemsControl>
+                
+            </ScrollViewer>
+            <!--#endregion-->
+            
+            
+        </Grid>
+        <!--#endregion-->
+        
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,58 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--#region Colores -->
+
+
+    <!--Amarillo-->
+    <SolidColorBrush x:Key="Amarillo claro_bajo" Color="#fbfbe2" Opacity="0.7"/>
+
+    <SolidColorBrush x:Key="Amarillo claro_fuerte" Color="#f5f5dc"/>
+
+
+    <!--Naranja-->
+    <SolidColorBrush x:Key="Naranja" Color="#ffbf00"/>
+
+    <SolidColorBrush x:Key="Naranja 50%" Color="#ffbf00" Opacity="0.5"/>
+
+    <SolidColorBrush x:Key="Naranja 70%" Color="#ffbf00" Opacity="0.7"/>
+
+    <SolidColorBrush x:Key="Naranja 90%" Color="#ffbf00" Opacity="0.9"/>
+
+    <SolidColorBrush x:Key="Naranja claro" Color="#ffedba" Opacity="0.9"/>
+
+    <SolidColorBrush x:Key="Naranja claro_bajo" Color="#fffaf4" Opacity="0.7"/>
+
+    <SolidColorBrush x:Key="Naranja claro_fuerte" Color="#fffaf4"/>
+
+    <SolidColorBrush x:Key="Naranja apagado" Color="#b88b5c" Opacity="0.9"/>
+
+    <SolidColorBrush x:Key="Naranja apagado 70%" Color="#b88b5c" Opacity="0.7"/>
+
+    <SolidColorBrush x:Key="Naranja pastel apagado" Color="#d4c3be" Opacity="0.7"/>
+
+
+    <!--Blanco-->
+    <SolidColorBrush x:Key="Blanco" Color="#ffffff"/>
+
+    <SolidColorBrush x:Key="Blanco 70%" Color="#ffffff" Opacity="0.7"/>
+
+
+    <!--Gris-->
+    <SolidColorBrush x:Key="Gris" Color="Gray"/>
+
+    <SolidColorBrush x:Key="Gris 50%" Color="Gray" Opacity="0.5"/>
+
+
+    <!--Rojo-->
+    <SolidColorBrush x:Key="Rojo" Color="Red"/>
+
+    <SolidColorBrush x:Key="Rojo 70%" Color="Red" Opacity="0.7"/>
+
+    <SolidColorBrush x:Key="Rojo 50%" Color="Red" Opacity="0.5"/>
+
+
+    <!--#endregion-->
+
+
+</ResourceDictionary>

@@ -1,0 +1,562 @@
+    <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!--#region Lista de categorias -->
+    <Style x:Key="ListaCategorias" TargetType="ListBox">
+
+        <Setter Property="Background" Value="Transparent"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+        <Setter Property="ItemContainerStyle">
+
+            <Setter.Value>
+
+                <Style TargetType="ListBoxItem">
+
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                    <Setter Property="Margin" Value="3"/>
+
+                </Style>
+                
+            </Setter.Value>
+            
+        </Setter>
+
+        <Setter Property="ItemTemplate">
+
+            <Setter.Value>
+
+                <DataTemplate>
+
+                    <Border Margin="5" Padding="10" BorderThickness="1" BorderBrush="Gray" CornerRadius="10" >
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+
+                            <!--Nombre-->
+                            <TextBlock Text="{Binding Nombre}"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="20" FontWeight="SemiBold"/>
+
+
+                            <!--Boton de edicion-->
+                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}"
+                                    Height="60" Width="60"
+                                    Command="{Binding DataContext.EditarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}">
+                                
+                                <Image Grid.Column="1" Source="/Assets/Imagenes/Icono_de_editar.png" Height="40" Width="40"/>
+
+                            </Button>
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+                
+            </Setter.Value>
+            
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+    
+    
+    <!--#region Lista de productos-->
+    <Style x:Key="ListaProductos" TargetType="ListBox">
+
+        <Setter Property="Background" Value="Transparent"/>
+
+        <Setter Property="BorderThickness" Value="0"/>
+
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+        <Setter Property="ItemContainerStyle">
+
+            <Setter.Value>
+
+                <Style TargetType="ListBoxItem">
+
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                    <Setter Property="Margin" Value="3"/>
+
+                </Style>
+                
+            </Setter.Value>
+            
+        </Setter>
+
+
+        <Setter Property="ItemTemplate">
+
+            <Setter.Value>
+
+                <DataTemplate>
+
+                    <Border Margin="5" Padding="10" BorderThickness="1" BorderBrush="Gray" CornerRadius="10" >
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+
+                            <!--Nombre-->
+                            <TextBlock Text="{Binding Nombre}"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="20" FontWeight="SemiBold"/>
+
+
+                            <!--Boton de edicion-->
+                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}"
+                                    Height="60" Width="60"
+                                    Command="{Binding DataContext.EditarProductoCommand,RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}">
+
+                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" Height="40" Width="40"/>
+
+                            </Button>
+
+
+                            <!--Boton de eliminacion-->
+                            <Button Grid.Column="2" Style="{StaticResource BtnBasura}"
+                                    Height="60" Width="60">
+
+                                <Image Source="/Assets/Imagenes/Icono_basura.png" Height="40" Width="40"/>
+
+                            </Button>
+
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+        <Style.Triggers>
+
+            <DataTrigger Binding="{Binding TieneProductosCategoria}" Value="False">
+
+                <Setter Property="Visibility" Value="Collapsed"/>
+
+            </DataTrigger>
+            
+        </Style.Triggers>
+
+    </Style>
+    <!--#endregion-->
+    
+    
+    <!--#region Lista para todas Categorias,Productos y Extras-->
+    <Style x:Key="EstiloListBoxLimpio" TargetType="ListBox">
+
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+
+        <Setter Property="ItemContainerStyle">
+
+            <Setter.Value>
+
+                <Style TargetType="ListBoxItem">
+
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Margin" Value="0,1"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+
+                            <ControlTemplate TargetType="ListBoxItem">
+
+                                <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="4">
+
+                                    <ContentPresenter HorizontalAlignment="Stretch"/>
+
+                                </Border>
+
+                                <ControlTemplate.Triggers>
+
+                                    <Trigger Property="IsSelected" Value="True">
+                                        
+                                        <Setter Property="Background" Value="#FFE0B2"/>
+
+                                    </Trigger>
+
+                                    <Trigger Property="IsMouseOver" Value="True">
+
+                                        <Setter Property="Background" Value="#FFFBE1"/>
+
+                                    </Trigger>
+                                    
+                                </ControlTemplate.Triggers>                            
+
+                            </ControlTemplate>
+
+                        </Setter.Value>
+
+                    </Setter>
+
+                </Style>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+    
+    
+    <!--#region Lista de Comanda-->
+    <Style x:Key="ListaComanda" TargetType="ListBox">
+
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Margin" Value="0,2"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Stretch"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemTemplate">
+
+            <Setter.Value>
+
+                <DataTemplate>
+
+                    <Border Background="{StaticResource Amarillo claro_bajo}" BorderBrush="#BDBDBD" BorderThickness="1" CornerRadius="8" Margin="6,3" HorizontalAlignment="Stretch">
+
+                        <Grid Margin="8,6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+
+                            <!--#region Producto principal-->
+                            <Grid Grid.Row="0">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+
+                                <!--Nombre del producto-->
+                                <TextBlock Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" 
+                                           Text="{Binding Nombre}" 
+                                           FontFamily="{StaticResource Fuente-principal}" 
+                                           FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" 
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,8,2"/>
+                                
+                                <!--X Eliminar-->
+                                <Button Grid.Row="0" Grid.Column="1" Content="✕" Style="{StaticResource BtnBasura}"
+                                        FontFamily="{StaticResource Fuente-principal}"
+                                        FontWeight="Bold"
+                                        FontSize="13"
+                                        Width="26" Height="26"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                                        Cursor="Hand"
+                                        Command="{Binding DataContext.EliminarProductoCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding}"/>
+
+
+                                <!--Precio-->
+                                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Precio, StringFormat={}{0:C}}" 
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="17" FontWeight="Bold"
+                                           HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                            </Grid>
+                            <!--#endregion-->
+
+
+                            <!--#region Subtotal y Extras -->
+                            <Grid Grid.Row="1" Margin="0,3,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Lista para las propiedades Extra -->
+                                <ItemsControl Grid.Row="0" ItemsSource="{Binding Extras}" Margin="0,2,0,3">
+                                    <ItemsControl.Style>
+                                        <Style TargetType="ItemsControl">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding TieneExtras}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ItemsControl.Style>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding Nombre, StringFormat='+ {0}'}"
+                                                           FontFamily="{StaticResource Fuente-principal}"
+                                                           FontSize="13" Foreground="#E65100" TextWrapping="Wrap" Margin="0,0,6,0"/>
+                                                <TextBlock Grid.Column="1" Text="{Binding Precio, StringFormat={}{0:C}}" 
+                                                           FontFamily="{StaticResource Fuente-principal}"
+                                                           FontSize="13" Foreground="#E65100" FontWeight="SemiBold"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <!-- Subtotal del item -->
+                                <Grid Grid.Row="1" Margin="0,2,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="Subtotal"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="15" Foreground="#616161" FontWeight="SemiBold"/>
+
+                                    <TextBlock Grid.Column="1" Text="{Binding Subtotal, StringFormat={}{0:C}}" 
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="15" Foreground="#616161" FontWeight="SemiBold"/>
+                                </Grid>
+
+                            </Grid>
+                            <!--#endregion-->
+
+                            
+                            <!--#region Comentarios-->
+                            <Grid Grid.Row="2" Margin="0,4,0,0">
+
+
+                                <!--#region Editar comentario-->
+                                <Grid>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.Style>
+
+                                        <Style TargetType="Grid">
+
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                                            <Style.Triggers>
+
+                                                <DataTrigger Binding="{Binding MostrarComentario}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+
+                                        </Style>
+
+                                    </Grid.Style>
+
+                                    <TextBlock Grid.Row="0" Text="Comentarios:"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
+
+                                    <TextBox Grid.Row="1" Text="{Binding Nota, UpdateSourceTrigger=PropertyChanged}"
+                                              MinHeight="45" MaxHeight="80" Margin="0,4,0,0"
+                                              TextWrapping="Wrap"
+                                              AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+
+                                </Grid>
+                                <!--#endregion-->
+
+
+                                <!--#region Comentario guardado-->
+                                <Grid>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.Style>
+
+                                        <Style TargetType="Grid">
+
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+
+                                            <Style.Triggers>
+
+                                                <MultiDataTrigger>
+
+                                                    <MultiDataTrigger.Conditions>
+
+                                                        <Condition Binding="{Binding TieneNota}" Value="True"/>
+                                                        <Condition Binding="{Binding MostrarComentario}" Value="False"/>
+
+                                                    </MultiDataTrigger.Conditions>
+
+                                                    <Setter Property="Visibility" Value="Visible"/>
+
+                                                </MultiDataTrigger>
+
+                                            </Style.Triggers>
+
+                                        </Style>
+
+                                    </Grid.Style>
+
+                                    <TextBlock Grid.Row="0" Text="Comentarios:"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="14" FontWeight="SemiBold" Foreground="#757575"/>
+
+                                    <TextBlock Grid.Row="1" Text="{Binding Nota}"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="13" Foreground="#424242" TextWrapping="Wrap" 
+                                               Margin="0,4,0,0"/>
+
+                                </Grid>
+                                <!--#endregion-->
+
+
+                            </Grid>
+                            <!--#endregion-->
+
+
+                            <!--Cantidad-->
+                            <Border Grid.Row="3" BorderBrush="#BDBDBD" BorderThickness="0,1,0,0" Padding="0,6,0,2" Margin="0,5,0,0">
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                    <!-- Botón Disminuir (-) -->
+                                    <Button Content="-" 
+                                            FontSize="20" FontWeight="Bold"
+                                            Width="34" Height="30"
+                                            Background="#F5F5F5"
+                                            BorderBrush="#BDBDBD"
+                                            BorderThickness="1.5"
+                                            Foreground="#424242"
+                                            Cursor="Hand"
+                                            Margin="0,0,12,0"
+                                            Command="{Binding DataContext.DisminuirCantidadCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            CommandParameter="{Binding}">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="bdr" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="bdr" Property="Background" Value="#E0E0E0"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="bdr" Property="Background" Value="#BDBDBD"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+
+                                    <!-- Número de Cantidad -->
+                                    <TextBlock Text="{Binding Cantidad}"
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="20" FontWeight="SemiBold"
+                                           MinWidth="30" TextAlignment="Center"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                    <!-- Botón Aumentar (+) -->
+                                    <Button Content="+" 
+                                            FontSize="20" FontWeight="Bold"
+                                            Width="34" Height="30"
+                                            Background="#F5F5F5"
+                                            BorderBrush="#BDBDBD"
+                                            BorderThickness="1.5"
+                                            Foreground="#424242"
+                                            Cursor="Hand"
+                                            Margin="12,0,0,0"
+                                            Command="{Binding DataContext.AumentarCantidadCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            CommandParameter="{Binding}">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="bdr" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="bdr" Property="Background" Value="#E0E0E0"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="bdr" Property="Background" Value="#BDBDBD"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                    
+                                </StackPanel>
+
+                            </Border>
+
+                        </Grid>
+
+                    </Border>
+
+                </DataTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+    <!--#endregion-->
+</ResourceDictionary>

@@ -1,0 +1,112 @@
+<UserControl x:Class="Presentation.WPF.Views.Alertas.NotificacionesOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400"
+             IsHitTestVisible="False"
+             Focusable="False">
+
+    <Grid IsHitTestVisible="False">
+        <!-- Lista de Notificaciones Flotantes (Toasts) -->
+        <ItemsControl x:Name="ListaToasts" IsHitTestVisible="False">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,0,0,10"
+                            MinWidth="320" MaxWidth="420"
+                            Background="White"
+                            CornerRadius="12"
+                            BorderBrush="#EEEEEE"
+                            BorderThickness="1"
+                            Padding="14,12"
+                            IsHitTestVisible="True">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="16" Color="#000000" Opacity="0.18" ShadowDepth="3" Direction="270"/>
+                        </Border.Effect>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Barra de acento lateral -->
+                            <Border Grid.Column="0" Background="{Binding ColorAcento}" CornerRadius="2.5" Margin="0,1,10,1"/>
+
+                            <!-- Insignia Circular con Icono -->
+                            <Border Grid.Column="1" 
+                                    Width="38" Height="38" 
+                                    CornerRadius="19" 
+                                    Background="{Binding ColorFondoIcono}" 
+                                    VerticalAlignment="Center" 
+                                    Margin="0,0,10,0">
+                                <TextBlock Text="{Binding SimboloIcono}" 
+                                           Foreground="{Binding ColorAcento}" 
+                                           FontSize="18" 
+                                           FontWeight="Bold" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
+                            </Border>
+
+                            <!-- Título y Mensaje -->
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,8,0">
+                                <TextBlock Text="{Binding Titulo}" 
+                                           FontFamily="{StaticResource Fuente-principal}" 
+                                           FontSize="15" 
+                                           FontWeight="Bold" 
+                                           Foreground="#212121" 
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Mensaje}" 
+                                           FontFamily="{StaticResource Fuente-principal}" 
+                                           FontSize="13" 
+                                           Foreground="#616161" 
+                                           TextWrapping="Wrap" 
+                                           Margin="0,2,0,0" 
+                                           LineHeight="17" 
+                                           LineStackingStrategy="BlockLineHeight"/>
+                            </StackPanel>
+
+                            <!-- Botón de Cierre Rápido ✕ -->
+                            <Button Grid.Column="3" 
+                                    Content="✕" 
+                                    Width="26" Height="26" 
+                                    VerticalAlignment="Top" 
+                                    HorizontalAlignment="Right" 
+                                    Background="Transparent" 
+                                    Foreground="#9E9E9E" 
+                                    BorderThickness="0" 
+                                    Cursor="Hand" 
+                                    FontSize="12" 
+                                    FontWeight="Bold" 
+                                    Click="BtnCerrarToast_Click" 
+                                    Tag="{Binding}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="b" Background="Transparent" CornerRadius="13">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="b" Property="Background" Value="#F5F5F5"/>
+                                                <Setter Property="Foreground" Value="#424242"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

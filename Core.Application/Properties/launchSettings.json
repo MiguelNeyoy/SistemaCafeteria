@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Core.Application": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\RODOLFO\\source\\repos\\SistemaCafeteria\\Presentation.WPF",
+      "remoteDebugEnabled": false
+    }
+  }
+}

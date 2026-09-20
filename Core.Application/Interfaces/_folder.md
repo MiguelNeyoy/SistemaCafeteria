@@ -1,4 +1,7 @@
 # Interfaces (Application)
-Contratos de los casos de uso (puertos de entrada).
-- Definen los métodos que la capa de presentación puede llamar
-- Ej: ICobrarPedidoUseCase, IRegistrarVentaUseCase
+Contratos y puertos para casos de uso, persistencia y hardware.
+
+- `IUnitOfWork.cs`: Contrato para transacciones atómicas.
+- `IPrinterService.cs`: Puerto de salida hacia el hardware de impresión física.
+- `Services/`: Contratos de casos de uso (`ICategoriaService`, `IProductoService`, `IExtraService`, `IVentaService`, `IComandaService`, `ITicketService`, `ICorteCajaService`, `IPurgaService`, `ISeguridadService`).
+- `Repositories/`: Contratos de persistencia para cada entidad del sistema.
