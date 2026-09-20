@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/SistemaCafeteria.UnitTests/SistemaCafeteria.UnitTests.csproj" />
+  </Folder>
   <Project Path="Core.Application/Core.Application.csproj" />
   <Project Path="Core.Domain/Core.Domain.csproj" />
   <Project Path="Infrastructure.Hardware/Infrastructure.Hardware.csproj" />
