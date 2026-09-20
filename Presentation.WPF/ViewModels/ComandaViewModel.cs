@@ -247,13 +247,35 @@ public partial class ComandaViewModel : ObservableObject
         OnPropertyChanged(nameof(TotalComanda));
     }
 
+    private ComandaItemViewModel? BuscarItemIdentico(int productoId, IEnumerable<int> extraIds, string? nota)
+    {
+        var notaNormalizada = string.IsNullOrWhiteSpace(nota) ? string.Empty : nota.Trim();
+        var listaExtrasIds = extraIds.OrderBy(id => id).ToList();
+
+        return ItemsComanda.FirstOrDefault(item =>
+        {
+            if (item.ProductoId != productoId)
+                return false;
+
+            var itemNotaNormalizada = string.IsNullOrWhiteSpace(item.Nota) ? string.Empty : item.Nota.Trim();
+            if (!string.Equals(itemNotaNormalizada, notaNormalizada, StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            if (item.Extras.Count != listaExtrasIds.Count)
+                return false;
+
+            var itemExtrasIds = item.Extras.Select(e => e.Id).OrderBy(id => id).ToList();
+            return itemExtrasIds.SequenceEqual(listaExtrasIds);
+        });
+    }
+
     [RelayCommand]
     private void AgregarProducto(ProductoDto producto)
     {
-        // Si la categoría no tiene extras disponibles, se agrega directo
+        // Si la categoría no tiene extras disponibles, se busca si ya existe el ítem idéntico
         if (ExtrasCategoriaSeleccionada.Count == 0)
         {
-            var itemExistente = ItemsComanda.FirstOrDefault(i => i.ProductoId == producto.Id && !i.TieneExtras);
+            var itemExistente = BuscarItemIdentico(producto.Id, Enumerable.Empty<int>(), null);
             if (itemExistente is not null)
             {
                 itemExistente.Cantidad++;
@@ -305,24 +327,38 @@ public partial class ComandaViewModel : ObservableObject
             .Select(e => e.Extra)
             .ToList();
 
+        string? notaLimpia = string.IsNullOrWhiteSpace(NotaPersonalizada) ? null : NotaPersonalizada.Trim();
+
         if (ProductoParaPersonalizar is not null)
         {
-            var nuevoItem = new ComandaItemViewModel
-            {
-                ProductoId = ProductoParaPersonalizar.Id,
-                Nombre = ProductoParaPersonalizar.Nombre,
-                Precio = ProductoParaPersonalizar.Precio,
-                Cantidad = 1,
-                Nota = string.IsNullOrWhiteSpace(NotaPersonalizada) ? null : NotaPersonalizada.Trim()
-            };
+            var extraIds = extrasElegidos.Select(e => e.Id);
+            var itemExistente = BuscarItemIdentico(ProductoParaPersonalizar.Id, extraIds, notaLimpia);
 
-            foreach (var extra in extrasElegidos)
+            // Si ya existe exactamente el mismo producto con los mismos extras y la misma nota, suma 1 a la cantidad
+            if (itemExistente is not null)
             {
-                nuevoItem.Extras.Add(extra);
+                itemExistente.Cantidad++;
             }
+            else
+            {
+                // Si difiere en extras o notas, se añade como ítem separado
+                var nuevoItem = new ComandaItemViewModel
+                {
+                    ProductoId = ProductoParaPersonalizar.Id,
+                    Nombre = ProductoParaPersonalizar.Nombre,
+                    Precio = ProductoParaPersonalizar.Precio,
+                    Cantidad = 1,
+                    Nota = notaLimpia
+                };
 
-            nuevoItem.NotificarCambioExtras();
-            ItemsComanda.Add(nuevoItem);
+                foreach (var extra in extrasElegidos)
+                {
+                    nuevoItem.Extras.Add(extra);
+                }
+
+                nuevoItem.NotificarCambioExtras();
+                ItemsComanda.Add(nuevoItem);
+            }
         }
         else if (ItemParaEditarExtras is not null)
         {
@@ -332,11 +368,7 @@ public partial class ComandaViewModel : ObservableObject
                 ItemParaEditarExtras.Extras.Add(extra);
             }
 
-            if (!string.IsNullOrWhiteSpace(NotaPersonalizada))
-            {
-                ItemParaEditarExtras.Nota = NotaPersonalizada.Trim();
-            }
-
+            ItemParaEditarExtras.Nota = notaLimpia;
             ItemParaEditarExtras.NotificarCambioExtras();
         }
 
@@ -351,7 +383,9 @@ public partial class ComandaViewModel : ObservableObject
     {
         if (ProductoParaPersonalizar is not null)
         {
-            var itemExistente = ItemsComanda.FirstOrDefault(i => i.ProductoId == ProductoParaPersonalizar.Id && !i.TieneExtras);
+            string? notaLimpia = string.IsNullOrWhiteSpace(NotaPersonalizada) ? null : NotaPersonalizada.Trim();
+            var itemExistente = BuscarItemIdentico(ProductoParaPersonalizar.Id, Enumerable.Empty<int>(), notaLimpia);
+
             if (itemExistente is not null)
             {
                 itemExistente.Cantidad++;
@@ -364,7 +398,7 @@ public partial class ComandaViewModel : ObservableObject
                     Nombre = ProductoParaPersonalizar.Nombre,
                     Precio = ProductoParaPersonalizar.Precio,
                     Cantidad = 1,
-                    Nota = string.IsNullOrWhiteSpace(NotaPersonalizada) ? null : NotaPersonalizada.Trim()
+                    Nota = notaLimpia
                 });
             }
 
@@ -385,8 +419,17 @@ public partial class ComandaViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void AumentarCantidad(ComandaItemViewModel item)
+    {
+        if (item is null) return;
+        item.Cantidad++;
+        ActualizarTotal();
+    }
+
+    [RelayCommand]
     private void DisminuirCantidad(ComandaItemViewModel item)
     {
+        if (item is null) return;
         if (item.Cantidad <= 1) return;
         item.Cantidad--;
         ActualizarTotal();
