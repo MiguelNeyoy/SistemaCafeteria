@@ -1,5 +1,5 @@
 -- ============================================================================
--- SCRIPT DE SEMILLA (SEED DATA) - SISTEMA UNA MORDIDA MÁS
+-- SCRIPT DE SEMILLA (SEED DATA) - SISTEMA UNA MORDIDA
 -- Menú extraído de Google Maps
 -- ============================================================================
 

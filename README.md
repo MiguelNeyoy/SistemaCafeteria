@@ -1,2 +1,2 @@
 # SistemaCafeteria
-Sistema desarrolado para la cafeteria / restaurante Una Mordida Mas, con la finalidad de optimizar el flujo de trabajo y la organizacion mediante comandas impresas asi como el control de las ventas
+Sistema desarrollado para la cafetería / restaurante Una Mordida, con la finalidad de optimizar el flujo de trabajo y la organización mediante comandas impresas así como el control de las ventas.

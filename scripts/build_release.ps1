@@ -20,7 +20,7 @@ $publishDir = Join-Path $rootDir "bin\publish"
 $releasesDir = Join-Path $rootDir "Releases"
 
 Write-Host "==========================================================" -ForegroundColor Cyan
-Write-Host "   EMPAQUETADOR INTELIGENTE VELOPACK - UNA MORDIDA MAS    " -ForegroundColor Cyan
+Write-Host "       EMPAQUETADOR INTELIGENTE VELOPACK - UNA MORDIDA    " -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 
 # 2. Verificar herramienta vpk de Velopack
@@ -39,9 +39,9 @@ $detectedVersions = @()
 
 # A) Paquetes en carpeta Releases/
 if (Test-Path $releasesDir) {
-    $existingPackages = Get-ChildItem -Path $releasesDir -Filter "UnaMordidaMas-*-full.nupkg" -ErrorAction SilentlyContinue
+    $existingPackages = Get-ChildItem -Path $releasesDir -Filter "UnaMordida-*-full.nupkg" -ErrorAction SilentlyContinue
     foreach ($pkg in $existingPackages) {
-        if ($pkg.Name -match "UnaMordidaMas-(.+?)-full\.nupkg") {
+        if ($pkg.Name -match "UnaMordida-(.+?)-full\.nupkg") {
             try { $detectedVersions += [System.Version]$matches[1] } catch {}
         }
     }
@@ -78,7 +78,7 @@ if ([string]::IsNullOrWhiteSpace($Version)) {
         Write-Host "[INFO] No se detectaron versiones previas. Se iniciara en version base: $targetVersion" -ForegroundColor Yellow
     } else {
         # Si la version mas alta ya existe en Releases, auto-incrementar el patch
-        $fullPkgPath = Join-Path $releasesDir "UnaMordidaMas-$latestVersion-full.nupkg"
+        $fullPkgPath = Join-Path $releasesDir "UnaMordida-$latestVersion-full.nupkg"
         if (Test-Path $fullPkgPath) {
             $prevPatch = [Math]::Max($latestVersion.Build, 0)
             $nextPatch = $prevPatch + 1
@@ -106,7 +106,7 @@ try {
 # Comprobar si ya existe el instalador de esa version
 $targetPkgExists = $false
 if (Test-Path $releasesDir) {
-    $targetPkg = Join-Path $releasesDir "UnaMordidaMas-$targetVersion-full.nupkg"
+    $targetPkg = Join-Path $releasesDir "UnaMordida-$targetVersion-full.nupkg"
     if (Test-Path $targetPkg) {
         $targetPkgExists = $true
     }
@@ -162,7 +162,7 @@ if ($LASTEXITCODE -ne 0) {
 
 # 9. Empaquetar con Velopack
 Write-Host "`n[3/3] Generando instalador y deltas con Velopack (vpk pack)..." -ForegroundColor Cyan
-vpk pack -u "UnaMordidaMas" -v $targetVersion -p $publishDir -e "Presentation.WPF.exe" -o $releasesDir
+vpk pack -u "UnaMordida" -v $targetVersion -p $publishDir -e "Presentation.WPF.exe" -o $releasesDir
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""
