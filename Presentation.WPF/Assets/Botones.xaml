@@ -6,14 +6,15 @@
     <Style x:Key="BtnCategorias" TargetType="Button">
 
         <Setter Property="Background" Value="White"/>
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderBrush" Value="#BDBDBD"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="Cursor" Value="Hand"/>
         
-        <Setter Property="Width" Value="250"/>
-        <Setter Property="Height" Value="280"/>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Height" Value="75"/>
         
-        <Setter Property="Margin" Value="15"/>
-        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Margin" Value="7"/>
+        <Setter Property="Padding" Value="8,6"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -24,7 +25,6 @@
                         Background ="{TemplateBinding Background}"
                         BorderBrush ="{TemplateBinding BorderBrush}"
                         BorderThickness ="{TemplateBinding BorderThickness}"
-                        Margin="{TemplateBinding Margin}"
                         Padding="{TemplateBinding Padding}"
                         CornerRadius="10" >
 
@@ -37,9 +37,13 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Naranja claro}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Naranja}"/>
+                        </Trigger>
 
-                            <Setter TargetName="Border" Property="Background" Value="Gray"/>
-
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Naranja}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#E65100"/>
                         </Trigger>
 
                     </ControlTemplate.Triggers>
