@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Core.Application.Dtos.Reportes;
 using Core.Application.Dtos.Ventas;
+using Core.Application.Interfaces;
 using Core.Application.Interfaces.Services;
 using Core.Domain.Enums;
 using Presentation.WPF.Services;
@@ -27,6 +29,7 @@ public partial class DashboardViewModel : ObservableObject
 {
     private readonly IVentaService _ventaService;
     private readonly ICorteCajaService _corteCajaService;
+    private readonly IPrinterService _printerService;
     private readonly IDialogoService _dialogoService;
 
     public event Action? ConfiguracionAvanzadaSolicitada;
@@ -79,10 +82,12 @@ public partial class DashboardViewModel : ObservableObject
     public DashboardViewModel(
         IVentaService ventaService,
         ICorteCajaService corteCajaService,
+        IPrinterService printerService,
         IDialogoService dialogoService)
     {
         _ventaService = ventaService;
         _corteCajaService = corteCajaService;
+        _printerService = printerService;
         _dialogoService = dialogoService;
 
         var cultura = new CultureInfo("es-MX");
@@ -164,11 +169,63 @@ public partial class DashboardViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ImprimirTicket()
+    private async Task ImprimirTicketAsync()
     {
-        _dialogoService.NotificarExito(
-            $"Desglose del día ({TotalVentasHoy:C}, {CantidadVentasHoy} transacciones) enviado a la impresora.",
-            "Ticket Impreso");
+        if (CantidadVentasHoy == 0)
+        {
+            _dialogoService.MostrarAdvertencia(
+                "No hay ventas registradas el día de hoy para generar el desglose.",
+                "Sin Ventas");
+            return;
+        }
+
+        try
+        {
+            EstaCargando = true;
+
+            var ventasHoy = await _ventaService.ObtenerPorFechaAsync(DateTime.Today);
+            var ventasPagadas = ventasHoy
+                .Where(v => v.Estado == EstadoVenta.Pagado)
+                .OrderBy(v => v.FechaCierre ?? v.FechaCreacion)
+                .ToList();
+
+            var resumenDto = new ResumenOperativoDto
+            {
+                Fecha = DateTime.Today,
+                TotalVentas = TotalVentasHoy,
+                CantidadVentas = CantidadVentasHoy,
+                TotalEfectivo = TotalEfectivoHoy,
+                TotalTarjeta = TotalTarjetaHoy,
+                TotalTransferencia = TotalTransferenciaHoy,
+                TotalDescuentos = TotalDescuentosHoy,
+                TicketPromedio = TicketPromedioHoy,
+                Tickets = ventasPagadas.Select(v => new TicketResumenOperativoDto
+                {
+                    Folio = v.Id,
+                    Hora = v.FechaCierre ?? v.FechaCreacion,
+                    Cliente = string.IsNullOrWhiteSpace(v.IdentificadorCliente) ? "General" : v.IdentificadorCliente,
+                    TipoPago = v.TipoDePago?.ToString() ?? "Efectivo",
+                    Total = v.Total,
+                    CantidadItems = v.Items.Sum(i => i.Cantidad)
+                }).ToList()
+            };
+
+            await _printerService.ImprimirResumenOperativoAsync(resumenDto);
+
+            _dialogoService.NotificarExito(
+                $"Desglose del día ({TotalVentasHoy:C}, {CantidadVentasHoy} transacciones) enviado a la impresora.",
+                "Ticket Impreso");
+        }
+        catch (Exception ex)
+        {
+            _dialogoService.MostrarError(
+                $"Error al imprimir desglose operativo: {ex.Message}",
+                "Error de Impresión");
+        }
+        finally
+        {
+            EstaCargando = false;
+        }
     }
 
     [RelayCommand]
