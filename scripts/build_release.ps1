@@ -133,6 +133,30 @@ if ($latestVersion -and ($parsedTarget -lt $latestVersion) -and -not $Force) {
 
 Write-Host ">> Version objetivo confirmada: $targetVersion" -ForegroundColor Green
 
+# Si se especifico -Force, limpiar paquetes y referencias de la version objetivo en Releases/
+if ($Force -and (Test-Path $releasesDir)) {
+    Write-Host "[INFO] Modo -Force activo: Limpiando artefactos previos de la version $targetVersion en Releases/..." -ForegroundColor Yellow
+    Get-ChildItem -Path $releasesDir -Filter "UnaMordida-$targetVersion*" | Remove-Item -Force -ErrorAction SilentlyContinue
+
+    $releasesJsonPath = Join-Path $releasesDir "releases.win.json"
+    if (Test-Path $releasesJsonPath) {
+        try {
+            $json = Get-Content $releasesJsonPath -Raw | ConvertFrom-Json
+            $remaining = @($json.Assets | Where-Object { $_.Version -ne $targetVersion })
+            $json.Assets = $remaining
+            $json | ConvertTo-Json -Depth 10 | Set-Content $releasesJsonPath -Encoding UTF8
+        } catch {}
+    }
+
+    $releasesTxtPath = Join-Path $releasesDir "RELEASES"
+    if (Test-Path $releasesTxtPath) {
+        try {
+            $lines = Get-Content $releasesTxtPath | Where-Object { $_ -notmatch "UnaMordida-$targetVersion" }
+            $lines | Set-Content $releasesTxtPath -Encoding UTF8
+        } catch {}
+    }
+}
+
 # 6. Ejecutar pruebas unitarias antes de compilar el paquete
 if (-not $SkipTests) {
     Write-Host "`n[1/3] Ejecutando pruebas unitarias de seguridad..." -ForegroundColor Cyan
