@@ -78,6 +78,12 @@ public partial class FinalizarCompraViewModel : ObservableObject
     [ObservableProperty]
     private bool _puedeConfirmarCobro;
 
+    [ObservableProperty]
+    private bool _mostrarModalDescuento;
+
+    [ObservableProperty]
+    private string _montoDescuentoInput = "";
+
     public ObservableCollection<CuentaItemDetalleModel> Items { get; } = new();
 
     public FinalizarCompraViewModel(
@@ -339,4 +345,143 @@ public partial class FinalizarCompraViewModel : ObservableObject
     {
         RegresarSolicitado?.Invoke();
     }
+
+    #region Comandos de Descuento
+
+    [RelayCommand]
+    private void AbrirModalDescuento()
+    {
+        MontoDescuentoInput = Descuento > 0 ? Descuento.ToString("F2", CultureInfo.InvariantCulture) : "";
+        MostrarModalDescuento = true;
+    }
+
+    [RelayCommand]
+    private void CerrarModalDescuento()
+    {
+        MostrarModalDescuento = false;
+    }
+
+    [RelayCommand]
+    private async Task AplicarPorcentajeRapidoAsync(string porcentajeStr)
+    {
+        if (decimal.TryParse(porcentajeStr, NumberStyles.Any, CultureInfo.InvariantCulture, out var pct))
+        {
+            if (pct < 0 || pct > 100) return;
+            decimal monto = Math.Round(Subtotal * (pct / 100m), 2, MidpointRounding.AwayFromZero);
+            await AplicarDescuentoInternoAsync(monto);
+        }
+    }
+
+    [RelayCommand]
+    private async Task AplicarDescuentoMontoAsync()
+    {
+        if (string.IsNullOrWhiteSpace(MontoDescuentoInput))
+        {
+            await AplicarDescuentoInternoAsync(0m);
+            return;
+        }
+
+        if (!decimal.TryParse(MontoDescuentoInput, NumberStyles.Any, CultureInfo.InvariantCulture, out var monto))
+        {
+            _dialogoService.MostrarAdvertencia("Por favor ingrese un monto de descuento válido.", "Monto Inválido");
+            return;
+        }
+
+        if (monto < 0)
+        {
+            _dialogoService.MostrarAdvertencia("El descuento no puede ser negativo.", "Monto Inválido");
+            return;
+        }
+
+        if (monto > Subtotal)
+        {
+            _dialogoService.MostrarAdvertencia($"El descuento (${monto:F2}) no puede superar el subtotal de la cuenta (${Subtotal:F2}).", "Descuento Excesivo");
+            return;
+        }
+
+        await AplicarDescuentoInternoAsync(monto);
+    }
+
+    [RelayCommand]
+    private async Task QuitarDescuentoAsync()
+    {
+        await AplicarDescuentoInternoAsync(0m);
+    }
+
+    [RelayCommand]
+    private void IngresarDigitoDescuento(string digito)
+    {
+        if (digito == ".")
+        {
+            if (MontoDescuentoInput.Contains(".")) return;
+            MontoDescuentoInput = string.IsNullOrEmpty(MontoDescuentoInput) ? "0." : MontoDescuentoInput + ".";
+        }
+        else
+        {
+            if (MontoDescuentoInput == "0")
+            {
+                MontoDescuentoInput = digito;
+            }
+            else
+            {
+                if (MontoDescuentoInput.Contains("."))
+                {
+                    int posPunto = MontoDescuentoInput.IndexOf(".");
+                    if (MontoDescuentoInput.Length - posPunto > 2) return;
+                }
+                MontoDescuentoInput += digito;
+            }
+        }
+    }
+
+    [RelayCommand]
+    private void BorrarDigitoDescuento()
+    {
+        if (!string.IsNullOrEmpty(MontoDescuentoInput))
+        {
+            MontoDescuentoInput = MontoDescuentoInput.Substring(0, MontoDescuentoInput.Length - 1);
+        }
+    }
+
+    private async Task AplicarDescuentoInternoAsync(decimal monto)
+    {
+        try
+        {
+            EstaProcesando = true;
+            var ventaActualizada = await _ventaService.AplicarDescuentoAsync(VentaId, monto);
+            Descuento = ventaActualizada.Descuento;
+            Total = ventaActualizada.Total;
+            Subtotal = ventaActualizada.Subtotal;
+
+            // Si estamos en efectivo o el monto recibido sugerido correspondía al total previo, ajustar monto recibido
+            if (!EsEfectivo || MontoRecibido < Total || MontoRecibido == Subtotal)
+            {
+                MontoRecibido = Total;
+                MontoRecibidoTexto = Total.ToString("F2", CultureInfo.InvariantCulture);
+            }
+
+            ActualizarCalculos();
+            MostrarModalDescuento = false;
+
+            if (monto > 0)
+            {
+                _dialogoService.NotificarExito($"Descuento de {monto:C2} aplicado a la cuenta.", "Descuento Aplicado");
+            }
+            else
+            {
+                _dialogoService.NotificarInformacion("Descuento removido de la cuenta.", "Descuento");
+            }
+        }
+        catch (Exception ex)
+        {
+            _dialogoService.MostrarError($"Error al aplicar descuento: {ex.Message}", "Descuento");
+        }
+        finally
+        {
+            EstaProcesando = false;
+            ActualizarCalculos();
+        }
+    }
+
+    #endregion
 }

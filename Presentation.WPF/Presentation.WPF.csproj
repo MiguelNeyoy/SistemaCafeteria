@@ -43,6 +43,7 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <StartupObject>Presentation.WPF.Program</StartupObject>
     <Version>1.0.0</Version>
+    <ApplicationIcon>Assets\Imagenes\Logo.ico</ApplicationIcon>
   </PropertyGroup>
 
 </Project>

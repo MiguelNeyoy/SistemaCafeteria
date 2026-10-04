@@ -162,7 +162,12 @@ if ($LASTEXITCODE -ne 0) {
 
 # 9. Empaquetar con Velopack
 Write-Host "`n[3/3] Generando instalador y deltas con Velopack (vpk pack)..." -ForegroundColor Cyan
-vpk pack -u "UnaMordida" -v $targetVersion -p $publishDir -e "Presentation.WPF.exe" -o $releasesDir
+$iconPath = Join-Path $rootDir "Presentation.WPF\Assets\Imagenes\Logo.ico"
+if (Test-Path $iconPath) {
+    vpk pack -u "UnaMordida" -v $targetVersion -p $publishDir -e "Presentation.WPF.exe" -o $releasesDir -i $iconPath
+} else {
+    vpk pack -u "UnaMordida" -v $targetVersion -p $publishDir -e "Presentation.WPF.exe" -o $releasesDir
+}
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""

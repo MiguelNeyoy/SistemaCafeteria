@@ -51,10 +51,23 @@ public partial class App : Application
         });
 
         // 4. Obtener la base de datos y aplicar migraciones en un scope temporal
-        using (var migrationScope = _serviceProvider.CreateScope())
+        try
         {
+            using var migrationScope = _serviceProvider.CreateScope();
             var dbContext = migrationScope.ServiceProvider.GetRequiredService<AppDbContext>();
             dbContext.Database.Migrate();
+
+            try
+            {
+                dbContext.Database.ExecuteSqlRaw(
+                    "ALTER TABLE ComandaItems ADD COLUMN Rol INTEGER NOT NULL DEFAULT 0;"
+                );
+            }
+            catch { }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[AVISO] Excepción controlada durante migración de BD: {ex.Message}");
         }
 
         // 5. Crear el Scope formal para la sesión de la ventana principal y sus servicios Scoped

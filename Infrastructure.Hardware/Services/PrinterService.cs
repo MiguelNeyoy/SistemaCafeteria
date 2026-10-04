@@ -8,6 +8,7 @@ using Core.Application.Dtos.Ventas;
 using Core.Application.Interfaces;
 using Core.Application.Interfaces.Repositories;
 using Core.Domain.Enums;
+using Core.Domain.Services;
 
 namespace Infrastructure.Hardware.Services;
 
@@ -20,6 +21,8 @@ public class PrinterService : IPrinterService
     public const string KeyAnchoPapel = "Impresora_AnchoPapel";
     public const string KeyAbrirCajon = "Impresora_AbrirCajon";
     public const string KeyCortarPapel = "Impresora_CortarPapel";
+    public const string KeyTelefonoNegocio = "Negocio_Telefono";
+    public const string TelefonoDefault = "669 223 7355";
 
     public PrinterService(IConfiguracionRepository configuracionRepository)
     {
@@ -56,6 +59,11 @@ public class PrinterService : IPrinterService
         string ancho = await _configuracionRepository.ObtenerValorAsync(KeyAnchoPapel) ?? "58mm";
         bool abrirCajon = (await _configuracionRepository.ObtenerValorAsync(KeyAbrirCajon) ?? "true") == "true";
         bool cortarPapel = (await _configuracionRepository.ObtenerValorAsync(KeyCortarPapel) ?? "true") == "true";
+        string telefono = await _configuracionRepository.ObtenerValorAsync(KeyTelefonoNegocio) ?? TelefonoDefault;
+        if (string.IsNullOrWhiteSpace(telefono))
+        {
+            telefono = TelefonoDefault;
+        }
 
         var builder = new EscPosBuilder(ancho);
 
@@ -72,7 +80,8 @@ public class PrinterService : IPrinterService
                .Linea("UNA MORDIDA")
                .TamanoNormal()
                .Negrita(false)
-               .Linea("Cafeteria & Antojitos")
+               .Linea("Cafe, Desayunos, Brunch")
+               .Linea($"Tel: {telefono}")
                .Linea("Comprobante de Venta")
                .LineaSeparadora()
                .AlinearIzquierda()
@@ -164,59 +173,78 @@ public class PrinterService : IPrinterService
         string ancho = await _configuracionRepository.ObtenerValorAsync(KeyAnchoPapel) ?? "58mm";
         bool cortarPapel = (await _configuracionRepository.ObtenerValorAsync(KeyCortarPapel) ?? "true") == "true";
 
-        var builder = new EscPosBuilder(ancho);
+        var gruposPorRol = comanda.Items
+            .GroupBy(i => i.Rol)
+            .OrderBy(g => (int)g.Key)
+            .ToList();
 
-        builder.AlinearCentro()
-               .TamanoGrande()
-               .Negrita(true)
-               .Linea("*** COCINA ***")
-               .TamanoDobleAlto()
-               .Linea($"Comanda #{comanda.Id}")
-               .TamanoNormal()
-               .Linea($"Cliente: {comanda.IdentificadorCliente ?? "General"}")
-               .Linea($"Hora: {comanda.FechaCreacion:HH:mm:ss}")
-               .LineaSeparadora('=')
-               .AlinearIzquierda();
+        if (!gruposPorRol.Any()) return;
 
-        foreach (var item in comanda.Items)
+        for (int idx = 0; idx < gruposPorRol.Count; idx++)
         {
-            builder.TamanoDobleAlto()
+            var grupo = gruposPorRol[idx];
+            var rol = grupo.Key;
+            string tituloRol = ClasificadorRolComanda.ObtenerTituloImpresion(rol);
+
+            var builder = new EscPosBuilder(ancho);
+
+            builder.AlinearCentro()
+                   .TamanoGrande()
                    .Negrita(true)
-                   .Linea($"{item.Cantidad}x  {item.ProductoNombre}")
+                   .Linea(tituloRol)
+                   .TamanoDobleAlto()
+                   .Linea($"Comanda #{comanda.Id}")
                    .TamanoNormal()
-                   .Negrita(false);
+                   .Linea($"Cliente: {comanda.IdentificadorCliente ?? "General"}")
+                   .Linea($"Hora: {comanda.FechaCreacion:HH:mm:ss}")
+                   .LineaSeparadora('=')
+                   .AlinearIzquierda();
 
-            if (item.Extras != null)
+            foreach (var item in grupo)
             {
-                foreach (var extra in item.Extras)
-                {
-                    builder.Linea($"   + {extra}");
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(item.NotasCocina))
-            {
-                builder.Negrita(true)
-                       .Linea($"   * NOTA: {item.NotasCocina}")
+                builder.TamanoDobleAlto()
+                       .Negrita(true)
+                       .Linea($"{item.Cantidad}x  {item.ProductoNombre}")
+                       .TamanoNormal()
                        .Negrita(false);
+
+                if (item.Extras != null)
+                {
+                    foreach (var extra in item.Extras)
+                    {
+                        builder.Linea($"   + {extra}");
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(item.NotasCocina))
+                {
+                    builder.Negrita(true)
+                           .Linea($"   * NOTA: {item.NotasCocina}")
+                           .Negrita(false);
+                }
+
+                builder.Linea();
             }
 
-            builder.Linea();
-        }
+            builder.LineaSeparadora('=');
 
-        builder.LineaSeparadora('=');
+            if (cortarPapel)
+            {
+                builder.CortarPapel();
+            }
+            else
+            {
+                builder.AlimentarLineas(4);
+            }
 
-        if (cortarPapel)
-        {
-            builder.CortarPapel();
-        }
-        else
-        {
-            builder.AlimentarLineas(4);
-        }
+            byte[] payload = builder.Construir();
+            await Task.Run(() => RawPrinterHelper.EnviarBytes(impresora, payload, $"Comanda #{comanda.Id} - {rol}"));
 
-        byte[] payload = builder.Construir();
-        await Task.Run(() => RawPrinterHelper.EnviarBytes(impresora, payload, $"Comanda #{comanda.Id}"));
+            if (idx < gruposPorRol.Count - 1)
+            {
+                await Task.Delay(800);
+            }
+        }
     }
 
     public async Task ImprimirCorteCajaAsync(CorteCajaDto corte)
@@ -284,6 +312,128 @@ public class PrinterService : IPrinterService
 
         byte[] payload = builder.Construir();
         await Task.Run(() => RawPrinterHelper.EnviarBytes(impresora, payload, "Corte de Caja"));
+    }
+
+    public async Task ImprimirResumenOperativoAsync(ResumenOperativoDto resumen)
+    {
+        ArgumentNullException.ThrowIfNull(resumen);
+
+        string? impresora = await _configuracionRepository.ObtenerValorAsync(KeyImpresoraTickets);
+        if (string.IsNullOrWhiteSpace(impresora))
+        {
+            throw new InvalidOperationException("No se ha configurado ninguna impresora para tickets. Ve a Configuración Avanzada.");
+        }
+
+        string ancho = await _configuracionRepository.ObtenerValorAsync(KeyAnchoPapel) ?? "58mm";
+        bool cortarPapel = (await _configuracionRepository.ObtenerValorAsync(KeyCortarPapel) ?? "true") == "true";
+        string telefono = await _configuracionRepository.ObtenerValorAsync(KeyTelefonoNegocio) ?? TelefonoDefault;
+        if (string.IsNullOrWhiteSpace(telefono))
+        {
+            telefono = TelefonoDefault;
+        }
+
+        var builder = new EscPosBuilder(ancho);
+        bool es80mm = ancho.Trim().ToLower().Contains("80");
+        int anchoTotal = es80mm ? 42 : 32;
+
+        // 1. Encabezado de negocio
+        builder.AlinearCentro()
+               .TamanoGrande()
+               .Negrita(true)
+               .Linea("UNA MORDIDA")
+               .TamanoNormal()
+               .Negrita(false)
+               .Linea("Cafe, Desayunos, Brunch")
+               .Linea($"Tel: {telefono}")
+               .LineaSeparadora()
+               .Negrita(true)
+               .Linea("RESUMEN OPERATIVO DIARIO")
+               .Linea("DESGLOSE DE TICKETS")
+               .Negrita(false)
+               .LineaSeparadora()
+               .AlinearIzquierda()
+               .Fila2Columnas("Fecha:", resumen.Fecha.ToString("dd/MM/yyyy"))
+               .Fila2Columnas("Emitido:", DateTime.Now.ToString("dd/MM/yyyy HH:mm"))
+               .LineaSeparadora('=')
+               .Negrita(true)
+               .Linea("RESUMEN GENERAL:")
+               .Negrita(false)
+               .LineaSeparadora()
+               .Fila2Columnas("Total Ventas:", resumen.TotalVentas.ToString("C2"))
+               .Fila2Columnas("Transacciones:", resumen.CantidadVentas.ToString())
+               .Fila2Columnas("Ticket Promedio:", resumen.TicketPromedio.ToString("C2"))
+               .LineaSeparadora()
+               .Fila2Columnas("Efectivo:", resumen.TotalEfectivo.ToString("C2"))
+               .Fila2Columnas("Tarjeta:", resumen.TotalTarjeta.ToString("C2"))
+               .Fila2Columnas("Transferencia:", resumen.TotalTransferencia.ToString("C2"));
+
+        if (resumen.TotalDescuentos > 0)
+        {
+            builder.Fila2Columnas("Descuentos:", resumen.TotalDescuentos.ToString("C2"));
+        }
+
+        builder.LineaSeparadora('=')
+               .Negrita(true)
+               .Linea("DETALLE DE TICKETS:")
+               .Negrita(false)
+               .LineaSeparadora();
+
+        // 2. Columnas de la tabla de tickets
+        int colFolio = 6;
+        int colHora = 6;
+        int colPago = es80mm ? 16 : 9;
+        int colTotal = anchoTotal - (colFolio + colHora + colPago);
+
+        builder.Negrita(true)
+               .Linea($"{"FOLIO".PadRight(colFolio)}{"HORA".PadRight(colHora)}{"PAGO".PadRight(colPago)}{"TOTAL".PadLeft(colTotal)}")
+               .Negrita(false)
+               .LineaSeparadora();
+
+        if (resumen.Tickets == null || resumen.Tickets.Count == 0)
+        {
+            builder.AlinearCentro()
+                   .Linea("(Sin tickets registrados)")
+                   .AlinearIzquierda();
+        }
+        else
+        {
+            foreach (var t in resumen.Tickets)
+            {
+                string folio = $"#{t.Folio}";
+                if (folio.Length > colFolio) folio = folio.Substring(0, colFolio);
+
+                string hora = t.Hora.ToString("HH:mm");
+                if (hora.Length > colHora) hora = hora.Substring(0, colHora);
+
+                string pago = t.TipoPago ?? "Efectivo";
+                if (pago.Length > colPago) pago = pago.Substring(0, colPago);
+
+                string total = t.Total.ToString("C2");
+                if (total.Length > colTotal) total = total.Substring(0, colTotal);
+
+                string fila = $"{folio.PadRight(colFolio)}{hora.PadRight(colHora)}{pago.PadRight(colPago)}{total.PadLeft(colTotal)}";
+                builder.Linea(fila);
+            }
+        }
+
+        // 3. Pie del reporte
+        builder.LineaSeparadora('=')
+               .Fila2Columnas("Total Tickets:", (resumen.Tickets?.Count ?? 0).ToString())
+               .LineaSeparadora('=')
+               .AlinearCentro()
+               .Linea($"Impreso: {DateTime.Now:dd/MM/yyyy HH:mm:ss}");
+
+        if (cortarPapel)
+        {
+            builder.CortarPapel();
+        }
+        else
+        {
+            builder.AlimentarLineas(4);
+        }
+
+        byte[] payload = builder.Construir();
+        await Task.Run(() => RawPrinterHelper.EnviarBytes(impresora, payload, "Resumen Operativo"));
     }
 
     public async Task ImprimirTicketPruebaAsync(string nombreImpresora, string anchoPapel)
