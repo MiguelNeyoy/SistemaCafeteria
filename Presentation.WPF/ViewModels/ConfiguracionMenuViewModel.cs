@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Core.Application.Common;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces;
 using Core.Application.Interfaces.Repositories;
@@ -248,17 +249,17 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         Productos.Clear();
         Extras.Clear();
 
-        foreach (var categoria in categorias)
+        foreach (var categoria in categorias.OrderBy(c => c.Nombre, StringComparer.CurrentCultureIgnoreCase))
         {
             Categorias.Add(categoria);
         }
 
-        foreach (var producto in productos)
+        foreach (var producto in productos.OrderBy(p => p.Nombre, StringComparer.CurrentCultureIgnoreCase))
         {
             Productos.Add(producto);
         }
 
-        foreach (var extra in extras)
+        foreach (var extra in extras.OrderBy(e => e.Nombre, StringComparer.CurrentCultureIgnoreCase))
         {
             Extras.Add(extra);
         }
@@ -311,9 +312,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         if (CategoriaSeleccionada is null)
             return;
 
-        var productos = await _productoService .ObtenerPorCategoriaAsync(CategoriaSeleccionada.Id);
+        var productos = await _productoService.ObtenerPorCategoriaAsync(CategoriaSeleccionada.Id);
 
-        foreach (var producto in productos)
+        foreach (var producto in productos.OrderBy(p => p.Nombre, StringComparer.CurrentCultureIgnoreCase))
         {
             ProductosCategoriaSeleccionada.Add(producto);
         }
@@ -334,7 +335,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
 
         var extras = await _extraService.ObtenerPorCategoriaAsync(CategoriaSeleccionada.Id);
 
-        foreach (var extra in extras)
+        foreach (var extra in extras.OrderBy(e => e.Nombre, StringComparer.CurrentCultureIgnoreCase))
         {
             ExtrasCategoriaSeleccionada.Add(extra);
         }
@@ -416,11 +417,27 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 };
 
                 var categoriaEditada = await _categoriaService.EditarAsync(dtoCategoria);
-                var categoriaEnLista = Categorias.FirstOrDefault(c => c.Id == categoriaEditada.Id);
-                if (categoriaEnLista is not null)
+                var index = Categorias.IndexOf(CategoriaSeleccionada);
+                if (index >= 0)
                 {
-                    categoriaEnLista.Nombre = categoriaEditada.Nombre;
+                    Categorias[index] = categoriaEditada;
                 }
+                else
+                {
+                    var categoriaEnLista = Categorias.FirstOrDefault(c => c.Id == categoriaEditada.Id);
+                    if (categoriaEnLista is not null)
+                    {
+                        var idx = Categorias.IndexOf(categoriaEnLista);
+                        if (idx >= 0) Categorias[idx] = categoriaEditada;
+                    }
+                }
+
+                foreach (var prod in Productos.Where(p => p.CategoriaId == categoriaEditada.Id))
+                {
+                    prod.CategoriaNombre = categoriaEditada.Nombre;
+                }
+
+                Categorias.ReordenarColeccion(c => c.Nombre);
             }
             else
             {
@@ -430,15 +447,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 };
 
                 var categoria = await _categoriaService.CrearAsync(dtoCategoria);
-                Categorias.Add(categoria);
-            }
-
-            // Mantener la lista observable ordenada alfabéticamente
-            var categoriasOrdenadas = Categorias.OrderBy(c => c.Nombre).ToList();
-            Categorias.Clear();
-            foreach (var item in categoriasOrdenadas)
-            {
-                Categorias.Add(item);
+                Categorias.InsertarOrdenado(categoria, c => c.Nombre);
             }
 
             CancelarFormulario();
@@ -555,15 +564,22 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 };
 
                 var productoEditado = await _productoService.EditarAsync(dtoProducto);
-                var productoEnLista = Productos.FirstOrDefault(p => p.Id == productoEditado.Id);
-
-                if (productoEnLista is not null)
+                var index = Productos.IndexOf(ProductoSeleccionado);
+                if (index >= 0)
                 {
-                    productoEnLista.Nombre = productoEditado.Nombre;
-                    productoEnLista.Precio = productoEditado.Precio;
-                    productoEnLista.CategoriaId = productoEditado.CategoriaId;
-                    productoEnLista.CategoriaNombre = productoEditado.CategoriaNombre;
+                    Productos[index] = productoEditado;
                 }
+                else
+                {
+                    var productoEnLista = Productos.FirstOrDefault(p => p.Id == productoEditado.Id);
+                    if (productoEnLista is not null)
+                    {
+                        var idx = Productos.IndexOf(productoEnLista);
+                        if (idx >= 0) Productos[idx] = productoEditado;
+                    }
+                }
+
+                Productos.ReordenarColeccion(p => p.Nombre);
             }
             else
             {
@@ -575,15 +591,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 };
 
                 var producto = await _productoService.CrearAsync(dtoProducto);
-                Productos.Add(producto);
-            }
-
-            // Mantener la lista observable global ordenada alfabéticamente
-            var productosOrdenados = Productos.OrderBy(p => p.Nombre).ToList();
-            Productos.Clear();
-            foreach (var p in productosOrdenados)
-            {
-                Productos.Add(p);
+                Productos.InsertarOrdenado(producto, p => p.Nombre);
             }
 
             // Refrescar y ordenar productos de la categoría seleccionada
@@ -744,6 +752,17 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             {
                 Extras[index] = extraEditado;
             }
+            else
+            {
+                var extraEnLista = Extras.FirstOrDefault(e => e.Id == extraEditado.Id);
+                if (extraEnLista is not null)
+                {
+                    var idx = Extras.IndexOf(extraEnLista);
+                    if (idx >= 0) Extras[idx] = extraEditado;
+                }
+            }
+
+            Extras.ReordenarColeccion(e => e.Nombre);
 
             // Sincronizar las categorías asociadas a este extra sin afectar a los demás extras
             await _extraService.SincronizarCategoriasDeExtraAsync(extraEditado.Id, categoriasSeleccionadas);
@@ -759,8 +778,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             // 1. Crear el Extra
             var nuevoExtra = await _extraService.CrearAsync(dto);
 
-            // 2. Agregarlo a la colección observable de Extras
-            Extras.Add(nuevoExtra);
+            // 2. Agregarlo a la colección observable de Extras manteniendo orden alfabético
+            Extras.InsertarOrdenado(nuevoExtra, e => e.Nombre);
 
             // 3. Asociar este nuevo extra a las categorías seleccionadas sin desmarcar los extras existentes
             await _extraService.SincronizarCategoriasDeExtraAsync(nuevoExtra.Id, categoriasSeleccionadas);
@@ -823,7 +842,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             categoriasDelExtra = await _extraService.ObtenerCategoriaIdsPorExtraAsync(extraId.Value);
         }
 
-        foreach (var categoria in Categorias)
+        foreach (var categoria in Categorias.OrderBy(c => c.Nombre, StringComparer.CurrentCultureIgnoreCase))
         {
             CategoriasParaExtra.Add(new CategoriaCheckItem
             {
@@ -1004,7 +1023,6 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 "Fallo de Hardware");
         }
     }
-
 }
 
 public partial class CategoriaCheckItem : ObservableObject

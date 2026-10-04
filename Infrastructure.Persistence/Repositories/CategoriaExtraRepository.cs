@@ -32,6 +32,7 @@ public class CategoriaExtraRepository : ICategoriaExtraRepository
                 e => e.Id,
                 (ce, e) => e
             )
+            .OrderBy(e => e.Nombre)
             .ToListAsync();
     }
 

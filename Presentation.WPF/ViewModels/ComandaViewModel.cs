@@ -187,12 +187,12 @@ public partial class ComandaViewModel : ObservableObject
         ProductoCategoriaSeleccionada.Clear();
         ExtrasCategoriaSeleccionada.Clear();
 
-        foreach (var producto in productos)
+        foreach (var producto in productos.OrderBy(p => p.Nombre, StringComparer.CurrentCultureIgnoreCase))
         {
             ProductoCategoriaSeleccionada.Add(producto);
         }
 
-        foreach (var extra in extras)
+        foreach (var extra in extras.OrderBy(e => e.Nombre, StringComparer.CurrentCultureIgnoreCase))
         {
             ExtrasCategoriaSeleccionada.Add(extra);
         }
