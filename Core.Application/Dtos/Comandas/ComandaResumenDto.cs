@@ -20,4 +20,5 @@ public class ComandaItemResumenDto
     public int Cantidad { get; set; }
     public string? NotasCocina { get; set; }
     public List<string> Extras { get; set; } = new();
+    public RolComanda Rol { get; set; } = RolComanda.General;
 }

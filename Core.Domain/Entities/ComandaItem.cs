@@ -1,3 +1,4 @@
+using Core.Domain.Enums;
 using Core.Domain.Exceptions;
 
 namespace Core.Domain.Entities;
@@ -15,12 +16,13 @@ public class ComandaItem
     public string ProductoNombre { get; private set; } = string.Empty;
     public int Cantidad { get; private set; }
     public string? NotasCocina { get; private set; }
+    public RolComanda Rol { get; private set; } = RolComanda.General;
     public IReadOnlyList<ComandaItemExtra> Extras => _extras.AsReadOnly();
 
     // Constructor privado para EF Core
     private ComandaItem() { }
 
-    public ComandaItem(int productoId, string productoNombre, int cantidad, string? notasCocina = null, IEnumerable<ComandaItemExtra>? extras = null)
+    public ComandaItem(int productoId, string productoNombre, int cantidad, string? notasCocina = null, IEnumerable<ComandaItemExtra>? extras = null, RolComanda rol = RolComanda.General)
     {
         if (productoId <= 0)
         {
@@ -41,6 +43,7 @@ public class ComandaItem
         ProductoNombre = productoNombre.Trim();
         Cantidad = cantidad;
         NotasCocina = notasCocina?.Trim();
+        Rol = rol;
 
         if (extras != null)
         {
@@ -48,8 +51,8 @@ public class ComandaItem
         }
     }
 
-    public ComandaItem(int id, int comandaId, int productoId, string productoNombre, int cantidad, string? notasCocina = null, IEnumerable<ComandaItemExtra>? extras = null)
-        : this(productoId, productoNombre, cantidad, notasCocina, extras)
+    public ComandaItem(int id, int comandaId, int productoId, string productoNombre, int cantidad, string? notasCocina = null, IEnumerable<ComandaItemExtra>? extras = null, RolComanda rol = RolComanda.General)
+        : this(productoId, productoNombre, cantidad, notasCocina, extras, rol)
     {
         if (id < 0)
         {

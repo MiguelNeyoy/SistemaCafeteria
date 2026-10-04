@@ -29,6 +29,9 @@ public class ComandaItemConfiguration : IEntityTypeConfiguration<ComandaItem>
             .IsRequired(false)
             .HasMaxLength(300);
 
+        builder.Property(i => i.Rol)
+            .HasDefaultValue(Core.Domain.Enums.RolComanda.General);
+
         builder.HasMany(i => i.Extras)
             .WithOne()
             .HasForeignKey(e => e.ComandaItemId)

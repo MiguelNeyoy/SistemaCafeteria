@@ -55,6 +55,14 @@ public partial class App : Application
         {
             var dbContext = migrationScope.ServiceProvider.GetRequiredService<AppDbContext>();
             dbContext.Database.Migrate();
+
+            try
+            {
+                dbContext.Database.ExecuteSqlRaw(
+                    "ALTER TABLE ComandaItems ADD COLUMN Rol INTEGER NOT NULL DEFAULT 0;"
+                );
+            }
+            catch { }
         }
 
         // 5. Crear el Scope formal para la sesión de la ventana principal y sus servicios Scoped

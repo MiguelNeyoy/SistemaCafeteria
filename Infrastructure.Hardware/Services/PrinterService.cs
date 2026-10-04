@@ -8,6 +8,7 @@ using Core.Application.Dtos.Ventas;
 using Core.Application.Interfaces;
 using Core.Application.Interfaces.Repositories;
 using Core.Domain.Enums;
+using Core.Domain.Services;
 
 namespace Infrastructure.Hardware.Services;
 
@@ -172,59 +173,78 @@ public class PrinterService : IPrinterService
         string ancho = await _configuracionRepository.ObtenerValorAsync(KeyAnchoPapel) ?? "58mm";
         bool cortarPapel = (await _configuracionRepository.ObtenerValorAsync(KeyCortarPapel) ?? "true") == "true";
 
-        var builder = new EscPosBuilder(ancho);
+        var gruposPorRol = comanda.Items
+            .GroupBy(i => i.Rol)
+            .OrderBy(g => (int)g.Key)
+            .ToList();
 
-        builder.AlinearCentro()
-               .TamanoGrande()
-               .Negrita(true)
-               .Linea("*** COCINA ***")
-               .TamanoDobleAlto()
-               .Linea($"Comanda #{comanda.Id}")
-               .TamanoNormal()
-               .Linea($"Cliente: {comanda.IdentificadorCliente ?? "General"}")
-               .Linea($"Hora: {comanda.FechaCreacion:HH:mm:ss}")
-               .LineaSeparadora('=')
-               .AlinearIzquierda();
+        if (!gruposPorRol.Any()) return;
 
-        foreach (var item in comanda.Items)
+        for (int idx = 0; idx < gruposPorRol.Count; idx++)
         {
-            builder.TamanoDobleAlto()
+            var grupo = gruposPorRol[idx];
+            var rol = grupo.Key;
+            string tituloRol = ClasificadorRolComanda.ObtenerTituloImpresion(rol);
+
+            var builder = new EscPosBuilder(ancho);
+
+            builder.AlinearCentro()
+                   .TamanoGrande()
                    .Negrita(true)
-                   .Linea($"{item.Cantidad}x  {item.ProductoNombre}")
+                   .Linea(tituloRol)
+                   .TamanoDobleAlto()
+                   .Linea($"Comanda #{comanda.Id}")
                    .TamanoNormal()
-                   .Negrita(false);
+                   .Linea($"Cliente: {comanda.IdentificadorCliente ?? "General"}")
+                   .Linea($"Hora: {comanda.FechaCreacion:HH:mm:ss}")
+                   .LineaSeparadora('=')
+                   .AlinearIzquierda();
 
-            if (item.Extras != null)
+            foreach (var item in grupo)
             {
-                foreach (var extra in item.Extras)
-                {
-                    builder.Linea($"   + {extra}");
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(item.NotasCocina))
-            {
-                builder.Negrita(true)
-                       .Linea($"   * NOTA: {item.NotasCocina}")
+                builder.TamanoDobleAlto()
+                       .Negrita(true)
+                       .Linea($"{item.Cantidad}x  {item.ProductoNombre}")
+                       .TamanoNormal()
                        .Negrita(false);
+
+                if (item.Extras != null)
+                {
+                    foreach (var extra in item.Extras)
+                    {
+                        builder.Linea($"   + {extra}");
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(item.NotasCocina))
+                {
+                    builder.Negrita(true)
+                           .Linea($"   * NOTA: {item.NotasCocina}")
+                           .Negrita(false);
+                }
+
+                builder.Linea();
             }
 
-            builder.Linea();
-        }
+            builder.LineaSeparadora('=');
 
-        builder.LineaSeparadora('=');
+            if (cortarPapel)
+            {
+                builder.CortarPapel();
+            }
+            else
+            {
+                builder.AlimentarLineas(4);
+            }
 
-        if (cortarPapel)
-        {
-            builder.CortarPapel();
-        }
-        else
-        {
-            builder.AlimentarLineas(4);
-        }
+            byte[] payload = builder.Construir();
+            await Task.Run(() => RawPrinterHelper.EnviarBytes(impresora, payload, $"Comanda #{comanda.Id} - {rol}"));
 
-        byte[] payload = builder.Construir();
-        await Task.Run(() => RawPrinterHelper.EnviarBytes(impresora, payload, $"Comanda #{comanda.Id}"));
+            if (idx < gruposPorRol.Count - 1)
+            {
+                await Task.Delay(800);
+            }
+        }
     }
 
     public async Task ImprimirCorteCajaAsync(CorteCajaDto corte)

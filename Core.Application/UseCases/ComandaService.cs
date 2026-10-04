@@ -4,6 +4,7 @@ using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
 using Core.Domain.Entities;
 using Core.Domain.Exceptions;
+using Core.Domain.Services;
 
 namespace Core.Application.UseCases;
 
@@ -12,17 +13,20 @@ public class ComandaService : IComandaService
     private readonly IComandaRepository _comandaRepository;
     private readonly IVentaRepository _ventaRepository;
     private readonly IProductoRepository _productoRepository;
+    private readonly ICategoriaRepository _categoriaRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public ComandaService(
         IComandaRepository comandaRepository,
         IVentaRepository ventaRepository,
         IProductoRepository productoRepository,
+        ICategoriaRepository categoriaRepository,
         IUnitOfWork unitOfWork)
     {
         _comandaRepository = comandaRepository;
         _ventaRepository = ventaRepository;
         _productoRepository = productoRepository;
+        _categoriaRepository = categoriaRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -42,11 +46,14 @@ public class ComandaService : IComandaService
             var producto = await _productoRepository.ObtenerPorIdAsync(itemDto.ProductoId)
                 ?? throw new DomainException($"Producto con Id {itemDto.ProductoId} no encontrado.");
 
+            var categoria = await _categoriaRepository.ObtenerPorIdAsync(producto.CategoriaId);
+            var rol = ClasificadorRolComanda.Clasificar(producto.Nombre, categoria?.Nombre);
+
             var extras = itemDto.ExtraInstrucciones?
                 .Select(instruccion => new ComandaItemExtra(instruccion))
                 .ToList();
 
-            comandaItems.Add(new ComandaItem(producto.Id, producto.Nombre, itemDto.Cantidad, itemDto.NotasCocina, extras));
+            comandaItems.Add(new ComandaItem(producto.Id, producto.Nombre, itemDto.Cantidad, itemDto.NotasCocina, extras, rol));
         }
 
         var comanda = new Comanda(venta.Id, venta.IdentificadorCliente, comandaItems);
@@ -94,7 +101,8 @@ public class ComandaService : IComandaService
                 ProductoNombre = i.ProductoNombre,
                 Cantidad = i.Cantidad,
                 NotasCocina = i.NotasCocina,
-                Extras = i.Extras.Select(e => e.Nombre).ToList()
+                Extras = i.Extras.Select(e => e.Nombre).ToList(),
+                Rol = i.Rol
             }).ToList()
         };
     }
