@@ -20,6 +20,8 @@ public class PrinterService : IPrinterService
     public const string KeyAnchoPapel = "Impresora_AnchoPapel";
     public const string KeyAbrirCajon = "Impresora_AbrirCajon";
     public const string KeyCortarPapel = "Impresora_CortarPapel";
+    public const string KeyTelefonoNegocio = "Negocio_Telefono";
+    public const string TelefonoDefault = "669 223 7355";
 
     public PrinterService(IConfiguracionRepository configuracionRepository)
     {
@@ -56,6 +58,11 @@ public class PrinterService : IPrinterService
         string ancho = await _configuracionRepository.ObtenerValorAsync(KeyAnchoPapel) ?? "58mm";
         bool abrirCajon = (await _configuracionRepository.ObtenerValorAsync(KeyAbrirCajon) ?? "true") == "true";
         bool cortarPapel = (await _configuracionRepository.ObtenerValorAsync(KeyCortarPapel) ?? "true") == "true";
+        string telefono = await _configuracionRepository.ObtenerValorAsync(KeyTelefonoNegocio) ?? TelefonoDefault;
+        if (string.IsNullOrWhiteSpace(telefono))
+        {
+            telefono = TelefonoDefault;
+        }
 
         var builder = new EscPosBuilder(ancho);
 
@@ -72,7 +79,8 @@ public class PrinterService : IPrinterService
                .Linea("UNA MORDIDA")
                .TamanoNormal()
                .Negrita(false)
-               .Linea("Cafeteria & Antojitos")
+               .Linea("Cafe, Desayunos, Brunch")
+               .Linea($"Tel: {telefono}")
                .Linea("Comprobante de Venta")
                .LineaSeparadora()
                .AlinearIzquierda()
