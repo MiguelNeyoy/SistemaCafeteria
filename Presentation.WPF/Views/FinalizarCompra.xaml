@@ -279,13 +279,36 @@
                                 <TextBlock Grid.Column="1" Text="{Binding Subtotal, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="SemiBold"/>
                             </Grid>
 
-                            <Grid Grid.Row="1" Margin="0,0,0,6">
+                            <Grid Grid.Row="1" Margin="0,2,0,6">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="Descuento" FontFamily="{StaticResource Fuente-principal}" FontSize="14" Foreground="#388E3C"/>
-                                <TextBlock Grid.Column="1" Text="{Binding Descuento, StringFormat='-{0:C}'}" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#388E3C"/>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="Descuento" FontFamily="{StaticResource Fuente-principal}" FontSize="14" Foreground="#388E3C" VerticalAlignment="Center"/>
+                                    <!-- Boton interactivo para aplicar o editar descuento -->
+                                    <Button Command="{Binding AbrirModalDescuentoCommand}" 
+                                            Margin="8,0,0,0" Padding="8,3"
+                                            Background="#E8F5E9" BorderBrush="#81C784" BorderThickness="1.5"
+                                            Cursor="Hand">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                    <TextBlock Text="Aplicar / Cambiar" FontFamily="{StaticResource Fuente-principal}" FontSize="11" FontWeight="Bold" Foreground="#2E7D32"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#C8E6C9"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#A5D6A7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </StackPanel>
+                                <TextBlock Grid.Column="1" Text="{Binding Descuento, StringFormat='-{0:C}'}" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#388E3C" VerticalAlignment="Center"/>
                             </Grid>
 
                             <Border Grid.Row="2" BorderBrush="#FFE082" BorderThickness="0,1.5,0,0" Padding="0,8,0,0">
@@ -616,6 +639,176 @@
                 </Button>
             </Grid>
             <!--#endregion-->
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Modal Overlay: Aplicar Descuento -->
+        <Grid Grid.RowSpan="2" 
+              Background="#99000000" 
+              Visibility="{Binding MostrarModalDescuento, Converter={StaticResource BoolToVisConverter}}"
+              Panel.ZIndex="100">
+            <Border Background="White" 
+                    CornerRadius="16" 
+                    BorderBrush="#BDBDBD" 
+                    BorderThickness="1.5"
+                    Width="520" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                    Padding="26,22">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="25" ShadowDepth="4" Opacity="0.3" Color="Black"/>
+                </Border.Effect>
+                <StackPanel>
+                    <!-- Cabecera del Modal -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Aplicar Descuento" 
+                                       FontFamily="{StaticResource Fuente-principal}" 
+                                       FontSize="22" FontWeight="Bold" 
+                                       Foreground="#212121"/>
+                            <TextBlock Text="{Binding Subtotal, StringFormat='Subtotal de la cuenta: {0:C}'}" 
+                                       FontFamily="{StaticResource Fuente-principal}" 
+                                       FontSize="14" Foreground="#757575" 
+                                       Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <!-- Boton cerrar (X) -->
+                        <Button Grid.Column="1" 
+                                Command="{Binding CerrarModalDescuentoCommand}" 
+                                Background="Transparent" BorderThickness="0" 
+                                Cursor="Hand" Padding="8,4" VerticalAlignment="Top">
+                            <TextBlock Text="✕" FontSize="18" FontWeight="Bold" Foreground="#757575"/>
+                        </Button>
+                    </Grid>
+
+                    <!-- Seccion 1: Porcentajes Rapidos (Atajos) -->
+                    <TextBlock Text="Descuentos Rapidos por Porcentaje:" 
+                               FontFamily="{StaticResource Fuente-principal}" 
+                               FontSize="13" FontWeight="SemiBold" 
+                               Foreground="#546E7A" Margin="0,0,0,8"/>
+                    
+                    <UniformGrid Columns="5" Margin="0,0,0,18">
+                        <!-- 10% -->
+                        <Button Command="{Binding AplicarPorcentajeRapidoCommand}" CommandParameter="10"
+                                Height="42" Margin="3" Cursor="Hand"
+                                Background="#E8F5E9" BorderBrush="#81C784" BorderThickness="1.5">
+                            <TextBlock Text="10%" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="#2E7D32"/>
+                        </Button>
+                        <!-- 15% -->
+                        <Button Command="{Binding AplicarPorcentajeRapidoCommand}" CommandParameter="15"
+                                Height="42" Margin="3" Cursor="Hand"
+                                Background="#E8F5E9" BorderBrush="#81C784" BorderThickness="1.5">
+                            <TextBlock Text="15%" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="#2E7D32"/>
+                        </Button>
+                        <!-- 20% -->
+                        <Button Command="{Binding AplicarPorcentajeRapidoCommand}" CommandParameter="20"
+                                Height="42" Margin="3" Cursor="Hand"
+                                Background="#E8F5E9" BorderBrush="#81C784" BorderThickness="1.5">
+                            <TextBlock Text="20%" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="#2E7D32"/>
+                        </Button>
+                        <!-- 50% -->
+                        <Button Command="{Binding AplicarPorcentajeRapidoCommand}" CommandParameter="50"
+                                Height="42" Margin="3" Cursor="Hand"
+                                Background="#E8F5E9" BorderBrush="#81C784" BorderThickness="1.5">
+                            <TextBlock Text="50%" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="#2E7D32"/>
+                        </Button>
+                        <!-- 100% Cortesia -->
+                        <Button Command="{Binding AplicarPorcentajeRapidoCommand}" CommandParameter="100"
+                                Height="42" Margin="3" Cursor="Hand"
+                                Background="#FFF3E0" BorderBrush="#FFB74D" BorderThickness="1.5">
+                            <TextBlock Text="100%" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="#E65100"/>
+                        </Button>
+                    </UniformGrid>
+
+                    <Separator Background="#E0E0E0" Margin="0,0,0,16"/>
+
+                    <!-- Seccion 2: Monto Personalizado en Pesos ($) -->
+                    <TextBlock Text="O ingresa un monto personalizado en pesos ($):" 
+                               FontFamily="{StaticResource Fuente-principal}" 
+                               FontSize="13" FontWeight="SemiBold" 
+                               Foreground="#546E7A" Margin="0,0,0,8"/>
+
+                    <Border Background="#F5F5F5" BorderBrush="#BDBDBD" BorderThickness="1.5" CornerRadius="8" Padding="12,8" Margin="0,0,0,12">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="$" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" Foreground="#424242" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <TextBox Grid.Column="1" 
+                                     Text="{Binding MontoDescuentoInput, UpdateSourceTrigger=PropertyChanged}" 
+                                     FontFamily="{StaticResource Fuente-principal}" 
+                                     FontSize="24" FontWeight="Bold" 
+                                     Foreground="#212121" 
+                                     Background="Transparent" BorderThickness="0" 
+                                     VerticalAlignment="Center"/>
+                            <Button Grid.Column="2" 
+                                    Command="{Binding BorrarDigitoDescuentoCommand}" 
+                                    Background="Transparent" BorderThickness="0" 
+                                    Cursor="Hand" Padding="6,2" VerticalAlignment="Center">
+                                <TextBlock Text="⌫" FontSize="18" FontWeight="Bold" Foreground="#757575"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <!-- Teclado Numerico Compacto para Touchscreen -->
+                    <UniformGrid Columns="3" Margin="40,0,40,16">
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="1" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="1"/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="2" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="2"/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="3" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="3"/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="4" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="4"/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="5" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="5"/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="6" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="6"/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="7" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="7"/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="8" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="8"/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="9" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="9"/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="." Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="."/>
+                        <Button Command="{Binding IngresarDigitoDescuentoCommand}" CommandParameter="0" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="20" Content="0"/>
+                        <Button Command="{Binding BorrarDigitoDescuentoCommand}" Style="{StaticResource BtnKeypadNumerico}" Height="48" FontSize="18" Content="⌫"/>
+                    </UniformGrid>
+
+                    <!-- Botones de Accion Inferiores -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Quitar Descuento -->
+                        <Button Grid.Column="0" 
+                                Command="{Binding QuitarDescuentoCommand}" 
+                                Height="44" Padding="14,6" Margin="0,0,8,0"
+                                Background="#FFEBEE" BorderBrush="#EF9A9A" BorderThickness="1.5"
+                                Cursor="Hand">
+                            <TextBlock Text="Quitar Descuento" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#C62828"/>
+                        </Button>
+
+                        <!-- Cancelar -->
+                        <Button Grid.Column="2" 
+                                Command="{Binding CerrarModalDescuentoCommand}" 
+                                Height="44" Padding="16,6" Margin="0,0,8,0"
+                                Background="#F5F5F5" BorderBrush="#BDBDBD" BorderThickness="1.5"
+                                Cursor="Hand">
+                            <TextBlock Text="Cancelar" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="SemiBold" Foreground="#616161"/>
+                        </Button>
+
+                        <!-- Aplicar Monto -->
+                        <Button Grid.Column="3" 
+                                Command="{Binding AplicarDescuentoMontoCommand}" 
+                                Height="44" Padding="20,6"
+                                Background="{StaticResource Naranja}" BorderBrush="#E65100" BorderThickness="1.5"
+                                Cursor="Hand">
+                            <TextBlock Text="Aplicar Monto" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#1A1A1A"/>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Border>
         </Grid>
         <!--#endregion-->
     </Grid>
