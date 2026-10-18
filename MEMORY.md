@@ -14,6 +14,7 @@
 - En WPF, enlazar un `TextBox` con `UpdateSourceTrigger=PropertyChanged` directamente a un `decimal` se traga el punto decimal al escribir (`"45."`). Siempre usar una propiedad `string` intermedia en el ViewModel sanitizada con `FormateadorTextoCatalogo.SanitizarTextoPrecio`.
 - En SQLite, `LIKE` y `UPPER()`/`LOWER()` solo son insensibles a mayúsculas en ASCII y no ignoran tildes ni `ñ`; en buscadores (`BuscarActivosAsync`) normalizar con `NormalizationForm.FormD` sin `NonSpacingMark`, y en `ComandaViewModel` cargar los extras de `producto.CategoriaId` cuando el producto seleccionado proviene de otra categoría.
 - En `VentaService.ObtenerTopProductosMesAsync`, agrupar únicamente por `ProductoId` (tomando el último `ProductoNombre` cronológico) y no por `{ ProductoId, ProductoNombre }`, para que si un producto fue renombrado o preformateado a mitad de mes no se divida en dos entradas distintas del ranking.
+- En `Presentation.WPF/Views/ConfiguracionMenuView.xaml`, la clase parcial code-behind se llama históricamente `Presentation.WPF.Views.ConfiguracionMenuViewModel` (hereda de `UserControl`); preservar ese `x:Class` al editar la vista para no romper el `DataTemplate` de `MainWindow.xaml`.
 
 ## Issues resueltos recientemente
 
@@ -25,11 +26,12 @@
 - `#10`: Preformateado automático de nombres (Title Case bilingüe ES/EN) y sanitización de precios en Configuración de Menú (`e880d29`).
 - `#9`: Barra buscadora reactiva letra por letra en pantalla de Categorías (`MenuView`) con selección por `Enter` o clic que navega a `Comanda` y abre el modal de extras si aplica (`09131a4`).
 - `#14`: Aumento del listado Top Más Vendidos del mes a 15 productos en Dashboard consolidando por `ProductoId` y desempate alfabético.
+- `#8`: Rediseño de pantalla de Configuración de Menú en tablero Kanban por categorías simplificado para personas mayores, con ocultación de columnas, píldoras de estado y buscador reactivo.
 
 ## Estado actual
 
 - Producción: `v1.1.0`
-- En desarrollo: `v1.2.0` (rediseño configuración de menú `#8`).
+- En desarrollo: `v1.2.0` (catálogo Kanban `#8` completado).
 
 ## Comandos
 
@@ -42,4 +44,6 @@
 - Proyecto Stitch: `UnaMordida` (ID: `5570853905336234929`).
 - Tema: `Roasted Earth POS` (Espresso `#442a22`, Honey Amber `#ffb300`, Parchment `#f5f5dc`, Blanco `#ffffff`).
 - Tipografias: `Manrope` (titulos), `Work Sans` (cuerpo), `JetBrains Mono` (precios y numeros).
-- Reglas tactiles: Touch targets minimos de 48px, esquinas redondeadas 8px (`0.5rem`), optimizado para tablet landscape.
+- Dispositivo y Perfil de Usuario: **Monitor normal de escritorio (mouse y teclado)** utilizado por **personas mayores**. Priorizar interfaces simples, limpias, sin exceso de informacion ni iconos cripticos; textos grandes de alto contraste, botones con etiquetas explicitas en espanol (`+ Agregar Producto`, `Editar`) y flujos directos de 1 clic para encontrar/editar o agregar un producto.
+- Catalogo real actual en BD (`unamordida.db`): **11 categorias** (`Aguas Frescas` [22], `Café & Capp` [14], `Cocina` [30], `Frappés` [11], `Fruta` [4], `Jugos` [19], `LATTE` [12], `Licuados` [23], `Postres` [6], `Smoothies` [7], `Té` [1]) y **149 productos** (solo tienen `Nombre`, `Precio`, `CategoriaId` y `Activo`; sin subtitulos ni etiquetas adicionales).
+- Referencia visual preferida para Configuracion de Menu (`#8`): Estilo **Kanban de Escritorio Simplificado para Personas Mayores** (`projects/5570853905336234929/screens/5cdf53141eeb49a2a5d81256e82b0aee`, variante de `60ee4b93fe164d33b7e9b7a0c0f68ee7` + panel lateral de `3ac82ba2a68c431289d40a3287e61898`), con boton `Ocultar` en cada columna Kanban para esconder categorias y pildoras superiores con borde punteado/ojo tachado para volver a mostrarlas con un clic.

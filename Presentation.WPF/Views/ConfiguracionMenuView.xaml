@@ -5,425 +5,873 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="1100">
+             d:DesignHeight="900" d:DesignWidth="1366"
+             Background="#FBFBE2">
 
     <UserControl.Resources>
-        
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-        
+
+        <!-- Botón de acción ámbar primario (+ Nueva Categoría / + Agregar aquí) -->
+        <Style x:Key="BtnKanbanAmbar" TargetType="Button">
+            <Setter Property="Background" Value="#FFB300"/>
+            <Setter Property="Foreground" Value="#2C160E"/>
+            <Setter Property="BorderBrush" Value="#E59E00"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#FFA000"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#FF8F00"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Botón secundario crema en encabezado de columna (Extras / Ocultar / Editar) -->
+        <Style x:Key="BtnKanbanSecundario" TargetType="Button">
+            <Setter Property="Background" Value="#E4E4CC"/>
+            <Setter Property="Foreground" Value="#1B1D0E"/>
+            <Setter Property="BorderBrush" Value="#D4C3BE"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#D8D8BC"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#C8C8AA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Botón Editar dentro de tarjeta blanca de producto -->
+        <Style x:Key="BtnKanbanEditarItem" TargetType="Button">
+            <Setter Property="Background" Value="#EFEFD7"/>
+            <Setter Property="Foreground" Value="#1B1D0E"/>
+            <Setter Property="BorderBrush" Value="#D4C3BE"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="16,7"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#FFB300"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#E59E00"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#FFA000"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Botón de navegación (< Anteriores / Siguientes >) -->
+        <Style x:Key="BtnNavegacionKanban" TargetType="Button">
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#1B1D0E"/>
+            <Setter Property="BorderBrush" Value="#D4C3BE"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="FontFamily" Value="{StaticResource Fuente-principal}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#F5F5DC"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#442A22"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
-    <Grid>
-        <!--#region Estructura Principal-->
+    <Grid Background="#FBFBE2">
+        <!--#region Estructura Principal (Tablero Kanban + Panel Lateral Derecho Colapsable)-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <!--#endregion-->
 
-        <!--#region Columna Izquierda (Acciones Superiores + 3 Listas de Catálogo)-->
+        <!--#region Columna 0: Área Principal Kanban Simplificada para Personas Mayores-->
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!--#region Panel Superior de Acciones y Resumen-->
-            <Grid Grid.Row="0" Margin="8,8,8,4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <!--#region Fila 0: Cabecera Principal (Título + Buscador + Nueva Categoría)-->
+            <Border Grid.Row="0" BorderBrush="#E4E4CC" BorderThickness="0,0,0,1.5" Padding="20,14,20,12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <!-- Tarjeta Resumen Catálogo -->
-                <Border Grid.Column="0" Width="150" Height="78" Background="White" BorderBrush="Black" BorderThickness="1.5" CornerRadius="8" Margin="3" Padding="8,4">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <!-- Título y Subtítulo -->
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock Text="Configuración de Menú"
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#1B1D0E"/>
+                        <TextBlock Text="Interfaz simplificada para una navegación clara y rápida."
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="14"
+                                   Foreground="#6E655F"
+                                   Margin="0,2,0,0"/>
+                    </StackPanel>
 
-                        <TextBlock Text="Catálogo" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,2"/>
+                    <!-- Buscador por Nombre y Botón + Nueva Categoría -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- Caja de Búsqueda -->
+                        <Border Width="310" Height="44"
+                                Background="#FFFFFF"
+                                BorderBrush="#6E655F"
+                                BorderThickness="1.5"
+                                CornerRadius="10"
+                                Padding="12,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                        <!-- Métricas en Horizontal -->
-                        <Grid Grid.Row="1" VerticalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                                <!-- Icono Lupa -->
+                                <Path Grid.Column="0"
+                                      Data="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                                      Fill="#6E655F"
+                                      Width="18" Height="18"
+                                      Stretch="Uniform"
+                                      VerticalAlignment="Center"
+                                      Margin="0,0,8,0"/>
 
-                            <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding TotalProductos}" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Productos" FontFamily="{StaticResource Fuente-principal}" FontSize="9" Foreground="Gray" HorizontalAlignment="Center"/>
+                                <!-- TextBox Reactivo -->
+                                <TextBox Grid.Column="1"
+                                         Text="{Binding TextoBusquedaProducto, UpdateSourceTrigger=PropertyChanged}"
+                                         FontFamily="{StaticResource Fuente-principal}"
+                                         FontSize="15"
+                                         Foreground="#1B1D0E"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         VerticalContentAlignment="Center"/>
+
+                                <!-- Placeholder -->
+                                <TextBlock Grid.Column="1"
+                                           Text="Buscar producto por nombre..."
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="15"
+                                           Foreground="#8D847E"
+                                           VerticalAlignment="Center"
+                                           IsHitTestVisible="False">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding TieneTextoBusquedaProducto}" Value="False">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <!-- Botón Limpiar Búsqueda (X) -->
+                                <Button Grid.Column="2"
+                                        Command="{Binding LimpiarBusquedaProductoCommand}"
+                                        Visibility="{Binding TieneTextoBusquedaProducto, Converter={StaticResource BoolToVisConverter}}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        Padding="6,2"
+                                        VerticalAlignment="Center"
+                                        ToolTip="Limpiar búsqueda">
+                                    <TextBlock Text="✕" FontSize="15" FontWeight="Bold" Foreground="#6E655F"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <!-- Botón + Nueva Categoría -->
+                        <Button Style="{StaticResource BtnKanbanAmbar}"
+                                Command="{Binding MostrarFormularioCategoriaCommand}"
+                                Height="44"
+                                Padding="18,0"
+                                Margin="12,0,0,0"
+                                FontSize="15">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="+" FontSize="18" FontWeight="Bold" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Nueva Categoría" VerticalAlignment="Center"/>
                             </StackPanel>
-
-                            <Border Grid.Column="1" Width="1" Background="#E0E0E0" Margin="2,1"/>
-
-                            <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding TotalExtras}" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Extras" FontFamily="{StaticResource Fuente-principal}" FontSize="9" Foreground="Gray" HorizontalAlignment="Center"/>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
-                </Border>
-
-                <!-- Botón Añadir Categoría -->
-                <Button Grid.Column="1" Style="{StaticResource BtnCatyPro}"
-                        Height="78" Margin="3"
-                        Command="{Binding MostrarFormularioCategoriaCommand}" >
-                    
-                    <Grid Margin="2">
-                        
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        
-                        <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_de_Adicion.png" 
-                               Height="26" Width="26" 
-                               Stretch="Uniform" 
-                               VerticalAlignment="Center"/>
-                        
-                        <TextBlock Grid.Row="1" Text="Añadir Categoría"
-                                   FontFamily="{StaticResource Fuente-principal}" 
-                                   FontSize="12" FontWeight="Bold" TextWrapping="Wrap"
-                                   TextAlignment="Center" Margin="0,2,0,0" />
-                        
-                    </Grid>
-                    
-                </Button>
-
-                <!-- Botón Añadir Producto -->
-                <Button Grid.Column="2" Command="{Binding MostrarFormularioProductoCommand}" Style="{StaticResource BtnCatyPro}" Height="78" Margin="3">
-                    <Grid Margin="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="26" Width="26" Stretch="Uniform" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Text="Añadir Producto" TextAlignment="Center" Margin="0,2,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" TextWrapping="Wrap"/>
-                    </Grid>
-                </Button>
-
-                <!-- Botón Añadir Extra -->
-                <Button Grid.Column="3" Command="{Binding MostrarFormularioExtraCommand}" Style="{StaticResource BtnCatyPro}" Height="78" Margin="3">
-                    <Grid Margin="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Source="/Assets/Imagenes/Icono_de_Adicion.png" Height="26" Width="26" Stretch="Uniform" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Text="Añadir Extra" TextAlignment="Center" Margin="0,2,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" TextWrapping="Wrap"/>
-                    </Grid>
-                </Button>
-            </Grid>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
             <!--#endregion-->
 
-            <!--#region Panel Inferior (3 Listas: Categorías, Productos, Extras)-->
-            <Grid Grid.Row="1" Margin="10,5,10,15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <!--#region Fila 1: Barra de Píldoras de Categorías (< Anteriores | Todas | Categorías | Siguientes >)-->
+            <Border Grid.Row="1" BorderBrush="#E4E4CC" BorderThickness="0,0,0,1.5" Padding="20,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <!--#region Columna 1: Lista Categorías-->
-                <Border Grid.Column="0" Background="White" CornerRadius="8" BorderBrush="Gray" BorderThickness="1" Margin="4">
-                    <Grid Margin="8">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <!-- Botón < Anteriores -->
+                    <Button Grid.Column="0"
+                            Style="{StaticResource BtnNavegacionKanban}"
+                            Command="{Binding CategoriasAnterioresCommand}"
+                            IsEnabled="{Binding PuedeIrAnteriorKanban}"
+                            Height="42"
+                            Margin="0,0,8,0">
+                        <TextBlock Text="‹  Anteriores" VerticalAlignment="Center"/>
+                    </Button>
 
-                        <TextBlock Text="Categorías" HorizontalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="20" FontWeight="Bold" Margin="0,4,0,8" />
+                    <!-- Botón Todas (N) -->
+                    <Button Grid.Column="1"
+                            Command="{Binding MostrarTodasLasCategoriasCommand}"
+                            Height="42"
+                            Margin="0,0,8,0"
+                            Cursor="Hand"
+                            ToolTip="Restablecer vista y volver a mostrar todas las categorías">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="BdTodas"
+                                        Background="#EFEFD7"
+                                        BorderBrush="#442A22"
+                                        BorderThickness="1.5"
+                                        CornerRadius="10"
+                                        Padding="16,0">
+                                    <TextBlock x:Name="TxtTodas"
+                                               Text="{Binding EtiquetaBotonTodas}"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="15"
+                                               FontWeight="Bold"
+                                               Foreground="#442A22"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding TodasLasColumnasVisibles}" Value="False">
+                                        <Setter TargetName="BdTodas" Property="Background" Value="#FFF3CD"/>
+                                        <Setter TargetName="BdTodas" Property="BorderBrush" Value="#FFB300"/>
+                                        <Setter TargetName="BdTodas" Property="BorderThickness" Value="2"/>
+                                        <Setter TargetName="TxtTodas" Property="Foreground" Value="#442A22"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="BdTodas" Property="Background" Value="#E2E2C4"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
 
-                        <ListBox Grid.Row="1" ItemsSource="{Binding Categorias}" SelectedItem="{Binding CategoriaSeleccionada}"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                            <ListBox.Style>
-                                <Style TargetType="ListBox" BasedOn="{StaticResource EstiloListBoxLimpio}">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TieneCategorias}" Value="False">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListBox.Style>
-
-                            <ListBox.ItemTemplate>
+                    <!-- Lista Horizontal de Píldoras de Categorías (Seguimiento de 3 en 3 + Ocultas) -->
+                    <ScrollViewer Grid.Column="2"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding ColumnasKanban}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Margin="0" Background="Transparent" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="6,8">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Activo}" Value="False">
-                                                        <Setter Property="Opacity" Value="0.6"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
+                                    <Button Command="{Binding DataContext.AlternarPildoraCategoriaCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Height="42"
+                                            Margin="0,0,8,0"
+                                            Cursor="Hand"
+                                            ToolTip="Clic para ver desde esta categoría (de 3 en 3) o volver a mostrarla si está oculta">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid>
+                                                    <!-- Fondo Sólido cuando la columna está Activa/Disponible -->
+                                                    <Border x:Name="BdVisible"
+                                                            Background="#FFFFFF"
+                                                            BorderBrush="#D4C3BE"
+                                                            BorderThickness="1.5"
+                                                            CornerRadius="10"/>
 
-                                            <StackPanel VerticalAlignment="Center" Margin="0,0,8,0">
-                                                <TextBlock Text="{Binding Nombre}" FontFamily="{StaticResource Fuente-principal}" FontSize="16" TextWrapping="Wrap"/>
-                                                <Border Background="#EEEEEE" BorderBrush="#BDBDBD" BorderThickness="1" CornerRadius="3" Padding="4,1" Margin="0,3,0,0" HorizontalAlignment="Left">
-                                                    <Border.Style>
-                                                        <Style TargetType="Border">
+                                                    <!-- Contorno Punteado cuando la columna está Oculta -->
+                                                    <Rectangle x:Name="RectOculta"
+                                                               RadiusX="10" RadiusY="10"
+                                                               Fill="#F5F5DC"
+                                                               Stroke="#8D847E"
+                                                               StrokeThickness="1.5"
+                                                               StrokeDashArray="3 2"
+                                                               Visibility="Collapsed"/>
+
+                                                    <!-- Barra inferior Ámbar de seguimiento para las 3 columnas en vista -->
+                                                    <Border x:Name="BarraSeguimientoActiva"
+                                                            Height="4"
+                                                            Background="#FFB300"
+                                                            CornerRadius="2"
+                                                            VerticalAlignment="Bottom"
+                                                            Margin="10,0,10,2"
+                                                            Visibility="Collapsed"/>
+
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="13,0,14,1">
+                                                        <!-- Insignia 1, 2, 3 de las 3 columnas que se están viendo ahora mismo -->
+                                                        <Border x:Name="BadgeOrdenVentana"
+                                                                Width="20" Height="20"
+                                                                CornerRadius="10"
+                                                                Background="#FFB300"
+                                                                VerticalAlignment="Center"
+                                                                Margin="0,0,7,0"
+                                                                Visibility="Collapsed">
+                                                            <TextBlock Text="{Binding OrdenEnVentanaActual}"
+                                                                       FontFamily="{StaticResource Fuente-principal}"
+                                                                       FontSize="12"
+                                                                       FontWeight="Bold"
+                                                                       Foreground="#1B1D0E"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Border>
+
+                                                        <!-- Icono Ojo Tachado cuando está Oculta -->
+                                                        <Path x:Name="IconoOjoOculto"
+                                                              Data="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"
+                                                              Fill="#6E655F"
+                                                              Width="15" Height="15"
+                                                              Stretch="Uniform"
+                                                              VerticalAlignment="Center"
+                                                              Margin="0,0,6,0"
+                                                              Visibility="Collapsed"/>
+
+                                                        <TextBlock x:Name="TxtPastilla"
+                                                                   Text="{Binding EtiquetaPastilla}"
+                                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                                   FontSize="14.5"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="#1B1D0E"
+                                                                   VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <!-- Indicador de las 3 columnas visibles actualmente en pantalla -->
+                                                    <DataTrigger Binding="{Binding EstaEnVentanaActual}" Value="True">
+                                                        <Setter TargetName="BdVisible" Property="Background" Value="#442A22"/>
+                                                        <Setter TargetName="BdVisible" Property="BorderBrush" Value="#FFB300"/>
+                                                        <Setter TargetName="BdVisible" Property="BorderThickness" Value="2"/>
+                                                        <Setter TargetName="TxtPastilla" Property="Foreground" Value="#FFFFFF"/>
+                                                        <Setter TargetName="BarraSeguimientoActiva" Property="Visibility" Value="Visible"/>
+                                                        <Setter TargetName="BadgeOrdenVentana" Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                    <!-- Estado cuando la categoría fue ocultada -->
+                                                    <DataTrigger Binding="{Binding EstaOculta}" Value="True">
+                                                        <Setter TargetName="BdVisible" Property="Visibility" Value="Collapsed"/>
+                                                        <Setter TargetName="RectOculta" Property="Visibility" Value="Visible"/>
+                                                        <Setter TargetName="IconoOjoOculto" Property="Visibility" Value="Visible"/>
+                                                        <Setter TargetName="BarraSeguimientoActiva" Property="Visibility" Value="Collapsed"/>
+                                                        <Setter TargetName="BadgeOrdenVentana" Property="Visibility" Value="Collapsed"/>
+                                                        <Setter TargetName="TxtPastilla" Property="Foreground" Value="#6E655F"/>
+                                                    </DataTrigger>
+                                                    <!-- Hover sobre píldora que no está actualmente en las 3 visibles -->
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                                            <Condition Binding="{Binding EstaEnVentanaActual}" Value="False"/>
+                                                            <Condition Binding="{Binding EstaOculta}" Value="False"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter TargetName="BdVisible" Property="Background" Value="#FFF8E1"/>
+                                                        <Setter TargetName="BdVisible" Property="BorderBrush" Value="#FFB300"/>
+                                                    </MultiDataTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- Botón Siguientes > -->
+                    <Button Grid.Column="3"
+                            Style="{StaticResource BtnNavegacionKanban}"
+                            Command="{Binding CategoriasSiguientesCommand}"
+                            IsEnabled="{Binding PuedeIrSiguienteKanban}"
+                            Height="42"
+                            Margin="8,0,0,0">
+                        <TextBlock Text="Siguientes  ›" VerticalAlignment="Center"/>
+                    </Button>
+                </Grid>
+            </Border>
+            <!--#endregion-->
+
+            <!--#region Fila 2: Tablero de Columnas Kanban (3 Columnas Amplias)-->
+            <Grid Grid.Row="2" Margin="14,14,14,16">
+                <!-- Columnas Kanban Visibles -->
+                <ItemsControl ItemsSource="{Binding ColumnasKanbanVisibles}">
+                    <ItemsControl.Style>
+                        <Style TargetType="ItemsControl">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TieneColumnasKanbanVisibles}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.Style>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" Columns="3"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Contenedor de Columna Kanban -->
+                            <Border Background="#EFEFD7"
+                                    BorderBrush="#D4C3BE"
+                                    BorderThickness="1.5"
+                                    CornerRadius="14"
+                                    Margin="6,0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Encabezado de la Columna Kanban -->
+                                    <Border Grid.Row="0"
+                                            BorderBrush="#DCD8C0"
+                                            BorderThickness="0,0,0,1.5"
+                                            Padding="16,14,16,12">
+                                        <StackPanel>
+                                            <!-- Fila 1: Título de la Categoría + Botón Editar Categoría -->
+                                            <Grid Margin="0,0,0,10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Categoria.Nombre}"
+                                                               FontFamily="{StaticResource Fuente-principal}"
+                                                               FontSize="21"
+                                                               FontWeight="Bold"
+                                                               Foreground="#1B1D0E"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               VerticalAlignment="Center"/>
+
+                                                    <Border Background="#FFCDD2"
+                                                            BorderBrush="#E57373"
+                                                            BorderThickness="1"
+                                                            CornerRadius="4"
+                                                            Padding="6,2"
+                                                            Margin="8,0,0,0"
+                                                            VerticalAlignment="Center">
+                                                        <Border.Style>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Categoria.Activo}" Value="False">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Border.Style>
+                                                        <TextBlock Text="Inactiva"
+                                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                                   FontSize="11"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="#B71C1C"/>
+                                                    </Border>
+                                                </StackPanel>
+
+                                                <!-- Botón para editar el nombre o estado de la categoría -->
+                                                <Button Grid.Column="1"
+                                                        Command="{Binding DataContext.EditarCategoriaCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding Categoria}"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Cursor="Hand"
+                                                        Padding="6,2"
+                                                        ToolTip="Editar esta categoría">
+                                                    <Image Source="/Assets/Imagenes/Icono_de_editar.png"
+                                                           Width="18" Height="18"
+                                                           Stretch="Uniform"
+                                                           Opacity="0.75"/>
+                                                </Button>
+                                            </Grid>
+
+                                            <!-- Fila 2: Los 3 Botones Alineados (+ Agregar aquí | Extras | Ocultar) -->
+                                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <!-- Botón + Agregar aquí -->
+                                                <Button Style="{StaticResource BtnKanbanAmbar}"
+                                                        Command="{Binding DataContext.AgregarAquiEnColumnaCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        Height="36"
+                                                        Padding="14,0"
+                                                        Margin="0,0,8,4"
+                                                        FontSize="13.5"
+                                                        Content="{Binding TextoBotonAgregarAqui}"/>
+
+                                                <!-- Botón Extras -->
+                                                <Button Style="{StaticResource BtnKanbanSecundario}"
+                                                        Command="{Binding DataContext.AlternarVistaExtrasColumnaCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        Height="36"
+                                                        Padding="14,0"
+                                                        Margin="0,0,8,4"
+                                                        FontSize="13.5"
+                                                        Content="{Binding TextoBotonExtras}"/>
+
+                                                <!-- Botón Ocultar -->
+                                                <Button Style="{StaticResource BtnKanbanSecundario}"
+                                                        Command="{Binding DataContext.OcultarColumnaKanbanCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"
+                                                        Height="36"
+                                                        Padding="12,0"
+                                                        Margin="0,0,0,4"
+                                                        FontSize="13.5"
+                                                        ToolTip="Esconder esta columna del tablero">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Path Data="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"
+                                                              Fill="#1B1D0E"
+                                                              Width="14" Height="14"
+                                                              Stretch="Uniform"
+                                                              VerticalAlignment="Center"
+                                                              Margin="0,0,6,0"/>
+                                                        <TextBlock Text="Ocultar" VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <!-- Lista de Productos o Extras dentro de la Columna -->
+                                    <ScrollViewer Grid.Row="1"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled"
+                                                  Padding="12,12,12,6">
+                                        <Grid>
+                                            <!-- Vista de Productos de la Categoría -->
+                                            <StackPanel>
+                                                <StackPanel.Style>
+                                                    <Style TargetType="StackPanel">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding MostrarVistaExtras}" Value="True">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </StackPanel.Style>
+
+                                                <ItemsControl ItemsSource="{Binding Productos}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <!-- Tarjeta Blanca Simplificada de una línea: Nombre ($Precio) + [Editar] -->
+                                                            <Border Background="#FFFFFF"
+                                                                    BorderBrush="#DCD8C0"
+                                                                    BorderThickness="1.5"
+                                                                    CornerRadius="12"
+                                                                    Padding="14,10"
+                                                                    Margin="0,0,0,10">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Activo}" Value="False">
+                                                                                <Setter Property="Opacity" Value="0.6"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                                        <TextBlock FontFamily="{StaticResource Fuente-principal}"
+                                                                                   FontSize="16"
+                                                                                   Foreground="#1B1D0E"
+                                                                                   TextWrapping="Wrap">
+                                                                            <Run Text="{Binding Nombre, Mode=OneWay}" FontWeight="SemiBold"/>
+                                                                            <Run Text=" "/>
+                                                                            <Run Text="{Binding Precio, StringFormat='(${0:N2})', Mode=OneWay}" FontWeight="Bold"/>
+                                                                        </TextBlock>
+
+                                                                        <Border Background="#EEEEEE"
+                                                                                BorderBrush="#BDBDBD"
+                                                                                BorderThickness="1"
+                                                                                CornerRadius="4"
+                                                                                Padding="6,1"
+                                                                                Margin="0,4,0,0"
+                                                                                HorizontalAlignment="Left">
+                                                                            <Border.Style>
+                                                                                <Style TargetType="Border">
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                    <Style.Triggers>
+                                                                                        <DataTrigger Binding="{Binding Activo}" Value="False">
+                                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                                        </DataTrigger>
+                                                                                    </Style.Triggers>
+                                                                                </Style>
+                                                                            </Border.Style>
+                                                                            <TextBlock Text="Deshabilitado"
+                                                                                       FontFamily="{StaticResource Fuente-principal}"
+                                                                                       FontSize="11"
+                                                                                       FontWeight="SemiBold"
+                                                                                       Foreground="#616161"/>
+                                                                        </Border>
+                                                                    </StackPanel>
+
+                                                                    <Button Grid.Column="1"
+                                                                            Style="{StaticResource BtnKanbanEditarItem}"
+                                                                            Content="Editar"
+                                                                            VerticalAlignment="Center"
+                                                                            Command="{Binding DataContext.EditarProductoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            CommandParameter="{Binding}"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+
+                                                <TextBlock Text="Sin productos en esta categoría."
+                                                           FontFamily="{StaticResource Fuente-principal}"
+                                                           FontSize="15"
+                                                           Foreground="#6E655F"
+                                                           HorizontalAlignment="Center"
+                                                           Margin="0,24,0,0">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
                                                             <Setter Property="Visibility" Value="Collapsed"/>
                                                             <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding Activo}" Value="False">
+                                                                <DataTrigger Binding="{Binding TieneProductos}" Value="False">
                                                                     <Setter Property="Visibility" Value="Visible"/>
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
-                                                    </Border.Style>
-                                                    <TextBlock Text="Deshabilitado" FontSize="10" Foreground="#616161" FontFamily="{StaticResource Fuente-principal}" FontWeight="SemiBold"/>
-                                                </Border>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
                                             </StackPanel>
 
-                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}" 
-                                                    Width="36" Height="36" 
-                                                    Command="{Binding DataContext.EditarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
-                                                    CommandParameter="{Binding}">
+                                            <!-- Vista de Extras Asociados a la Categoría -->
+                                            <StackPanel>
+                                                <StackPanel.Style>
+                                                    <Style TargetType="StackPanel">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding MostrarVistaExtras}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </StackPanel.Style>
 
-                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" 
-                                                       Height="20" Width="20"
-                                                       Stretch="Uniform"/> 
+                                                <TextBlock Text="Extras de esta categoría:"
+                                                           FontFamily="{StaticResource Fuente-principal}"
+                                                           FontSize="14"
+                                                           FontWeight="Bold"
+                                                           Foreground="#442A22"
+                                                           Margin="2,0,0,8"/>
 
-                                            </Button>
+                                                <ItemsControl ItemsSource="{Binding Extras}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Border Background="#FFFFFF"
+                                                                    BorderBrush="#DCD8C0"
+                                                                    BorderThickness="1.5"
+                                                                    CornerRadius="12"
+                                                                    Padding="14,10"
+                                                                    Margin="0,0,0,10">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Activo}" Value="False">
+                                                                                <Setter Property="Opacity" Value="0.6"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
 
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="Auto"/>
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <TextBlock Grid.Column="0"
+                                                                               FontFamily="{StaticResource Fuente-principal}"
+                                                                               FontSize="16"
+                                                                               Foreground="#1B1D0E"
+                                                                               VerticalAlignment="Center"
+                                                                               TextWrapping="Wrap"
+                                                                               Margin="0,0,10,0">
+                                                                        <Run Text="{Binding Nombre, Mode=OneWay}" FontWeight="SemiBold"/>
+                                                                        <Run Text=" "/>
+                                                                        <Run Text="{Binding Precio, StringFormat='(${0:N2})', Mode=OneWay}" FontWeight="Bold"/>
+                                                                    </TextBlock>
+
+                                                                    <Button Grid.Column="1"
+                                                                            Style="{StaticResource BtnKanbanEditarItem}"
+                                                                            Content="Editar"
+                                                                            VerticalAlignment="Center"
+                                                                            Command="{Binding DataContext.EditarExtraCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                            CommandParameter="{Binding}"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+
+                                                <TextBlock Text="No hay extras asociados a esta categoría."
+                                                           FontFamily="{StaticResource Fuente-principal}"
+                                                           FontSize="15"
+                                                           Foreground="#6E655F"
+                                                           HorizontalAlignment="Center"
+                                                           TextWrapping="Wrap"
+                                                           TextAlignment="Center"
+                                                           Margin="0,20,0,0">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding TieneExtras}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
                                         </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                        <TextBlock Grid.Row="1" Text="No hay Categorías registradas" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Foreground="Gray" TextWrapping="Wrap" TextAlignment="Center">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TieneCategorias}" Value="False">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
-                </Border>
-                <!--#endregion-->
-
-                <!--#region Columna 2: Lista Productos-->
-                <Border Grid.Column="1" Background="White" CornerRadius="8" BorderBrush="Gray" BorderThickness="1" Margin="4">
-                    <Grid Margin="8">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Text="Productos" HorizontalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="20" FontWeight="Bold" Margin="0,4,0,8"/>
-
-                        <ListBox Grid.Row="1" ItemsSource="{Binding Productos}" SelectedItem="{Binding ProductoSeleccionado}"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                            <ListBox.Style>
-                                <Style TargetType="ListBox" BasedOn="{StaticResource EstiloListBoxLimpio}">
+                <!-- Estado vacío si todas las columnas se ocultaron o ninguna coincide con la búsqueda -->
+                <Border Background="#EFEFD7"
+                        BorderBrush="#D4C3BE"
+                        BorderThickness="1.5"
+                        CornerRadius="14"
+                        Padding="32"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TieneColumnasKanbanVisibles}" Value="False">
                                     <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TieneProductos}" Value="False">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListBox.Style>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
 
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Margin="0" Background="Transparent" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="6,8">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Activo}" Value="False">
-                                                        <Setter Property="Opacity" Value="0.6"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <StackPanel VerticalAlignment="Center" Margin="0,0,8,0">
-                                                <TextBlock Text="{Binding Nombre}" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap"/>
-                                                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
-                                                    <TextBlock Text="{Binding CategoriaNombre}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" Foreground="Gray" TextWrapping="Wrap"/>
-                                                    <Border Background="#EEEEEE" BorderBrush="#BDBDBD" BorderThickness="1" CornerRadius="3" Padding="4,1" Margin="6,0,0,0">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Activo}" Value="False">
-                                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <TextBlock Text="Deshabilitado" FontSize="10" Foreground="#616161" FontFamily="{StaticResource Fuente-principal}" FontWeight="SemiBold"/>
-                                                    </Border>
-                                                </StackPanel>
-                                            </StackPanel>
-
-                                            <TextBlock Grid.Column="1" Text="{Binding Precio, StringFormat='${0:N2}'}" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="#333333" VerticalAlignment="Center" Margin="8,0"/>
-
-                                            <Button Grid.Column="2" Style="{StaticResource BotonEdicion}" 
-                                                    Width="36" Height="36" 
-                                                    Command="{Binding DataContext.EditarProductoCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
-                                                    CommandParameter="{Binding}">
-                                                
-                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png" 
-                                                       Width="20" Height="20"
-                                                       Stretch="Uniform"/>
-                                                
-                                            </Button>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-
-                        <TextBlock Grid.Row="1" Text="No hay Productos registrados" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Foreground="Gray" TextWrapping="Wrap" TextAlignment="Center">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TieneProductos}" Value="False">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="No hay categorías visibles para mostrar"
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="#1B1D0E"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Haz clic en 'Todas' arriba para volver a mostrar todas las categorías o limpia el texto de búsqueda."
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="15"
+                                   Foreground="#6E655F"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,6,0,16"/>
+                        <Button Style="{StaticResource BtnKanbanAmbar}"
+                                Command="{Binding MostrarTodasLasCategoriasCommand}"
+                                Content="Mostrar Todas las Categorías"
+                                Height="42"
+                                Padding="20,0"
+                                FontSize="15"
+                                HorizontalAlignment="Center"/>
+                    </StackPanel>
                 </Border>
-                <!--#endregion-->
-
-                <!--#region Columna 3: Lista Extras-->
-                <Border Grid.Column="2" Background="White" CornerRadius="8" BorderBrush="Gray" BorderThickness="1" Margin="4">
-                    <Grid Margin="8">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Text="Extras / Modificadores" HorizontalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="20" FontWeight="Bold" Margin="0,4,0,8"/>
-
-                        <ListBox Grid.Row="1" ItemsSource="{Binding Extras}" SelectedItem="{Binding ExtraSeleccionado}"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                            <ListBox.Style>
-                                <Style TargetType="ListBox" BasedOn="{StaticResource EstiloListBoxLimpio}">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TieneExtras}" Value="False">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListBox.Style>
-
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Margin="0" Background="Transparent" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="6,8">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Activo}" Value="False">
-                                                        <Setter Property="Opacity" Value="0.6"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <StackPanel VerticalAlignment="Center" Margin="0,0,8,0">
-                                                <TextBlock Text="{Binding Nombre}" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="SemiBold" TextWrapping="Wrap"/>
-                                                <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
-                                                    <TextBlock Text="{Binding Precio, StringFormat='${0:N2}'}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" Foreground="#2E7D32" FontWeight="Bold"/>
-                                                    <Border Background="#EEEEEE" BorderBrush="#BDBDBD" BorderThickness="1" CornerRadius="3" Padding="4,1" Margin="6,0,0,0">
-                                                        <Border.Style>
-                                                            <Style TargetType="Border">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Activo}" Value="False">
-                                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Border.Style>
-                                                        <TextBlock Text="Deshabilitado" FontSize="10" Foreground="#616161" FontFamily="{StaticResource Fuente-principal}" FontWeight="SemiBold"/>
-                                                    </Border>
-                                                </StackPanel>
-                                            </StackPanel>
-
-                                            <!-- Botón Editar Extra -->
-                                            <Button Grid.Column="1" Style="{StaticResource BotonEdicion}" 
-                                                    Width="36" Height="36" 
-                                                    Command="{Binding DataContext.EditarExtraCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
-                                                    CommandParameter="{Binding}">
-
-                                                <Image Source="/Assets/Imagenes/Icono_de_editar.png"
-                                                       Height="20" Width="20"
-                                                       Stretch="Uniform"/>
-                                            </Button>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-
-                        <TextBlock Grid.Row="1" Text="No hay Extras registrados" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Foreground="Gray" TextWrapping="Wrap" TextAlignment="Center">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding TieneExtras}" Value="False">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
-                </Border>
-                <!--#endregion-->
-
             </Grid>
             <!--#endregion-->
         </Grid>
         <!--#endregion-->
 
-        <!--#region Columna Derecha (Panel de Formularios Dinámicos)-->
+        <!--#region Columna 1: Panel Lateral Derecho de Formularios (Categoría / Producto / Extra)-->
         <Border Grid.Column="1" Background="{StaticResource Amarillo claro_fuerte}"
-                Width="330"
-                BorderBrush="Black" BorderThickness="2,0,0,0"
+                Width="350"
+                BorderBrush="#D4C3BE" BorderThickness="2,0,0,0"
                 Visibility="{Binding MostrarFormulario, Converter={StaticResource BoolToVisConverter}}">
             
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                
-                <Grid Margin="14">
+                <Grid Margin="18">
 
                     <!--#region Formulario Categoría-->
                     <StackPanel>
@@ -433,8 +881,6 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding FormularioCategoria}" Value="True">
                                         <Setter Property="Visibility" Value="Visible"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -443,19 +889,19 @@
                         <TextBlock Text="Categoría" 
                                    FontFamily="{StaticResource Fuente-principal}" 
                                    FontSize="24" FontWeight="Bold" 
+                                   Foreground="#1B1D0E"
                                    HorizontalAlignment="Center" 
-                                   Margin="0,20,0,25"/>
+                                   Margin="0,16,0,22"/>
 
-                        <TextBlock Text="Nombre de la categoría" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,0,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" MaxLength="60" Text="{Binding NombreCategoria, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBlock Text="Nombre de la categoría" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="SemiBold" Foreground="#1B1D0E" Margin="0,0,0,6"/>
+                        <TextBox Height="40" FontSize="16" FontFamily="{StaticResource Fuente-principal}" MaxLength="60" Text="{Binding NombreCategoria, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="8,0"/>
 
                         <!-- Aviso de Error en Categoría (Rojo) -->
                         <TextBlock Text="{Binding MensajeErrorCategoria}"  
                                    FontFamily="{StaticResource Fuente-principal}" 
                                    FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap"
-                                   Margin="0,4,0,0" 
+                                   Margin="0,6,0,0" 
                                    Foreground="#D32F2F">
-                            
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -474,7 +920,6 @@
                                 FontFamily="{StaticResource Fuente-principal}" 
                                 FontSize="16" FontWeight="Bold"
                                 Command="{Binding AlternarEstadoCategoriaCommand}" >
-                            
                             <Button.Style>
                                 <Style TargetType="Button" BasedOn="{StaticResource BtnEliminar}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -513,27 +958,24 @@
                             </Button.Style>
                         </Button>
 
-                        <Grid Margin="0,15,0,0">
-                            
+                        <Grid Margin="0,18,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
                             <Button Grid.Column="0" Content="CANCELAR" Style="{StaticResource BtnBasura}" 
-                                    Height="45" Margin="0,0,6,0" 
+                                    Height="46" Margin="0,0,6,0" 
                                     FontFamily="{StaticResource Fuente-principal}" 
-                                    FontSize="16" 
+                                    FontSize="16" FontWeight="Bold"
                                     Command="{Binding CancelarFormularioCommand}"/>
 
                             <Button Grid.Column="1" Content="Guardar" Style="{StaticResource BtnGuardarCambios}" 
-                                    Height="45" Margin="6,0,0,0" 
+                                    Height="46" Margin="6,0,0,0" 
                                     FontFamily="{StaticResource Fuente-principal}" 
-                                    FontSize="16" 
+                                    FontSize="16" FontWeight="Bold"
                                     Command="{Binding GuardarCategoriaCommand}" />
-                            
                         </Grid>
-                        
                     </StackPanel>
                     <!--#endregion-->
 
@@ -545,17 +987,15 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding FormularioProducto}" Value="True">
                                         <Setter Property="Visibility" Value="Visible"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </StackPanel.Style>
 
-                        <TextBlock Text="Producto" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,20"/>
+                        <TextBlock Text="Producto" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" Foreground="#1B1D0E" HorizontalAlignment="Center" Margin="0,16,0,20"/>
 
-                        <TextBlock Text="Nombre del producto" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,0,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" MaxLength="60" Text="{Binding NombreProducto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBlock Text="Nombre del producto" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="SemiBold" Foreground="#1B1D0E" Margin="0,0,0,6"/>
+                        <TextBox Height="40" FontSize="16" FontFamily="{StaticResource Fuente-principal}" MaxLength="60" Text="{Binding NombreProducto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="8,0"/>
 
                         <!-- Aviso de Error en Producto (Rojo) -->
                         <TextBlock Text="{Binding MensajeErrorProducto}" 
@@ -563,7 +1003,7 @@
                                    FontFamily="{StaticResource Fuente-principal}" 
                                    FontSize="13" 
                                    FontWeight="SemiBold" 
-                                   Margin="0,4,0,0" 
+                                   Margin="0,6,0,0" 
                                    TextWrapping="Wrap">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
@@ -577,11 +1017,11 @@
                             </TextBlock.Style>
                         </TextBlock>
 
-                        <TextBlock Text="Categoría" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,15,0,6"/>
-                        <ComboBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaProductoSeleccionado}"/>
+                        <TextBlock Text="Categoría" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="SemiBold" Foreground="#1B1D0E" Margin="0,16,0,6"/>
+                        <ComboBox Height="40" FontSize="16" FontFamily="{StaticResource Fuente-principal}" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaProductoSeleccionado}"/>
 
-                        <TextBlock Text="Precio ($)" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,15,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding PrecioProductoTexto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBlock Text="Precio ($)" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="SemiBold" Foreground="#1B1D0E" Margin="0,16,0,6"/>
+                        <TextBox Height="40" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding PrecioProductoTexto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="8,0"/>
 
                         <!-- Botón Deshabilitar (Rojo) -->
                         <Button Command="{Binding AlternarEstadoProductoCommand}" 
@@ -627,18 +1067,18 @@
                             </Button.Style>
                         </Button>
 
-                        <Grid Margin="0,15,0,0">
+                        <Grid Margin="0,18,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnBasura}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
-                            <Button Grid.Column="1" Command="{Binding GuardarProductoCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="Guardar"/>
+                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnBasura}" Height="46" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Content="CANCELAR"/>
+                            <Button Grid.Column="1" Command="{Binding GuardarProductoCommand}" Style="{StaticResource BtnGuardarCambios}" Height="46" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Content="Guardar"/>
                         </Grid>
                     </StackPanel>
                     <!--#endregion-->
 
-                    <!--#region Formulario Extra (NUEVO)-->
+                    <!--#region Formulario Extra-->
                     <StackPanel>
                         <StackPanel.Style>
                             <Style TargetType="StackPanel">
@@ -646,17 +1086,15 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding FormularioExtra}" Value="True">
                                         <Setter Property="Visibility" Value="Visible"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </StackPanel.Style>
 
-                        <TextBlock Text="Extra / Modificador" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,15,0,15"/>
+                        <TextBlock Text="Extra / Modificador" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" Foreground="#1B1D0E" HorizontalAlignment="Center" Margin="0,15,0,15"/>
 
-                        <TextBlock Text="Nombre del extra" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,0,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" MaxLength="60" Text="{Binding NombreExtra, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBlock Text="Nombre del extra" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="SemiBold" Foreground="#1B1D0E" Margin="0,0,0,6"/>
+                        <TextBox Height="40" FontSize="16" FontFamily="{StaticResource Fuente-principal}" MaxLength="60" Text="{Binding NombreExtra, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="8,0"/>
 
                         <!-- Aviso de Error en Extra (Rojo) -->
                         <TextBlock Text="{Binding MensajeErrorExtra}" 
@@ -664,7 +1102,7 @@
                                    FontFamily="{StaticResource Fuente-principal}" 
                                    FontSize="13" 
                                    FontWeight="SemiBold" 
-                                   Margin="0,4,0,0" 
+                                   Margin="0,6,0,0" 
                                    TextWrapping="Wrap">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
@@ -678,15 +1116,15 @@
                             </TextBlock.Style>
                         </TextBlock>
 
-                        <TextBlock Text="Precio adicional ($)" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,12,0,2"/>
+                        <TextBlock Text="Precio adicional ($)" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="SemiBold" Foreground="#1B1D0E" Margin="0,14,0,2"/>
                         <TextBlock Text="* Coloca $0 si es un modificador sin costo (ej. Sin Cebolla)" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="Gray" Margin="0,0,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding PrecioExtraTexto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBox Height="40" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding PrecioExtraTexto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="8,0"/>
 
                         <!-- Checklist de Categorías Asociadas -->
-                        <TextBlock Text="Aplica para las categorías:" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="SemiBold" Margin="0,14,0,4"/>
+                        <TextBlock Text="Aplica para las categorías:" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="SemiBold" Foreground="#1B1D0E" Margin="0,14,0,4"/>
                         <TextBlock Text="Define en qué tipo de productos aparecerá este extra" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="Gray" Margin="0,0,0,6"/>
 
-                        <Border Background="White" BorderBrush="Gray" BorderThickness="1" CornerRadius="6" MaxHeight="160">
+                        <Border Background="White" BorderBrush="Gray" BorderThickness="1" CornerRadius="6" MaxHeight="180">
                             <ScrollViewer VerticalScrollBarVisibility="Auto">
                                 <ItemsControl ItemsSource="{Binding CategoriasParaExtra}">
                                     <ItemsControl.ItemTemplate>
@@ -742,24 +1180,23 @@
                             </Button.Style>
                         </Button>
 
-                        <Grid Margin="0,15,0,0">
+                        <Grid Margin="0,18,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnBasura}" Height="45" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="CANCELAR"/>
-                            <Button Grid.Column="1" Command="{Binding GuardarExtraCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" Content="Guardar"/>
+                            <Button Grid.Column="0" Command="{Binding CancelarFormularioCommand}" Style="{StaticResource BtnBasura}" Height="46" Margin="0,0,6,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Content="CANCELAR"/>
+                            <Button Grid.Column="1" Command="{Binding GuardarExtraCommand}" Style="{StaticResource BtnGuardarCambios}" Height="46" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Content="Guardar"/>
                         </Grid>
                     </StackPanel>
                     <!--#endregion-->
-
 
                 </Grid>
             </ScrollViewer>
         </Border>
         <!--#endregion-->
 
-        <!--#region MODAL PIN OVERLAY (Teclado Numérico Táctil)-->
+        <!--#region MODAL PIN OVERLAY-->
         <Grid Grid.ColumnSpan="2" Background="#A6000000" Visibility="{Binding MostrarModalPin, Converter={StaticResource BoolToVisConverter}}">
             <Border Width="380" Background="White" CornerRadius="16" BorderBrush="Black" BorderThickness="2" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="20">
                 <Grid>
@@ -769,7 +1206,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        
                     </Grid.RowDefinitions>
 
                     <!-- Encabezado -->
@@ -786,7 +1222,7 @@
                     <!-- Mensaje de error -->
                     <TextBlock Grid.Row="2" Text="{Binding MensajeErrorPin}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" Foreground="Red" HorizontalAlignment="Center" Margin="0,0,0,8" Height="18" TextTrimming="CharacterEllipsis"/>
 
-                    <!-- Teclado Numérico Táctil -->
+                    <!-- Teclado Numérico -->
                     <UniformGrid Grid.Row="3" Rows="4" Columns="3" Margin="0,0,0,15">
                         <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="1" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="1"/>
                         <Button Style="{StaticResource BtnTecladoNumerico}" Height="54" Margin="3" FontFamily="{StaticResource Fuente-principal}" FontSize="26" Content="2" Command="{Binding AgregarDigitoPinCommand}" CommandParameter="2"/>
@@ -809,9 +1245,7 @@
 
                     <!-- Botones de Acción Modal -->
                     <Button Grid.Row="4" Command="{Binding ConfirmarPinCommand}" Style="{StaticResource BtnGuardarCambios}" Height="45" Margin="6,0,0,0" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Content="CONFIRMAR"/>
-                    
                 </Grid>
-                
             </Border>
         </Grid>
         <!--#endregion-->

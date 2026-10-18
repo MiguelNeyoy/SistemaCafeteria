@@ -33,7 +33,37 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     public ObservableCollection<ExtraDto> ExtrasCategoriaSeleccionada { get; } = new();
     public ObservableCollection<CategoriaCheckItem> CategoriasParaExtra { get; } = new();
 
+    // Colecciones y estado del Tablero Kanban por Categorías (Issue #8)
+    public const int ColumnasPorVistaKanban = 3;
+    private readonly HashSet<int> _categoriasOcultasIds = new();
+    private readonly Dictionary<int, List<ExtraDto>> _extrasPorCategoriaCache = new();
+
+    public ObservableCollection<CategoriaKanbanItem> ColumnasKanban { get; } = new();
+    public ObservableCollection<CategoriaKanbanItem> ColumnasKanbanVisibles { get; } = new();
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TieneTextoBusquedaProducto))]
+    private string textoBusquedaProducto = string.Empty;
+
+    public bool TieneTextoBusquedaProducto => !string.IsNullOrWhiteSpace(TextoBusquedaProducto);
+
+    [ObservableProperty]
+    private int indiceInicioKanban;
+
+    partial void OnTextoBusquedaProductoChanged(string value)
+    {
+        IndiceInicioKanban = 0;
+        SincronizarTableroKanban();
+    }
+
     // Contadores y banderas para la interfaz
+    public int TotalCategorias => Categorias.Count;
+    public string EtiquetaBotonTodas => $"Todas ({TotalCategorias})";
+    public bool TodasLasColumnasVisibles => _categoriasOcultasIds.Count == 0;
+    public bool TieneColumnasKanbanVisibles => ColumnasKanbanVisibles.Count > 0;
+    public bool PuedeIrAnteriorKanban => IndiceInicioKanban > 0;
+    public bool PuedeIrSiguienteKanban => ObtenerColumnasActivasParaTablero().Count > IndiceInicioKanban + ColumnasPorVistaKanban;
+
     public int TotalProductos => Productos.Count;
     public int TotalExtras => Extras.Count;
     public bool TieneCategorias => Categorias.Count > 0;
@@ -255,6 +285,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         Categorias.CollectionChanged += (_, _) =>
         {
             OnPropertyChanged(nameof(TieneCategorias));
+            OnPropertyChanged(nameof(TotalCategorias));
+            OnPropertyChanged(nameof(EtiquetaBotonTodas));
         };
 
         ProductosCategoriaSeleccionada.CollectionChanged += (_, _) =>
@@ -314,9 +346,230 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             Extras.Add(extra);
         }
 
+        await RecargarExtrasPorCategoriaAsync();
+        SincronizarTableroKanban();
+
         // Cargar impresoras del sistema y configuración persistida
         RefrescarImpresoras();
         await CargarConfiguracionImpresoraAsync();
+    }
+
+    private async Task RecargarExtrasPorCategoriaAsync()
+    {
+        _extrasPorCategoriaCache.Clear();
+        foreach (var cat in Categorias)
+        {
+            var extrasCat = await _extraService.ObtenerPorCategoriaAsync(cat.Id);
+            _extrasPorCategoriaCache[cat.Id] = extrasCat
+                .OrderBy(e => e.Nombre, StringComparer.CurrentCultureIgnoreCase)
+                .ToList();
+        }
+    }
+
+    public void SincronizarTableroKanban()
+    {
+        var estadoVistaExtrasPrevio = ColumnasKanban.ToDictionary(c => c.Categoria.Id, c => c.MostrarVistaExtras);
+
+        ColumnasKanban.Clear();
+
+        foreach (var cat in Categorias.OrderBy(c => c.Nombre, StringComparer.CurrentCultureIgnoreCase))
+        {
+            int totalEnCategoria = Productos.Count(p => p.CategoriaId == cat.Id);
+            var productosFiltrados = FiltroKanbanCatalogo.FiltrarProductosDeCategoria(
+                Productos,
+                cat.Id,
+                TextoBusquedaProducto);
+
+            var columna = new CategoriaKanbanItem
+            {
+                Categoria = cat,
+                TotalProductosCategoria = totalEnCategoria,
+                EstaOculta = _categoriasOcultasIds.Contains(cat.Id),
+                MostrarVistaExtras = estadoVistaExtrasPrevio.TryGetValue(cat.Id, out bool verExtras) && verExtras
+            };
+
+            foreach (var prod in productosFiltrados)
+            {
+                columna.Productos.Add(prod);
+            }
+
+            if (_extrasPorCategoriaCache.TryGetValue(cat.Id, out var extrasDeCat))
+            {
+                foreach (var ext in extrasDeCat)
+                {
+                    columna.Extras.Add(ext);
+                }
+            }
+
+            columna.NotificarCambiosColecciones();
+            ColumnasKanban.Add(columna);
+        }
+
+        ActualizarColumnasKanbanVisibles();
+    }
+
+    private List<CategoriaKanbanItem> ObtenerColumnasActivasParaTablero()
+    {
+        bool filtrandoPorTexto = TieneTextoBusquedaProducto;
+
+        return ColumnasKanban
+            .Where(c => !c.EstaOculta && (!filtrandoPorTexto || c.Productos.Count > 0))
+            .ToList();
+    }
+
+    public void ActualizarColumnasKanbanVisibles()
+    {
+        var activas = ObtenerColumnasActivasParaTablero();
+        var ventana = FiltroKanbanCatalogo.ObtenerVentanaColumnas(
+            activas,
+            IndiceInicioKanban,
+            ColumnasPorVistaKanban,
+            out int indiceAjustado);
+
+        if (indiceAjustado != IndiceInicioKanban)
+        {
+            IndiceInicioKanban = indiceAjustado;
+        }
+
+        var listaVentana = ventana.ToList();
+        var conjuntoVentana = listaVentana.ToHashSet();
+
+        foreach (var col in ColumnasKanban)
+        {
+            int idxEnVentana = listaVentana.IndexOf(col);
+            col.EstaEnVentanaActual = !col.EstaOculta && conjuntoVentana.Contains(col);
+            col.OrdenEnVentanaActual = idxEnVentana >= 0 ? idxEnVentana + 1 : 0;
+        }
+
+        ColumnasKanbanVisibles.Clear();
+        foreach (var col in listaVentana)
+        {
+            ColumnasKanbanVisibles.Add(col);
+        }
+
+        OnPropertyChanged(nameof(TotalCategorias));
+        OnPropertyChanged(nameof(EtiquetaBotonTodas));
+        OnPropertyChanged(nameof(TodasLasColumnasVisibles));
+        OnPropertyChanged(nameof(TieneColumnasKanbanVisibles));
+        OnPropertyChanged(nameof(PuedeIrAnteriorKanban));
+        OnPropertyChanged(nameof(PuedeIrSiguienteKanban));
+    }
+
+    [RelayCommand]
+    private void LimpiarBusquedaProducto()
+    {
+        TextoBusquedaProducto = string.Empty;
+    }
+
+    [RelayCommand]
+    private void MostrarTodasLasCategorias()
+    {
+        _categoriasOcultasIds.Clear();
+        foreach (var col in ColumnasKanban)
+        {
+            col.EstaOculta = false;
+        }
+
+        IndiceInicioKanban = 0;
+        ActualizarColumnasKanbanVisibles();
+    }
+
+    [RelayCommand]
+    private void OcultarColumnaKanban(CategoriaKanbanItem? columna)
+    {
+        if (columna is null) return;
+
+        _categoriasOcultasIds.Add(columna.Categoria.Id);
+        columna.EstaOculta = true;
+        ActualizarColumnasKanbanVisibles();
+    }
+
+    [RelayCommand]
+    private void AlternarPildoraCategoria(CategoriaKanbanItem? columna)
+    {
+        if (columna is null) return;
+
+        // Si estaba oculta, al darle clic en su píldora se vuelve a mostrar
+        if (columna.EstaOculta)
+        {
+            _categoriasOcultasIds.Remove(columna.Categoria.Id);
+            columna.EstaOculta = false;
+        }
+
+        // Posicionar la ventana de 3 columnas empezando en la categoría seleccionada
+        var activas = ObtenerColumnasActivasParaTablero();
+        int idx = activas.IndexOf(columna);
+        if (idx >= 0)
+        {
+            IndiceInicioKanban = Math.Clamp(idx, 0, Math.Max(0, activas.Count - ColumnasPorVistaKanban));
+        }
+
+        ActualizarColumnasKanbanVisibles();
+    }
+
+    [RelayCommand]
+    private void CategoriasAnteriores()
+    {
+        if (IndiceInicioKanban > 0)
+        {
+            IndiceInicioKanban--;
+            ActualizarColumnasKanbanVisibles();
+        }
+    }
+
+    [RelayCommand]
+    private void CategoriasSiguientes()
+    {
+        var activas = ObtenerColumnasActivasParaTablero();
+        if (IndiceInicioKanban + ColumnasPorVistaKanban < activas.Count)
+        {
+            IndiceInicioKanban++;
+            ActualizarColumnasKanbanVisibles();
+        }
+    }
+
+    [RelayCommand]
+    private async Task AgregarAquiEnColumna(CategoriaKanbanItem? columna)
+    {
+        if (columna is null) return;
+
+        if (columna.MostrarVistaExtras)
+        {
+            LimpiarFormulario();
+            await PrepararCategoriasParaExtraAsync();
+
+            var itemCheck = CategoriasParaExtra.FirstOrDefault(c => c.Categoria.Id == columna.Categoria.Id);
+            if (itemCheck is not null)
+            {
+                itemCheck.IsChecked = true;
+            }
+
+            MostrarFormulario = true;
+            FormularioExtra = true;
+            FormularioCategoria = false;
+            FormularioProducto = false;
+            ModoEdicionExtra = false;
+        }
+        else
+        {
+            LimpiarFormulario();
+            var catEnLista = Categorias.FirstOrDefault(c => c.Id == columna.Categoria.Id) ?? columna.Categoria;
+            CategoriaSeleccionada = catEnLista;
+            CategoriaProductoSeleccionado = catEnLista;
+
+            MostrarFormulario = true;
+            FormularioProducto = true;
+            FormularioCategoria = false;
+            FormularioExtra = false;
+            ModoEdicionProducto = false;
+        }
+    }
+
+    [RelayCommand]
+    private void AlternarVistaExtrasColumna(CategoriaKanbanItem? columna)
+    {
+        if (columna is null) return;
+        columna.MostrarVistaExtras = !columna.MostrarVistaExtras;
     }
 
     public void RefrescarImpresoras()
@@ -503,6 +756,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 Categorias.InsertarOrdenado(categoria, c => c.Nombre);
             }
 
+            SincronizarTableroKanban();
             CancelarFormulario();
         }
         catch (DomainValidationException ex)
@@ -655,6 +909,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 await CargarProductosCategoriaAsync();
             }
 
+            SincronizarTableroKanban();
             CancelarFormulario();
         }
         catch (DomainValidationException ex)
@@ -863,6 +1118,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 await CargarExtrasCategoriaAsync();
             }
 
+            await RecargarExtrasPorCategoriaAsync();
+            SincronizarTableroKanban();
             CancelarFormulario();
         }
         catch (DomainValidationException ex)
@@ -906,6 +1163,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 Activo = true
             };
         }
+
+        await RecargarExtrasPorCategoriaAsync();
+        SincronizarTableroKanban();
     }
 
     private async Task PrepararCategoriasParaExtraAsync()
@@ -1045,13 +1305,13 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             await _configuracionRepository.GuardarValorAsync("Impresora_AbrirCajon", AbrirCajonAutomatico ? "true" : "false");
             await _configuracionRepository.GuardarValorAsync("Impresora_CortarPapel", CortarPapelAutomatico ? "true" : "false");
 
-            MensajeResultadoImpresora = "✅ Configuración de hardware guardada correctamente.";
+            MensajeResultadoImpresora = "Configuración de hardware guardada correctamente.";
             TieneErrorImpresora = false;
             _dialogoService.NotificarExito("Configuración de impresora y cajón guardada.", "Hardware Guardado", 3);
         }
         catch (Exception ex)
         {
-            MensajeResultadoImpresora = $"❌ Error al guardar: {ex.Message}";
+            MensajeResultadoImpresora = $"Error al guardar: {ex.Message}";
             TieneErrorImpresora = true;
             _dialogoService.MostrarMensaje($"Error al guardar configuración: {ex.Message}", "Error");
         }
@@ -1062,7 +1322,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(ImpresoraSeleccionada))
         {
-            MensajeResultadoImpresora = "⚠️ Debes seleccionar una impresora en la lista primero.";
+            MensajeResultadoImpresora = "Debes seleccionar una impresora en la lista primero.";
             TieneErrorImpresora = true;
             _dialogoService.MostrarMensaje("Selecciona una impresora térmica antes de imprimir.", "Aviso");
             return;
@@ -1071,13 +1331,13 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         try
         {
             await _printerService.ImprimirTicketPruebaAsync(ImpresoraSeleccionada, EsPapel80mm ? "80mm" : "58mm");
-            MensajeResultadoImpresora = "✅ Ticket de prueba enviado exitosamente.";
+            MensajeResultadoImpresora = "Ticket de prueba enviado exitosamente.";
             TieneErrorImpresora = false;
             _dialogoService.NotificarExito("Ticket de prueba enviado al spooler.", "Éxito");
         }
         catch (Exception ex)
         {
-            MensajeResultadoImpresora = $"❌ Error: {ex.Message}";
+            MensajeResultadoImpresora = $"Error: {ex.Message}";
             TieneErrorImpresora = true;
             _dialogoService.MostrarMensaje(
                 $"Error al imprimir ticket de prueba:\n\n{ex.Message}\n\n(Verifique que la impresora esté encendida y conectada)",
@@ -1091,13 +1351,13 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         try
         {
             await _printerService.AbrirCajonDineroAsync();
-            MensajeResultadoImpresora = "✅ Señal de apertura enviada al cajón.";
+            MensajeResultadoImpresora = "Señal de apertura enviada al cajón.";
             TieneErrorImpresora = false;
             _dialogoService.NotificarExito("Señal enviada al cajón de dinero.", "Cajón");
         }
         catch (Exception ex)
         {
-            MensajeResultadoImpresora = $"❌ Error: {ex.Message}";
+            MensajeResultadoImpresora = $"Error: {ex.Message}";
             TieneErrorImpresora = true;
             _dialogoService.MostrarMensaje(
                 $"Error al intentar abrir el cajón de dinero:\n\n{ex.Message}\n\n(Verifique que la impresora térmica esté conectada)",
@@ -1112,4 +1372,47 @@ public partial class CategoriaCheckItem : ObservableObject
 
     [ObservableProperty]
     private bool isChecked;
+}
+
+public partial class CategoriaKanbanItem : ObservableObject
+{
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(EtiquetaPastilla))]
+    private CategoriaDto categoria = null!;
+
+    public ObservableCollection<ProductoDto> Productos { get; } = new();
+    public ObservableCollection<ExtraDto> Extras { get; } = new();
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(EtiquetaPastilla))]
+    private int totalProductosCategoria;
+
+    [ObservableProperty]
+    private bool estaOculta;
+
+    [ObservableProperty]
+    private bool estaEnVentanaActual;
+
+    [ObservableProperty]
+    private int ordenEnVentanaActual;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TextoBotonExtras))]
+    [NotifyPropertyChangedFor(nameof(TextoBotonAgregarAqui))]
+    private bool mostrarVistaExtras;
+
+    public string EtiquetaPastilla => $"{Categoria?.Nombre} ({TotalProductosCategoria})";
+    public string TextoBotonExtras => MostrarVistaExtras ? "Productos" : "Extras";
+    public string TextoBotonAgregarAqui => MostrarVistaExtras ? "+ Agregar Extra" : "+ Agregar aquí";
+    public bool TieneProductos => Productos.Count > 0;
+    public bool TieneExtras => Extras.Count > 0;
+
+    public void NotificarCambiosColecciones()
+    {
+        OnPropertyChanged(nameof(EtiquetaPastilla));
+        OnPropertyChanged(nameof(TextoBotonExtras));
+        OnPropertyChanged(nameof(TextoBotonAgregarAqui));
+        OnPropertyChanged(nameof(TieneProductos));
+        OnPropertyChanged(nameof(TieneExtras));
+    }
 }
