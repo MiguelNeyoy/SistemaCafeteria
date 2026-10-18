@@ -25,8 +25,8 @@
 - `#12`: Clasificación automática y división de comandas por rol de cocina (`835f947` / `2407534`).
 - `#10`: Preformateado automático de nombres (Title Case bilingüe ES/EN) y sanitización de precios en Configuración de Menú (`e880d29`).
 - `#9`: Barra buscadora reactiva letra por letra en pantalla de Categorías (`MenuView`) con selección por `Enter` o clic que navega a `Comanda` y abre el modal de extras si aplica (`09131a4`).
-- `#14`: Aumento del listado Top Más Vendidos del mes a 15 productos en Dashboard consolidando por `ProductoId` y desempate alfabético.
-- `#8`: Rediseño de pantalla de Configuración de Menú en tablero Kanban por categorías simplificado para personas mayores, con ocultación de columnas, píldoras de estado y buscador reactivo.
+- `#14`: Aumento del listado Top Más Vendidos del mes a 15 productos en Dashboard consolidando por `ProductoId` y desempate alfabético (`2be6e1e`).
+- `#8`: Rediseño de pantalla de Configuración de Menú en tablero Kanban por categorías simplificado para personas mayores, con ocultación de columnas, seguimiento de 3 en 3 en píldoras y buscador reactivo (`5648148`).
 
 ## Estado actual
 
