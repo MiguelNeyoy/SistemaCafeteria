@@ -13,6 +13,7 @@
 - En clasificadores de texto por palabras clave (como `ClasificadorRolComanda`), las palabras cortas de <= 3 letras (ej. `"te"`) deben compararse por token completo y no con `Contains`, para no coincidir dentro de palabras como `"botella"`, `"pastel"` o `"chocolate"`.
 - En WPF, enlazar un `TextBox` con `UpdateSourceTrigger=PropertyChanged` directamente a un `decimal` se traga el punto decimal al escribir (`"45."`). Siempre usar una propiedad `string` intermedia en el ViewModel sanitizada con `FormateadorTextoCatalogo.SanitizarTextoPrecio`.
 - En SQLite, `LIKE` y `UPPER()`/`LOWER()` solo son insensibles a mayúsculas en ASCII y no ignoran tildes ni `ñ`; en buscadores (`BuscarActivosAsync`) normalizar con `NormalizationForm.FormD` sin `NonSpacingMark`, y en `ComandaViewModel` cargar los extras de `producto.CategoriaId` cuando el producto seleccionado proviene de otra categoría.
+- En `VentaService.ObtenerTopProductosMesAsync`, agrupar únicamente por `ProductoId` (tomando el último `ProductoNombre` cronológico) y no por `{ ProductoId, ProductoNombre }`, para que si un producto fue renombrado o preformateado a mitad de mes no se divida en dos entradas distintas del ranking.
 
 ## Issues resueltos recientemente
 
@@ -22,7 +23,8 @@
 - `#11`: Modal táctil de descuentos por porcentaje y monto libre en cobro de cuenta (`6214651`).
 - `#12`: Clasificación automática y división de comandas por rol de cocina (`835f947` / `2407534`).
 - `#10`: Preformateado automático de nombres (Title Case bilingüe ES/EN) y sanitización de precios en Configuración de Menú (`e880d29`).
-- `#9`: Barra buscadora reactiva letra por letra en pantalla de Categorías (`MenuView`) con selección por `Enter` o clic que navega a `Comanda` y abre el modal de extras si aplica.
+- `#9`: Barra buscadora reactiva letra por letra en pantalla de Categorías (`MenuView`) con selección por `Enter` o clic que navega a `Comanda` y abre el modal de extras si aplica (`09131a4`).
+- `#14`: Aumento del listado Top Más Vendidos del mes a 15 productos en Dashboard consolidando por `ProductoId` y desempate alfabético.
 
 ## Estado actual
 

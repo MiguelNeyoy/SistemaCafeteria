@@ -294,8 +294,8 @@
                                         <Border BorderBrush="#F0F0F0" BorderThickness="0,0,0,1" Padding="4,6">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <!-- Posición (#1, #2, #3...) -->
-                                                    <ColumnDefinition Width="30"/>
+                                                    <!-- Posición (#1..#15) -->
+                                                    <ColumnDefinition Width="34"/>
                                                     <!-- Nombre y Unidades -->
                                                     <ColumnDefinition Width="*"/>
                                                     <!-- Monto Total Recaudado -->
@@ -303,7 +303,7 @@
                                                 </Grid.ColumnDefinitions>
 
                                                 <!-- Insignia de Posición -->
-                                                <Border Grid.Column="0" Width="24" Height="24" CornerRadius="12" Background="{StaticResource Naranja}" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <Border Grid.Column="0" MinWidth="26" Height="24" Padding="4,0" CornerRadius="12" Background="{StaticResource Naranja}" HorizontalAlignment="Left" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding Posicion}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#1A1A1A" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
 
