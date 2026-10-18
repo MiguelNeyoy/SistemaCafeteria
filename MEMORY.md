@@ -20,7 +20,7 @@
 - `#3`: Orden alfabético A-Z al crear o editar elementos del catálogo (`c57e6b1`).
 - `#11`: Modal táctil de descuentos por porcentaje y monto libre en cobro de cuenta (`6214651`).
 - `#12`: Clasificación automática y división de comandas por rol de cocina (`835f947` / `2407534`).
-- `#10`: Preformateado automático de nombres (Title Case bilingüe ES/EN) y sanitización de precios en Configuración de Menú.
+- `#10`: Preformateado automático de nombres (Title Case bilingüe ES/EN) y sanitización de precios en Configuración de Menú (`e880d29`).
 
 ## Estado actual
 
