@@ -123,7 +123,7 @@ public partial class DashboardViewModel : ObservableObject
 
             // 3. Top más vendidos en el mes en curso
             var hoy = DateTime.Today;
-            var top = await _ventaService.ObtenerTopProductosMesAsync(hoy.Year, hoy.Month, 5);
+            var top = await _ventaService.ObtenerTopProductosMesAsync(hoy.Year, hoy.Month, 15);
 
             TopProductos.Clear();
             foreach (var producto in top)

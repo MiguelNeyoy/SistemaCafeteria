@@ -58,9 +58,9 @@ Antes de editar cualquier archivo de código, el agente debe responder al usuari
 
 3\. \*\*Verificación de Criterios de Aceptación:\*\* Cómo se comprobará que cada criterio del issue se cumpla.
 
-4\. \*\*Pausa de confirmación:\*\* Preguntar al usuario: "¿Deseas proceder con este plan de implementación?".
+4\. \*\*Prueba de estrés o caos según la naturaleza del issue:\*\* Diseñar un escenario extremo o caótico adaptado específicamente a lo que hace el issue para intentar romper la solución (y convertirlo en prueba unitaria o validación en el Paso 3).
 
-5\. \*\*Pequeña simulación de posibles errores como si tuviera 1000 productos y necesito listar todos esos \*\*
+5\. \*\*Pausa de confirmación:\*\* Preguntar al usuario: "¿Deseas proceder con este plan de implementación?".
 
 
 
@@ -68,13 +68,15 @@ Antes de editar cualquier archivo de código, el agente debe responder al usuari
 
 Una vez confirmado el plan por el usuario:
 
-1\. Aplicar los cambios necesarios en el código fuente.
+1\. Aplicar los cambios necesarios en el código fuente e incluir la prueba de estrés/caos adaptada al issue.
 
-2\. Compilar el proyecto para verificar que no existan errores de sintaxis:
+2\. Compilar y ejecutar las pruebas para verificar que no existan errores ni fallos ante el escenario de caos:
 
-&#x20;  `dotnet build`
+&#x20;  `dotnet build` y `dotnet test`
 
-3\. Si la compilación falla, revisar y corregir con bunas practicas y clean code hasta que compile.
+3\. Si la compilación o las pruebas fallan, revisar y corregir con buenas prácticas y clean code hasta que todo pase.
+
+4\. Actualizar `MEMORY.md` registrando el issue solucionado, el estado actual de versiones/desarrollo y cualquier trampa técnica o aprendizaje nuevo descubierto durante la implementación.
 
 
 
@@ -98,9 +100,9 @@ Obtener el hash corto del commit generado mediante:
 
 
 
-\### Paso 5: Actualización Automática de vuelta en Obsidian
+\### Paso 5: Actualización Automática de vuelta en Obsidian y Memoria
 
-1\. Buscar en la carpeta `Backlog` de Obsidian la nota que contenga `github\_issue: "https://github.com/.../issues/<numero>"`.
+1\. Buscar en la carpeta `Backlog` de Obsidian la nota que contenga `github\_issue: "https://github.com/.../issues/<numero>"` (y el archivo `Añadidos y Bugs de la APP.md`).
 
 2\. Actualizar el contenido de esa nota:
 
@@ -115,6 +117,8 @@ Obtener el hash corto del commit generado mediante:
 &#x20;    - \*\*Resumen de la solución:\*\* Resumen técnico de lo que se implementó.
 
 &#x20;    - \*\*Evidencias visuales:\*\* Dejar una línea lista para pegar imágenes: `<!-- Pega capturas aquí: !\[\[nombre\_imagen.png]] -->`
+
+3\. Verificar que `MEMORY.md` haya quedado actualizado con el issue cerrado y las lecciones aprendidas.
 
 
 

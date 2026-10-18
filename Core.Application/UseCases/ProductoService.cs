@@ -1,7 +1,10 @@
+using System.Globalization;
+using System.Text;
 using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
+using Core.Domain.Common;
 using Core.Domain.Entities;
 using Core.Domain.Exceptions;
 
@@ -28,13 +31,15 @@ public class ProductoService : IProductoService
         var categoria = await _categoriaRepository.ObtenerPorIdAsync(dto.CategoriaId)
             ?? throw new DomainValidationException(nameof(dto.CategoriaId), "La categoría seleccionada no existe.");
 
-        if (await _productoRepository.ExisteNombreEnCategoriaAsync(dto.Nombre, dto.CategoriaId))
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(dto.Nombre);
+
+        if (await _productoRepository.ExisteNombreEnCategoriaAsync(nombreFormateado, dto.CategoriaId))
         {
             throw new DomainValidationException(nameof(dto.Nombre), 
-                $"Ya existe un producto con el nombre '{dto.Nombre.Trim()}' en la categoría '{categoria.Nombre}'.");
+                $"Ya existe un producto con el nombre '{nombreFormateado}' en la categoría '{categoria.Nombre}'.");
         }
 
-        var producto = new Producto(dto.Nombre, dto.Precio, dto.CategoriaId);
+        var producto = new Producto(nombreFormateado, dto.Precio, dto.CategoriaId);
         await _productoRepository.AgregarAsync(producto);
         await _unitOfWork.SaveChangesAsync();
 
@@ -49,13 +54,15 @@ public class ProductoService : IProductoService
         var categoria = await _categoriaRepository.ObtenerPorIdAsync(dto.CategoriaId)
             ?? throw new DomainValidationException(nameof(dto.CategoriaId), "La categoría seleccionada no existe.");
 
-        if (await _productoRepository.ExisteNombreEnCategoriaAsync(dto.Nombre, dto.CategoriaId, dto.Id))
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(dto.Nombre);
+
+        if (await _productoRepository.ExisteNombreEnCategoriaAsync(nombreFormateado, dto.CategoriaId, dto.Id))
         {
             throw new DomainValidationException(nameof(dto.Nombre), 
-                $"Ya existe otro producto con el nombre '{dto.Nombre.Trim()}' en la categoría '{categoria.Nombre}'.");
+                $"Ya existe otro producto con el nombre '{nombreFormateado}' en la categoría '{categoria.Nombre}'.");
         }
 
-        producto.CambiarNombre(dto.Nombre);
+        producto.CambiarNombre(nombreFormateado);
         producto.ModificarPrecio(dto.Precio);
         producto.CambiarCategoria(dto.CategoriaId);
 
@@ -122,6 +129,83 @@ public class ProductoService : IProductoService
 
         var productos = await _productoRepository.ObtenerPorCategoriaAsync(categoriaId);
         return productos.Select(p => MapToDto(p, categoriaNombre)).ToList();
+    }
+
+    public async Task<List<ProductoDto>> BuscarActivosAsync(string termino)
+    {
+        if (string.IsNullOrWhiteSpace(termino))
+        {
+            return new List<ProductoDto>();
+        }
+
+        string consultaNormalizada = NormalizarParaBusqueda(termino);
+        string[] tokens = consultaNormalizada.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (tokens.Length == 0)
+        {
+            return new List<ProductoDto>();
+        }
+
+        var categoriasActivas = (await _categoriaRepository.ObtenerActivasAsync())
+            .ToDictionary(c => c.Id, c => c.Nombre);
+
+        var productosActivos = await _productoRepository.ObtenerActivosDeCategoriasActivasAsync();
+
+        var coincidencias = new List<(ProductoDto Dto, int Prioridad)>();
+
+        foreach (var p in productosActivos)
+        {
+            if (!categoriasActivas.TryGetValue(p.CategoriaId, out var categoriaNombre))
+            {
+                continue;
+            }
+
+            string nombreNorm = NormalizarParaBusqueda(p.Nombre);
+            string catNorm = NormalizarParaBusqueda(categoriaNombre);
+
+            bool todosEnNombre = tokens.All(t => nombreNorm.Contains(t, StringComparison.Ordinal));
+            bool todosEnNombreOCategoria = todosEnNombre || tokens.All(t =>
+                nombreNorm.Contains(t, StringComparison.Ordinal) || catNorm.Contains(t, StringComparison.Ordinal));
+
+            if (!todosEnNombreOCategoria)
+            {
+                continue;
+            }
+
+            int prioridad = nombreNorm.StartsWith(consultaNormalizada, StringComparison.Ordinal) ? 0
+                          : nombreNorm.StartsWith(tokens[0], StringComparison.Ordinal) ? 1
+                          : todosEnNombre ? 2
+                          : 3;
+
+            coincidencias.Add((MapToDto(p, categoriaNombre), prioridad));
+        }
+
+        return coincidencias
+            .OrderBy(x => x.Prioridad)
+            .ThenBy(x => x.Dto.Nombre, StringComparer.CurrentCultureIgnoreCase)
+            .Select(x => x.Dto)
+            .ToList();
+    }
+
+    private static string NormalizarParaBusqueda(string texto)
+    {
+        if (string.IsNullOrWhiteSpace(texto))
+        {
+            return string.Empty;
+        }
+
+        string descompuesto = texto.Trim().Normalize(NormalizationForm.FormD);
+        var sb = new StringBuilder(descompuesto.Length);
+
+        foreach (char c in descompuesto)
+        {
+            var categoriaUnicode = CharUnicodeInfo.GetUnicodeCategory(c);
+            if (categoriaUnicode != UnicodeCategory.NonSpacingMark)
+            {
+                sb.Append(char.ToLowerInvariant(c));
+            }
+        }
+
+        return sb.ToString().Normalize(NormalizationForm.FormC);
     }
 
     private static ProductoDto MapToDto(Producto producto, string categoriaNombre)

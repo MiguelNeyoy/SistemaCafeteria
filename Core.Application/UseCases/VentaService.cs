@@ -149,28 +149,31 @@ public class VentaService : IVentaService
         return ventas.Select(MapToResumenDto).ToList();
     }
 
-    public async Task<List<ProductoTopDto>> ObtenerTopProductosMesAsync(int anio, int mes, int limite = 5)
+    public async Task<List<ProductoTopDto>> ObtenerTopProductosMesAsync(int anio, int mes, int limite = 15)
     {
-        if (limite <= 0) limite = 5;
+        if (limite <= 0) limite = 15;
 
         var inicio = new DateTime(anio, mes, 1, 0, 0, 0);
         var fin = inicio.AddMonths(1).AddTicks(-1);
 
         var ventas = await _ventaRepository.ObtenerPorRangoFechasAsync(inicio, fin);
-        var ventasPagadas = ventas.Where(v => v.Estado == EstadoVenta.Pagado);
+        var ventasPagadas = ventas
+            .Where(v => v.Estado == EstadoVenta.Pagado)
+            .OrderBy(v => v.FechaCierre ?? v.FechaCreacion);
 
         return ventasPagadas
             .SelectMany(v => v.Items)
-            .GroupBy(i => new { i.ProductoId, i.ProductoNombre })
+            .GroupBy(i => i.ProductoId)
             .Select(g => new
             {
-                ProductoId = g.Key.ProductoId,
-                Nombre = g.Key.ProductoNombre,
+                ProductoId = g.Key,
+                Nombre = g.Last().ProductoNombre,
                 CantidadVendida = g.Sum(i => i.Cantidad),
                 TotalRecaudado = g.Sum(i => i.Subtotal)
             })
             .OrderByDescending(p => p.CantidadVendida)
             .ThenByDescending(p => p.TotalRecaudado)
+            .ThenBy(p => p.Nombre, StringComparer.CurrentCultureIgnoreCase)
             .Take(limite)
             .Select((p, index) => new ProductoTopDto
             {

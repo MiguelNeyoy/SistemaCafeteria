@@ -270,10 +270,25 @@ public partial class ComandaViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void AgregarProducto(ProductoDto producto)
+    private async Task AgregarProducto(ProductoDto? producto)
     {
-        // Si la categoría no tiene extras disponibles, se busca si ya existe el ítem idéntico
-        if (ExtrasCategoriaSeleccionada.Count == 0)
+        if (producto is null) return;
+
+        IReadOnlyList<ExtraDto> extrasDelProducto;
+        if (CategoriaSeleccionada is not null && producto.CategoriaId == CategoriaSeleccionada.Id)
+        {
+            extrasDelProducto = ExtrasCategoriaSeleccionada;
+        }
+        else
+        {
+            var extrasRemotos = await _extraService.ObtenerPorCategoriaAsync(producto.CategoriaId);
+            extrasDelProducto = extrasRemotos
+                .OrderBy(e => e.Nombre, StringComparer.CurrentCultureIgnoreCase)
+                .ToList();
+        }
+
+        // Si la categoría del producto no tiene extras disponibles, se busca si ya existe el ítem idéntico
+        if (extrasDelProducto.Count == 0)
         {
             var itemExistente = BuscarItemIdentico(producto.Id, Enumerable.Empty<int>(), null);
             if (itemExistente is not null)
@@ -295,13 +310,13 @@ public partial class ComandaViewModel : ObservableObject
             return;
         }
 
-        // Si la categoría tiene extras, se abre el modal de personalización
+        // Si la categoría del producto tiene extras, se abre el modal de personalización
         ProductoParaPersonalizar = producto;
         ItemParaEditarExtras = null;
         NotaPersonalizada = string.Empty;
 
         ExtrasDisponiblesModal.Clear();
-        foreach (var extra in ExtrasCategoriaSeleccionada)
+        foreach (var extra in extrasDelProducto)
         {
             var vm = new ExtraSeleccionableViewModel(extra, false);
             vm.PropertyChanged += (_, _) => OnPropertyChanged(nameof(SubtotalPersonalizacion));

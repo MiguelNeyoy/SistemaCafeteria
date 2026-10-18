@@ -4,153 +4,330 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Presentation.WPF.Views"
+             xmlns:converters="clr-namespace:Presentation.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="1024" d:DesignWidth="900">
 
     <UserControl.Resources>
-        
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-
+        <converters:NombreLargoToFontSizeConverter x:Key="NombreLargoToFontSizeConverter"/>
     </UserControl.Resources>
-    
 
     <Grid>
-        
-        
+
         <!--#region Estado: Sin Categorias -->
         <Grid>
-
             <Grid.Style>
-
                 <Style TargetType="Grid">
-
-                    <Setter Property="VerticalAlignment" Value = "Center" />
-                    <Setter Property="HorizontalAlignment" Value = "Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
                     <Setter Property="Visibility" Value="Visible"/>
-
                     <Style.Triggers>
-
                         <DataTrigger Binding="{Binding TieneCategorias}" Value="True">
-                            
                             <Setter Property="Visibility" Value="Collapsed" />
-                            
                         </DataTrigger>
-
                     </Style.Triggers>
-
                 </Style>
-                
             </Grid.Style>
 
-            
-            <!--Texto-->
-            <TextBlock Text ="No hay Categorías, ingresa a Configuración de Menú para agregarlas."
+            <TextBlock Text="No hay Categorías, ingresa a Configuración de Menú para agregarlas."
                        FontFamily="{StaticResource Fuente-principal}"
                        FontSize="30" FontWeight="SemiBold" Foreground="Gray" TextWrapping="Wrap" />
-            
         </Grid>
         <!--#endregion-->
-        
 
         <!--#region Estado: Con Categorias-->
         <Grid>
-
             <Grid.Style>
-
                 <Style TargetType="Grid">
-
                     <Setter Property="Visibility" Value="Visible"/>
-
                     <Style.Triggers>
-
                         <DataTrigger Binding="{Binding TieneCategorias}" Value="False">
-
                             <Setter Property="Visibility" Value="Collapsed"/>
-
                         </DataTrigger>
-                        
                     </Style.Triggers>
-
                 </Style>
-                
             </Grid.Style>
-            
-            
-            <!-- Estructura-->
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            
-            <!--#region Encabezado-->
-            <Border Grid.Row="0" Background="{StaticResource Naranja}"
-                    HorizontalAlignment="Left"
-                    Padding="14,8" Margin="14,12,0,10"
-                    CornerRadius="10">
-                
-                <!--Texto-->
-                <TextBlock Text="CATEGORÍAS"
-                           FontFamily="{StaticResource Fuente-principal}"
-                           FontSize="24" FontWeight="SemiBold" 
-                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
+            <!--#region Encabezado + Barra Buscadora-->
+            <Grid Grid.Row="0" Margin="14,12,14,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Etiqueta Categorías -->
+                <Border Grid.Column="0"
+                        Background="{StaticResource Naranja}"
+                        HorizontalAlignment="Left"
+                        Padding="14,8"
+                        CornerRadius="10">
+                    <TextBlock Text="CATEGORÍAS"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="24" FontWeight="SemiBold" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Border>
+
+                <!-- Barra Buscadora de Productos -->
+                <Border Grid.Column="2"
+                        Background="White"
+                        BorderBrush="#BDBDBD"
+                        BorderThickness="1.5"
+                        CornerRadius="10"
+                        Height="46"
+                        Padding="12,0"
+                        VerticalAlignment="Center">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Text="&#x1F50D;"
+                                   FontSize="16"
+                                   Foreground="#757575"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,8,0"/>
+
+                        <Grid Grid.Column="1">
+                            <TextBlock Text="Buscar producto en el menú... (Enter para agregar)"
+                                       FontFamily="{StaticResource Fuente-principal}"
+                                       FontSize="16"
+                                       Foreground="#9E9E9E"
+                                       VerticalAlignment="Center"
+                                       IsHitTestVisible="False">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding TieneTextoBusqueda}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <TextBox Text="{Binding TextoBusqueda, UpdateSourceTrigger=PropertyChanged}"
+                                     FontFamily="{StaticResource Fuente-principal}"
+                                     FontSize="16"
+                                     Foreground="#212121"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     VerticalContentAlignment="Center">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding SeleccionarPrimerResultadoBusquedaCommand}"/>
+                                    <KeyBinding Key="Escape" Command="{Binding LimpiarBusquedaCommand}"/>
+                                </TextBox.InputBindings>
+                            </TextBox>
+                        </Grid>
+
+                        <Button Grid.Column="2"
+                                Content="✕"
+                                Command="{Binding LimpiarBusquedaCommand}"
+                                Visibility="{Binding TieneTextoBusqueda, Converter={StaticResource BoolToVis}}"
+                                Background="#EEEEEE"
+                                Foreground="#424242"
+                                BorderThickness="0"
+                                FontFamily="{StaticResource Fuente-principal}"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Width="30"
+                                Height="30"
+                                Cursor="Hand"
+                                Margin="6,0,0,0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="15">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Indicador de Búsqueda Activa-->
+            <Border Grid.Row="1"
+                    Background="#FFF8E1"
+                    BorderBrush="#FFE082"
+                    BorderThickness="1.5"
+                    CornerRadius="8"
+                    Margin="14,0,14,8"
+                    Padding="14,6"
+                    Visibility="{Binding TieneTextoBusqueda, Converter={StaticResource BoolToVis}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding MensajeResultadosBusqueda}"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="#E65100"
+                               VerticalAlignment="Center"/>
+
+                    <TextBlock Grid.Column="1"
+                               Text="Presiona Enter ↵ o haz clic en un producto para agregarlo a la comanda"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="13"
+                               Foreground="#616161"
+                               VerticalAlignment="Center"/>
+                </Grid>
             </Border>
             <!--#endregion-->
-            
-            
-            <!--#region Categorias -->
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="8,0,8,14">
 
-                <ItemsControl ItemsSource="{Binding Categorias}">
+            <!--#region Contenido Principal: Categorías o Resultados de Búsqueda -->
+            <Grid Grid.Row="2">
 
-                    
-                    <!--#region Distribucion de Categorias-->
-                    <ItemsControl.ItemsPanel>
+                <!-- Vista Normal: Categorías (cuando no hay texto de búsqueda) -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="8,0,8,14">
+                    <ScrollViewer.Style>
+                        <Style TargetType="ScrollViewer">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TieneTextoBusqueda}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ScrollViewer.Style>
 
-                        <ItemsPanelTemplate>
+                    <ItemsControl ItemsSource="{Binding Categorias}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource BtnCategorias}" 
+                                        Command="{Binding DataContext.SeleccionarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                        CommandParameter="{Binding}">
+                                    <TextBlock Text="{Binding Nombre}" 
+                                               FontFamily="{StaticResource Fuente-principal}" 
+                                               FontSize="19" FontWeight="SemiBold" 
+                                               TextAlignment="Center" TextWrapping="Wrap" 
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Margin="6,4"/>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
 
-                        </ItemsPanelTemplate>
-                            
-                    </ItemsControl.ItemsPanel>
-                    <!--#endregion-->
-                    
-                    
-                    <!--#region Diseño de Categorias-->
-                    <ItemsControl.ItemTemplate>
+                <!-- Espacio para los Resultados de la Búsqueda (cuando hay texto en el buscador) -->
+                <Grid Visibility="{Binding TieneTextoBusqueda, Converter={StaticResource BoolToVis}}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="10,0,10,14">
+                        <ItemsControl ItemsSource="{Binding ProductosBusqueda}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" ItemHeight="115" ItemWidth="205"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-                        <DataTemplate>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource BtnComandaProducto}" 
+                                            Margin="4"
+                                            Padding="6,4"
+                                            Command="{Binding DataContext.SeleccionarProductoBusquedaCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                            CommandParameter="{Binding}">
+                                        <Grid Margin="4,2">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
 
-                            <Button Style="{StaticResource BtnCategorias}" 
-                                    Command="{Binding DataContext.SeleccionarCategoriaCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
-                                    CommandParameter="{Binding}">
+                                            <!-- Nombre del producto -->
+                                            <TextBlock Text="{Binding Nombre}"
+                                                       FontFamily="{StaticResource Fuente-principal}"
+                                                       FontSize="{Binding Nombre, Converter={StaticResource NombreLargoToFontSizeConverter}}"
+                                                       TextWrapping="Wrap"
+                                                       LineHeight="16"
+                                                       LineStackingStrategy="BlockLineHeight"
+                                                       FontWeight="SemiBold"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Left"
+                                                       Margin="4,2,4,2"/>
 
-                                <TextBlock Text="{Binding Nombre}" 
-                                           FontFamily="{StaticResource Fuente-principal}" 
-                                           FontSize="19" FontWeight="SemiBold" 
-                                           TextAlignment="Center" TextWrapping="Wrap" 
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"
-                                           Margin="6,4"/>
+                                            <!-- Categoría y Precio -->
+                                            <Grid Grid.Row="1" Margin="4,2,4,2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
 
-                            </Button>
-                            
-                        </DataTemplate>
+                                                <TextBlock Grid.Column="0"
+                                                           Text="{Binding CategoriaNombre}"
+                                                           FontFamily="{StaticResource Fuente-principal}"
+                                                           FontSize="11"
+                                                           Foreground="#616161"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,0,4,0"/>
 
-                    </ItemsControl.ItemTemplate>
-                    <!--#endregion-->
-                    
-                    
-                </ItemsControl>
-                
-            </ScrollViewer>
+                                                <Border Grid.Column="1" Background="{StaticResource Naranja pastel apagado}" HorizontalAlignment="Right" CornerRadius="5">
+                                                    <TextBlock Text="{Binding Precio, StringFormat={}{0:C}}"
+                                                               FontFamily="{StaticResource Fuente-principal}"
+                                                               Padding="7,2"
+                                                               FontSize="15" FontWeight="Bold"/>
+                                                </Border>
+                                            </Grid>
+                                        </Grid>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- Estado sin coincidencias -->
+                    <StackPanel VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="24"
+                                Visibility="{Binding SinResultadosBusqueda, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Text="No se encontraron productos activos para esa búsqueda."
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   Foreground="#757575"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"/>
+                        <Button Content="Volver a Categorías"
+                                Command="{Binding LimpiarBusquedaCommand}"
+                                Background="White"
+                                BorderBrush="#BDBDBD"
+                                BorderThickness="1.5"
+                                FontFamily="{StaticResource Fuente-principal}"
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                Padding="16,8"
+                                Margin="0,14,0,0"
+                                Cursor="Hand"
+                                HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+
+            </Grid>
             <!--#endregion-->
-            
-            
+
         </Grid>
         <!--#endregion-->
-        
 
     </Grid>
 </UserControl>

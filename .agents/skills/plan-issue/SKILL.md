@@ -10,6 +10,7 @@ Ejecuta unicamente los pasos 1 y 2 especificados en `AGENTS.md` (inspecciona el 
 ## Pasos de Ejecucion
 
 1. **Paso 1: Inspeccion y Validacion del Requerimiento**
+   - Revisar y leer `MEMORY.md` primero para conocer el contexto, decisiones y trampas conocidas del proyecto.
    - Ejecutar en terminal: `gh issue view <numero>`
    - Extraer de la descripcion:
      - Objetivo de la funcionalidad o descripcion del fallo.
@@ -22,5 +23,5 @@ Ejecuta unicamente los pasos 1 y 2 especificados en `AGENTS.md` (inspecciona el 
      - **Archivos a modificar o crear:** Lista exacta de rutas (`.cs`, `.xaml`, migraciones).
      - **Logica de la solucion:** Breve explicacion tecnica de como se resolvera el problema.
      - **Verificacion de Criterios de Aceptacion:** Como se comprobara que cada criterio del issue se cumpla.
-     - **Simulacion de posibles errores:** Ejemplo de comportamiento como si tuviera 1000 productos y se requiera listar todos esos.
+     - **Prueba de estres o caos segun la naturaleza del issue:** Disenar un escenario extremo o caotico adaptado especificamente a lo que hace el issue para intentar romper la solucion (y convertirlo en prueba unitaria en el Paso 3).
      - **Pausa de confirmacion:** Preguntar al usuario: "¿Deseas proceder con este plan de implementacion?".

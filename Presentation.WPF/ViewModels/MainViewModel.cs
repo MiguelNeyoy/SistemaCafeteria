@@ -115,6 +115,7 @@ public partial class MainViewModel : ObservableObject
             _menuViewModel = new MenuViewModel(_categoriaService, _productoService);
 
             _menuViewModel.CategoriaSeleccionada += SeleccionarCategoria;
+            _menuViewModel.ProductoSeleccionadoDesdeBusqueda += SeleccionarProductoDesdeBusqueda;
         }
 
 
@@ -154,6 +155,40 @@ public partial class MainViewModel : ObservableObject
         VistaActual = _comandaViewModel;
 
     }//Fin - SeleccionarCategoria
+
+
+    private async void SeleccionarProductoDesdeBusqueda(ProductoDto producto)
+    {
+        var categoria = new CategoriaDto
+        {
+            Id = producto.CategoriaId,
+            Nombre = producto.CategoriaNombre,
+            Activo = true
+        };
+
+        if (_comandaViewModel is null)
+        {
+            _comandaViewModel = new ComandaViewModel(
+                _productoService,
+                _extraService,
+                _ventaService,
+                _comandaService,
+                _dialogoService,
+                _printerService,
+                categoria);
+
+            _comandaViewModel.RegresarACategorias += RegresarACategorias;
+
+            await _comandaViewModel.CargarProductosAsync();
+        }
+        else
+        {
+            await _comandaViewModel.CambiarCategoriaAsync(categoria);
+        }
+
+        VistaActual = _comandaViewModel;
+        await _comandaViewModel.AgregarProductoCommand.ExecuteAsync(producto);
+    }//Fin - SeleccionarProductoDesdeBusqueda
 
 
     private void RegresarACategorias()
