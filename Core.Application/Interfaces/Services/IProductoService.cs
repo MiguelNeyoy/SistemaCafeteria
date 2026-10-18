@@ -12,4 +12,5 @@ public interface IProductoService
     Task<List<ProductoDto>> ObtenerTodosAsync();
     Task<List<ProductoDto>> ObtenerActivosAsync();
     Task<List<ProductoDto>> ObtenerPorCategoriaAsync(int categoriaId);
+    Task<List<ProductoDto>> BuscarActivosAsync(string termino);
 }

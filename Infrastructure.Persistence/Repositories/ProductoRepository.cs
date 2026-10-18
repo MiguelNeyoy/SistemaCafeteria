@@ -34,6 +34,17 @@ public class ProductoRepository : IProductoRepository
             .ToListAsync();
     }
 
+    public async Task<List<Producto>> ObtenerActivosDeCategoriasActivasAsync()
+    {
+        return await (
+            from p in _context.Productos.AsNoTracking()
+            join c in _context.Categorias.AsNoTracking() on p.CategoriaId equals c.Id
+            where p.Activo && c.Activo
+            orderby p.Nombre
+            select p
+        ).ToListAsync();
+    }
+
     public async Task<List<Producto>> ObtenerPorCategoriaAsync(int categoriaId)
     {
         return await _context.Productos
