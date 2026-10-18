@@ -2,6 +2,7 @@ using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
+using Core.Domain.Common;
 using Core.Domain.Entities;
 using Core.Domain.Exceptions;
 
@@ -20,12 +21,14 @@ public class CategoriaService : ICategoriaService
 
     public async Task<CategoriaDto> CrearAsync(CrearCategoriaDto dto)
     {
-        if (await _categoriaRepository.ExisteNombreAsync(dto.Nombre))
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(dto.Nombre);
+
+        if (await _categoriaRepository.ExisteNombreAsync(nombreFormateado))
         {
             throw new DomainValidationException(nameof(dto.Nombre), "Ya existe una categoría con ese nombre.");
         }
 
-        var categoria = new Categoria(dto.Nombre);
+        var categoria = new Categoria(nombreFormateado);
         await _categoriaRepository.AgregarAsync(categoria);
         await _unitOfWork.SaveChangesAsync();
 
@@ -37,12 +40,14 @@ public class CategoriaService : ICategoriaService
         var categoria = await _categoriaRepository.ObtenerPorIdAsync(dto.Id)
             ?? throw new DomainException($"Categoría con Id {dto.Id} no encontrada.");
 
-        if (await _categoriaRepository.ExisteNombreAsync(dto.Nombre, dto.Id))
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(dto.Nombre);
+
+        if (await _categoriaRepository.ExisteNombreAsync(nombreFormateado, dto.Id))
         {
             throw new DomainValidationException(nameof(dto.Nombre), "Ya existe otra categoría con ese nombre.");
         }
 
-        categoria.CambiarNombre(dto.Nombre);
+        categoria.CambiarNombre(nombreFormateado);
         _categoriaRepository.Actualizar(categoria);
         await _unitOfWork.SaveChangesAsync();
 

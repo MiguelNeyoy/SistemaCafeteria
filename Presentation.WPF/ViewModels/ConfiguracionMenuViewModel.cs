@@ -5,9 +5,11 @@ using Core.Application.Dtos.Catalogo;
 using Core.Application.Interfaces;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces.Services;
+using Core.Domain.Common;
 using Core.Domain.Exceptions;
 using Presentation.WPF.Services;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace Presentation.WPF.ViewModels;
 
@@ -88,6 +90,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private decimal precioProducto;
 
     [ObservableProperty]
+    private string precioProductoTexto = string.Empty;
+
+    [ObservableProperty]
     private CategoriaDto? categoriaProductoSeleccionado;
 
     [ObservableProperty]
@@ -104,6 +109,27 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         MensajeErrorProducto = null;
     }
 
+    partial void OnPrecioProductoTextoChanged(string value)
+    {
+        MensajeErrorProducto = null;
+
+        string limpio = FormateadorTextoCatalogo.SanitizarTextoPrecio(value);
+        if (limpio != value)
+        {
+            PrecioProductoTexto = limpio;
+            return;
+        }
+
+        if (decimal.TryParse(limpio, NumberStyles.Any, CultureInfo.InvariantCulture, out var monto))
+        {
+            PrecioProducto = monto;
+        }
+        else
+        {
+            PrecioProducto = 0m;
+        }
+    }
+
     public event Action? ConfiguracionAvanzadaSolicitada;
 
     // Formulario Extra
@@ -117,6 +143,9 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private decimal precioExtra;
 
     [ObservableProperty]
+    private string precioExtraTexto = "0";
+
+    [ObservableProperty]
     private bool modoEdicionExtra;
 
     [ObservableProperty]
@@ -128,6 +157,27 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     partial void OnNombreExtraChanged(string value)
     {
         MensajeErrorExtra = null;
+    }
+
+    partial void OnPrecioExtraTextoChanged(string value)
+    {
+        MensajeErrorExtra = null;
+
+        string limpio = FormateadorTextoCatalogo.SanitizarTextoPrecio(value);
+        if (limpio != value)
+        {
+            PrecioExtraTexto = limpio;
+            return;
+        }
+
+        if (decimal.TryParse(limpio, NumberStyles.Any, CultureInfo.InvariantCulture, out var monto))
+        {
+            PrecioExtra = monto;
+        }
+        else
+        {
+            PrecioExtra = 0m;
+        }
     }
 
     public bool CategoriaSeleccionadaEsActiva => CategoriaSeleccionada?.Activo ?? true;
@@ -358,8 +408,10 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         NombreCategoria = string.Empty;
         NombreProducto = string.Empty;
         PrecioProducto = 0;
+        PrecioProductoTexto = string.Empty;
         NombreExtra = string.Empty;
         PrecioExtra = 0;
+        PrecioExtraTexto = "0";
 
         CategoriaProductoSeleccionado = null;
         CategoriaSeleccionada = null;
@@ -396,6 +448,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private async Task GuardarCategoria()
     {
         MensajeErrorCategoria = null;
+        NombreCategoria = FormateadorTextoCatalogo.FormatearNombre(NombreCategoria);
 
         if (string.IsNullOrWhiteSpace(NombreCategoria))
         {
@@ -413,7 +466,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 var dtoCategoria = new EditarCategoriaDto
                 {
                     Id = CategoriaSeleccionada.Id,
-                    Nombre = NombreCategoria.Trim()
+                    Nombre = NombreCategoria
                 };
 
                 var categoriaEditada = await _categoriaService.EditarAsync(dtoCategoria);
@@ -443,7 +496,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             {
                 var dtoCategoria = new CrearCategoriaDto
                 {
-                    Nombre = NombreCategoria.Trim()
+                    Nombre = NombreCategoria
                 };
 
                 var categoria = await _categoriaService.CrearAsync(dtoCategoria);
@@ -531,6 +584,8 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     private async Task GuardarProducto()
     {
         MensajeErrorProducto = null;
+        NombreProducto = FormateadorTextoCatalogo.FormatearNombre(NombreProducto);
+        PrecioProducto = FormateadorTextoCatalogo.RedondearPrecio(PrecioProducto);
 
         if (string.IsNullOrWhiteSpace(NombreProducto))
         {
@@ -558,7 +613,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
                 var dtoProducto = new EditarProductoDto
                 {
                     Id = ProductoSeleccionado.Id,
-                    Nombre = NombreProducto.Trim(),
+                    Nombre = NombreProducto,
                     Precio = PrecioProducto,
                     CategoriaId = categoria.Id
                 };
@@ -585,7 +640,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
             {
                 var dtoProducto = new CrearProductoDto
                 {
-                    Nombre = NombreProducto.Trim(),
+                    Nombre = NombreProducto,
                     Precio = PrecioProducto,
                     CategoriaId = categoria.Id
                 };
@@ -618,6 +673,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         ProductoSeleccionado = producto;
         NombreProducto = producto.Nombre;
         PrecioProducto = producto.Precio;
+        PrecioProductoTexto = producto.Precio.ToString("0.##", CultureInfo.InvariantCulture);
         CategoriaProductoSeleccionado = Categorias.FirstOrDefault(c => c.Id == producto.CategoriaId);
         MensajeErrorProducto = null;
 
@@ -683,6 +739,7 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
         ExtraSeleccionado = extra;
         NombreExtra = extra.Nombre;
         PrecioExtra = extra.Precio;
+        PrecioExtraTexto = extra.Precio.ToString("0.##", CultureInfo.InvariantCulture);
         MensajeErrorExtra = null;
 
         await PrepararCategoriasParaExtraAsync();
@@ -729,69 +786,93 @@ public partial class ConfiguracionMenuViewModel : ObservableObject
     [RelayCommand]
     private async Task GuardarExtra()
     {
-        if (string.IsNullOrWhiteSpace(NombreExtra) || PrecioExtra < 0)
-            return;
+        MensajeErrorExtra = null;
+        NombreExtra = FormateadorTextoCatalogo.FormatearNombre(NombreExtra);
+        PrecioExtra = FormateadorTextoCatalogo.RedondearPrecio(PrecioExtra);
 
-        var categoriasSeleccionadas = CategoriasParaExtra
-            .Where(c => c.IsChecked)
-            .Select(c => c.Categoria.Id)
-            .ToList();
-
-        if (ModoEdicionExtra && ExtraSeleccionado is not null)
+        if (string.IsNullOrWhiteSpace(NombreExtra))
         {
-            var dto = new EditarExtraDto
-            {
-                Id = ExtraSeleccionado.Id,
-                Nombre = NombreExtra.Trim(),
-                Precio = PrecioExtra
-            };
+            MensajeErrorExtra = "El nombre del extra es obligatorio.";
+            return;
+        }
 
-            var extraEditado = await _extraService.EditarAsync(dto);
-            var index = Extras.IndexOf(ExtraSeleccionado);
-            if (index >= 0)
+        if (PrecioExtra < 0)
+        {
+            MensajeErrorExtra = "El precio del extra no puede ser negativo.";
+            return;
+        }
+
+        try
+        {
+            var categoriasSeleccionadas = CategoriasParaExtra
+                .Where(c => c.IsChecked)
+                .Select(c => c.Categoria.Id)
+                .ToList();
+
+            if (ModoEdicionExtra && ExtraSeleccionado is not null)
             {
-                Extras[index] = extraEditado;
+                var dto = new EditarExtraDto
+                {
+                    Id = ExtraSeleccionado.Id,
+                    Nombre = NombreExtra,
+                    Precio = PrecioExtra
+                };
+
+                var extraEditado = await _extraService.EditarAsync(dto);
+                var index = Extras.IndexOf(ExtraSeleccionado);
+                if (index >= 0)
+                {
+                    Extras[index] = extraEditado;
+                }
+                else
+                {
+                    var extraEnLista = Extras.FirstOrDefault(e => e.Id == extraEditado.Id);
+                    if (extraEnLista is not null)
+                    {
+                        var idx = Extras.IndexOf(extraEnLista);
+                        if (idx >= 0) Extras[idx] = extraEditado;
+                    }
+                }
+
+                Extras.ReordenarColeccion(e => e.Nombre);
+
+                // Sincronizar las categorías asociadas a este extra sin afectar a los demás extras
+                await _extraService.SincronizarCategoriasDeExtraAsync(extraEditado.Id, categoriasSeleccionadas);
             }
             else
             {
-                var extraEnLista = Extras.FirstOrDefault(e => e.Id == extraEditado.Id);
-                if (extraEnLista is not null)
+                var dto = new CrearExtraDto
                 {
-                    var idx = Extras.IndexOf(extraEnLista);
-                    if (idx >= 0) Extras[idx] = extraEditado;
-                }
+                    Nombre = NombreExtra,
+                    Precio = PrecioExtra
+                };
+
+                // 1. Crear el Extra
+                var nuevoExtra = await _extraService.CrearAsync(dto);
+
+                // 2. Agregarlo a la colección observable de Extras manteniendo orden alfabético
+                Extras.InsertarOrdenado(nuevoExtra, e => e.Nombre);
+
+                // 3. Asociar este nuevo extra a las categorías seleccionadas sin desmarcar los extras existentes
+                await _extraService.SincronizarCategoriasDeExtraAsync(nuevoExtra.Id, categoriasSeleccionadas);
             }
 
-            Extras.ReordenarColeccion(e => e.Nombre);
-
-            // Sincronizar las categorías asociadas a este extra sin afectar a los demás extras
-            await _extraService.SincronizarCategoriasDeExtraAsync(extraEditado.Id, categoriasSeleccionadas);
-        }
-        else
-        {
-            var dto = new CrearExtraDto
+            // Refrescar los extras de la categoría actualmente seleccionada si la hay
+            if (CategoriaSeleccionada is not null)
             {
-                Nombre = NombreExtra.Trim(),
-                Precio = PrecioExtra
-            };
+                await CargarExtrasCategoriaAsync();
+            }
 
-            // 1. Crear el Extra
-            var nuevoExtra = await _extraService.CrearAsync(dto);
-
-            // 2. Agregarlo a la colección observable de Extras manteniendo orden alfabético
-            Extras.InsertarOrdenado(nuevoExtra, e => e.Nombre);
-
-            // 3. Asociar este nuevo extra a las categorías seleccionadas sin desmarcar los extras existentes
-            await _extraService.SincronizarCategoriasDeExtraAsync(nuevoExtra.Id, categoriasSeleccionadas);
+            CancelarFormulario();
         }
-
-        // Refrescar los extras de la categoría actualmente seleccionada si la hay
-        if (CategoriaSeleccionada is not null)
+        catch (DomainValidationException ex)
         {
-            await CargarExtrasCategoriaAsync();
+            MensajeErrorExtra = ex.Message;
         }
-
-        CancelarFormulario();
+        catch (Exception ex)
+        {
+            MensajeErrorExtra = $"Error: {ex.Message}";
+        }
     }
 
 

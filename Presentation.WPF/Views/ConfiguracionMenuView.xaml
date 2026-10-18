@@ -447,7 +447,7 @@
                                    Margin="0,20,0,25"/>
 
                         <TextBlock Text="Nombre de la categoría" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,0,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding NombreCategoria, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" MaxLength="60" Text="{Binding NombreCategoria, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
 
                         <!-- Aviso de Error en Categoría (Rojo) -->
                         <TextBlock Text="{Binding MensajeErrorCategoria}"  
@@ -555,7 +555,7 @@
                         <TextBlock Text="Producto" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,20"/>
 
                         <TextBlock Text="Nombre del producto" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,0,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding NombreProducto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" MaxLength="60" Text="{Binding NombreProducto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
 
                         <!-- Aviso de Error en Producto (Rojo) -->
                         <TextBlock Text="{Binding MensajeErrorProducto}" 
@@ -581,7 +581,7 @@
                         <ComboBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" ItemsSource="{Binding Categorias}" DisplayMemberPath="Nombre" SelectedItem="{Binding CategoriaProductoSeleccionado}"/>
 
                         <TextBlock Text="Precio ($)" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,15,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding PrecioProducto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding PrecioProductoTexto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
 
                         <!-- Botón Deshabilitar (Rojo) -->
                         <Button Command="{Binding AlternarEstadoProductoCommand}" 
@@ -656,7 +656,7 @@
                         <TextBlock Text="Extra / Modificador" FontFamily="{StaticResource Fuente-principal}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,15,0,15"/>
 
                         <TextBlock Text="Nombre del extra" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,0,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding NombreExtra, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" MaxLength="60" Text="{Binding NombreExtra, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
 
                         <!-- Aviso de Error en Extra (Rojo) -->
                         <TextBlock Text="{Binding MensajeErrorExtra}" 
@@ -680,7 +680,7 @@
 
                         <TextBlock Text="Precio adicional ($)" FontFamily="{StaticResource Fuente-principal}" FontSize="18" Margin="0,12,0,2"/>
                         <TextBlock Text="* Coloca $0 si es un modificador sin costo (ej. Sin Cebolla)" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="Gray" Margin="0,0,0,6"/>
-                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding PrecioExtra, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
+                        <TextBox Height="35" FontSize="16" FontFamily="{StaticResource Fuente-principal}" Text="{Binding PrecioExtraTexto, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Padding="5,0"/>
 
                         <!-- Checklist de Categorías Asociadas -->
                         <TextBlock Text="Aplica para las categorías:" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="SemiBold" Margin="0,14,0,4"/>

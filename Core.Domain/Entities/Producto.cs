@@ -1,3 +1,4 @@
+using Core.Domain.Common;
 using Core.Domain.Exceptions;
 
 namespace Core.Domain.Entities;
@@ -67,12 +68,13 @@ public class Producto
 
     private void ValidarYAsignarNombre(string nombre)
     {
-        if (string.IsNullOrWhiteSpace(nombre))
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(nombre);
+        if (string.IsNullOrWhiteSpace(nombreFormateado))
         {
             throw new DomainValidationException(nameof(Nombre), "El nombre del producto no puede estar vacío.");
         }
 
-        Nombre = nombre.Trim();
+        Nombre = nombreFormateado;
     }
 
     private void ValidarYAsignarPrecio(decimal precio)
@@ -82,7 +84,7 @@ public class Producto
             throw new DomainValidationException(nameof(Precio), "El precio del producto debe ser mayor a cero.");
         }
 
-        Precio = precio;
+        Precio = FormateadorTextoCatalogo.RedondearPrecio(precio);
     }
 
     private void ValidarYAsignarCategoria(int categoriaId)

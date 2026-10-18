@@ -1,3 +1,4 @@
+using Core.Domain.Common;
 using Core.Domain.Exceptions;
 
 namespace Core.Domain.Entities;
@@ -60,12 +61,13 @@ public class Extra
 
     private void ValidarYAsignarNombre(string nombre)
     {
-        if (string.IsNullOrWhiteSpace(nombre))
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(nombre);
+        if (string.IsNullOrWhiteSpace(nombreFormateado))
         {
             throw new DomainValidationException(nameof(Nombre), "El nombre del extra no puede estar vacío.");
         }
 
-        Nombre = nombre.Trim();
+        Nombre = nombreFormateado;
     }
 
     private void ValidarYAsignarPrecio(decimal precio)
@@ -75,6 +77,6 @@ public class Extra
             throw new DomainValidationException(nameof(Precio), "El precio del extra no puede ser negativo.");
         }
 
-        Precio = precio;
+        Precio = FormateadorTextoCatalogo.RedondearPrecio(precio);
     }
 }
