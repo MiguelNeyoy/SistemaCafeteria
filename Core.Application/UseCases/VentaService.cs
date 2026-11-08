@@ -107,6 +107,25 @@ public class VentaService : IVentaService
         return MapToResumenDto(venta);
     }
 
+    public async Task<VentaResumenDto> ModificarDatosPagoVentaAsync(ModificarVentaDto dto)
+    {
+        ArgumentNullException.ThrowIfNull(dto);
+
+        var venta = await _ventaRepository.ObtenerPorIdConDetallesAsync(dto.VentaId)
+            ?? throw new DomainException($"Venta con Id {dto.VentaId} no encontrada.");
+
+        venta.CorregirDatosPago(
+            dto.TipoDePago,
+            dto.IdentificadorCliente,
+            dto.Descuento,
+            dto.MontoRecibido);
+
+        _ventaRepository.Actualizar(venta);
+        await _unitOfWork.SaveChangesAsync();
+
+        return MapToResumenDto(venta);
+    }
+
     public async Task<VentaResumenDto> DevolverAsync(int ventaId)
     {
         var venta = await _ventaRepository.ObtenerPorIdConDetallesAsync(ventaId)
@@ -147,6 +166,23 @@ public class VentaService : IVentaService
     {
         var ventas = await _ventaRepository.ObtenerPorFechaAsync(fecha);
         return ventas.Select(MapToResumenDto).ToList();
+    }
+
+    public async Task<List<VentaResumenDto>> ObtenerPorRangoFechasAsync(DateTime desde, DateTime hasta)
+    {
+        var inicio = desde.Date;
+        var fin = hasta.Date.AddDays(1).AddTicks(-1);
+
+        if (fin < inicio)
+        {
+            throw new DomainValidationException("RangoFechas", "La fecha final no puede ser anterior a la fecha inicial.");
+        }
+
+        var ventas = await _ventaRepository.ObtenerPorRangoFechasAsync(inicio, fin);
+        return ventas
+            .OrderByDescending(v => v.FechaCierre ?? v.FechaCreacion)
+            .Select(MapToResumenDto)
+            .ToList();
     }
 
     public async Task<List<ProductoTopDto>> ObtenerTopProductosMesAsync(int anio, int mes, int limite = 15)

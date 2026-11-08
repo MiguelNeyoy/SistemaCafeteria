@@ -28,6 +28,10 @@
             <views:DashboardView />
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewmodels:HistorialVentasViewModel}">
+            <views:HistorialVentasView />
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type viewmodels:MenuViewModel}">
             <views:MenuView />
         </DataTemplate>

@@ -1,0 +1,839 @@
+<UserControl x:Class="Presentation.WPF.Views.HistorialVentasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="850" d:DesignWidth="1120">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- Fila 0: Encabezado Superior -->
+            <RowDefinition Height="Auto"/>
+            <!-- Fila 1: Barra de Filtros y Buscador -->
+            <RowDefinition Height="Auto"/>
+            <!-- Fila 2: Tarjetas Resumen del Periodo -->
+            <RowDefinition Height="Auto"/>
+            <!-- Fila 3: Tabla Completa de Ventas -->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--#region Fila 0: Encabezado Superior -->
+        <Border Grid.Row="0" Background="{StaticResource Amarillo claro_fuerte}" BorderBrush="Gray" BorderThickness="0,0,0,2" Padding="20,12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="Historial y Detalle de Ventas"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="25" FontWeight="Bold"
+                               Foreground="#212121"/>
+                    <TextBlock Text="{Binding DescripcionPeriodo}"
+                               FontFamily="{StaticResource Fuente-principal}"
+                               FontSize="14" Foreground="#616161"
+                               Margin="0,2,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding CargarVentasRangoCommand}"
+                            Style="{StaticResource BtnRefrescar}"
+                            Height="44" Padding="14,6" Margin="0,0,12,0">
+                        <TextBlock Text="Actualizar" VerticalAlignment="Center"/>
+                    </Button>
+
+                    <Button Command="{Binding RegresarCommand}"
+                            Height="44" Padding="18,6"
+                            Background="White"
+                            BorderBrush="#757575"
+                            BorderThickness="1.5"
+                            Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="bdrBack" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                    <TextBlock Text="← Volver al Inicio"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="15" FontWeight="Bold"
+                                               Foreground="#212121"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="bdrBack" Property="Background" Value="#F5F5F5"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="bdrBack" Property="Background" Value="#E0E0E0"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Fila 1: Filtros de Tiempo, Método de Pago y Buscador -->
+        <Border Grid.Row="1" Background="White" CornerRadius="10" BorderBrush="#BDBDBD" BorderThickness="1.5" Padding="14,10" Margin="14,10,14,6">
+            <StackPanel>
+                <!-- Línea 1: Periodos rápidos + Selector de fechas personalizado -->
+                <WrapPanel VerticalAlignment="Center" Margin="0,0,0,8">
+                    <TextBlock Text="Periodo:" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#424242" VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+                    <!-- Hoy -->
+                    <Button Command="{Binding SeleccionarPeriodoCommand}" CommandParameter="Hoy" Cursor="Hand" Margin="0,2,6,2">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="bdr" CornerRadius="7" Padding="14,6" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#F5F5F5">
+                                    <TextBlock x:Name="txt" Text="Hoy" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding EsPeriodoHoy}" Value="True">
+                                        <Setter TargetName="bdr" Property="Background" Value="{StaticResource Naranja}"/>
+                                        <Setter TargetName="bdr" Property="BorderBrush" Value="#E65100"/>
+                                        <Setter TargetName="txt" Property="Foreground" Value="#1A1A1A"/>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Ayer -->
+                    <Button Command="{Binding SeleccionarPeriodoCommand}" CommandParameter="Ayer" Cursor="Hand" Margin="0,2,6,2">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="bdr" CornerRadius="7" Padding="14,6" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#F5F5F5">
+                                    <TextBlock x:Name="txt" Text="Ayer" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding EsPeriodoAyer}" Value="True">
+                                        <Setter TargetName="bdr" Property="Background" Value="{StaticResource Naranja}"/>
+                                        <Setter TargetName="bdr" Property="BorderBrush" Value="#E65100"/>
+                                        <Setter TargetName="txt" Property="Foreground" Value="#1A1A1A"/>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Últimos 7 Días -->
+                    <Button Command="{Binding SeleccionarPeriodoCommand}" CommandParameter="Semana" Cursor="Hand" Margin="0,2,6,2">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="bdr" CornerRadius="7" Padding="14,6" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#F5F5F5">
+                                    <TextBlock x:Name="txt" Text="Últimos 7 Días" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding EsPeriodoSemana}" Value="True">
+                                        <Setter TargetName="bdr" Property="Background" Value="{StaticResource Naranja}"/>
+                                        <Setter TargetName="bdr" Property="BorderBrush" Value="#E65100"/>
+                                        <Setter TargetName="txt" Property="Foreground" Value="#1A1A1A"/>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Este Mes -->
+                    <Button Command="{Binding SeleccionarPeriodoCommand}" CommandParameter="Mes" Cursor="Hand" Margin="0,2,16,2">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="bdr" CornerRadius="7" Padding="14,6" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#F5F5F5">
+                                    <TextBlock x:Name="txt" Text="Este Mes" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding EsPeriodoMes}" Value="True">
+                                        <Setter TargetName="bdr" Property="Background" Value="{StaticResource Naranja}"/>
+                                        <Setter TargetName="bdr" Property="BorderBrush" Value="#E65100"/>
+                                        <Setter TargetName="txt" Property="Foreground" Value="#1A1A1A"/>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Rango Personalizado -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,2,0,2">
+                        <TextBlock Text="Desde:" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="SemiBold" Foreground="#616161" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <DatePicker SelectedDate="{Binding FechaDesde}" Width="125" FontSize="13" VerticalContentAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="Hasta:" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="SemiBold" Foreground="#616161" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <DatePicker SelectedDate="{Binding FechaHasta}" Width="125" FontSize="13" VerticalContentAlignment="Center" Margin="0,0,8,0"/>
+
+                        <Button Command="{Binding AplicarRangoPersonalizadoCommand}" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="bdrApply" CornerRadius="7" Padding="14,6" Background="#442A22" BorderBrush="#2E1B16" BorderThickness="1">
+                                        <TextBlock Text="Consultar Fechas" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="bdrApply" Property="Background" Value="#5D3A2F"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </WrapPanel>
+
+                <!-- Línea 2: Filtro por Método de Pago + Buscador por folio/cliente/producto -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Método de pago -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
+                        <TextBlock Text="Pago:" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#424242" VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+                        <Button Command="{Binding CambiarFiltroMetodoPagoCommand}" CommandParameter="Todos" Cursor="Hand" Margin="0,0,6,0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="bdr" CornerRadius="6" Padding="12,5" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#FAFAFA">
+                                        <TextBlock Text="Todos" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="SemiBold" Foreground="#212121"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding EsFiltroPagoTodos}" Value="True">
+                                            <Setter TargetName="bdr" Property="Background" Value="#FFF8E1"/>
+                                            <Setter TargetName="bdr" Property="BorderBrush" Value="#FFA000"/>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button Command="{Binding CambiarFiltroMetodoPagoCommand}" CommandParameter="Efectivo" Cursor="Hand" Margin="0,0,6,0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="bdr" CornerRadius="6" Padding="12,5" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#FAFAFA">
+                                        <TextBlock Text="Efectivo" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="SemiBold" Foreground="#2E7D32"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding EsFiltroPagoEfectivo}" Value="True">
+                                            <Setter TargetName="bdr" Property="Background" Value="#E8F5E9"/>
+                                            <Setter TargetName="bdr" Property="BorderBrush" Value="#2E7D32"/>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button Command="{Binding CambiarFiltroMetodoPagoCommand}" CommandParameter="Tarjeta" Cursor="Hand" Margin="0,0,6,0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="bdr" CornerRadius="6" Padding="12,5" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#FAFAFA">
+                                        <TextBlock Text="Tarjeta" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="SemiBold" Foreground="#1565C0"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding EsFiltroPagoTarjeta}" Value="True">
+                                            <Setter TargetName="bdr" Property="Background" Value="#E3F2FD"/>
+                                            <Setter TargetName="bdr" Property="BorderBrush" Value="#1565C0"/>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button Command="{Binding CambiarFiltroMetodoPagoCommand}" CommandParameter="Transferencia" Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="bdr" CornerRadius="6" Padding="12,5" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#FAFAFA">
+                                        <TextBlock Text="Transferencia" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="SemiBold" Foreground="#6A1B9A"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding EsFiltroPagoTransferencia}" Value="True">
+                                            <Setter TargetName="bdr" Property="Background" Value="#F3E5F5"/>
+                                            <Setter TargetName="bdr" Property="BorderBrush" Value="#6A1B9A"/>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- Buscador -->
+                    <Border Grid.Column="1" Background="#FAFAFA" BorderBrush="#BDBDBD" BorderThickness="1.5" CornerRadius="8" Padding="10,4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <TextBox Text="{Binding TextoBusqueda, UpdateSourceTrigger=PropertyChanged}"
+                                         FontFamily="{StaticResource Fuente-principal}"
+                                         FontSize="14"
+                                         BorderThickness="0"
+                                         Background="Transparent"
+                                         VerticalContentAlignment="Center"/>
+                                <TextBlock Text="Buscar por folio (#12), cliente o producto..."
+                                           FontFamily="{StaticResource Fuente-principal}"
+                                           FontSize="13"
+                                           Foreground="#9E9E9E"
+                                           VerticalAlignment="Center"
+                                           Margin="4,0,0,0"
+                                           IsHitTestVisible="False">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding TieneTextoBusqueda}" Value="False">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+
+                            <Button Grid.Column="1"
+                                    Command="{Binding LimpiarBusquedaCommand}"
+                                    Visibility="{Binding TieneTextoBusqueda, Converter={StaticResource BoolToVis}}"
+                                    Cursor="Hand"
+                                    Margin="6,0,0,0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="#EEEEEE" CornerRadius="5" Padding="8,3">
+                                            <TextBlock Text="Limpiar" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#424242"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Fila 2: Tarjetas Resumen de Totales del Periodo -->
+        <Grid Grid.Row="2" Margin="14,0,14,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Total Cobrado -->
+            <Border Grid.Column="0" Background="White" CornerRadius="9" BorderBrush="#FFA000" BorderThickness="2" Padding="12,8" Margin="0,0,6,0">
+                <StackPanel>
+                    <TextBlock Text="Total Cobrado" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#616161"/>
+                    <TextBlock Text="{Binding TotalVentasPeriodo, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="22" FontWeight="Bold" Foreground="#1B5E20" Margin="0,2,0,0"/>
+                    <TextBlock Text="{Binding CantidadPagadasPeriodo, StringFormat='{}{0} ventas pagadas'}" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#757575"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Efectivo -->
+            <Border Grid.Column="1" Background="White" CornerRadius="9" BorderBrush="#A5D6A7" BorderThickness="1.5" Padding="12,8" Margin="3,0,6,0">
+                <StackPanel>
+                    <TextBlock Text="Efectivo en Caja" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#2E7D32"/>
+                    <TextBlock Text="{Binding TotalEfectivoPeriodo, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="19" FontWeight="Bold" Foreground="#212121" Margin="0,3,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Tarjeta -->
+            <Border Grid.Column="2" Background="White" CornerRadius="9" BorderBrush="#90CAF9" BorderThickness="1.5" Padding="12,8" Margin="3,0,6,0">
+                <StackPanel>
+                    <TextBlock Text="Tarjeta" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#1565C0"/>
+                    <TextBlock Text="{Binding TotalTarjetaPeriodo, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="19" FontWeight="Bold" Foreground="#212121" Margin="0,3,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Transferencia -->
+            <Border Grid.Column="3" Background="White" CornerRadius="9" BorderBrush="#CE93D8" BorderThickness="1.5" Padding="12,8" Margin="3,0,6,0">
+                <StackPanel>
+                    <TextBlock Text="Transferencia" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#6A1B9A"/>
+                    <TextBlock Text="{Binding TotalTransferenciaPeriodo, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="19" FontWeight="Bold" Foreground="#212121" Margin="0,3,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Descuentos y Canceladas -->
+            <Border Grid.Column="4" Background="White" CornerRadius="9" BorderBrush="#E0E0E0" BorderThickness="1.5" Padding="12,8" Margin="3,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="Descuentos Aplicados" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#E65100"/>
+                    <TextBlock Text="{Binding TotalDescuentosPeriodo, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="Bold" Foreground="#E65100" Margin="0,2,0,0"/>
+                    <TextBlock Text="{Binding CantidadCanceladasPeriodo, StringFormat='{}{0} canceladas'}" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#757575"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Fila 3: Tabla Principal de Ventas -->
+        <Border Grid.Row="3" Background="White" CornerRadius="10" BorderBrush="#BDBDBD" BorderThickness="1.5" Margin="14,0,14,12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <!-- Encabezado de Columnas -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Filas con Scroll -->
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Encabezado de la Tabla -->
+                <Border Grid.Row="0" Background="#442A22" CornerRadius="8,8,0,0" Padding="14,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="125"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="2.2*"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="95"/>
+                            <ColumnDefinition Width="95"/>
+                            <ColumnDefinition Width="110"/>
+                            <ColumnDefinition Width="135"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="Folio" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Grid.Column="1" Text="Fecha / Hora" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Grid.Column="2" Text="Cliente" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Grid.Column="3" Text="Detalle de Venta (Productos)" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Grid.Column="4" Text="Método Pago" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="5" Text="Estado" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="6" Text="Descuento" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Column="7" Text="Total" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Right" Margin="0,0,8,0"/>
+                        <TextBlock Grid.Column="8" Text="Acción" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Border>
+
+                <!-- Cuerpo de la Tabla -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <ItemsControl ItemsSource="{Binding VentasFiltradas}"
+                                      Visibility="{Binding TieneVentasFiltradas, Converter={StaticResource BoolToVis}}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border x:Name="rowBorder" BorderBrush="#EEEEEE" BorderThickness="0,0,0,1.5" Padding="14,9" Background="White">
+                                        <Border.InputBindings>
+                                            <MouseBinding MouseAction="LeftDoubleClick"
+                                                          Command="{Binding DataContext.AbrirDetalleVentaCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                          CommandParameter="{Binding}"/>
+                                        </Border.InputBindings>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="75"/>
+                                                <ColumnDefinition Width="125"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="2.2*"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="95"/>
+                                                <ColumnDefinition Width="95"/>
+                                                <ColumnDefinition Width="110"/>
+                                                <ColumnDefinition Width="135"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Folio -->
+                                            <Border Grid.Column="0" Background="#FFF8E1" BorderBrush="#FFE082" BorderThickness="1" CornerRadius="6" Padding="7,3" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding FolioTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#E65100"/>
+                                            </Border>
+
+                                            <!-- Fecha y Hora -->
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding HoraTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#212121"/>
+                                                <TextBlock Text="{Binding FechaTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#757575"/>
+                                            </StackPanel>
+
+                                            <!-- Cliente -->
+                                            <TextBlock Grid.Column="2" Text="{Binding Cliente}" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="SemiBold" Foreground="#212121" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,8,0"/>
+
+                                            <!-- Resumen de Venta / Productos -->
+                                            <StackPanel Grid.Column="3" VerticalAlignment="Center" Margin="0,0,8,0">
+                                                <TextBlock Text="{Binding ResumenProductos}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" Foreground="#424242" TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{Binding CantidadItems, StringFormat='{}{0} artículos'}" FontFamily="{StaticResource Fuente-principal}" FontSize="11" Foreground="#757575"/>
+                                            </StackPanel>
+
+                                            <!-- Método de Pago -->
+                                            <Border Grid.Column="4" CornerRadius="6" Padding="8,4" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#F5F5F5">
+                                                <TextBlock Text="{Binding TipoPagoTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#212121"/>
+                                            </Border>
+
+                                            <!-- Estado -->
+                                            <Border Grid.Column="5" CornerRadius="6" Padding="8,4" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Background" Value="#EEEEEE"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding EstadoTexto}" Value="Pagada">
+                                                                <Setter Property="Background" Value="#E8F5E9"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding EstadoTexto}" Value="Cancelada">
+                                                                <Setter Property="Background" Value="#FFEBEE"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding EstadoTexto}" Value="Devuelta">
+                                                                <Setter Property="Background" Value="#FFF3E0"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <TextBlock Text="{Binding EstadoTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#212121"/>
+                                            </Border>
+
+                                            <!-- Descuento -->
+                                            <TextBlock Grid.Column="6" Text="{Binding Descuento, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" Foreground="#E65100" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                                            <!-- Total -->
+                                            <TextBlock Grid.Column="7" Text="{Binding Total, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="15" FontWeight="Bold" Foreground="#1B5E20" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"/>
+
+                                            <!-- Botón Ver Detalle / Editar -->
+                                            <Button Grid.Column="8"
+                                                    Command="{Binding DataContext.AbrirDetalleVentaCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    Cursor="Hand"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="bdrAct" Background="{StaticResource Naranja}" BorderBrush="#E65100" BorderThickness="1" CornerRadius="7" Padding="12,6">
+                                                            <TextBlock Text="{Binding TextoAccion}" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#1A1A1A"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="bdrAct" Property="Background" Value="{StaticResource Naranja 90%}"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                    <DataTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="rowBorder" Property="Background" Value="#FFFDF5"/>
+                                        </Trigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- Estado Vacío -->
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="24">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TieneVentasFiltradas}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <TextBlock Text="No se encontraron ventas para este filtro" FontFamily="{StaticResource Fuente-principal}" FontSize="18" FontWeight="Bold" Foreground="#757575" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Prueba cambiando el periodo de fechas, el método de pago o limpiando el buscador." FontFamily="{StaticResource Fuente-principal}" FontSize="13" Foreground="#9E9E9E" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+        <!--#region Modal de Detalle y Edición de Venta -->
+        <Grid Grid.RowSpan="4"
+              Background="#88000000"
+              Visibility="{Binding ModalDetalleAbierto, Converter={StaticResource BoolToVis}}">
+            <Border Width="820"
+                    MaxHeight="680"
+                    Background="White"
+                    CornerRadius="14"
+                    BorderBrush="#442A22"
+                    BorderThickness="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Padding="22,18">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!-- Cabecera del Modal -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- Contenido en 2 Columnas -->
+                        <RowDefinition Height="*"/>
+                        <!-- Pie de Botones -->
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Cabecera -->
+                    <Border Grid.Row="0" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1.5" Padding="0,0,0,12" Margin="0,0,0,14">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding FolioModalTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="22" FontWeight="Bold" Foreground="#212121" Margin="0,0,12,0"/>
+                                    <Border Background="#FFF8E1" BorderBrush="#FFA000" BorderThickness="1" CornerRadius="6" Padding="10,3" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding EstadoModalTexto}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#E65100"/>
+                                    </Border>
+                                </StackPanel>
+                                <TextBlock Text="{Binding FechaModalTexto, StringFormat='Registrada el {0}'}" FontFamily="{StaticResource Fuente-principal}" FontSize="13" Foreground="#616161" Margin="0,3,0,0"/>
+                            </StackPanel>
+
+                            <Button Grid.Column="1"
+                                    Command="{Binding CerrarModalDetalleCommand}"
+                                    Cursor="Hand"
+                                    VerticalAlignment="Top">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="#EEEEEE" CornerRadius="8" Padding="12,6">
+                                            <TextBlock Text="✕ Cerrar" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#424242"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <!-- Cuerpo: Desglose Izquierda + Edición Derecha -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.15*"/>
+                            <ColumnDefinition Width="18"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Columna Izquierda: Productos del Ticket -->
+                        <Border Grid.Column="0" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1.5" CornerRadius="10" Padding="14,12">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="Productos en la Cuenta" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Foreground="#212121" Margin="0,0,0,8"/>
+
+                                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl ItemsSource="{Binding LineasDetalleModal}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="4,8">
+                                                    <StackPanel>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="0" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="SemiBold" Foreground="#212121" TextWrapping="Wrap">
+                                                                <Run Text="{Binding Cantidad, Mode=OneWay}" FontWeight="Bold"/>
+                                                                <Run Text="x "/>
+                                                                <Run Text="{Binding ProductoNombre, Mode=OneWay}"/>
+                                                            </TextBlock>
+
+                                                            <TextBlock Grid.Column="1" Text="{Binding Subtotal, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#212121" Margin="10,0,0,0"/>
+                                                        </Grid>
+
+                                                        <TextBlock Text="{Binding ExtrasTexto}"
+                                                                   Visibility="{Binding TieneExtras, Converter={StaticResource BoolToVis}}"
+                                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                                   FontSize="12" Foreground="#6D4C41"
+                                                                   TextWrapping="Wrap" Margin="16,2,0,0"/>
+
+                                                        <TextBlock Text="{Binding NotasTexto, StringFormat='Nota: {0}'}"
+                                                                   Visibility="{Binding TieneNotas, Converter={StaticResource BoolToVis}}"
+                                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                                   FontSize="12" FontStyle="Italic" Foreground="#757575"
+                                                                   TextWrapping="Wrap" Margin="16,2,0,0"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+
+                                <!-- Resumen Financiero -->
+                                <Border Grid.Row="2" BorderBrush="#BDBDBD" BorderThickness="0,1.5,0,0" Padding="0,10,0,0" Margin="0,8,0,0">
+                                    <StackPanel>
+                                        <Grid Margin="0,0,0,4">
+                                            <TextBlock Text="Subtotal:" FontFamily="{StaticResource Fuente-principal}" FontSize="14" Foreground="#616161"/>
+                                            <TextBlock Text="{Binding SubtotalModal, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="SemiBold" Foreground="#212121" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Grid Margin="0,0,0,6">
+                                            <TextBlock Text="Total Neto:" FontFamily="{StaticResource Fuente-principal}" FontSize="17" FontWeight="Bold" Foreground="#1B5E20"/>
+                                            <TextBlock Text="{Binding TotalCalculadoEdicion, StringFormat={}{0:C}}" FontFamily="{StaticResource Fuente-principal}" FontSize="19" FontWeight="Bold" Foreground="#1B5E20" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!-- Columna Derecha: Formulario de Edición -->
+                        <Border Grid.Column="2" Background="White" BorderBrush="#E0E0E0" BorderThickness="1.5" CornerRadius="10" Padding="16,12">
+                            <Grid>
+                                <!-- Formulario Activo (Solo ventas pagadas) -->
+                                <StackPanel Visibility="{Binding EsVentaEditable, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="Corregir Datos de la Venta" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Foreground="#212121" Margin="0,0,0,10"/>
+
+                                    <!-- Cliente -->
+                                    <TextBlock Text="Nombre del Cliente *" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#424242" Margin="0,0,0,4"/>
+                                    <TextBox Text="{Binding ClienteEdicion, UpdateSourceTrigger=PropertyChanged}"
+                                             MaxLength="80"
+                                             FontFamily="{StaticResource Fuente-principal}"
+                                             FontSize="15"
+                                             Padding="10,7"
+                                             BorderBrush="#BDBDBD"
+                                             BorderThickness="1.5"
+                                             Margin="0,0,0,12"/>
+
+                                    <!-- Método de Pago -->
+                                    <TextBlock Text="Método de Pago *" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#424242" Margin="0,0,0,6"/>
+                                    <UniformGrid Columns="3" Margin="0,0,0,12">
+                                        <!-- Efectivo -->
+                                        <Button Command="{Binding SeleccionarMetodoPagoEdicionCommand}" CommandParameter="Efectivo" Cursor="Hand" Margin="0,0,4,0">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="bdr" CornerRadius="8" Padding="6,9" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#F5F5F5">
+                                                        <TextBlock Text="Efectivo" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#212121" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding EsPagoEdicionEfectivo}" Value="True">
+                                                            <Setter TargetName="bdr" Property="Background" Value="{StaticResource Naranja}"/>
+                                                            <Setter TargetName="bdr" Property="BorderBrush" Value="#E65100"/>
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+
+                                        <!-- Tarjeta -->
+                                        <Button Command="{Binding SeleccionarMetodoPagoEdicionCommand}" CommandParameter="Tarjeta" Cursor="Hand" Margin="2,0,2,0">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="bdr" CornerRadius="8" Padding="6,9" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#F5F5F5">
+                                                        <TextBlock Text="Tarjeta" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#212121" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding EsPagoEdicionTarjeta}" Value="True">
+                                                            <Setter TargetName="bdr" Property="Background" Value="{StaticResource Naranja}"/>
+                                                            <Setter TargetName="bdr" Property="BorderBrush" Value="#E65100"/>
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+
+                                        <!-- Transferencia -->
+                                        <Button Command="{Binding SeleccionarMetodoPagoEdicionCommand}" CommandParameter="Transferencia" Cursor="Hand" Margin="4,0,0,0">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border x:Name="bdr" CornerRadius="8" Padding="6,9" BorderThickness="1.5" BorderBrush="#BDBDBD" Background="#F5F5F5">
+                                                        <TextBlock Text="Transferencia" FontFamily="{StaticResource Fuente-principal}" FontSize="12" FontWeight="Bold" Foreground="#212121" HorizontalAlignment="Center"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding EsPagoEdicionTransferencia}" Value="True">
+                                                            <Setter TargetName="bdr" Property="Background" Value="{StaticResource Naranja}"/>
+                                                            <Setter TargetName="bdr" Property="BorderBrush" Value="#E65100"/>
+                                                        </DataTrigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </UniformGrid>
+
+                                    <!-- Descuento -->
+                                    <TextBlock Text="Descuento ($)" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#424242" Margin="0,0,0,4"/>
+                                    <TextBox Text="{Binding DescuentoEdicionTexto, UpdateSourceTrigger=PropertyChanged}"
+                                             MaxLength="10"
+                                             FontFamily="{StaticResource Fuente-principal}"
+                                             FontSize="15"
+                                             Padding="10,7"
+                                             BorderBrush="#BDBDBD"
+                                             BorderThickness="1.5"
+                                             Margin="0,0,0,12"/>
+
+                                    <!-- Monto Recibido (Solo si es Efectivo) -->
+                                    <StackPanel Visibility="{Binding EsPagoEdicionEfectivo, Converter={StaticResource BoolToVis}}">
+                                        <TextBlock Text="Monto Recibido en Efectivo ($)" FontFamily="{StaticResource Fuente-principal}" FontSize="13" FontWeight="Bold" Foreground="#424242" Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding MontoRecibidoEdicionTexto, UpdateSourceTrigger=PropertyChanged}"
+                                                 MaxLength="10"
+                                                 FontFamily="{StaticResource Fuente-principal}"
+                                                 FontSize="15"
+                                                 Padding="10,7"
+                                                 BorderBrush="#BDBDBD"
+                                                 BorderThickness="1.5"
+                                                 Margin="0,0,0,6"/>
+                                        <TextBlock Text="{Binding CambioCalculadoEdicion, StringFormat='Cambio registrado: {0:C}'}"
+                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                   FontSize="13" FontWeight="SemiBold" Foreground="#2E7D32" Margin="0,0,0,8"/>
+                                    </StackPanel>
+
+                                    <!-- Alerta de Validación -->
+                                    <Border Visibility="{Binding TieneErrorEdicion, Converter={StaticResource BoolToVis}}"
+                                            Background="#FFEBEE"
+                                            BorderBrush="#E53935"
+                                            BorderThickness="1.5"
+                                            CornerRadius="8"
+                                            Padding="10,8"
+                                            Margin="0,4,0,0">
+                                        <TextBlock Text="{Binding MensajeErrorEdicion}"
+                                                   FontFamily="{StaticResource Fuente-principal}"
+                                                   FontSize="13"
+                                                   FontWeight="Bold"
+                                                   Foreground="#C62828"
+                                                   TextWrapping="Wrap"/>
+                                    </Border>
+                                </StackPanel>
+
+                                <!-- Mensaje informativo cuando la cuenta no es editable -->
+                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding EsVentaEditable}" Value="False">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    <TextBlock Text="Venta sin edición disponible" FontFamily="{StaticResource Fuente-principal}" FontSize="16" FontWeight="Bold" Foreground="#616161" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Solo las ventas cobradas (Pagadas) pueden editarse para cuadrar el corte de caja." FontFamily="{StaticResource Fuente-principal}" FontSize="13" Foreground="#757575" TextAlignment="Center" TextWrapping="Wrap" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <!-- Pie del Modal -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
+                        <Button Command="{Binding CerrarModalDetalleCommand}"
+                                Cursor="Hand"
+                                Margin="0,0,10,0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="#F5F5F5" BorderBrush="#BDBDBD" BorderThickness="1.5" CornerRadius="8" Padding="20,10">
+                                        <TextBlock Text="Cancelar" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#424242"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button Command="{Binding GuardarCorreccionPagoCommand}"
+                                Visibility="{Binding EsVentaEditable, Converter={StaticResource BoolToVis}}"
+                                Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="bdrSave" Background="{StaticResource Naranja}" BorderBrush="#E65100" BorderThickness="1.5" CornerRadius="8" Padding="22,10">
+                                        <TextBlock Text="Guardar Cambios" FontFamily="{StaticResource Fuente-principal}" FontSize="14" FontWeight="Bold" Foreground="#1A1A1A"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="bdrSave" Property="Background" Value="{StaticResource Naranja 90%}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <!--#endregion-->
+    </Grid>
+</UserControl>

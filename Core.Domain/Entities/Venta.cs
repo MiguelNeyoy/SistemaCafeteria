@@ -1,3 +1,4 @@
+using Core.Domain.Common;
 using Core.Domain.Enums;
 using Core.Domain.Exceptions;
 
@@ -131,6 +132,83 @@ public class Venta
         MontoRecibido = montoRecibido;
         Estado = EstadoVenta.Pagado;
         FechaCierre = DateTime.Now;
+    }
+
+    public void CorregirDatosPago(
+        TipoDePago nuevoTipo,
+        string? nuevoCliente,
+        decimal? nuevoDescuento = null,
+        decimal? nuevoMontoRecibido = null)
+    {
+        if (Estado != EstadoVenta.Pagado)
+        {
+            throw new DomainException("Solo se pueden editar ventas que ya fueron cobradas.");
+        }
+
+        if (!Enum.IsDefined(typeof(TipoDePago), nuevoTipo))
+        {
+            throw new DomainValidationException(nameof(TipoDePago), "El método de pago seleccionado no es válido.");
+        }
+
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(nuevoCliente);
+        if (string.IsNullOrWhiteSpace(nombreFormateado))
+        {
+            throw new DomainValidationException(nameof(IdentificadorCliente), "El nombre del cliente no puede estar en blanco.");
+        }
+
+        if (nombreFormateado.Length > 100)
+        {
+            throw new DomainValidationException(nameof(IdentificadorCliente), "El nombre del cliente no puede exceder los 100 caracteres.");
+        }
+
+        decimal descuentoFinal = nuevoDescuento.HasValue
+            ? Math.Round(nuevoDescuento.Value, 2)
+            : Descuento;
+
+        if (descuentoFinal < 0m)
+        {
+            throw new DomainValidationException(nameof(Descuento), "El descuento no puede ser negativo.");
+        }
+
+        if (descuentoFinal > Subtotal)
+        {
+            throw new DomainValidationException(nameof(Descuento), "El descuento no puede ser mayor al subtotal de la venta.");
+        }
+
+        if (nuevoMontoRecibido.HasValue && nuevoMontoRecibido.Value < 0m)
+        {
+            throw new DomainValidationException(nameof(MontoRecibido), "El monto recibido no puede ser negativo.");
+        }
+
+        decimal nuevoTotal = Math.Max(0m, Subtotal - descuentoFinal);
+        decimal? montoRecibidoFinal = null;
+
+        if (nuevoTipo == Enums.TipoDePago.Efectivo)
+        {
+            if (nuevoMontoRecibido.HasValue)
+            {
+                decimal recibidoRedondeado = Math.Round(nuevoMontoRecibido.Value, 2);
+                if (recibidoRedondeado < nuevoTotal)
+                {
+                    throw new DomainValidationException(
+                        nameof(MontoRecibido),
+                        $"El monto recibido (${recibidoRedondeado:F2}) no puede ser menor al total de la venta (${nuevoTotal:F2}).");
+                }
+
+                montoRecibidoFinal = recibidoRedondeado;
+            }
+            else
+            {
+                montoRecibidoFinal = (MontoRecibido.HasValue && MontoRecibido.Value >= nuevoTotal)
+                    ? MontoRecibido.Value
+                    : nuevoTotal;
+            }
+        }
+
+        IdentificadorCliente = nombreFormateado;
+        TipoDePago = nuevoTipo;
+        Descuento = descuentoFinal;
+        MontoRecibido = montoRecibidoFinal;
     }
 
     public void Devolver()

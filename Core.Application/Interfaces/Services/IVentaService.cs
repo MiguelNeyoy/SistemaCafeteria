@@ -13,7 +13,8 @@ public interface IVentaService
     // Cobro y cierre
     Task<VentaResumenDto> CobrarAsync(CobrarVentaDto dto);
 
-    // Post-cobro y cancelación
+    // Post-cobro, edición y cancelación
+    Task<VentaResumenDto> ModificarDatosPagoVentaAsync(ModificarVentaDto dto);
     Task<VentaResumenDto> DevolverAsync(int ventaId);
     Task CancelarAsync(int ventaId);
 
@@ -21,5 +22,6 @@ public interface IVentaService
     Task<VentaResumenDto?> ObtenerPorIdAsync(int id);
     Task<List<VentaResumenDto>> ObtenerPendientesAsync();
     Task<List<VentaResumenDto>> ObtenerPorFechaAsync(DateTime fecha);
+    Task<List<VentaResumenDto>> ObtenerPorRangoFechasAsync(DateTime desde, DateTime hasta);
     Task<List<ProductoTopDto>> ObtenerTopProductosMesAsync(int anio, int mes, int limite = 15);
 }
