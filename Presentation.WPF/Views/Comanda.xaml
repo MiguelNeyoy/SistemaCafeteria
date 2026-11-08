@@ -482,10 +482,12 @@
         <!--#endregion-->
 
         <!--#region MODAL 2: ABRIR CUENTA (FINALIZAR COMANDA) -->
-        <Grid Grid.RowSpan="2" 
+        <Grid x:Name="ModalAbrirCuentaOverlay"
+              Grid.RowSpan="2" 
               Background="#A6000000" 
-              Visibility="{Binding MostrarModalAbrirCuenta, Converter={StaticResource BoolToVisConverter}}">
-            <Border Width="480" 
+              Visibility="{Binding MostrarModalAbrirCuenta, Converter={StaticResource BoolToVisConverter}}"
+              IsVisibleChanged="ModalAbrirCuentaOverlay_IsVisibleChanged">
+            <Border Width="490" 
                     Background="White" 
                     CornerRadius="16" 
                     BorderBrush="#424242" 
@@ -495,6 +497,7 @@
                     Padding="26">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -520,31 +523,77 @@
 
                     <!-- Etiqueta -->
                     <TextBlock Grid.Row="1" 
-                               Text="Identificador de Cliente o Mesa:" 
+                               Text="Nombre del Cliente o Mesa *" 
                                FontFamily="{StaticResource Fuente-principal}" 
-                               FontSize="16" FontWeight="SemiBold" 
-                               Foreground="#424242" 
+                               FontSize="16" FontWeight="Bold" 
+                               Foreground="#212121" 
                                Margin="0,0,0,8"/>
 
-                    <!-- Campo de texto para el nombre o mesa -->
-                    <TextBox Grid.Row="2" 
-                             Text="{Binding IdentificadorCliente, UpdateSourceTrigger=PropertyChanged}" 
-                             FontFamily="{StaticResource Fuente-principal}" 
-                             FontSize="18" 
-                             Padding="10,8" 
-                             Height="48" 
-                             VerticalContentAlignment="Center" 
-                             Margin="0,0,0,8"/>
+                    <!-- Campo de texto con placeholder limpio -->
+                    <Grid Grid.Row="2" Margin="0,0,0,8">
+                        <TextBox x:Name="TxtIdentificadorCliente"
+                                 Text="{Binding IdentificadorCliente, UpdateSourceTrigger=PropertyChanged}" 
+                                 MaxLength="80"
+                                 FontFamily="{StaticResource Fuente-principal}" 
+                                 FontSize="18" 
+                                 Padding="12,8" 
+                                 Height="50" 
+                                 BorderBrush="#757575"
+                                 BorderThickness="1.5"
+                                 VerticalContentAlignment="Center">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Enter" Command="{Binding ConfirmarAbrirCuentaCommand}"/>
+                                <KeyBinding Key="Escape" Command="{Binding CancelarAbrirCuentaCommand}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
 
+                        <TextBlock Text="Ej: Mesa 4, Sofía, Para llevar..."
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="16"
+                                   Foreground="#9E9E9E"
+                                   VerticalAlignment="Center"
+                                   Margin="14,0,0,0"
+                                   IsHitTestVisible="False">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TieneTextoCliente}" Value="False">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Texto guía -->
                     <TextBlock Grid.Row="3" 
-                               Text="Si se deja vacio se asignara como 'General'" 
+                               Text="Obligatorio • Se dará formato automático al guardar" 
                                FontFamily="{StaticResource Fuente-principal}" 
                                FontSize="13" 
-                               Foreground="#9E9E9E" 
-                               Margin="0,0,0,22"/>
+                               Foreground="#757575" 
+                               Margin="0,0,0,12"/>
+
+                    <!-- Banner de Error de Validación -->
+                    <Border Grid.Row="4"
+                            Visibility="{Binding TieneErrorCliente, Converter={StaticResource BoolToVisConverter}}"
+                            Background="#FFEBEE"
+                            BorderBrush="#E53935"
+                            BorderThickness="1.5"
+                            CornerRadius="8"
+                            Padding="12,9"
+                            Margin="0,0,0,16">
+                        <TextBlock Text="{Binding MensajeErrorCliente}"
+                                   FontFamily="{StaticResource Fuente-principal}"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   Foreground="#C62828"
+                                   TextWrapping="Wrap"/>
+                    </Border>
 
                     <!-- Botones de Acción -->
-                    <Grid Grid.Row="4">
+                    <Grid Grid.Row="5" Margin="0,6,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="15"/>

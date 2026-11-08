@@ -5,7 +5,7 @@ namespace Core.Application.Dtos.Ventas;
 public class VentaResumenDto
 {
     public int Id { get; set; }
-    public string IdentificadorCliente { get; set; } = "General";
+    public string IdentificadorCliente { get; set; } = string.Empty;
     public DateTime FechaCreacion { get; set; }
     public DateTime? FechaCierre { get; set; }
     public EstadoVenta Estado { get; set; }

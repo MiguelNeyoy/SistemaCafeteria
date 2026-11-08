@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Threading;
 using Presentation.WPF.Views.Alertas;
+using Microsoft.Win32;
 
 namespace Presentation.WPF.Services;
 
@@ -167,6 +168,31 @@ public class DialogoService : IDialogoService
             Tipo = TipoAlerta.Advertencia,
             DuracionSegundos = duracionSegundos
         });
+    }
+
+    public string? SeleccionarRutaGuardado(string filtro, string nombreSugerido, string titulo = "Guardar archivo")
+    {
+        if (Application.Current?.Dispatcher != null && !Application.Current.Dispatcher.CheckAccess())
+        {
+            return Application.Current.Dispatcher.Invoke(() => SeleccionarRutaGuardado(filtro, nombreSugerido, titulo));
+        }
+
+        string escritorio = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        var dialog = new SaveFileDialog
+        {
+            Title = titulo,
+            Filter = filtro,
+            FileName = nombreSugerido,
+            AddExtension = true,
+            OverwritePrompt = true,
+            InitialDirectory = System.IO.Directory.Exists(escritorio)
+                ? escritorio
+                : Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        };
+
+        return dialog.ShowDialog(Application.Current?.MainWindow) == true
+            ? dialog.FileName
+            : null;
     }
 
     public void NotificarInformacion(string mensaje, string titulo = "Aviso", int duracionSegundos = 3)

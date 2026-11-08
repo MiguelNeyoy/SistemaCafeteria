@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Core.Domain.Entities;
 using Core.Domain.Enums;
 using Core.Domain.Exceptions;
@@ -46,7 +45,7 @@ public class DescuentoTests
     public void AplicarDescuento_MontoNegativo_LanzaDomainValidationException()
     {
         // Arrange
-        var venta = new Venta();
+        var venta = new Venta("Mesa 1");
         venta.AgregarItem(1, "Café", 45m, 1);
 
         // Act
@@ -61,7 +60,7 @@ public class DescuentoTests
     public void AplicarDescuento_MontoMayorAlSubtotal_LanzaDomainValidationException()
     {
         // Arrange
-        var venta = new Venta();
+        var venta = new Venta("Mesa 2");
         venta.AgregarItem(1, "Latte", 60m, 1); // Subtotal = $60
 
         // Act
@@ -76,7 +75,7 @@ public class DescuentoTests
     public void AplicarDescuento_CuentaYaCobrada_LanzaDomainException()
     {
         // Arrange
-        var venta = new Venta();
+        var venta = new Venta("Mesa 3");
         venta.AgregarItem(1, "Pastel", 80m, 1);
         venta.Cobrar(TipoDePago.Efectivo, 100m);
 

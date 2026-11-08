@@ -26,6 +26,7 @@ public partial class MainViewModel : ObservableObject
 
     private readonly DashboardViewModel _dashboardViewModel;
     private readonly ConfiguracionAvanzadaViewModel _configuracionAvanzadaViewModel;
+    private readonly HistorialVentasViewModel _historialVentasViewModel;
     private MenuViewModel? _menuViewModel;
     private ComandaViewModel? _comandaViewModel;
     private ConfiguracionMenuViewModel? _configuracionMenuViewModel;
@@ -64,6 +65,7 @@ public partial class MainViewModel : ObservableObject
         IComandaService comandaService,
         DashboardViewModel dashboardViewModel,
         ConfiguracionAvanzadaViewModel configuracionAvanzadaViewModel,
+        HistorialVentasViewModel historialVentasViewModel,
         IPrinterService printerService,
         IConfiguracionRepository configuracionRepository,
         ITicketService ticketService,
@@ -79,14 +81,17 @@ public partial class MainViewModel : ObservableObject
         _comandaService = comandaService;
         _dashboardViewModel = dashboardViewModel;
         _configuracionAvanzadaViewModel = configuracionAvanzadaViewModel;
+        _historialVentasViewModel = historialVentasViewModel;
         _printerService = printerService;
         _configuracionRepository = configuracionRepository;
         _ticketService = ticketService;
         _corteCajaService = corteCajaService;
 
-        // Conectar eventos de navegacion para Configuracion Avanzada
+        // Conectar eventos de navegacion para Configuracion Avanzada e Historial de Ventas
         _dashboardViewModel.ConfiguracionAvanzadaSolicitada += MostrarConfiguracionAvanzada;
+        _dashboardViewModel.VerTodasLasVentasSolicitado += MostrarHistorialVentas;
         _configuracionAvanzadaViewModel.RegresarSolicitado += async () => await ShowHome();
+        _historialVentasViewModel.RegresarSolicitado += async () => await ShowHome();
 
         // Establecer el Dashboard de Inicio como vista inicial al arrancar
         VistaActual = _dashboardViewModel;
@@ -103,6 +108,14 @@ public partial class MainViewModel : ObservableObject
 
         VistaActual = _dashboardViewModel;
 
+        BotonSeleccionado = "Home";
+    }
+
+
+    private async void MostrarHistorialVentas()
+    {
+        await _historialVentasViewModel.InicializarHoyAsync();
+        VistaActual = _historialVentasViewModel;
         BotonSeleccionado = "Home";
     }
 

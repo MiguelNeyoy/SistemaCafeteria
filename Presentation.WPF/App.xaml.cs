@@ -38,6 +38,7 @@ public partial class App : Application
         services.AddTransient<ConfiguracionMenuViewModel>();
         services.AddTransient<CierreDeCajaViewModel>();
         services.AddTransient<DashboardViewModel>();
+        services.AddTransient<HistorialVentasViewModel>();
         services.AddTransient<MenuViewModel>();
         services.AddTransient<CuentasAbiertasViewModel>();
         services.AddTransient<FinalizarCompraViewModel>();

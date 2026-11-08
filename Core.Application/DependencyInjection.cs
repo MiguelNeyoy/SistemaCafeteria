@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<ICorteCajaService, CorteCajaService>();
         services.AddScoped<ISeguridadService, SeguridadService>();
         services.AddScoped<IPurgaService, PurgaService>();
+        services.AddTransient<IExportadorVentasExcelService, ExportadorVentasExcelService>();
 
         return services;
     }

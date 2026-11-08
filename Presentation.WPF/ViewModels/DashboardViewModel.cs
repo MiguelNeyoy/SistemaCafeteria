@@ -33,6 +33,7 @@ public partial class DashboardViewModel : ObservableObject
     private readonly IDialogoService _dialogoService;
 
     public event Action? ConfiguracionAvanzadaSolicitada;
+    public event Action? VerTodasLasVentasSolicitado;
 
     [ObservableProperty]
     private string fechaHoyTexto = string.Empty;
@@ -232,5 +233,11 @@ public partial class DashboardViewModel : ObservableObject
     private void AbrirConfiguracionAvanzada()
     {
         ConfiguracionAvanzadaSolicitada?.Invoke();
+    }
+
+    [RelayCommand]
+    private void VerTodasLasVentas()
+    {
+        VerTodasLasVentasSolicitado?.Invoke();
     }
 }

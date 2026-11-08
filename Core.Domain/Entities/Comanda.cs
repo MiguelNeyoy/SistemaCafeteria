@@ -1,3 +1,4 @@
+using Core.Domain.Common;
 using Core.Domain.Enums;
 using Core.Domain.Exceptions;
 
@@ -13,7 +14,7 @@ public class Comanda
 
     public int Id { get; private set; }
     public int VentaId { get; private set; }
-    public string IdentificadorCliente { get; private set; } = "General";
+    public string IdentificadorCliente { get; private set; } = string.Empty;
     public DateTime FechaCreacion { get; private set; }
     public EstadoComanda Estado { get; private set; } = EstadoComanda.Pendiente;
     public IReadOnlyList<ComandaItem> Items => _items.AsReadOnly();
@@ -22,11 +23,26 @@ public class Comanda
     private Comanda() { }
 
     // Constructor para emitir comanda a cocina
-    public Comanda(int ventaId, string? identificadorCliente, IEnumerable<ComandaItem> items, DateTime? fechaCreacion = null)
+    public Comanda(int ventaId, string identificadorCliente, IEnumerable<ComandaItem> items, DateTime? fechaCreacion = null)
     {
         if (ventaId <= 0)
         {
             throw new DomainValidationException(nameof(VentaId), "La comanda debe estar vinculada a una venta válida.");
+        }
+
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(identificadorCliente);
+        if (string.IsNullOrWhiteSpace(nombreFormateado))
+        {
+            throw new DomainValidationException(
+                nameof(IdentificadorCliente),
+                "El nombre del cliente o identificador de mesa no puede estar en blanco.");
+        }
+
+        if (nombreFormateado.Length > 100)
+        {
+            throw new DomainValidationException(
+                nameof(IdentificadorCliente),
+                "El nombre del cliente no puede exceder los 100 caracteres.");
         }
 
         ArgumentNullException.ThrowIfNull(items);
@@ -38,7 +54,7 @@ public class Comanda
         }
 
         VentaId = ventaId;
-        IdentificadorCliente = string.IsNullOrWhiteSpace(identificadorCliente) ? "General" : identificadorCliente.Trim();
+        IdentificadorCliente = nombreFormateado;
         FechaCreacion = fechaCreacion ?? DateTime.Now;
         Estado = EstadoComanda.Pendiente;
         _items.AddRange(itemsList);
@@ -63,9 +79,17 @@ public class Comanda
             throw new DomainValidationException(nameof(VentaId), "El Id de la venta vinculada es inválido.");
         }
 
+        var nombreReconstruido = FormateadorTextoCatalogo.FormatearNombre(identificadorCliente);
+        if (string.IsNullOrWhiteSpace(nombreReconstruido))
+        {
+            throw new DomainValidationException(
+                nameof(IdentificadorCliente),
+                "El nombre del cliente no puede estar en blanco.");
+        }
+
         Id = id;
         VentaId = ventaId;
-        IdentificadorCliente = string.IsNullOrWhiteSpace(identificadorCliente) ? "General" : identificadorCliente.Trim();
+        IdentificadorCliente = nombreReconstruido;
         FechaCreacion = fechaCreacion;
         Estado = estado;
 

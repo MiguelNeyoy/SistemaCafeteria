@@ -6,7 +6,7 @@ public class ComandaResumenDto
 {
     public int Id { get; set; }
     public int VentaId { get; set; }
-    public string IdentificadorCliente { get; set; } = "General";
+    public string IdentificadorCliente { get; set; } = string.Empty;
     public DateTime FechaCreacion { get; set; }
     public EstadoComanda Estado { get; set; }
     public List<ComandaItemResumenDto> Items { get; set; } = new();

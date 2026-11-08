@@ -1,3 +1,4 @@
+using Core.Domain.Common;
 using Core.Domain.Enums;
 using Core.Domain.Exceptions;
 
@@ -11,7 +12,7 @@ public class Venta
     private readonly List<VentaItem> _items = new();
 
     public int Id { get; private set; }
-    public string IdentificadorCliente { get; private set; } = "General";
+    public string IdentificadorCliente { get; private set; } = string.Empty;
     public DateTime FechaCreacion { get; private set; }
     public DateTime? FechaCierre { get; private set; }
     public EstadoVenta Estado { get; private set; } = EstadoVenta.Pendiente;
@@ -30,9 +31,24 @@ public class Venta
     private Venta() { }
 
     // Constructor para nueva venta en el sistema
-    public Venta(string? identificadorCliente = null, DateTime? fechaCreacion = null)
+    public Venta(string identificadorCliente, DateTime? fechaCreacion = null)
     {
-        IdentificadorCliente = string.IsNullOrWhiteSpace(identificadorCliente) ? "General" : identificadorCliente.Trim();
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(identificadorCliente);
+        if (string.IsNullOrWhiteSpace(nombreFormateado))
+        {
+            throw new DomainValidationException(
+                nameof(IdentificadorCliente),
+                "El nombre del cliente o identificador de mesa no puede estar en blanco.");
+        }
+
+        if (nombreFormateado.Length > 100)
+        {
+            throw new DomainValidationException(
+                nameof(IdentificadorCliente),
+                "El nombre del cliente no puede exceder los 100 caracteres.");
+        }
+
+        IdentificadorCliente = nombreFormateado;
         FechaCreacion = fechaCreacion ?? DateTime.Now;
         Estado = EstadoVenta.Pendiente;
         Descuento = 0m;
@@ -55,8 +71,16 @@ public class Venta
             throw new DomainValidationException(nameof(Id), "El Id de la venta no puede ser negativo.");
         }
 
+        var nombreReconstruido = FormateadorTextoCatalogo.FormatearNombre(identificadorCliente);
+        if (string.IsNullOrWhiteSpace(nombreReconstruido))
+        {
+            throw new DomainValidationException(
+                nameof(IdentificadorCliente),
+                "El nombre del cliente no puede estar en blanco.");
+        }
+
         Id = id;
-        IdentificadorCliente = string.IsNullOrWhiteSpace(identificadorCliente) ? "General" : identificadorCliente.Trim();
+        IdentificadorCliente = nombreReconstruido;
         FechaCreacion = fechaCreacion;
         FechaCierre = fechaCierre;
         Estado = estado;
@@ -131,6 +155,83 @@ public class Venta
         MontoRecibido = montoRecibido;
         Estado = EstadoVenta.Pagado;
         FechaCierre = DateTime.Now;
+    }
+
+    public void CorregirDatosPago(
+        TipoDePago nuevoTipo,
+        string? nuevoCliente,
+        decimal? nuevoDescuento = null,
+        decimal? nuevoMontoRecibido = null)
+    {
+        if (Estado != EstadoVenta.Pagado)
+        {
+            throw new DomainException("Solo se pueden editar ventas que ya fueron cobradas.");
+        }
+
+        if (!Enum.IsDefined(typeof(TipoDePago), nuevoTipo))
+        {
+            throw new DomainValidationException(nameof(TipoDePago), "El método de pago seleccionado no es válido.");
+        }
+
+        var nombreFormateado = FormateadorTextoCatalogo.FormatearNombre(nuevoCliente);
+        if (string.IsNullOrWhiteSpace(nombreFormateado))
+        {
+            throw new DomainValidationException(nameof(IdentificadorCliente), "El nombre del cliente no puede estar en blanco.");
+        }
+
+        if (nombreFormateado.Length > 100)
+        {
+            throw new DomainValidationException(nameof(IdentificadorCliente), "El nombre del cliente no puede exceder los 100 caracteres.");
+        }
+
+        decimal descuentoFinal = nuevoDescuento.HasValue
+            ? Math.Round(nuevoDescuento.Value, 2)
+            : Descuento;
+
+        if (descuentoFinal < 0m)
+        {
+            throw new DomainValidationException(nameof(Descuento), "El descuento no puede ser negativo.");
+        }
+
+        if (descuentoFinal > Subtotal)
+        {
+            throw new DomainValidationException(nameof(Descuento), "El descuento no puede ser mayor al subtotal de la venta.");
+        }
+
+        if (nuevoMontoRecibido.HasValue && nuevoMontoRecibido.Value < 0m)
+        {
+            throw new DomainValidationException(nameof(MontoRecibido), "El monto recibido no puede ser negativo.");
+        }
+
+        decimal nuevoTotal = Math.Max(0m, Subtotal - descuentoFinal);
+        decimal? montoRecibidoFinal = null;
+
+        if (nuevoTipo == Enums.TipoDePago.Efectivo)
+        {
+            if (nuevoMontoRecibido.HasValue)
+            {
+                decimal recibidoRedondeado = Math.Round(nuevoMontoRecibido.Value, 2);
+                if (recibidoRedondeado < nuevoTotal)
+                {
+                    throw new DomainValidationException(
+                        nameof(MontoRecibido),
+                        $"El monto recibido (${recibidoRedondeado:F2}) no puede ser menor al total de la venta (${nuevoTotal:F2}).");
+                }
+
+                montoRecibidoFinal = recibidoRedondeado;
+            }
+            else
+            {
+                montoRecibidoFinal = (MontoRecibido.HasValue && MontoRecibido.Value >= nuevoTotal)
+                    ? MontoRecibido.Value
+                    : nuevoTotal;
+            }
+        }
+
+        IdentificadorCliente = nombreFormateado;
+        TipoDePago = nuevoTipo;
+        Descuento = descuentoFinal;
+        MontoRecibido = montoRecibidoFinal;
     }
 
     public void Devolver()
