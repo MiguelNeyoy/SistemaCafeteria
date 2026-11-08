@@ -21,4 +21,7 @@ public interface IDialogoService
     void NotificarError(string mensaje, string titulo = "Error", int duracionSegundos = 4);
     void NotificarAdvertencia(string mensaje, string titulo = "Atención", int duracionSegundos = 3);
     void NotificarInformacion(string mensaje, string titulo = "Aviso", int duracionSegundos = 3);
+
+    // --- Diálogos de Archivos ---
+    string? SeleccionarRutaGuardado(string filtro, string nombreSugerido, string titulo = "Guardar archivo");
 }

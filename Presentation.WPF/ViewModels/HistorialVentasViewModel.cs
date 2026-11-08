@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -97,6 +99,7 @@ public partial class HistorialVentasViewModel : ObservableObject
 {
     private readonly IVentaService _ventaService;
     private readonly IDialogoService _dialogoService;
+    private readonly IExportadorVentasExcelService _exportadorVentasExcelService;
     private readonly CultureInfo _cultura = new("es-MX");
 
     private List<VentaResumenDto> _ventasCargadas = new();
@@ -106,6 +109,9 @@ public partial class HistorialVentasViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _estaCargando;
+
+    [ObservableProperty]
+    private bool _estaExportando;
 
     [ObservableProperty]
     private string _periodoActivo = "Hoy";
@@ -217,10 +223,24 @@ public partial class HistorialVentasViewModel : ObservableObject
 
     public HistorialVentasViewModel(
         IVentaService ventaService,
-        IDialogoService dialogoService)
+        IDialogoService dialogoService,
+        IExportadorVentasExcelService exportadorVentasExcelService)
     {
         _ventaService = ventaService;
         _dialogoService = dialogoService;
+        _exportadorVentasExcelService = exportadorVentasExcelService;
+    }
+
+    public bool PuedeExportar => !EstaCargando && !EstaExportando;
+
+    partial void OnEstaCargandoChanged(bool value)
+    {
+        OnPropertyChanged(nameof(PuedeExportar));
+    }
+
+    partial void OnEstaExportandoChanged(bool value)
+    {
+        OnPropertyChanged(nameof(PuedeExportar));
     }
 
     partial void OnPeriodoActivoChanged(string value)
@@ -634,6 +654,93 @@ public partial class HistorialVentasViewModel : ObservableObject
     private void Regresar()
     {
         RegresarSolicitado?.Invoke();
+    }
+
+    [RelayCommand]
+    private async Task ExportarAExcelAsync()
+    {
+        if (EstaCargando || EstaExportando)
+        {
+            return;
+        }
+
+        if (VentasFiltradas.Count == 0)
+        {
+            _dialogoService.MostrarAdvertencia(
+                "No hay ventas visibles en la tabla actual para exportar. Ajusta los filtros o el periodo seleccionado.",
+                "Sin datos para exportar");
+            return;
+        }
+
+        string nombreSugerido = $"Ventas_UnaMordida_{DateTime.Now:yyyyMMdd_HHmm}.xlsx";
+        string? rutaArchivo = _dialogoService.SeleccionarRutaGuardado(
+            "Libro de Excel (*.xlsx)|*.xlsx",
+            nombreSugerido,
+            "Exportar Ventas a Excel");
+
+        if (string.IsNullOrWhiteSpace(rutaArchivo))
+        {
+            return;
+        }
+
+        try
+        {
+            EstaExportando = true;
+
+            var ventasAExportar = VentasFiltradas.Select(v => v.Dto).ToList();
+            string? resumenFiltros = ConstruirResumenFiltros();
+            string periodo = DescripcionPeriodo;
+
+            byte[] bytesExcel = await Task.Run(() =>
+                _exportadorVentasExcelService.GenerarExcelVentas(ventasAExportar, periodo, resumenFiltros));
+
+            await File.WriteAllBytesAsync(rutaArchivo, bytesExcel);
+
+            _dialogoService.NotificarExito(
+                $"Se exportaron {ventasAExportar.Count} ventas a Excel.",
+                "Exportación Exitosa");
+
+            if (_dialogoService.Confirmar(
+                $"El reporte se guardó correctamente en:\n{rutaArchivo}\n\n¿Deseas abrir el archivo en Excel ahora?",
+                "Reporte Excel Listo",
+                "Abrir Excel",
+                "Cerrar"))
+            {
+                Process.Start(new ProcessStartInfo(rutaArchivo) { UseShellExecute = true });
+            }
+        }
+        catch (IOException)
+        {
+            _dialogoService.MostrarError(
+                "No se pudo guardar el archivo porque está abierto en otro programa (como Excel) o no tienes permisos en esa carpeta.\n\nCierra el archivo e intenta nuevamente.",
+                "Archivo en uso");
+        }
+        catch (Exception ex)
+        {
+            _dialogoService.MostrarError(
+                $"Ocurrió un error al generar el reporte de Excel: {ex.Message}",
+                "Error al exportar");
+        }
+        finally
+        {
+            EstaExportando = false;
+        }
+    }
+
+    private string? ConstruirResumenFiltros()
+    {
+        var partes = new List<string>();
+        if (!string.Equals(FiltroMetodoPago, "Todos", StringComparison.OrdinalIgnoreCase))
+        {
+            partes.Add($"Pago: {FiltroMetodoPago}");
+        }
+
+        if (!string.IsNullOrWhiteSpace(TextoBusqueda))
+        {
+            partes.Add($"Búsqueda: \"{TextoBusqueda.Trim()}\"");
+        }
+
+        return partes.Count > 0 ? string.Join(" | ", partes) : null;
     }
 
     private void RecalcularVistaPreviaEdicion()

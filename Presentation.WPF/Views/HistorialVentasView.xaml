@@ -42,6 +42,45 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Command="{Binding ExportarAExcelCommand}"
+                            IsEnabled="{Binding PuedeExportar}"
+                            Height="44" Padding="16,6" Margin="0,0,12,0"
+                            Background="#1B5E20"
+                            BorderBrush="#144317"
+                            BorderThickness="1.5"
+                            Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="bdrExcel"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="8" Padding="{TemplateBinding Padding}">
+                                    <TextBlock x:Name="txtExcel"
+                                               Text="Exportar Excel (.xlsx)"
+                                               FontFamily="{StaticResource Fuente-principal}"
+                                               FontSize="15" FontWeight="Bold"
+                                               Foreground="White"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="bdrExcel" Property="Background" Value="#2E7D32"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="bdrExcel" Property="Background" Value="#144317"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="bdrExcel" Property="Opacity" Value="0.55"/>
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding EstaExportando}" Value="True">
+                                        <Setter TargetName="txtExcel" Property="Text" Value="Exportando..."/>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
                     <Button Command="{Binding CargarVentasRangoCommand}"
                             Style="{StaticResource BtnRefrescar}"
                             Height="44" Padding="14,6" Margin="0,0,12,0">
