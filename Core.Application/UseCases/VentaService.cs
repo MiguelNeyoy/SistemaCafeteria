@@ -27,7 +27,7 @@ public class VentaService : IVentaService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<VentaResumenDto> CrearCuentaAsync(string? identificadorCliente = null)
+    public async Task<VentaResumenDto> CrearCuentaAsync(string identificadorCliente)
     {
         var venta = new Venta(identificadorCliente);
         await _ventaRepository.AgregarAsync(venta);

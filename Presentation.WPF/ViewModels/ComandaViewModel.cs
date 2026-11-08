@@ -5,6 +5,8 @@ using Core.Application.Dtos.Comandas;
 using Core.Application.Dtos.Ventas;
 using Core.Application.Interfaces;
 using Core.Application.Interfaces.Services;
+using Core.Domain.Common;
+using Core.Domain.Exceptions;
 using Presentation.WPF.Services;
 using System.Collections.ObjectModel;
 
@@ -142,10 +144,16 @@ public partial class ComandaViewModel : ObservableObject
     private bool mostrarModalAbrirCuenta;
 
     [ObservableProperty]
-    private string identificadorCliente = "General";
+    private string identificadorCliente = string.Empty;
+
+    [ObservableProperty]
+    private string mensajeErrorCliente = string.Empty;
 
     [ObservableProperty]
     private bool estaProcesando;
+
+    public bool TieneTextoCliente => !string.IsNullOrEmpty(IdentificadorCliente);
+    public bool TieneErrorCliente => !string.IsNullOrWhiteSpace(MensajeErrorCliente);
 
     public decimal SubtotalPersonalizacion
     {
@@ -175,6 +183,20 @@ public partial class ComandaViewModel : ObservableObject
         _dialogoService = dialogoService;
         _printerService = printerService;
         CategoriaSeleccionada = categoria;
+    }
+
+    partial void OnIdentificadorClienteChanged(string value)
+    {
+        OnPropertyChanged(nameof(TieneTextoCliente));
+        if (!string.IsNullOrWhiteSpace(MensajeErrorCliente))
+        {
+            MensajeErrorCliente = string.Empty;
+        }
+    }
+
+    partial void OnMensajeErrorClienteChanged(string value)
+    {
+        OnPropertyChanged(nameof(TieneErrorCliente));
     }
 
     public async Task CargarProductosAsync()
@@ -475,7 +497,8 @@ public partial class ComandaViewModel : ObservableObject
 
         if (CuentaSeleccionadaOpcion is null || CuentaSeleccionadaOpcion.EsNuevaCuenta)
         {
-            IdentificadorCliente = "General";
+            IdentificadorCliente = string.Empty;
+            MensajeErrorCliente = string.Empty;
             MostrarModalAbrirCuenta = true;
         }
         else
@@ -524,7 +547,7 @@ public partial class ComandaViewModel : ObservableObject
             catch (Exception ex)
             {
                 _dialogoService.MostrarMensaje(
-                    $"Comanda guardada en el sistema.\n\n⚠️ Aviso de Impresora: No se pudo imprimir la comanda de cocina:\n{ex.Message}",
+                    $"Productos agregados a la cuenta.\n\n⚠️ Aviso de Impresora: No se pudo imprimir la comanda de cocina:\n{ex.Message}",
                     "Aviso de Impresora");
             }
 
@@ -532,11 +555,11 @@ public partial class ComandaViewModel : ObservableObject
             ActualizarTotal();
 
             await CargarCuentasDisponiblesAsync();
-            _dialogoService.NotificarExito("Productos agregados a la comanda correctamente.", "Cuenta Actualizada");
+            _dialogoService.NotificarExito("Productos agregados a la cuenta correctamente.", "Comanda Procesada");
         }
         catch (Exception ex)
         {
-            _dialogoService.MostrarMensaje($"Error al agregar productos a la cuenta: {ex.Message}", "Error");
+            _dialogoService.MostrarMensaje($"Error al actualizar la cuenta: {ex.Message}", "Error");
         }
         finally
         {
@@ -547,23 +570,36 @@ public partial class ComandaViewModel : ObservableObject
     [RelayCommand]
     private void CancelarAbrirCuenta()
     {
+        MensajeErrorCliente = string.Empty;
         MostrarModalAbrirCuenta = false;
     }
 
     [RelayCommand]
     private async Task ConfirmarAbrirCuentaAsync()
     {
-        if (ItemsComanda.Count == 0) return;
+        if (ItemsComanda.Count == 0 || EstaProcesando) return;
+
+        string clienteFormateado = FormateadorTextoCatalogo.FormatearNombre(IdentificadorCliente);
+        if (string.IsNullOrWhiteSpace(clienteFormateado))
+        {
+            MensajeErrorCliente = "Por favor ingresa el nombre del cliente o número de mesa.";
+            return;
+        }
+
+        if (clienteFormateado.Length > 100)
+        {
+            MensajeErrorCliente = "El nombre no puede superar los 100 caracteres.";
+            return;
+        }
 
         EstaProcesando = true;
+        MensajeErrorCliente = string.Empty;
         MostrarModalAbrirCuenta = false;
 
         try
         {
-            string cliente = string.IsNullOrWhiteSpace(IdentificadorCliente) ? "General" : IdentificadorCliente.Trim();
-
             // 1. Crear la cuenta abierta en el dominio (Estado = Pendiente)
-            var venta = await _ventaService.CrearCuentaAsync(cliente);
+            var venta = await _ventaService.CrearCuentaAsync(clienteFormateado);
 
             // 2. Agregar los ítems con sus extras y notas congelados
             foreach (var item in ItemsComanda)
@@ -602,10 +638,16 @@ public partial class ComandaViewModel : ObservableObject
 
             // 4. Limpiar comanda activa y recargar cuentas disponibles
             ItemsComanda.Clear();
+            IdentificadorCliente = string.Empty;
             ActualizarTotal();
 
             await CargarCuentasDisponiblesAsync();
-            _dialogoService.NotificarExito($"Cuenta de '{cliente}' creada exitosamente.", "Cuenta Creada");
+            _dialogoService.NotificarExito($"Cuenta de '{venta.IdentificadorCliente}' creada exitosamente.", "Cuenta Creada");
+        }
+        catch (DomainValidationException dvEx)
+        {
+            MensajeErrorCliente = dvEx.Message;
+            MostrarModalAbrirCuenta = true;
         }
         catch (Exception ex)
         {

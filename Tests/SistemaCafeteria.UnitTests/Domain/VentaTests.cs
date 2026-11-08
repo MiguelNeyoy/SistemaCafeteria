@@ -23,11 +23,22 @@ public class VentaTests
         venta.Items.Should().BeEmpty();
     }
 
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData("\t\r\n")]
+    public void NuevaVenta_ConIdentificadorClienteVacioOBlanco_LanzaDomainValidationException(string? invalido)
+    {
+        var act = () => new Venta(invalido!);
+        act.Should().Throw<DomainValidationException>();
+    }
+
     [Fact]
     public void AgregarItem_SinExtras_CalculaSubtotalYTotalCorrectamente()
     {
         // Arrange
-        var venta = new Venta("General");
+        var venta = new Venta("Barra 1");
 
         // Act
         venta.AgregarItem(productoId: 10, productoNombre: "Capuchino", precioUnitario: 45.00m, cantidad: 2);
@@ -84,7 +95,7 @@ public class VentaTests
     public void AplicarDescuento_MayorAlSubtotal_LanzaDomainValidationException()
     {
         // Arrange
-        var venta = new Venta();
+        var venta = new Venta("Mesa 4");
         venta.AgregarItem(1, "Café", 40.00m, cantidad: 1);
 
         // Act & Assert
@@ -128,7 +139,7 @@ public class VentaTests
     public void Cobrar_ConTarjeta_NoRequiereMontoRecibidoNiGeneraCambio()
     {
         // Arrange
-        var venta = new Venta();
+        var venta = new Venta("Cliente Tarjeta");
         venta.AgregarItem(1, "Frappé", 60.00m, cantidad: 1);
 
         // Act
@@ -145,7 +156,7 @@ public class VentaTests
     public void Cobrar_VentaSinItems_LanzaDomainException()
     {
         // Arrange
-        var venta = new Venta(); // Total: $0, sin ítems
+        var venta = new Venta("Mesa Vacía"); // Total: $0, sin ítems
 
         // Act & Assert
         var act = () => venta.Cobrar(TipoDePago.Efectivo, 100.00m);
@@ -157,7 +168,7 @@ public class VentaTests
     public void AgregarItem_CuandoVentaYaEstaPagada_LanzaDomainException()
     {
         // Arrange
-        var venta = new Venta();
+        var venta = new Venta("Mesa Cerrada");
         venta.AgregarItem(1, "Té Chai", 40.00m, 1);
         venta.Cobrar(TipoDePago.Efectivo, 50.00m);
 
@@ -186,7 +197,7 @@ public class VentaTests
     public void Devolver_VentaPagada_CambiaEstadoADevuelto()
     {
         // Arrange
-        var venta = new Venta();
+        var venta = new Venta("Mesa Devolución");
         venta.AgregarItem(1, "Postre", 55.00m, 1);
         venta.Cobrar(TipoDePago.Tarjeta);
 

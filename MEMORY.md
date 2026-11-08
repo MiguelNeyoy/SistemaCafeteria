@@ -16,6 +16,7 @@
 - En `VentaService.ObtenerTopProductosMesAsync`, agrupar únicamente por `ProductoId` (tomando el último `ProductoNombre` cronológico) y no por `{ ProductoId, ProductoNombre }`, para que si un producto fue renombrado o preformateado a mitad de mes no se divida en dos entradas distintas del ranking.
 - En `Presentation.WPF/Views/ConfiguracionMenuView.xaml`, la clase parcial code-behind se llama históricamente `Presentation.WPF.Views.ConfiguracionMenuViewModel` (hereda de `UserControl`); preservar ese `x:Class` al editar la vista para no romper el `DataTemplate` de `MainWindow.xaml`.
 - `App.xaml.cs` construye el contenedor DI con `ValidateOnBuild = true` y `ValidateScopes = true`; cualquier nuevo ViewModel inyectado en `MainViewModel` debe registrarse explícitamente en `App.xaml.cs` y tener su `DataTemplate` en `MainWindow.xaml`. Además, al corregir el método de pago de una venta pagada (`Venta.CorregirDatosPago`) de `Efectivo` a `Tarjeta` o `Transferencia`, limpiar `MontoRecibido = null` para no dejar `Cambio` residual.
+- En `FormateadorTextoCatalogo.ExtraerPalabrasLimpias`, filtrar `UnicodeCategory.Format` (`\u200B`, `\uFEFF`, `\u2060`) además de `char.IsWhiteSpace` y `char.IsControl` para impedir que caracteres invisibles burlen validaciones de campos obligatorios; y recordar que `Venta` y `Comanda` exigen `IdentificadorCliente` no vacío (<= 100 caracteres) sin fallback a `"General"`.
 
 ## Issues resueltos recientemente
 
@@ -28,12 +29,13 @@
 - `#9`: Barra buscadora reactiva letra por letra en pantalla de Categorías (`MenuView`) con selección por `Enter` o clic que navega a `Comanda` y abre el modal de extras si aplica (`09131a4`).
 - `#14`: Aumento del listado Top Más Vendidos del mes a 15 productos en Dashboard consolidando por `ProductoId` y desempate alfabético (`2be6e1e`).
 - `#8`: Rediseño de pantalla de Configuración de Menú en tablero Kanban por categorías simplificado para personas mayores, con ocultación de columnas, seguimiento de 3 en 3 en píldoras y buscador reactivo (`5648148`).
-- `#16`: Pantalla completa de Historial y Auditoría de Ventas desde el Home con filtros por periodo/método de pago/búsqueda, modal de desglose y edición validada de cobros para cuadrar corte de caja.
+- `#16`: Pantalla completa de Historial y Auditoría de Ventas desde el Home con filtros por periodo/método de pago/búsqueda, modal de desglose y edición validada de cobros para cuadrar corte de caja (`5034ea8`).
+- `#17`: Retiro del nombre por defecto `"General"` al crear cuenta/comanda, exigiendo identificador obligatorio con preformateado Title Case bilingüe y bloqueo de blancos o caracteres invisibles.
 
 ## Estado actual
 
 - Producción: `v1.2.0`
-- En desarrollo: `v1.3.0` (historial de ventas `#16` completado; pendiente retirar nombre por defecto General).
+- En desarrollo: `v1.3.0` (historial y auditoría de ventas `#16` e identificador obligatorio sin `"General"` `#17` completados).
 
 ## Comandos
 

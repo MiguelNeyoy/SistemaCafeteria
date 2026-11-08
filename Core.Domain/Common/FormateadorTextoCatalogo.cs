@@ -158,7 +158,7 @@ public static class FormateadorTextoCatalogo
 
         foreach (char c in texto)
         {
-            if (char.IsWhiteSpace(c) || char.IsControl(c))
+            if (char.IsWhiteSpace(c) || char.IsControl(c) || CharUnicodeInfo.GetUnicodeCategory(c) == UnicodeCategory.Format)
             {
                 if (actual.Length > 0)
                 {

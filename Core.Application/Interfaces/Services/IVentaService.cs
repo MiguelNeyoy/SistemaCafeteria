@@ -5,7 +5,7 @@ namespace Core.Application.Interfaces.Services;
 public interface IVentaService
 {
     // Crear y administrar cuenta abierta
-    Task<VentaResumenDto> CrearCuentaAsync(string? identificadorCliente = null);
+    Task<VentaResumenDto> CrearCuentaAsync(string identificadorCliente);
     Task<VentaResumenDto> AgregarItemAsync(int ventaId, AgregarItemVentaDto dto);
     Task<VentaResumenDto> RemoverItemAsync(int ventaId, int ventaItemId);
     Task<VentaResumenDto> AplicarDescuentoAsync(int ventaId, decimal montoDescuento);
