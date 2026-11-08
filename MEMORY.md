@@ -36,8 +36,8 @@
 
 ## Estado actual
 
-- Producción: `v1.2.0`
-- En desarrollo: `v1.3.0` (historial y auditoría de ventas `#16`, identificador obligatorio sin `"General"` `#17` y exportación a Excel completados).
+- Producción: `v1.3.0` (empaquetado Velopack completado con historial de ventas `#16`, identificador obligatorio `#17` y exportación a Excel).
+- En desarrollo: `v1.3.1` / `v1.4.0`.
 
 ## Comandos
 
